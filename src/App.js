@@ -1,7 +1,8 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import HomeScreen from './pages/homescreen/homeScreen';
+import HomeScreen from './components/homeScreen';
+
 import Calender from './pages/calender/calender';
 import Photos from './pages/photos/photos';
 import Weather from './pages/weather/weather';

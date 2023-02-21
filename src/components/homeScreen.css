@@ -1,0 +1,15 @@
+.homeScreen {
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+}
+.apps {
+	height: auto;
+	display: grid;
+	grid-template-columns: 4rem 4rem 4rem 4rem;
+	place-items: center;
+}
+
+.footer {
+}

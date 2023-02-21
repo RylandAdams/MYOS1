@@ -2,7 +2,7 @@ import calender from './imgs/calender.png';
 import photos from './imgs/photos.png';
 import weather from './imgs/weather.png';
 import ipod from './imgs/ipod.png';
-import youtube from './imgs/youtube.png';
+import youtube from './imgs/youtube.jpg';
 import apple from './imgs/apple.png';
 import spotify from './imgs/spotify.png';
 import soundcloud from './imgs/soundcloud.png';
@@ -35,7 +35,7 @@ export const MAINAPPS = [
 	},
 	{
 		id: 5,
-		appName: 'Youtube',
+		appName: 'YouTube',
 		appImage: youtube,
 	},
 	{
