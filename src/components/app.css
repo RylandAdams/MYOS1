@@ -12,5 +12,6 @@
 }
 
 .singleApp img {
+	height: auto;
 	width: 3.7rem;
 }

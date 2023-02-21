@@ -52,6 +52,7 @@ export const MAINAPPS = [
 		id: 8,
 		appName: 'SoundCloud',
 		appImage: soundcloud,
+		url: 'https://soundcloud.com/',
 	},
 	{
 		id: 9,
