@@ -3,13 +3,12 @@ import './ipod.css';
 
 import dopamine from '../../assets/songs/Dopamine.wav';
 import denial from '../../assets/songs/Denial.wav';
+const Dopamine = new Audio(dopamine);
+const Denial = new Audio(denial);
 
 const Ipod = () => {
 	const [song1IsPlaying, setSong1IsPlaying] = useState(false);
 	const [song2IsPlaying, setSong2IsPlaying] = useState(false);
-
-	let Dopamine = new Audio(dopamine);
-	let Denial = new Audio(denial);
 
 	useEffect(() => {
 		// Dopamine
