@@ -1,7 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import HomeScreen from './components/homeScreen';
+import Iphone from './components/Iphone/Iphone';
+
+import HomeScreen from './components/homeScreen/homeScreen';
 
 import Calender from './pages/calender/calender';
 import Photos from './pages/photos/photos';
@@ -18,6 +20,7 @@ function App() {
 	return (
 		<div className='App'>
 			<Router>
+				<Iphone />
 				<Routes>
 					<Route
 						path='/'

@@ -13,13 +13,14 @@ const Ipod = () => {
 	useEffect(() => {
 		// Dopamine
 		if (song1IsPlaying === true) {
+			Dopamine.load();
 			Dopamine.play();
 		} else {
-			console.log('off');
 			Dopamine.pause();
 		}
 		// Denial
 		if (song2IsPlaying === true) {
+			Denial.load();
 			Denial.play();
 		} else {
 			Denial.pause();
@@ -28,7 +29,6 @@ const Ipod = () => {
 
 	return (
 		<div className='ipod'>
-			test
 			<div>
 				<button onClick={() => setSong1IsPlaying(!song1IsPlaying)}>
 					DOPAMINE

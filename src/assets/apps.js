@@ -42,11 +42,13 @@ export const MAINAPPS = [
 		id: 6,
 		appName: 'Apple',
 		appImage: apple,
+		url: 'https://music.apple.com/us/artist/ryland/1620591111',
 	},
 	{
 		id: 7,
 		appName: 'Spotify',
 		appImage: spotify,
+		url: 'https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ?si=8uyjrQ0mSnW8BjUAtAdr0A',
 	},
 	{
 		id: 8,
