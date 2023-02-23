@@ -19,55 +19,59 @@ import MineSweeper from './pages/minesweeper/mineSweeper';
 function App() {
 	return (
 		<div className='App'>
-			<Router>
-				<Iphone />
-				<Routes>
-					<Route
-						path='/'
-						element={<HomeScreen />}
-					/>
-					<Route
-						path='/calender'
-						element={<Calender />}
-					/>
-					<Route
-						path='/photos'
-						element={<Photos />}
-					/>
-					<Route
-						path='/weather'
-						element={<Weather />}
-					/>
-					<Route
-						path='/ipod'
-						element={<Ipod />}
-					/>
-					<Route
-						path='/youtube'
-						element={<Youtube />}
-					/>
-					<Route
-						path='/apple'
-						element={<Apple />}
-					/>
-					<Route
-						path='/spotify'
-						element={<Spotify />}
-					/>
-					<Route
-						path='/soundcloud'
-						element={<SoundCloud />}
-					/>
-					<Route
-						path='/calculator'
-						element={<Calculator />}
-					/>
-					<Route
-						path='/minesweeper'
-						element={<MineSweeper />}
-					/>
-				</Routes>
-			</Router>
+			<div className='iphoneFrame'>
+				<div className='iphoneContent'>
+					<Router>
+						<Iphone />
+						<Routes>
+							<Route
+								path='/'
+								element={<HomeScreen />}
+							/>
+							<Route
+								path='/calender'
+								element={<Calender />}
+							/>
+							<Route
+								path='/photos'
+								element={<Photos />}
+							/>
+							<Route
+								path='/weather'
+								element={<Weather />}
+							/>
+							<Route
+								path='/ipod'
+								element={<Ipod />}
+							/>
+							<Route
+								path='/youtube'
+								element={<Youtube />}
+							/>
+							<Route
+								path='/apple'
+								element={<Apple />}
+							/>
+							<Route
+								path='/spotify'
+								element={<Spotify />}
+							/>
+							<Route
+								path='/soundcloud'
+								element={<SoundCloud />}
+							/>
+							<Route
+								path='/calculator'
+								element={<Calculator />}
+							/>
+							<Route
+								path='/minesweeper'
+								element={<MineSweeper />}
+							/>
+						</Routes>
+					</Router>
+				</div>
+			</div>
 		</div>
 	);
 }

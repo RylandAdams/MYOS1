@@ -10,7 +10,25 @@ a {
 }
 
 .App {
-	height: 29rem;
-	width: 19rem;
-	background-color: #000000;
+	height: auto;
+	width: auto;
+	/* background-color: #000000; */
+}
+
+.iphoneFrame {
+	background-image: url('./assets/imgs/Iphone.png');
+	background-size: cover;
+	width: 400px; /* Width of the iPhone 1 screen */
+	height: 765px; /* Height of the iPhone 1 screen */
+	position: relative;
+}
+
+.iphoneContent {
+	position: absolute;
+	background-color: black;
+	z-index: -1;
+	top: 80px; /* Adjust this value to position your content within the iPhone screen */
+	left: 20px; /* Adjust this value to position your content within the iPhone screen */
+	right: 20px; /* Adjust this value to position your content within the iPhone screen */
+	bottom: 80px; /* Adjust this value to position your content within the iPhone screen */
 }
