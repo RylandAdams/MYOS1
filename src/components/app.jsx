@@ -12,25 +12,29 @@ const App = (app) => {
 			{url === undefined ? (
 				<Link
 					to={`/${appName}`}
-					className='singleApp'
+					className='Apps'
 				>
-					<img
-						src={appImage}
-						alt={`app${id}`}
-					/>
-					<div className='appName'>{appName}</div>
+					<div className='singleApp'>
+						<img
+							src={appImage}
+							alt={`app${id}`}
+						/>
+						<div className='appName'>{appName}</div>
+					</div>
 				</Link>
 			) : (
 				<a
 					href={url}
 					target='_blank'
-					className='singleApp'
+					className='Apps'
 				>
-					<img
-						src={appImage}
-						alt={`app${id}`}
-					/>
-					<div className='appName'>{appName}</div>
+					<div className='singleApp'>
+						<img
+							src={appImage}
+							alt={`app${id}`}
+						/>
+						<div className='appName'>{appName}</div>
+					</div>
 				</a>
 			)}
 		</>

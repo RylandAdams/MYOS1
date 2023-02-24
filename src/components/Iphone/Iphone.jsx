@@ -4,7 +4,7 @@ import './Iphone.css';
 
 const Iphone = () => {
 	return (
-		<div>
+		<div className='homeBttn'>
 			<Link to='/'>Iphone</Link>
 		</div>
 	);

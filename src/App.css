@@ -8,6 +8,11 @@
 a {
 	text-decoration: none;
 }
+body {
+	background-color: black;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
 
 .App {
 	height: auto;
@@ -18,17 +23,18 @@ a {
 .iphoneFrame {
 	background-image: url('./assets/imgs/Iphone.png');
 	background-size: cover;
-	width: 400px; /* Width of the iPhone 1 screen */
-	height: 765px; /* Height of the iPhone 1 screen */
+	width: 100%; /* Width of the iPhone 1 screen */
+	height: 0;
+	padding-bottom: 192%;
 	position: relative;
 }
 
 .iphoneContent {
 	position: absolute;
-	background-color: black;
-	z-index: -1;
-	top: 80px; /* Adjust this value to position your content within the iPhone screen */
-	left: 20px; /* Adjust this value to position your content within the iPhone screen */
-	right: 20px; /* Adjust this value to position your content within the iPhone screen */
-	bottom: 80px; /* Adjust this value to position your content within the iPhone screen */
+	/* background-color: black; */
+	/* z-index: -1; */
+	top: 16%; /* Adjust this value to position your content within the iPhone screen */
+	left: 5%; /* Adjust this value to position your content within the iPhone screen */
+	right: 5%; /* Adjust this value to position your content within the iPhone screen */
+	bottom: 16%; /* Adjust this value to position your content within the iPhone screen */
 }

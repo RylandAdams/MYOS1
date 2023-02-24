@@ -1,0 +1,7 @@
+.homeBttn {
+	position: absolute;
+	z-index: 10;
+	align-items: center;
+	top: 108%;
+	left: 44%;
+}
