@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './homeScreen.css';
 
 import App from '../app';
 import { MAINAPPS } from '../../assets/apps';
-console.log('🚀 ~ file: homeScreen.jsx:7 ~ MAINAPPS:', MAINAPPS);
 
 const HomeScreen = () => {
 	return (

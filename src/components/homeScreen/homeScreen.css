@@ -1,13 +1,14 @@
 .homeScreen {
-	display: grid;
-	justify-content: center;
-	align-content: center;
 	text-align: center;
 }
+
 .apps {
 	height: auto;
 	display: grid;
+	justify-content: center;
 	grid-template-columns: 4rem 4rem 4rem 4rem;
+	/* grid-row-gap: 0.7rem; */
+	grid-column-gap: 0.7rem;
 	place-items: center;
 }
 

@@ -1,6 +1,6 @@
 * {
 	font-size: 100%;
-	font-weight: 300%;
+	font-weight: 100%;
 	font-family: Helvetica;
 	color: rgb(255, 255, 255);
 }
@@ -31,10 +31,8 @@ body {
 
 .iphoneContent {
 	position: absolute;
-	/* background-color: black; */
-	/* z-index: -1; */
-	top: 16%; /* Adjust this value to position your content within the iPhone screen */
-	left: 5%; /* Adjust this value to position your content within the iPhone screen */
-	right: 5%; /* Adjust this value to position your content within the iPhone screen */
-	bottom: 16%; /* Adjust this value to position your content within the iPhone screen */
+	top: 18%;
+	left: 8%;
+	right: 8%;
+	bottom: 17%;
 }
