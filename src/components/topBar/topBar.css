@@ -1,8 +1,11 @@
 .topBar {
+	margin-bottom: 2%;
 }
 
 .clock {
+	font-size: 0.7rem;
 	position: relative;
 	justify-content: center;
 	text-align: center;
+	left: 1%;
 }
