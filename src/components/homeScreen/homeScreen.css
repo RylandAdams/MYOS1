@@ -13,6 +13,10 @@
 }
 
 .footer {
+	background-image: url('../../assets/imgs/DockBar.jpg');
+}
+
+.footerApps {
 	height: auto;
 	display: grid;
 	position: absolute;

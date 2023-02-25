@@ -73,6 +73,7 @@ export const FOOTERAPPS = [
 		id: 2,
 		appName: 'Mail',
 		appImage: mail,
+		url: 'mailto:rylandofficial@yahoo.com',
 	},
 	{
 		id: 3,
