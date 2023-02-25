@@ -2,7 +2,7 @@ import React from 'react';
 import './homeScreen.css';
 
 import App from '../app';
-import { MAINAPPS } from '../../assets/apps';
+import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 
 const HomeScreen = () => {
 	return (
@@ -14,7 +14,9 @@ const HomeScreen = () => {
 				))}
 			</div>
 			<div className='footer'>
-				DOCK
+				{FOOTERAPPS.map((app) => (
+					<App data={app} />
+				))}
 				<link
 					rel='stylesheet'
 					href='TEXT MY ARTIST NUMBER'

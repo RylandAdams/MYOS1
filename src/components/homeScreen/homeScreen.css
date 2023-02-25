@@ -13,4 +13,14 @@
 }
 
 .footer {
+	height: auto;
+	display: grid;
+	position: absolute;
+	justify-content: center;
+	grid-template-columns: 4rem 4rem 4rem 4rem;
+	grid-column-gap: 0.7rem;
+	place-items: center;
+	bottom: 0%;
+	left: 50%;
+	margin: -500px 0 0 -145px;
 }
