@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Iphone.css';
+import './homeButton.css';
 
-const Iphone = () => {
+const HomeButton = () => {
 	return (
 		<div className='homeBttn'>
 			<Link to='/'>HOME</Link>
@@ -10,4 +10,4 @@ const Iphone = () => {
 	);
 };
 
-export default Iphone;
+export default HomeButton;

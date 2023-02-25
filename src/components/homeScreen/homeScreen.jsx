@@ -7,7 +7,7 @@ import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 const HomeScreen = () => {
 	return (
 		<div className='homeScreen'>
-			<div className='header'>Header</div>
+			<div className='header'></div>
 			<div className='apps'>
 				{MAINAPPS.map((app) => (
 					<App data={app} />

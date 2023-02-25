@@ -1,7 +1,8 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Iphone from './components/Iphone/Iphone';
+import HomeButton from './components/homeButton/homeButton';
+import TopBar from './components/topBar/topBar';
 
 import HomeScreen from './components/homeScreen/homeScreen';
 
@@ -22,7 +23,8 @@ function App() {
 			<div className='iphoneFrame'>
 				<div className='iphoneContent'>
 					<Router>
-						<Iphone />
+						<TopBar />
+						<HomeButton />
 						<Routes>
 							<Route
 								path='/'
