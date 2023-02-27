@@ -7,7 +7,7 @@ import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 const HomeScreen = () => {
 	return (
 		<div className='homeScreen'>
-			<div className='apps'>
+			{/* <div className='apps'>
 				{MAINAPPS.map((app) => (
 					<App data={app} />
 				))}
@@ -26,7 +26,7 @@ const HomeScreen = () => {
 						href='EMAIL ME'
 					/>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 };
