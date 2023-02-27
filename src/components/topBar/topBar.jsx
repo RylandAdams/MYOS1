@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './topBar.css';
 
+import BatteryGauge from 'react-battery-gauge';
+
 const TopBar = () => {
 	const [date, setDate] = useState(new Date());
 
@@ -17,11 +19,18 @@ const TopBar = () => {
 
 	return (
 		<div className='topBar'>
+			<div className='left'>No SIM</div>
 			<div className='clock'>
 				{date.toLocaleTimeString([], {
 					hour: '2-digit',
 					minute: '2-digit',
 				})}
+			</div>
+			<div className='right'>
+				<BatteryGauge
+					size={20}
+					value={10}
+				/>
 			</div>
 		</div>
 	);
