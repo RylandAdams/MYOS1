@@ -18,6 +18,13 @@ import Calculator from './pages/calculator/calculator';
 import MineSweeper from './pages/minesweeper/mineSweeper';
 
 function App() {
+	const documentHeight = () => {
+		const doc = document.documentElement;
+		doc.style.setProperty('--doc-height', `${window.innerHeight}px`);
+	};
+	window.addEventListener('resize', documentHeight);
+	documentHeight();
+
 	return (
 		<div className='App'>
 			<div className='iphoneFrame'>
