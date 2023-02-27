@@ -28,10 +28,10 @@ function App() {
 	return (
 		<div className='App'>
 			<div className='iphoneFrame'>
-				<div className='iphoneContent'>
-					<Router>
+				<Router>
+					<HomeButton />
+					<div className='iphoneContent'>
 						<TopBar />
-						<HomeButton />
 						<Routes>
 							<Route
 								path='/'
@@ -78,8 +78,8 @@ function App() {
 								element={<MineSweeper />}
 							/>
 						</Routes>
-					</Router>
-				</div>
+					</div>
+				</Router>
 			</div>
 		</div>
 	);

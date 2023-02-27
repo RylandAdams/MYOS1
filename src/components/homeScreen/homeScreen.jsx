@@ -13,7 +13,7 @@ const HomeScreen = () => {
 				))}
 			</div>
 			<div className='footerImg'></div>
-			{/* 						
+
 			<div className='footerApps'>
 				{FOOTERAPPS.map((app) => (
 					<App data={app} />
@@ -26,7 +26,7 @@ const HomeScreen = () => {
 					rel='stylesheet'
 					href='EMAIL ME'
 				/>
-			</div> */}
+			</div>
 		</>
 	);
 };
