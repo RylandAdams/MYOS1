@@ -15,18 +15,28 @@ body {
 }
 
 .App {
-	height: auto;
-	width: auto;
-	/* background-color: #000000; */
+	max-width: 100vw;
+	max-height: 100vh;
+	background-color: #000000;
 }
 
 .iphoneFrame {
 	background-image: url('./assets/imgs/Iphone.png');
-	background-size: cover;
-	width: 100%; /* Width of the iPhone 1 screen */
-	height: 0;
-	padding-bottom: 192%;
-	position: relative;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	z-index: 1;
+	/* position: absolute; */
+	width: auto;
+	height: 97vh;
+	/* background-size: cover;
+	background-position: center center; */
+	/* object-fit: none;
+	background-repeat: no-repeat;
+	object-position: center; */
+	/* width: 100vw;
+	height: auto;
+	position: absolute; */
 }
 
 .iphoneContent {

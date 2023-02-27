@@ -2,8 +2,8 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import HomeButton from './components/homeButton/homeButton';
-import TopBar from './components/topBar/topBar';
 
+import TopBar from './components/topBar/topBar';
 import HomeScreen from './components/homeScreen/homeScreen';
 
 import Calender from './pages/calender/calender';
