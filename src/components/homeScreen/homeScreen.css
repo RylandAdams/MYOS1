@@ -46,7 +46,7 @@
 	text-align: center;
 	place-items: center;
 
-	bottom: 0%;
+	bottom: -1%;
 	left: 50%;
 	transform: translateX(-50%);
 }

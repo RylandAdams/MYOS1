@@ -1,4 +1,4 @@
-.Apps {
+/* .Apps {
 	width: 2px;
 	height: 1px;
 	margin: 3rem;
@@ -9,14 +9,19 @@
 	place-items: center;
 	justify-content: center;
 	align-items: center;
-}
+} */
 
-.singleApp {
-}
+/* .singleApp {
+	position: ;
+
+} */
 
 .singleApp img {
-	height: auto;
-	width: 3.7rem;
+	/* height: auto;
+	max-width: 3.7rem; */
+
+	max-width: 59.19px;
+	max-height: 59.19px;
 }
 
 .appName {

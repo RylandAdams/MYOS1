@@ -17,6 +17,7 @@ export const MAINAPPS = [
 		id: 1,
 		appName: 'Calender',
 		appImage: calender,
+		url: 'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com',
 	},
 	{
 		id: 2,
