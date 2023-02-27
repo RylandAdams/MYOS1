@@ -18,7 +18,14 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
+	max-width: 639px;
+	max-height: 180px;
+
 	position: absolute;
+	top: 82%;
+	left: 1%;
+	right: 1%;
+	bottom: 0;
 
 	display: flex;
 	justify-content: center;

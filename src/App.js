@@ -15,7 +15,7 @@ import Apple from './pages/apple/apple';
 import Spotify from './pages/spotify/spotify';
 import SoundCloud from './pages/soundcloud/soundcloud';
 import Calculator from './pages/calculator/calculator';
-import MineSweeper from './pages/minesweeper/mineSweeper';
+import Flappybird from './pages/flappybird/flappyBird';
 
 function App() {
 	const documentHeight = () => {
@@ -74,8 +74,8 @@ function App() {
 								element={<Calculator />}
 							/>
 							<Route
-								path='/minesweeper'
-								element={<MineSweeper />}
+								path='/flappyBird'
+								element={<Flappybird />}
 							/>
 						</Routes>
 					</div>

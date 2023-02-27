@@ -6,7 +6,7 @@ import youtube from './imgs/youtube.jpg';
 import apple from './imgs/apple.png';
 import spotify from './imgs/spotify.png';
 import soundcloud from './imgs/soundcloud.png';
-import minesweeper from './imgs/minesweeper.png';
+import flappybird from './imgs/flappybird.png';
 import messages from './imgs/messages.png';
 import mail from './imgs/mail.png';
 import safari from './imgs/safari.png';
@@ -58,8 +58,8 @@ export const MAINAPPS = [
 	},
 	{
 		id: 9,
-		appName: 'Minesweeper',
-		appImage: minesweeper,
+		appName: 'FlappyBird',
+		appImage: flappybird,
 	},
 ];
 
