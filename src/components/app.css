@@ -1,11 +1,9 @@
 .Apps {
-	/* padding-left: 50%; */
 	width: 2px;
 	height: 1px;
 	margin: 3rem;
 
 	display: flex;
-	row-gap: 10rem;
 
 	flex-direction: column;
 	place-items: center;
@@ -14,7 +12,6 @@
 }
 
 .singleApp {
-	/* width: 20%; */
 }
 
 .singleApp img {

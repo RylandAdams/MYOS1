@@ -30,8 +30,8 @@ function App() {
 			<div className='iphoneFrame'>
 				<div className='iphoneContent'>
 					<Router>
-						{/* <TopBar />
-						<HomeButton /> */}
+						<TopBar />
+						<HomeButton />
 						<Routes>
 							<Route
 								path='/'

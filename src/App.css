@@ -28,7 +28,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
-
+	z-index: 10;
 	width: 361px;
 
 	height: var(--doc-height);
@@ -40,6 +40,7 @@ body {
 }
 
 .iphoneContent {
+	position: relative;
 	padding-top: 2%;
 	width: 83%;
 	height: 65%;
