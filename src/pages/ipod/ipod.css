@@ -1,6 +1,12 @@
 .ipod {
+	width: 100%;
+	max-width: 330px;
+
+	height: 100%;
+	max-height: 475px;
+	background-color: rgb(232, 232, 232);
 }
 
 .ipod button {
-	size: 1rem;
+	size: 2rem;
 }

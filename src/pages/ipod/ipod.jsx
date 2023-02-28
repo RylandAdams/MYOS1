@@ -3,6 +3,7 @@ import './ipod.css';
 
 import dopamine from '../../assets/songs/Dopamine.wav';
 import denial from '../../assets/songs/Denial.wav';
+
 const Dopamine = new Audio(dopamine);
 const Denial = new Audio(denial);
 
