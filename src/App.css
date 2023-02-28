@@ -57,4 +57,9 @@ body {
 	padding-top: 2%;
 	width: 83%;
 	height: 65%;
+	background: linear-gradient(
+		32deg,
+		rgba(0, 0, 0, 1) 48%,
+		rgba(168, 168, 168, 1) 100%
+	);
 }

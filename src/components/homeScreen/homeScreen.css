@@ -16,7 +16,7 @@
 .dock {
 	position: absolute;
 	display: flex;
-	z-index: -1;
+	z-index: 1;
 	justify-content: center;
 	text-align: center;
 	place-items: center;
@@ -35,15 +35,15 @@
 
 	grid-template-columns: 20% 20% 20% 20%;
 	width: 100%;
-	height: 20%;
-
+	height: 17%;
+	z-index: 2;
 	grid-column-gap: 0.7rem;
 
 	justify-content: center;
 	text-align: center;
 	place-items: center;
 
-	bottom: -1%;
+	bottom: 0.5%;
 	left: 50%;
 	/* margin-top: 10%; */
 	transform: translateX(-50%);
