@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import phone from './assets/imgs/Iphone.png';
 import HomeButton from './components/homeButton/homeButton';
 
 import TopBar from './components/topBar/topBar';
@@ -27,7 +28,7 @@ function App() {
 
 	return (
 		<div className='App'>
-			<div className='iphoneFrame'>
+			<div className='Frame'>
 				<Router>
 					<HomeButton />
 					<div className='iphoneContent'>
@@ -79,6 +80,11 @@ function App() {
 							/>
 						</Routes>
 					</div>
+					<img
+						src={phone}
+						className='phone'
+						alt='phone'
+					/>
 				</Router>
 			</div>
 		</div>

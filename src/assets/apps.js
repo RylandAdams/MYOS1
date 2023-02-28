@@ -38,6 +38,7 @@ export const MAINAPPS = [
 		id: 5,
 		appName: 'YouTube',
 		appImage: youtube,
+		url: 'https://youtube.com/@RYLANDOfficial',
 	},
 	{
 		id: 6,

@@ -23,12 +23,11 @@ body {
 	position: relative;
 }
 
-.iphoneFrame {
-	background-image: url('./assets/imgs/Iphone.png');
+.Frame {
+	/* background-image: url('./assets/imgs/Iphone.png');
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: contain;
-	z-index: 10;
+	background-size: contain; */
 	width: 361px;
 
 	height: var(--doc-height);
@@ -37,6 +36,16 @@ body {
 	justify-content: center;
 	align-items: center;
 	/* position: relative; */
+}
+
+.phone {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 361px;
+	height: var(--doc-height);
+	max-height: 690px;
 }
 
 .iphoneContent {
