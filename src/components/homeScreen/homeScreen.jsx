@@ -1,6 +1,8 @@
 import React from 'react';
 import './homeScreen.css';
 
+import dock from '../../assets/imgs/DockBar.jpg';
+
 import App from '../app';
 import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 
@@ -27,6 +29,11 @@ const HomeScreen = () => {
 					href='EMAIL ME'
 				/>
 			</div>
+			<img
+				src={dock}
+				className='dock'
+				alt='dock'
+			/>
 		</>
 	);
 };

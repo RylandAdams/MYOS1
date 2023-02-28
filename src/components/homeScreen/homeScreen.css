@@ -13,28 +13,25 @@
 	place-items: center;
 }
 
-.footerImg {
-	background-image: url('../../assets/imgs/DockBar.jpg');
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	max-width: 639px;
-	max-height: 180px;
-
+.dock {
 	position: absolute;
-	top: 82%;
-	left: 1%;
-	right: 1%;
-	bottom: 0;
-
 	display: flex;
+	z-index: -1;
 	justify-content: center;
-	align-items: center;
+	text-align: center;
+	place-items: center;
+
+	width: 300px;
+	height: auto;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .footerApps {
 	display: grid;
 	position: absolute;
+	color: white !important;
 
 	grid-template-columns: 20% 20% 20% 20%;
 	width: 100%;
@@ -48,5 +45,6 @@
 
 	bottom: -1%;
 	left: 50%;
+	/* margin-top: 10%; */
 	transform: translateX(-50%);
 }
