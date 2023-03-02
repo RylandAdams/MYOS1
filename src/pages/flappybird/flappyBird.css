@@ -5,6 +5,9 @@ game {
 	text-align: center;
 	font-family: 'Press Start 2P', cursive;
 	user-select: none;
+	position: absolute;
+	width: 300px;
+	height: 300px;
 }
 header {
 	margin: 0 auto;

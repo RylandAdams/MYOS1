@@ -16,8 +16,6 @@ body {
 }
 
 .App {
-	/* max-width: auto; */
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -25,10 +23,6 @@ body {
 }
 
 .Frame {
-	/* background-image: url('./assets/imgs/Iphone.png');
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain; */
 	width: 361px;
 	max-width: 361px;
 

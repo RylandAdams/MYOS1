@@ -1,9 +1,10 @@
 .ipod {
-	width: 100%;
-	max-width: 330px;
+	/* width: 100%;
+	max-width: 330px; */
 
-	height: 100%;
-	max-height: 475px;
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
 	/* position: absolute; */
 
 	background-color: rgb(180, 180, 180);

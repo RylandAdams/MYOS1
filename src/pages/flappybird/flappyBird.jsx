@@ -17,7 +17,7 @@ const Flappybird = () => {
 
 			<canvas
 				id='canvas'
-				// className='canvas'
+				//className='canvas'
 				width='300%'
 				height='450%'
 			></canvas>
