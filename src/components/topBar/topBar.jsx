@@ -26,14 +26,16 @@ const TopBar = () => {
 
 	return (
 		<div className={location.pathname === '/' ? 'topBar' : 'topBarAlt'}>
-			<div className='left'>No SIM</div>
-			<div className='clock'>
+			<div className={location.pathname === '/' ? 'left' : 'leftAlt'}>
+				No SIM
+			</div>
+			<div className={location.pathname === '/' ? 'clock' : 'clockAlt'}>
 				{date.toLocaleTimeString([], {
 					hour: '2-digit',
 					minute: '2-digit',
 				})}
 			</div>
-			<div className='right'>
+			<div className={location.pathname === '/' ? 'right' : 'rightAlt'}>
 				<BatteryGauge
 					size={20}
 					value={10}
