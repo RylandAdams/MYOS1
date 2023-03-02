@@ -32,27 +32,31 @@ const Ipod = () => {
 
 	return (
 		<div className='ipod'>
-			<div className='songListed'>
-				<div>
+			<div className='songsListed'>
+				<div className='song'>
 					<button onClick={() => setSong2IsPlaying(!song2IsPlaying)}>
 						<img
-							className='ipodArt'
+							className='songImg'
 							src={denialArt}
 							alt='DenialArt'
 						/>
-						<h2 className='songName'>DENIAL</h2>
-						<h5 className='artistName'>RYLAND</h5>
+						<div className='songText'>
+							<h2 className='songName'>DENIAL</h2>
+							<h5 className='artistName'>RYLAND</h5>
+						</div>
 					</button>
 				</div>
-				<div>
+				<div className='song'>
 					<button onClick={() => setSong1IsPlaying(!song1IsPlaying)}>
 						<img
-							className='ipodArt'
+							className='songImg'
 							src={dopamineArt}
 							alt='DopamineArt'
 						/>
-						<h2 className='songName'>DOPAMINE</h2>
-						<h5 className='artistName'>RYLAND</h5>
+						<div className='songText'>
+							<h2 className='songName'>DOPAMINE</h2>
+							<h5 className='artistName'>RYLAND</h5>
+						</div>
 					</button>
 				</div>
 			</div>
