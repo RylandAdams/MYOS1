@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './topBar.css';
 
 import BatteryGauge from 'react-battery-gauge';
 
 const TopBar = () => {
 	const [date, setDate] = useState(new Date());
+
+	let location = useLocation();
+
+	useEffect(() => {
+		console.log(location.pathname);
+	}, [location]);
 
 	function refreshClock() {
 		setDate(new Date());
@@ -18,7 +25,7 @@ const TopBar = () => {
 	}, []);
 
 	return (
-		<div className='topBar'>
+		<div className={location.pathname === '/' ? 'topBar' : 'topBarAlt'}>
 			<div className='left'>No SIM</div>
 			<div className='clock'>
 				{date.toLocaleTimeString([], {

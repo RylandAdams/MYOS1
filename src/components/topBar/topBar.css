@@ -1,7 +1,7 @@
 .topBar {
 	position: absolute;
 	width: 100%;
-	left: 0;
+	height: 3%;
 }
 
 .left {
@@ -19,11 +19,40 @@
 	transform: translateX(-50%);
 }
 
+/* ALT FOR WHEN NOT ON HOMEPAGE */
+
 .right {
 	font-size: 0.7rem;
 	position: absolute;
 	right: 4%;
 	top: 3%;
+}
 
-	/* background-color: rgb(182, 182, 182); */
+.topBarAlt {
+	position: absolute;
+	width: 100%;
+	height: 3%;
+	background-color: black;
+}
+
+.leftAlt {
+	font-size: 0.7rem;
+	position: absolute;
+	left: 5.5%;
+}
+
+.clockAlt {
+	font-size: 0.7rem;
+	position: absolute;
+	justify-content: center;
+	text-align: center;
+	left: 50.2%;
+	transform: translateX(-50%);
+}
+
+.rightAlt {
+	font-size: 0.7rem;
+	position: absolute;
+	right: 4%;
+	top: 3%;
 }
