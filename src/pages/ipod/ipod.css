@@ -4,7 +4,29 @@
 
 	height: 100%;
 	max-height: 475px;
-	background-color: rgb(232, 232, 232);
+	background-color: rgb(180, 180, 180);
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 255, 255, 0.25),
+		rgba(255, 255, 255, 0.25) 1px,
+		transparent 1px,
+		transparent 6px
+	);
+	background-size: 4px 4px;
+}
+
+.songListed {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	grid-template-columns: 2rem;
+	grid-gap: 10px;
+	padding: 20%;
+}
+
+.ipodArt {
+	width: 30%;
+	height: 100%;
 }
 
 .ipod button {

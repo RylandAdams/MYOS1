@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './ipod.css';
 
 import dopamine from '../../assets/songs/Dopamine.wav';
+import dopamineArt from '../../assets/songs/Dopamine.PNG';
 import denial from '../../assets/songs/Denial.wav';
+import denialArt from '../../assets/songs/Denial.JPG';
 
 const Dopamine = new Audio(dopamine);
 const Denial = new Audio(denial);
@@ -30,15 +32,29 @@ const Ipod = () => {
 
 	return (
 		<div className='ipod'>
-			<div>
-				<button onClick={() => setSong1IsPlaying(!song1IsPlaying)}>
-					DOPAMINE
-				</button>
-			</div>
-			<div>
-				<button onClick={() => setSong2IsPlaying(!song2IsPlaying)}>
-					DENIAL
-				</button>
+			<div className='songListed'>
+				<div>
+					<button onClick={() => setSong2IsPlaying(!song2IsPlaying)}>
+						<img
+							className='ipodArt'
+							src={denialArt}
+							alt='DenialArt'
+						/>
+						<h2 className='songName'>DENIAL</h2>
+						<h5 className='artistName'>RYLAND</h5>
+					</button>
+				</div>
+				<div>
+					<button onClick={() => setSong1IsPlaying(!song1IsPlaying)}>
+						<img
+							className='ipodArt'
+							src={dopamineArt}
+							alt='DopamineArt'
+						/>
+						<h2 className='songName'>DOPAMINE</h2>
+						<h5 className='artistName'>RYLAND</h5>
+					</button>
+				</div>
 			</div>
 		</div>
 	);
