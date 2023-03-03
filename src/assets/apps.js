@@ -3,6 +3,7 @@ import photos from './imgs/photos.png';
 import weather from './imgs/weather.png';
 import ipod from './imgs/ipod.png';
 import tiktok from './imgs/TikTok.png';
+import insta from './imgs/Instagram.png';
 import youtube from './imgs/youtube.jpg';
 import apple from './imgs/apple.png';
 import spotify from './imgs/spotify.png';
@@ -61,12 +62,18 @@ export const MAINAPPS = [
 	},
 	{
 		id: 9,
+		appName: 'Instagram',
+		appImage: insta,
+		url: 'https://instagram.com/__.ryland.__?igshid=MjkzY2Y1YTY=',
+	},
+	{
+		id: 10,
 		appName: 'TikTok',
 		appImage: tiktok,
 		url: 'https://www.tiktok.com/@._ryland?_t=8alGqsragrO&_r=1',
 	},
 	{
-		id: 10,
+		id: 11,
 		appName: 'FlappyBird',
 		appImage: flappybird,
 	},

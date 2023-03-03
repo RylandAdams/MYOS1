@@ -52,7 +52,7 @@ body {
 	height: 65%;
 	background: linear-gradient(
 		32deg,
-		rgba(0, 0, 0, 1) 48%,
+		rgb(24, 24, 24) 48%,
 		rgba(168, 168, 168, 1) 100%
 	);
 }
