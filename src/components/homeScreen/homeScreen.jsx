@@ -1,5 +1,6 @@
 import React from 'react';
 import './homeScreen.css';
+import { motion } from 'framer-motion';
 
 import dock from '../../assets/imgs/DockBar.jpg';
 
@@ -8,7 +9,11 @@ import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 
 const HomeScreen = () => {
 	return (
-		<>
+		<motion.div
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+		>
 			<div className='apps'>
 				{MAINAPPS.map((app) => (
 					<App data={app} />
@@ -34,7 +39,7 @@ const HomeScreen = () => {
 				className='dock'
 				alt='dock'
 			/>
-		</>
+		</motion.div>
 	);
 };
 

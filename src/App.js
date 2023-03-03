@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AnimatedRoutes from './components/animatedRoutes';
 
 import phone from './assets/imgs/Iphone.png';
 import HomeButton from './components/homeButton/homeButton';
@@ -34,52 +35,7 @@ function App() {
 					<HomeButton />
 					<div className='iphoneContent'>
 						<TopBar />
-						<Routes>
-							<Route
-								path='/'
-								element={<HomeScreen />}
-							/>
-							<Route
-								path='/calender'
-								element={<Calender />}
-							/>
-							<Route
-								path='/photos'
-								element={<Photos />}
-							/>
-							<Route
-								path='/weather'
-								element={<Weather />}
-							/>
-							<Route
-								path='/ipod'
-								element={<Ipod />}
-							/>
-							<Route
-								path='/youtube'
-								element={<Youtube />}
-							/>
-							<Route
-								path='/apple'
-								element={<Apple />}
-							/>
-							<Route
-								path='/spotify'
-								element={<Spotify />}
-							/>
-							<Route
-								path='/soundcloud'
-								element={<SoundCloud />}
-							/>
-							<Route
-								path='/calculator'
-								element={<Calculator />}
-							/>
-							<Route
-								path='/flappyBird'
-								element={<Flappybird />}
-							/>
-						</Routes>
+						<AnimatedRoutes />
 					</div>
 					<img
 						src={phone}
