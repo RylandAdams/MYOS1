@@ -21,7 +21,7 @@ import Flappybird from '../pages/flappybird/flappyBird';
 
 import { AnimatePresence } from 'framer-motion';
 
-const animatedRoutes = () => {
+const AnimatedRoutes = () => {
 	let location = useLocation();
 
 	return (
@@ -79,4 +79,4 @@ const animatedRoutes = () => {
 	);
 };
 
-export default animatedRoutes;
+export default AnimatedRoutes;
