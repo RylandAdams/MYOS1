@@ -14,6 +14,8 @@ const Ipod = () => {
 	const [song2IsPlaying, setSong2IsPlaying] = useState(false);
 
 	useEffect(() => {
+		// TEMP FIX FOR PLAYING 1 SONG AT A TIME
+
 		// Dopamine
 		if (song1IsPlaying === true) {
 			Dopamine.load();
@@ -33,32 +35,34 @@ const Ipod = () => {
 	return (
 		<div className='ipod'>
 			<div className='songsListed'>
-				<div className='song'>
-					<button onClick={() => setSong2IsPlaying(!song2IsPlaying)}>
-						<img
-							className='songImg'
-							src={denialArt}
-							alt='DenialArt'
-						/>
-						<div className='songText'>
-							<h2 className='songName'>DENIAL</h2>
-							<h5 className='artistName'>RYLAND</h5>
-						</div>
-					</button>
-				</div>
-				<div className='song'>
-					<button onClick={() => setSong1IsPlaying(!song1IsPlaying)}>
-						<img
-							className='songImg'
-							src={dopamineArt}
-							alt='DopamineArt'
-						/>
-						<div className='songText'>
-							<h2 className='songName'>DOPAMINE</h2>
-							<h5 className='artistName'>RYLAND</h5>
-						</div>
-					</button>
-				</div>
+				<button
+					className='song1'
+					onClick={() => setSong2IsPlaying(!song2IsPlaying)}
+				>
+					<img
+						className='songImg'
+						src={denialArt}
+						alt='DenialArt'
+					/>
+					<div className='songText'>
+						<h2 className='songName'>DENIAL</h2>
+						<h5 className='artistName'>RYLAND</h5>
+					</div>
+				</button>
+				<button
+					className='song2'
+					onClick={() => setSong1IsPlaying(!song1IsPlaying)}
+				>
+					<img
+						className='songImg'
+						src={dopamineArt}
+						alt='DopamineArt'
+					/>
+					<div className='songText'>
+						<h2 className='songName'>DOPAMINE</h2>
+						<h5 className='artistName'>RYLAND</h5>
+					</div>
+				</button>
 			</div>
 		</div>
 	);

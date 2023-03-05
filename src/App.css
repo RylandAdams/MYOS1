@@ -28,6 +28,7 @@ body {
 
 	height: var(--doc-height);
 	max-height: 690px;
+	/* position: absolute; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
