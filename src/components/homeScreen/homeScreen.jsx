@@ -19,8 +19,6 @@ const HomeScreen = () => {
 					<App data={app} />
 				))}
 			</div>
-			{/* <div className='footerImg'></div> */}
-
 			<div className='footerApps'>
 				{FOOTERAPPS.map((app) => (
 					<App data={app} />

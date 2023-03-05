@@ -8,6 +8,7 @@ import {
 
 import HomeScreen from './homeScreen/homeScreen';
 
+// MAIN APPS
 import Calender from '../pages/calender/calender';
 import Photos from '../pages/photos/photos';
 import Weather from '../pages/weather/weather';
@@ -18,6 +19,11 @@ import Spotify from '../pages/spotify/spotify';
 import SoundCloud from '../pages/soundcloud/soundcloud';
 import Calculator from '../pages/calculator/calculator';
 import Flappybird from '../pages/flappybird/flappyBird';
+
+// FOOTER APPS
+import Messages from '../pages/messages/messages';
+import Safari from '../pages/safari/safari';
+import Settings from '../pages/settings/settings';
 
 import { AnimatePresence } from 'framer-motion';
 
@@ -73,6 +79,19 @@ const AnimatedRoutes = () => {
 				<Route
 					path='/flappyBird'
 					element={<Flappybird />}
+				/>
+				// FOOTER APPS -------------
+				<Route
+					path='/messages'
+					element={<Messages />}
+				/>
+				<Route
+					path='/safari'
+					element={<Safari />}
+				/>
+				<Route
+					path='/settings'
+					element={<Settings />}
 				/>
 			</Routes>
 		</AnimatePresence>

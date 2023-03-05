@@ -1,0 +1,19 @@
+.weatherPage {
+	/* width: 100%;
+	max-width: 330px; */
+
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
+	/* position: absolute; */
+
+	background-color: rgb(180, 180, 180);
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 255, 255, 0.25),
+		rgba(255, 255, 255, 0.25) 1px,
+		transparent 1px,
+		transparent 6px
+	);
+	background-size: 4px 4px;
+}
