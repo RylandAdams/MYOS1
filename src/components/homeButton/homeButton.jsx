@@ -5,7 +5,12 @@ import './homeButton.css';
 const HomeButton = () => {
 	return (
 		<div className='homeBttn'>
-			<Link to='/'>HOME</Link>
+			<Link
+				className='bttn'
+				to='/'
+			>
+				HOME
+			</Link>
 		</div>
 	);
 };
