@@ -12,6 +12,7 @@ function App() {
 	const documentHeight = () => {
 		const doc = document.documentElement;
 		doc.style.setProperty('--doc-height', `${window.innerHeight}px`);
+		doc.style.setProperty('--doc-width', `${window.innerwidth}px`);
 	};
 	window.addEventListener('resize', documentHeight);
 	documentHeight();
@@ -21,6 +22,7 @@ function App() {
 			<div className='Frame'>
 				<Router>
 					<HomeButton />
+					<div className='wallpaper'></div>
 					<div className='iphoneContent'>
 						<TopBar />
 						<AnimatedRoutes />

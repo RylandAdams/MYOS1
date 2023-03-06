@@ -23,6 +23,7 @@ body {
 }
 
 .Frame {
+	position: relative;
 	width: 361px;
 	max-width: 361px;
 
@@ -40,8 +41,10 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 361px;
+
+	width: 109%;
 	max-width: 361px;
+
 	height: var(--doc-height);
 	max-height: 690px;
 }
@@ -51,6 +54,24 @@ body {
 	padding-top: 2%;
 	width: 89%;
 	height: 65%;
+	/* background: linear-gradient(
+		32deg,
+		rgb(24, 24, 24) 48%,
+		rgba(168, 168, 168, 1) 100%
+	); */
+}
+
+.wallpaper {
+	position: absolute;
+	padding-top: 2%;
+	width: 100%;
+	max-width: 330px;
+	height: 65%;
+	background: linear-gradient(
+		32deg,
+		rgb(24, 24, 24) 48%,
+		rgba(168, 168, 168, 1) 100%
+	);
 	background: linear-gradient(
 		32deg,
 		rgb(24, 24, 24) 48%,
