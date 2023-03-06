@@ -1,5 +1,6 @@
 .topBar {
 	position: absolute;
+	z-index: 3;
 	width: 100%;
 	height: 3%;
 }
@@ -32,6 +33,8 @@
 
 .topBarAlt {
 	position: absolute;
+
+	z-index: 0;
 	width: 100%;
 	height: 5%;
 	top: -0.8%;
@@ -41,6 +44,7 @@
 .leftAlt {
 	font-size: 0.7rem;
 	position: absolute;
+	z-index: 1;
 	left: 5.5%;
 	top: 42%;
 	color: #282828;
@@ -50,7 +54,7 @@
 .clockAlt {
 	font-size: 0.7rem;
 	position: absolute;
-	/* justify-content: center; */
+	z-index: 1;
 	text-align: center;
 	left: 50.2%;
 	top: 42%;
@@ -62,8 +66,9 @@
 .rightAlt {
 	font-size: 0.7rem;
 	position: absolute;
-	right: 4%;
+	z-index: 1;
 
+	right: 4%;
 	top: 45%;
 	text-shadow: 0px 0px 0px black;
 }
