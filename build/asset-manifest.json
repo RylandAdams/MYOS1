@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.8ac13635.css",
+    "main.css": "/static/css/main.1de8580c.css",
     "main.js": "/static/js/main.351d53b4.js",
     "static/media/Dopamine.wav": "/static/media/Dopamine.10f50d896b062f945905.wav",
     "static/media/Denial.wav": "/static/media/Denial.8f5079bab750b895394b.wav",
@@ -24,11 +24,11 @@
     "static/media/youtube.jpg": "/static/media/youtube.42a55d825415eb67192a.jpg",
     "static/media/ipod.png": "/static/media/ipod.5121dcf77fd0fce3351e.png",
     "index.html": "/index.html",
-    "main.8ac13635.css.map": "/static/css/main.8ac13635.css.map",
+    "main.1de8580c.css.map": "/static/css/main.1de8580c.css.map",
     "main.351d53b4.js.map": "/static/js/main.351d53b4.js.map"
   },
   "entrypoints": [
-    "static/css/main.8ac13635.css",
+    "static/css/main.1de8580c.css",
     "static/js/main.351d53b4.js"
   ]
 }
