@@ -37,7 +37,10 @@
 
 	grid-template-columns: 20% 20% 20% 20%;
 	width: 100%;
-	height: 17%;
+	max-width: 330px;
+	height: 100%;
+	max-height: -1px;
+
 	z-index: 2;
 	grid-column-gap: 0.7rem;
 
@@ -45,7 +48,7 @@
 	text-align: center;
 	place-items: center;
 
-	bottom: -7.9%;
+	bottom: -49.3%;
 	left: 50%;
 	margin-bottom: 10%;
 
