@@ -22,7 +22,8 @@
 	text-align: center;
 	place-items: center;
 
-	width: 300px;
+	width: 100%;
+	max-width: 300px;
 	height: auto;
 	bottom: -1%;
 	left: 50%;
@@ -44,8 +45,9 @@
 	text-align: center;
 	place-items: center;
 
-	bottom: -0.6%;
+	bottom: -7.9%;
 	left: 50%;
+	margin-bottom: 10%;
 
 	transform: translateX(-50%);
 }
