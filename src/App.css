@@ -2,6 +2,12 @@
 	orientation: portrait;
 }
 
+input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
 * {
 	font-family: Helvetica;
 	font-style: normal;
