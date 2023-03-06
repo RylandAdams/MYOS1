@@ -1,26 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-game {
-	margin: 0;
-	text-align: center;
-	font-family: 'Press Start 2P', cursive;
-	user-select: none;
+.game {
 	position: absolute;
-	width: 300px;
-	height: 300px;
-}
-header {
-	margin: 0 auto;
-	width: 431px;
-}
-h1 {
-	background: url('https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png') 0% 340px;
-	padding: 1.2rem 0;
-	margin: 0;
-}
-.score-container {
-	display: flex;
-	justify-content: space-between;
-	padding: 8px 6px;
-	background: #5ee270;
+	z-index: 10;
 }
