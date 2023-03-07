@@ -8,4 +8,12 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	background-color: rgb(72, 72, 72);
+	background-size: 4px 4px;
+}
+
+.loading {
+	position: absolute;
+	z-index: -1;
 }

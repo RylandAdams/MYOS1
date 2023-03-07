@@ -5,6 +5,7 @@ import Iframe from 'react-iframe';
 const Flappybird = () => {
 	return (
 		<div className='game'>
+			<div className='loading'>LOADING</div>
 			<Iframe
 				scrolling='no'
 				url='https://playcanv.as/p/2OlkUaxF/'
