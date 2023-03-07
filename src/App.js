@@ -16,7 +16,6 @@ function App() {
 	};
 	window.addEventListener('resize', documentHeight);
 	documentHeight();
-	// window.orientation('portrait');
 
 	return (
 		<div className='App'>
