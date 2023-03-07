@@ -11,7 +11,7 @@ const Safari = () => {
 				src={flowcard}
 				alt='flowcard'
 			/>
-			<a className='ShareCard'></a>
+			<a className='ShareCard'>S</a>
 			<a
 				href='https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ?si=8uyjrQ0mSnW8BjUAtAdr0A'
 				className='SpotifyCard'

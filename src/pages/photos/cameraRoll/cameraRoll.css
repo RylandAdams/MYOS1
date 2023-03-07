@@ -1,0 +1,25 @@
+.cameraRollPage {
+	width: 100%;
+	max-width: 330px;
+	overflow-y: auto;
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
+	/* position: absolute; */
+	/* z-index: 100; */
+
+	color: rgb(224, 11, 11);
+	/* background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 255, 255, 0.25),
+		rgba(255, 255, 255, 0.25) 1px,
+		transparent 1px,
+		transparent 6px
+	); */
+	background-size: 4px 4px;
+}
+
+/* .cameraRollPage img {
+	width: 100px;
+	height: 100px;
+} */

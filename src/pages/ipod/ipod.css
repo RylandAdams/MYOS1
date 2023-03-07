@@ -32,11 +32,13 @@
 .song1 {
 	display: flex;
 	flex-direction: row;
+	cursor: pointer;
 }
 
 .song2 {
 	display: flex;
 	flex-direction: row;
+	cursor: pointer;
 }
 
 .songImg {
