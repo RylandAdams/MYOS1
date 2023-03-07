@@ -10,7 +10,21 @@
 	align-items: center;
 
 	background-color: rgb(72, 72, 72);
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(0, 0, 0, 0.25),
+		rgba(0, 0, 0, 0.25) 1px,
+		transparent 1px,
+		transparent 6px
+	);
 	background-size: 4px 4px;
+}
+
+.gameWindow {
+	/* position: absolute; */
+
+	width: 130%;
+	height: 120%;
 }
 
 .loading {
