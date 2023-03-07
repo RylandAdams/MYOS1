@@ -22,15 +22,40 @@ input {
 	font-weight: lighter;
 	text-shadow: 0.5px 0.5px 3px black;
 	color: rgb(215, 215, 215);
+	/* transform: perspective(250px) rotateX(0.5deg); */
 }
 
 a {
 	text-decoration: none;
 }
 body {
+	/* transform: perspective(250px) rotateX(0.5deg); */
 	background-color: black;
 	overflow-x: hidden;
 	overflow-y: hidden;
+}
+
+@media (min-width: 641px) {
+	.hand {
+		position: absolute;
+		background-size: cover;
+		background-repeat: inherit;
+		z-index: -10;
+		right: -540px;
+		transform: scale(0.99, 0.99);
+	}
+}
+
+@media (max-width: 641px) {
+	.hand {
+		position: absolute;
+		background-size: cover;
+		background-repeat: inherit;
+		z-index: -10;
+		right: -540px;
+		transform: scale(0.99, 0.99);
+		opacity: 0;
+	}
 }
 
 .App {
@@ -66,6 +91,7 @@ body {
 
 	height: var(--doc-height);
 	max-height: 690px;
+	/* transform: perspective(250px) rotateX(0.5deg); */
 }
 
 .iphoneContent {
