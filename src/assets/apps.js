@@ -14,7 +14,7 @@ import mail from './imgs/mail.png';
 import safari from './imgs/safari.png';
 import settings from './imgs/settings.png';
 
-import IcalLink from './IcalLink/iCal-20230308-125218.ics';
+import IcalLink from './IcalLink/iCal-20230308-131800.ics';
 
 import { isMacOs, isIOS } from 'react-device-detect';
 var saveThedate = '';
@@ -23,7 +23,7 @@ if (isMacOs === true || isIOS === true) {
 	saveThedate = IcalLink;
 } else {
 	saveThedate =
-		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com';
+		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NHYwOGRpczJvbWY2N3Q2ZmRnNWs3NW5uZmQgcnlsYW5kb2ZmaWNpYWxtdXNpY0Bt&tmsrc=rylandofficialmusic%40gmail.com';
 }
 
 export const MAINAPPS = [
