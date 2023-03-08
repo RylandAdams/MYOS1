@@ -14,12 +14,24 @@ import mail from './imgs/mail.png';
 import safari from './imgs/safari.png';
 import settings from './imgs/settings.png';
 
+import IcalLink from './IcalLink/iCal-20230308-125218.ics';
+
+import { isMacOs, isIOS } from 'react-device-detect';
+var saveThedate = '';
+
+if (isMacOs === true || isIOS === true) {
+	saveThedate = IcalLink;
+} else {
+	saveThedate =
+		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com';
+}
+
 export const MAINAPPS = [
 	{
 		id: 1,
 		appName: 'Calender',
 		appImage: calender,
-		url: 'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com',
+		url: saveThedate,
 	},
 	{
 		id: 2,

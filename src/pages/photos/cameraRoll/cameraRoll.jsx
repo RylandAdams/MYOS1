@@ -16,17 +16,27 @@ import BHDenialSingle from './photos/BHDenialSingle.png';
 
 const photos = [
 	{
+		src: DriveBlur,
+		width: 1,
+		height: 0.6,
+	},
+	{
+		src: RylandStudioSide,
+		width: 1,
+		height: 0.8,
+	},
+	{
 		src: Glisan,
 		width: 0.1,
 		height: 0.1,
 	},
 	{
-		src: RylandStudioSide,
-		width: 0.1,
-		height: 0.1,
+		src: BHDenialSingle,
+		width: 1,
+		height: 1,
 	},
 	{
-		src: SkateboardBed,
+		src: FineByMe,
 		width: 1,
 		height: 1,
 	},
@@ -37,26 +47,6 @@ const photos = [
 	},
 	{
 		src: RhodesRoom,
-		width: 1,
-		height: 1,
-	},
-	{
-		src: OGDenialSingle,
-		width: 1,
-		height: 1,
-	},
-	{
-		src: FineByMe,
-		width: 1,
-		height: 1,
-	},
-	{
-		src: BHDenialSingle,
-		width: 1,
-		height: 1,
-	},
-	{
-		src: DriveBlur,
 		width: 1,
 		height: 1,
 	},
@@ -84,15 +74,18 @@ const CameraRoll = () => {
 			/>
 			<ModalGateway>
 				{viewerIsOpen ? (
-					<Modal onClose={closeLightbox}>
-						<Carousel
+					<Modal
+						className='pictureViewer'
+						onClose={closeLightbox}
+					>
+						{/* <Carousel
 							currentIndex={currentImage}
 							views={photos.map((x) => ({
 								...x,
 								srcset: x.srcSet,
 								caption: x.title,
 							}))}
-						/>
+						/> */}
 					</Modal>
 				) : null}
 			</ModalGateway>

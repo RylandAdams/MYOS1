@@ -12,6 +12,7 @@
 		"mobx-react": "^3.5.5",
 		"react": "^18.2.0",
 		"react-battery-gauge": "^1.0.4",
+		"react-device-detect": "^2.2.3",
 		"react-dom": "^18.2.0",
 		"react-iframe": "^1.8.5",
 		"react-images": "1.0.0",

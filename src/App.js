@@ -1,10 +1,11 @@
 import './App.css';
 import React from 'react';
+
 import { BrowserRouter as Router } from 'react-router-dom';
 import AnimatedRoutes from './components/animatedRoutes';
 
 import hand from './assets/imgs/HAND.jpg';
-import phone from './assets/imgs/Iphone.png';
+import phone from './assets/imgs/Iphone.PNG';
 import HomeButton from './components/homeButton/homeButton';
 
 import TopBar from './components/topBar/topBar';
