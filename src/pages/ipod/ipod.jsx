@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './ipod.css';
 
+import { BsMusicNote } from 'react-icons/bs';
+import { MdOutlineDownloading } from 'react-icons/md';
+import { AiTwotoneStar, AiOutlineSearch } from 'react-icons/ai';
+
 import dopamine from '../../assets/songs/Dopamine.wav';
 import dopamineArt from '../../assets/songs/Dopamine.PNG';
 import denial from '../../assets/songs/Denial.wav';
@@ -34,6 +38,7 @@ const Ipod = () => {
 
 	return (
 		<div className='ipod'>
+			<div className='topBarIpod'></div>
 			<div className='songsListed'>
 				<button
 					className='song1'
@@ -66,10 +71,18 @@ const Ipod = () => {
 			</div>
 
 			<div className='bottomBar'></div>
-			<div className='farLeft'></div>
-			<div className='midLeft'></div>
-			<div className='midRight'></div>
-			<div className='farRight'></div>
+			<div className='farLeft'>
+				<BsMusicNote className='musicIcon' />
+			</div>
+			<div className='midLeft'>
+				<AiTwotoneStar className='starIcon' />
+			</div>
+			<div className='midRight'>
+				<AiOutlineSearch className='searchIcon' />
+			</div>
+			<div className='farRight'>
+				<MdOutlineDownloading className='downloadIcon' />
+			</div>
 		</div>
 	);
 };
