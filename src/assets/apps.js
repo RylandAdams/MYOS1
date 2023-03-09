@@ -23,7 +23,7 @@ if (isMacOs === true || isIOS === true) {
 	saveThedate = IcalLink;
 } else {
 	saveThedate =
-		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NHYwOGRpczJvbWY2N3Q2ZmRnNWs3NW5uZmQgcnlsYW5kb2ZmaWNpYWxtdXNpY0Bt&tmsrc=rylandofficialmusic%40gmail.com';
+		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com';
 }
 
 export const MAINAPPS = [
