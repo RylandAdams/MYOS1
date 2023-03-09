@@ -45,8 +45,8 @@ const Ipod = () => {
 						alt='DenialArt'
 					/>
 					<div className='songText'>
-						<h2 className='songName'>DENIAL</h2>
-						<h5 className='artistName'>RYLAND</h5>
+						<h2 className='songName1'>Denial</h2>
+						<h5 className='artistName1'>RYLAND</h5>
 					</div>
 				</button>
 				<button
@@ -59,11 +59,17 @@ const Ipod = () => {
 						alt='DopamineArt'
 					/>
 					<div className='songText'>
-						<h2 className='songName'>DOPAMINE</h2>
-						<h5 className='artistName'>RYLAND</h5>
+						<h2 className='songName2'>Dopamine</h2>
+						<h5 className='artistName2'>RYLAND</h5>
 					</div>
 				</button>
 			</div>
+
+			<div className='bottomBar'></div>
+			<div className='farLeft'></div>
+			<div className='midLeft'></div>
+			<div className='midRight'></div>
+			<div className='farRight'></div>
 		</div>
 	);
 };

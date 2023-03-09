@@ -15,6 +15,17 @@ const Weather = () => {
 					// frameBorder='1'
 				></Iframe>
 			</div>
+			<a href='https://cooltext.com'>
+				<img
+					src='https://images.cooltext.com/5647878.gif'
+					width='218'
+					height='85'
+					alt='WARNING'
+					className='heatwave'
+				/>
+			</a>
+			<h1 className='warning'>WARNING</h1>
+
 			{/* <img
 				src={Warning}
 				alt='Warning'
@@ -25,7 +36,6 @@ const Weather = () => {
 				alt='heatwave'
 				className='heatwave'
 			/> */}
-
 			<div className='barbottom'></div>
 			<div className='barbottomUp1'></div>
 			<div className='barbottomUp2'></div>
