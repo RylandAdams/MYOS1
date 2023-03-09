@@ -1,15 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import './cameraRoll.css';
 
 import Gallery from 'react-photo-gallery';
-import Carousel, { Modal, ModalGateway } from 'react-images';
 
 import RylandStudioSide from './photos/RylandStudioSide.png';
 import Glisan from './photos/Glisan.png';
-import SkateboardBed from './photos/SkateboardBed.png';
+// import SkateboardBed from './photos/SkateboardBed.png';
 import RiceNSpice from './photos/RiceNSpice.png';
 import RhodesRoom from './photos/RhodesRoom.png';
-import OGDenialSingle from './photos/OGDenialSingle.png';
+// import OGDenialSingle from './photos/OGDenialSingle.png';
 import FineByMe from './photos/FineByMe.png';
 import DriveBlur from './photos/DriveBlur.png';
 import BHDenialSingle from './photos/BHDenialSingle.png';
@@ -53,24 +52,12 @@ const photos = [
 ];
 
 const CameraRoll = () => {
-	const [currentImage, setCurrentImage] = useState(0);
-	const [viewerIsOpen, setViewerIsOpen] = useState(false);
-
-	const openLightbox = useCallback((event, { photo, index }) => {
-		setCurrentImage(index);
-		setViewerIsOpen(true);
-	}, []);
-
-	const closeLightbox = () => {
-		setCurrentImage(0);
-		setViewerIsOpen(false);
-	};
 	return (
 		<div className='cameraRollPage'>
 			<Gallery
 				photos={photos}
 				direction={'column'}
-				onClick={openLightbox}
+				onClick={''}
 			/>
 		</div>
 	);
