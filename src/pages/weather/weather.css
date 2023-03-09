@@ -1,3 +1,7 @@
+iframe {
+	border: 0.45em solid rgb(26, 26, 26);
+}
+
 .weatherPage {
 	/* width: 100%;
 	max-width: 330px; */
@@ -7,7 +11,7 @@
 	margin-top: -3%;
 	/* position: absolute; */
 
-	background-color: rgb(180, 180, 180);
+	background-color: rgb(98, 138, 160);
 	background-image: repeating-linear-gradient(
 		-45deg,
 		rgba(255, 255, 255, 0.25),
@@ -16,4 +20,13 @@
 		transparent 6px
 	);
 	background-size: 4px 4px;
+}
+
+.spongebob {
+	position: absolute;
+
+	width: 55%;
+	height: 25%;
+	left: 20.8%;
+	top: 14%;
 }
