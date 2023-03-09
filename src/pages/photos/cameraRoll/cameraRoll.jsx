@@ -72,23 +72,6 @@ const CameraRoll = () => {
 				direction={'column'}
 				onClick={openLightbox}
 			/>
-			<ModalGateway>
-				{viewerIsOpen ? (
-					<Modal
-						className='pictureViewer'
-						onClose={closeLightbox}
-					>
-						{/* <Carousel
-							currentIndex={currentImage}
-							views={photos.map((x) => ({
-								...x,
-								srcset: x.srcSet,
-								caption: x.title,
-							}))}
-						/> */}
-					</Modal>
-				) : null}
-			</ModalGateway>
 		</div>
 	);
 };
