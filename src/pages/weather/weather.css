@@ -50,13 +50,45 @@ iframe {
 	top: 70%;
 }
 
-.bar {
+.barbottom {
 	position: absolute;
 	z-index: 0;
 	background-color: black;
 	opacity: 0.8;
-	width: 80%;
-	height: 9%;
-	left: 0%;
-	top: 87%;
+	width: 50%;
+	height: 1.8%;
+	left: 7%;
+	top: 90%;
+}
+
+.barbottomUp1 {
+	position: absolute;
+	z-index: 0;
+	background-color: black;
+	opacity: 0.8;
+	width: 40%;
+	height: 1.8%;
+	left: 7%;
+	top: 80%;
+}
+
+.barbottomUp2 {
+	position: absolute;
+	z-index: 0;
+	background-color: black;
+	opacity: 0.8;
+	width: 35%;
+	height: 1.8%;
+	left: 7%;
+	top: 70%;
+}
+.barbottomUp3 {
+	position: absolute;
+	z-index: 0;
+	background-color: black;
+	opacity: 0.8;
+	width: 30%;
+	height: 1.8%;
+	left: 7%;
+	top: 60%;
 }

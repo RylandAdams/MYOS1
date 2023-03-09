@@ -15,18 +15,21 @@ const Weather = () => {
 					// frameBorder='1'
 				></Iframe>
 			</div>
-			<img
+			{/* <img
 				src={Warning}
 				alt='Warning'
 				className='warning'
-			/>
-			<img
+			/> */}
+			{/* <img
 				src={heatwave}
 				alt='heatwave'
 				className='heatwave'
-			/>
+			/> */}
 
-			<div className='bar'></div>
+			<div className='barbottom'></div>
+			<div className='barbottomUp1'></div>
+			<div className='barbottomUp2'></div>
+			<div className='barbottomUp3'></div>
 		</div>
 	);
 };
