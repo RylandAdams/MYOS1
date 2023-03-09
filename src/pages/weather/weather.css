@@ -30,3 +30,33 @@ iframe {
 	left: 20.8%;
 	top: 14%;
 }
+
+.warning {
+	position: absolute;
+
+	width: 50%;
+	height: 9%;
+	left: 8.8%;
+	top: 52%;
+}
+
+.heatwave {
+	position: absolute;
+	z-index: 1;
+
+	width: 86%;
+	height: 25%;
+	left: 8.8%;
+	top: 70%;
+}
+
+.bar {
+	position: absolute;
+	z-index: 0;
+	background-color: black;
+	opacity: 0.8;
+	width: 80%;
+	height: 9%;
+	left: 0%;
+	top: 87%;
+}
