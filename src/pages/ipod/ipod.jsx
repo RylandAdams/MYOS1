@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './ipod.css';
 
+import explicit from '../../assets/songs/explicit.png';
 import { BsMusicNote } from 'react-icons/bs';
 import { MdOutlineDownloading } from 'react-icons/md';
 import { AiTwotoneStar, AiOutlineSearch } from 'react-icons/ai';
 
 import dopamine from '../../assets/songs/Dopamine.wav';
 import dopamineArt from '../../assets/songs/Dopamine.PNG';
+
 import denial from '../../assets/songs/Denial.wav';
 import denialArt from '../../assets/songs/Denial.JPG';
+
+import PWSHArt from '../../assets/songs/PWSH.jpg';
 
 const Dopamine = new Audio(dopamine);
 const Denial = new Audio(denial);
@@ -27,6 +31,7 @@ const Ipod = () => {
 		} else {
 			Dopamine.pause();
 		}
+
 		// Denial
 		if (song2IsPlaying === true) {
 			Denial.load();
@@ -39,6 +44,9 @@ const Ipod = () => {
 	return (
 		<div className='ipod'>
 			<div className='topBarIpod'></div>
+			<h1 className='HEADER'>iPod</h1>
+			<div className='filterBar'></div>
+			<div className='byDate'></div>
 			<div className='songsListed'>
 				<button
 					className='song1'
@@ -68,6 +76,25 @@ const Ipod = () => {
 						<h5 className='artistName2'>RYLAND</h5>
 					</div>
 				</button>
+				<button
+					className='song3'
+					onClick={() => setSong1IsPlaying(!song1IsPlaying)}
+				>
+					<img
+						className='songImg'
+						src={PWSHArt}
+						alt='PWSHArt'
+					/>
+					<div className='songText'>
+						<h2 className='songName3'>P W S H</h2>
+						<h5 className='artistName3'>RYLAND</h5>
+						<img
+							src={explicit}
+							alt='explicit'
+							className='explicit3'
+						/>
+					</div>
+				</button>
 			</div>
 
 			<div className='bottomBar'></div>
@@ -76,6 +103,7 @@ const Ipod = () => {
 			</div>
 			<div className='midLeft'>
 				<AiTwotoneStar className='starIcon' />
+				<AiTwotoneStar className='starIconShadow' />
 			</div>
 			<div className='midRight'>
 				<AiOutlineSearch className='searchIcon' />
