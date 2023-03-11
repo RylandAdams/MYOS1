@@ -31,6 +31,20 @@
 	top: 0.5%;
 }
 
+.filterBy {
+	position: absolute;
+	color: rgb(255, 255, 255);
+	z-index: 2;
+	letter-spacing: 0.03rem;
+	font-size: 80%;
+	font-weight: 100;
+	opacity: 0.9;
+
+	left: 24.1%;
+	top: 20.72%;
+	cursor: none;
+}
+
 .filterBar {
 	position: absolute;
 	background-color: rgb(248, 248, 248);
@@ -49,18 +63,37 @@
 	position: absolute;
 	color: rgb(52, 52, 52);
 	text-shadow: none;
+	box-shadow: 1.5px 1px rgb(76, 76, 76);
 	font-weight: bolder;
 	background-color: rgba(100, 170, 208, 1);
 	text-align: center;
 	border-radius: 10px;
 	z-index: 1;
 	font-weight: 500;
-	opacity: 0.95;
+	opacity: 0.85;
 
-	width: 28%;
+	width: 32%;
 	height: 3.5%;
 	left: 20.5%;
 	top: 20.5%;
+}
+
+.notReleased {
+	position: absolute;
+	z-index: 7;
+	opacity: 0.76;
+	background-color: rgb(100, 100, 100);
+
+	text-align: center;
+	align-items: center;
+	color: rgb(255, 255, 255);
+
+	height: 32%;
+	width: 99%;
+	left: 0.5%;
+
+	top: 67%;
+	border-radius: 9px;
 }
 
 .songsListed {

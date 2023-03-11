@@ -38,7 +38,7 @@ const TopBar = () => {
 			<div className={location.pathname === '/' ? 'right' : 'rightAlt'}>
 				<BatteryGauge
 					size={20}
-					value={10}
+					value={45}
 				/>
 			</div>
 		</div>

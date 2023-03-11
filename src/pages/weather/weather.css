@@ -2,6 +2,11 @@ iframe {
 	border: 0.4em solid rgb(26, 26, 26);
 }
 
+.loading {
+	position: absolute;
+	z-index: -1;
+}
+
 .weatherPage {
 	/* width: 100%;
 	max-width: 330px; */

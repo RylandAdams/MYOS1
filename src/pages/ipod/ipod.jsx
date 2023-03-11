@@ -45,34 +45,36 @@ const Ipod = () => {
 		<div className='ipod'>
 			<div className='topBarIpod'></div>
 			<h1 className='HEADER'>iPod</h1>
+			<div className='filterBy'>Release Date</div>
 			<div className='filterBar'></div>
 			<div className='byDate'></div>
 			<div className='songsListed'>
 				<button
 					className='song1'
-					onClick={() => setSong2IsPlaying(!song2IsPlaying)}
-				>
-					<img
-						className='songImg'
-						src={denialArt}
-						alt='DenialArt'
-					/>
-					<div className='songText'>
-						<h2 className='songName1'>Denial</h2>
-						<h5 className='artistName1'>RYLAND</h5>
-					</div>
-				</button>
-				<button
-					className='song2'
 					onClick={() => setSong1IsPlaying(!song1IsPlaying)}
 				>
 					<img
 						className='songImg'
 						src={dopamineArt}
+						alt='DenialArt'
+					/>
+					<div className='songText'>
+						<h2 className='songName1'>Dopamine</h2>
+						<h5 className='artistName1'>RYLAND</h5>
+					</div>
+				</button>
+				<div className='notReleased'>???</div>
+				<button
+					className='song2'
+					onClick={() => setSong2IsPlaying(!song2IsPlaying)}
+				>
+					<img
+						className='songImg'
+						src={denialArt}
 						alt='DopamineArt'
 					/>
 					<div className='songText'>
-						<h2 className='songName2'>Dopamine</h2>
+						<h2 className='songName2'>Denial</h2>
 						<h5 className='artistName2'>RYLAND</h5>
 					</div>
 				</button>
