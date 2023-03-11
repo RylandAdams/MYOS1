@@ -12,6 +12,8 @@ const LouisBell = () => {
 			>
 				Back
 			</Link>
+			<div className='topBarIpod'></div>
+			<h1 className='HEADERLouisBell'>Louis Bell</h1>
 		</div>
 	);
 };

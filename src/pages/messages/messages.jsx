@@ -2,21 +2,27 @@ import React from 'react';
 import './messages.css';
 
 import { Link } from 'react-router-dom';
+import { RxCaretRight } from 'react-icons/rx';
 
 const Messages = () => {
 	return (
 		<div className='messagesPage'>
+			<div className='topBarIpod'></div>
+			<h1 className='HEADERmessages'>Messages</h1>
 			<Link
 				to={`/messages/RickRubin`}
-				className='RickConvo'
+				className='convo1Bar'
 			>
-				Mr.Rubin
+				<div className='personsName'>Mr.Rubin</div>
+				<RxCaretRight className='messageCaret' />
 			</Link>
+
 			<Link
 				to={`/messages/LouisBell`}
-				className='LouisConvo'
+				className='convo2Bar'
 			>
-				Louis Bell
+				<div className='personsName'>Louis Bell</div>
+				<RxCaretRight className='messageCaret' />
 			</Link>
 		</div>
 	);

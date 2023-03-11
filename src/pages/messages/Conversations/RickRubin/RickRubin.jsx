@@ -12,6 +12,8 @@ const RickRubin = () => {
 			>
 				Back
 			</Link>
+			<div className='topBarIpod'></div>
+			<div className='HEADERRickRubin'>Mr.Rubin</div>
 		</div>
 	);
 };
