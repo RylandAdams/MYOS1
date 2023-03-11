@@ -1,4 +1,4 @@
-.messagesPage {
+.RickRubin {
 	/* width: 100%;
 	max-width: 330px; */
 
@@ -16,16 +16,4 @@
 		transparent 6px
 	);
 	background-size: 4px 4px;
-}
-
-.RickConvo {
-	position: absolute;
-	top: 20%;
-	left: 10%;
-}
-
-.LouisConvo {
-	position: absolute;
-	top: 20%;
-	left: 50%;
 }

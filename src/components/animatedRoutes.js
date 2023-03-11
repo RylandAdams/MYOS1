@@ -25,6 +25,10 @@ import Messages from '../pages/messages/messages';
 import Safari from '../pages/safari/safari';
 import Settings from '../pages/settings/settings';
 
+// MESSAGE CONVERSATIONS
+import RickRubin from '../pages/messages/Conversations/RickRubin/RickRubin';
+import LouisBell from '../pages/messages/Conversations/LouisBell/LouisBell';
+
 import { AnimatePresence } from 'framer-motion';
 
 const AnimatedRoutes = () => {
@@ -82,16 +86,25 @@ const AnimatedRoutes = () => {
 				/>
 				// FOOTER APPS -------------
 				<Route
-					path='/messages'
-					element={<Messages />}
-				/>
-				<Route
 					path='/safari'
 					element={<Safari />}
 				/>
 				<Route
 					path='/settings'
 					element={<Settings />}
+				/>
+				<Route
+					path='/messages'
+					element={<Messages />}
+				/>
+				// MESSAGE CONVERSATIONS ------
+				<Route
+					path='/messages/RickRubin'
+					element={<RickRubin />}
+				/>
+				<Route
+					path='/messages/LouisBell'
+					element={<LouisBell />}
 				/>
 			</Routes>
 		</AnimatePresence>

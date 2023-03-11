@@ -1,4 +1,4 @@
-.messagesPage {
+.LouisBell {
 	/* width: 100%;
 	max-width: 330px; */
 
@@ -18,14 +18,8 @@
 	background-size: 4px 4px;
 }
 
-.RickConvo {
+.back {
 	position: absolute;
-	top: 20%;
+	top: 8%;
 	left: 10%;
-}
-
-.LouisConvo {
-	position: absolute;
-	top: 20%;
-	left: 50%;
 }
