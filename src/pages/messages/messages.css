@@ -68,6 +68,10 @@
 	/* left: 7%; */
 	top: 13.9%;
 }
+.convo1Bar:hover {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.92;
+}
 
 .convo2Bar {
 	position: absolute;
@@ -80,6 +84,11 @@
 	height: 16%;
 	/* left: 7%; */
 	top: 30.2%;
+}
+
+.convo2Bar:hover {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.99;
 }
 
 .RickConvo {

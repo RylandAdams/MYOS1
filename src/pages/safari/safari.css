@@ -45,6 +45,11 @@
 	cursor: pointer;
 }
 
+.ShareCard:hover {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.6;
+}
+
 .SpotifyCard {
 	position: absolute;
 	z-index: 10;
@@ -58,6 +63,11 @@
 	max-width: 282px;
 	max-height: 70px;
 	cursor: pointer;
+}
+
+.SpotifyCard:hover {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.6;
 }
 
 .AppleCard {
@@ -75,6 +85,11 @@
 	cursor: pointer;
 }
 
+.AppleCard:hover {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.6;
+}
+
 .InstaCard {
 	position: absolute;
 	z-index: 10;
@@ -88,4 +103,9 @@
 	max-width: 282px;
 	max-height: 70px;
 	cursor: pointer;
+}
+
+.InstaCard:hover {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.6;
 }

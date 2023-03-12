@@ -7,11 +7,11 @@
 	margin-top: -3%;
 	/* position: absolute; */
 
-	background-color: rgb(180, 180, 180);
+	background-color: rgb(239, 239, 239);
 	background-image: repeating-linear-gradient(
 		-45deg,
-		rgba(255, 255, 255, 0.25),
-		rgba(255, 255, 255, 0.25) 1px,
+		rgba(174, 174, 174, 0.25),
+		rgba(225, 225, 225, 0.25) 1px,
 		transparent 1px,
 		transparent 6px
 	);
@@ -36,4 +36,62 @@
 	position: absolute;
 	z-index: 1;
 	opacity: 0;
+}
+
+/* MY MESSAGES */
+
+.textToRickBubble {
+	position: absolute;
+	z-index: 1;
+	background: rgb(2, 154, 248);
+	opacity: 0.8;
+
+	width: 46%;
+	height: 11%;
+
+	top: 28%;
+	left: 46%;
+
+	border-radius: 15px 15px 4px 15px;
+}
+
+.textSongToRickBubble {
+	position: absolute;
+	z-index: 1;
+	background: rgb(2, 154, 248);
+	opacity: 0.8;
+
+	width: 50%;
+	height: 17%;
+
+	top: 40%;
+	left: 42%;
+
+	border-radius: 15px 15px 4px 15px;
+}
+
+.textToRick {
+	position: absolute;
+	z-index: 1;
+	font-size: small;
+	color: rgb(255, 255, 255);
+
+	text-shadow: none;
+
+	width: 42%;
+
+	top: 30%;
+	left: 49%;
+}
+
+/* RICK SIDE */
+
+.rickTyping {
+	position: absolute;
+
+	top: 65%;
+	left: 6%;
+
+	width: 25%;
+	height: 13%;
 }

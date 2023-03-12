@@ -11,30 +11,22 @@ const Safari = () => {
 				src={flowcard}
 				alt='flowcard'
 			/>
-			<a
+			<button
 				href='https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ?si=8uyjrQ0mSnW8BjUAtAdr0A'
 				className='ShareCard'
-			>
-				s
-			</a>
-			<a
+			></button>
+			<button
 				href='https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ?si=8uyjrQ0mSnW8BjUAtAdr0A'
 				className='SpotifyCard'
-			>
-				Spotify
-			</a>
-			<a
+			></button>
+			<button
 				href='https://music.apple.com/us/artist/ryland/1620591111'
 				className='AppleCard'
-			>
-				Apple Music
-			</a>
-			<a
+			></button>
+			<button
 				href='https://instagram.com/__.ryland.__?igshid=MjkzY2Y1YTY='
 				className='InstaCard'
-			>
-				Instagram
-			</a>
+			></button>
 		</>
 	);
 };
