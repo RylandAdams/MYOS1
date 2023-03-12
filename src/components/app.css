@@ -18,3 +18,10 @@
 	height: 13px;
 	max-height: 13px;
 }
+
+.Apps:hover {
+	opacity: 0.85;
+	width: -20px !important;
+	height: -20px !important;
+	border-radius: 7px 7px;
+}

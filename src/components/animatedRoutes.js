@@ -45,6 +45,10 @@ const AnimatedRoutes = () => {
 					element={<HomeScreen />}
 				/>
 				<Route
+					path={'*'}
+					element={<HomeScreen />}
+				/>
+				<Route
 					path='/calender'
 					element={<Calender />}
 				/>
