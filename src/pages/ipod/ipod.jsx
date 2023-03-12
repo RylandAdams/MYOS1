@@ -104,7 +104,11 @@ const Ipod = () => {
 				<BsMusicNote className='musicIcon' />
 			</div>
 			<div className='midLeft'>
-				<AiTwotoneStar className='starIcon' />
+				<AiTwotoneStar
+					className='starIcon'
+					color='rgb(64, 240, 240)'
+					fill='rgb(64, 240, 240)'
+				/>
 				<AiTwotoneStar className='starIconShadow' />
 			</div>
 			<div className='midRight'>

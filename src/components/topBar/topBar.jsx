@@ -30,6 +30,8 @@ const TopBar = () => {
 			<div className={location.pathname === '/' ? 'left' : 'leftAlt'}>
 				RYLAND
 				<GiNetworkBars
+					color={location.pathname === '/' ? '#d2d2d2' : '#000000'}
+					fill={location.pathname === '/' ? '#d2d2d2' : '#000000'}
 					className={
 						location.pathname === '/'
 							? 'cellularBars'
