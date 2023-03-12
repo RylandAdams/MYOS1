@@ -1,6 +1,7 @@
 import React from 'react';
 import './messages.css';
 
+import typing from '../../assets/imgs/typing.png';
 import { Link } from 'react-router-dom';
 import { RxCaretRight } from 'react-icons/rx';
 
@@ -13,7 +14,15 @@ const Messages = () => {
 				to={`/messages/RickRubin`}
 				className='convo1Bar'
 			>
+				<div className='nameCircle'>
+					<div className='circleNameRR'>RR</div>
+				</div>
 				<div className='personsName'>Mr.Rubin</div>
+				<img
+					src={typing}
+					alt='typing'
+					className='rickTypingMessages'
+				/>
 				<RxCaretRight className='messageCaret' />
 			</Link>
 
@@ -21,7 +30,11 @@ const Messages = () => {
 				to={`/messages/LouisBell`}
 				className='convo2Bar'
 			>
+				<div className='nameCircle'>
+					<div className='circleNameLB'>LB</div>
+				</div>
 				<div className='personsName'>Louis Bell</div>
+				<div className='louisTypingMessages'>This is where im at</div>
 				<RxCaretRight className='messageCaret' />
 			</Link>
 		</div>

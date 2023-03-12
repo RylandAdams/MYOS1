@@ -1,6 +1,7 @@
 import React from 'react';
 import './LouisBell.css';
 
+import { RxCaretLeft } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
 
 const LouisBell = () => {
@@ -10,10 +11,13 @@ const LouisBell = () => {
 				to={'/messages'}
 				className='back'
 			>
-				Back
+				<RxCaretLeft className='caretPostion' />
 			</Link>
 			<div className='topBarIpod'></div>
 			<h1 className='HEADERLouisBell'>Louis Bell</h1>
+			<div className='textSongToLouisBubble'></div>
+			<div className='textToLouisBubble'></div>
+			<div className='textToLouis'>This is where im at</div>
 		</div>
 	);
 };

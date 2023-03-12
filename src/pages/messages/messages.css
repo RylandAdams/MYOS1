@@ -7,7 +7,7 @@
 	margin-top: -3%;
 	/* position: absolute; */
 
-	background-color: rgb(239, 239, 239);
+	background-color: rgb(247, 247, 247);
 	background-image: repeating-linear-gradient(
 		-45deg,
 		rgba(174, 174, 174, 0.25),
@@ -45,6 +45,42 @@
 	left: 80%;
 }
 
+.nameCircle {
+	background-color: rgb(255, 255, 255);
+	color: black;
+	position: absolute;
+	text-align: center;
+	align-items: center;
+	z-index: 3;
+
+	left: 6.5%;
+	top: 14%;
+
+	width: 15%;
+	height: 65%;
+
+	border-radius: 100% 100% 100% 100%;
+	border-style: solid;
+}
+
+.circleNameRR {
+	position: absolute;
+	color: #000000;
+	font-size: 1.5rem;
+
+	top: 22%;
+	left: 18%;
+}
+
+.circleNameLB {
+	position: absolute;
+	color: #000000;
+	font-size: 1.5rem;
+
+	top: 22%;
+	left: 21.5%;
+}
+
 .personsName {
 	color: black;
 	position: absolute;
@@ -52,8 +88,8 @@
 	text-shadow: none;
 	/* opacity: 1 !important; */
 
-	left: 10%;
-	top: 6%;
+	left: 25%;
+	top: 8%;
 }
 
 .convo1Bar {
@@ -68,9 +104,18 @@
 	/* left: 7%; */
 	top: 13.9%;
 }
+
 .convo1Bar:hover {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.92;
+}
+
+.rickTypingMessages {
+	position: absolute;
+	width: 15%;
+
+	left: 25%;
+	top: 30%;
 }
 
 .convo2Bar {
@@ -89,6 +134,18 @@
 .convo2Bar:hover {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.99;
+}
+
+.louisTypingMessages {
+	position: absolute;
+	font-size: 0.9rem;
+	color: #868686;
+	text-shadow: none;
+
+	width: 50%;
+
+	left: 26%;
+	top: 43%;
 }
 
 .RickConvo {

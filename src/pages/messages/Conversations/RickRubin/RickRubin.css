@@ -7,7 +7,7 @@
 	margin-top: -3%;
 	/* position: absolute; */
 
-	background-color: rgb(239, 239, 239);
+	background-color: rgb(247, 247, 247);
 	background-image: repeating-linear-gradient(
 		-45deg,
 		rgba(174, 174, 174, 0.25),
@@ -34,8 +34,19 @@
 
 .back {
 	position: absolute;
+	font-size: 2.2rem;
 	z-index: 1;
-	opacity: 0;
+	opacity: 1;
+
+	width: 11%;
+	height: 8%;
+
+	top: 5.5% !important;
+	left: 5% !important;
+}
+
+.caretPostion {
+	/* position: absolute; */
 }
 
 /* MY MESSAGES */

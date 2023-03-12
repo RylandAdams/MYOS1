@@ -7,11 +7,11 @@
 	margin-top: -3%;
 	/* position: absolute; */
 
-	background-color: rgb(180, 180, 180);
+	background-color: rgb(247, 247, 247);
 	background-image: repeating-linear-gradient(
 		-45deg,
-		rgba(255, 255, 255, 0.25),
-		rgba(255, 255, 255, 0.25) 1px,
+		rgba(174, 174, 174, 0.25),
+		rgba(225, 225, 225, 0.25) 1px,
 		transparent 1px,
 		transparent 6px
 	);
@@ -34,6 +34,57 @@
 
 .back {
 	position: absolute;
-	top: 8%;
-	left: 10%;
+	font-size: 2.2rem;
+	z-index: 1;
+	opacity: 1;
+
+	width: 11%;
+	height: 8%;
+
+	top: 5.5% !important;
+	left: 5% !important;
+}
+
+.textSongToLouisBubble {
+	position: absolute;
+	z-index: 1;
+	background: rgb(2, 154, 248);
+	opacity: 0.8;
+
+	width: 50%;
+	height: 17%;
+
+	top: 28%;
+	left: 42%;
+
+	border-radius: 15px 15px 4px 15px;
+}
+
+.textToLouisBubble {
+	position: absolute;
+	z-index: 1;
+	background: rgb(2, 154, 248);
+	opacity: 0.8;
+
+	width: 43%;
+	height: 6%;
+
+	top: 46%;
+	left: 49%;
+
+	border-radius: 15px 15px 4px 15px;
+}
+
+.textToLouis {
+	position: absolute;
+	z-index: 1;
+	font-size: small;
+	color: rgb(255, 255, 255);
+
+	text-shadow: none;
+
+	width: 42%;
+
+	top: 47.2%;
+	left: 52%;
 }
