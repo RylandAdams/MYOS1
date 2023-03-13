@@ -1,11 +1,7 @@
 .RickRubin {
-	/* width: 100%;
-	max-width: 330px; */
-
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-	/* position: absolute; */
 
 	background-color: rgb(247, 247, 247);
 	background-image: repeating-linear-gradient(
@@ -30,6 +26,8 @@
 	height: 100%;
 	left: 32%;
 	top: 5%;
+
+	pointer-events: none;
 }
 
 .back {
@@ -46,7 +44,6 @@
 }
 
 .caretPostion {
-	/* position: absolute; */
 }
 
 /* MY MESSAGES */
@@ -93,6 +90,8 @@
 
 	top: 30%;
 	left: 49%;
+
+	pointer-events: none;
 }
 
 /* RICK SIDE */

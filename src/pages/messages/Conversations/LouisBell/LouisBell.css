@@ -1,11 +1,7 @@
 .LouisBell {
-	/* width: 100%;
-	max-width: 330px; */
-
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-	/* position: absolute; */
 
 	background-color: rgb(247, 247, 247);
 	background-image: repeating-linear-gradient(
@@ -30,6 +26,8 @@
 	height: 100%;
 	left: 29.5%;
 	top: 0%;
+
+	pointer-events: none;
 }
 
 .back {
@@ -87,4 +85,5 @@
 
 	top: 47.2%;
 	left: 52%;
+	pointer-events: none;
 }

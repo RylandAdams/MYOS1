@@ -17,7 +17,6 @@
 
 .dock {
 	position: absolute;
-	/* display: flex; */
 	z-index: 0;
 	justify-content: center;
 	text-align: center;

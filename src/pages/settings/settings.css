@@ -1,11 +1,7 @@
 .settingsPage {
-	/* width: 100%;
-	max-width: 330px; */
-
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-	/* position: absolute; */
 
 	background-color: rgb(180, 180, 180);
 	background-image: repeating-linear-gradient(
@@ -16,4 +12,90 @@
 		transparent 6px
 	);
 	background-size: 4px 4px;
+}
+
+.autoBox {
+	position: absolute;
+	background-color: rgb(255, 255, 255);
+
+	top: 8%;
+	left: 13%;
+
+	width: 75%;
+	height: 6%;
+
+	opacity: 0.9;
+
+	border-radius: 10px;
+	box-shadow: 2px 3px 15px 2px rgb(151, 150, 150);
+}
+
+.autoText {
+	position: absolute;
+	z-index: 2;
+	color: rgb(55, 55, 55);
+	font-size: 0.9rem;
+
+	top: 9%;
+	left: 16%;
+
+	text-shadow: 1% !important;
+	pointer-events: none;
+}
+
+.on {
+	position: absolute;
+	z-index: 2;
+	color: rgb(55, 55, 55);
+	font-size: 0.9rem;
+
+	top: 9%;
+	left: 74%;
+
+	text-shadow: 1% !important;
+	pointer-events: none;
+}
+
+.settingsCaret {
+	position: absolute;
+	z-index: 1;
+	opacity: 1;
+	color: #d01616 !important;
+
+	width: 8%;
+	height: 10%;
+
+	top: 6.2%;
+	left: 80%;
+}
+
+.News {
+	position: absolute;
+	z-index: 1;
+	text-align: center;
+	color: rgb(255, 250, 250);
+
+	font-size: 0.9rem;
+
+	top: 35%;
+	left: 36%;
+
+	width: 30%;
+
+	pointer-events: none;
+}
+
+.Version {
+	position: absolute;
+	text-align: center;
+	color: rgb(255, 255, 255);
+
+	font-size: 0.9rem;
+
+	top: 45%;
+	left: 36%;
+
+	width: 30%;
+
+	pointer-events: none;
 }

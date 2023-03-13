@@ -15,7 +15,7 @@ const Weather = () => {
 					// frameBorder='1'
 				></Iframe>
 			</div>
-			<a href='https://cooltext.com'>
+			<a>
 				<img
 					src='https://images.cooltext.com/5647878.gif'
 					width='218'

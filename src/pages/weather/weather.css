@@ -8,20 +8,15 @@ iframe {
 }
 
 .weatherPage {
-	/* width: 100%;
-	max-width: 330px; */
-
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-	/* position: absolute; */
 
-	background-color: #7e9bb8;
-	opacity: 0.9;
+	background-color: rgb(180, 180, 180);
 	background-image: repeating-linear-gradient(
 		-45deg,
-		rgba(192, 196, 198, 0.25),
-		rgba(219, 219, 219, 0.25) 1px,
+		rgba(255, 255, 255, 0.25),
+		rgba(255, 255, 255, 0.25) 1px,
 		transparent 1px,
 		transparent 6px
 	);
@@ -35,6 +30,8 @@ iframe {
 	height: 25%;
 	left: 20.8%;
 	top: 14%;
+
+	pointer-events: none;
 }
 
 .warning {
@@ -48,6 +45,8 @@ iframe {
 	height: 9%;
 	left: 13.8%;
 	top: 6%;
+
+	pointer-events: none;
 }
 
 .heatwave {
@@ -61,7 +60,7 @@ iframe {
 	top: 10%;
 }
 
-.barbottom {
+/* .barbottom {
 	position: absolute;
 	z-index: 0;
 	background-color: black;
@@ -102,4 +101,4 @@ iframe {
 	height: 1.7%;
 	left: 7%;
 	top: 60%;
-}
+} */

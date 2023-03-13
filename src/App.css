@@ -22,14 +22,17 @@ button {
 	font-weight: lighter;
 	text-shadow: 0.5px 0.5px 3px black;
 	color: rgb(215, 215, 215);
-	/* transform: perspective(250px) rotateX(0.5deg); */
+}
+
+RxCaretRight {
+	fill: aquamarine !important;
+	color: none !important;
 }
 
 a {
 	text-decoration: none;
 }
 body {
-	/* transform: perspective(250px) rotateX(0.5deg); */
 	background-color: black;
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -72,7 +75,6 @@ body {
 
 	height: var(--doc-height);
 	max-height: 690px;
-	/* position: absolute; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -91,7 +93,6 @@ body {
 
 	height: var(--doc-height);
 	max-height: 690px;
-	/* transform: perspective(250px) rotateX(0.5deg); */
 }
 
 .iphoneContent {
@@ -99,11 +100,6 @@ body {
 	padding-top: 2%;
 	width: 89%;
 	height: 65%;
-	/* background: linear-gradient(
-		32deg,
-		rgb(24, 24, 24) 48%,
-		rgba(168, 168, 168, 1) 100%
-	); */
 }
 
 .wallpaper {

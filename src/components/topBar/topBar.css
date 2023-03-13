@@ -14,6 +14,8 @@
 	left: 5.5%;
 	top: 42%;
 	color: #d2d2d2;
+
+	pointer-events: none;
 }
 
 .cellularBars {
@@ -35,13 +37,13 @@
 	top: 42%;
 	transform: translateX(-50%);
 	color: #f0f0f0;
+
+	pointer-events: none;
 }
 
 .right {
 	position: absolute;
 	z-index: 1;
-
-	/* width: 4%; */
 
 	right: 4%;
 	top: 29%;
@@ -66,6 +68,8 @@
 	top: 42%;
 	color: #282828;
 	text-shadow: 0px 0px 0px rgb(157, 157, 157);
+
+	pointer-events: none;
 }
 
 .cellularBarsAlt {
@@ -89,14 +93,14 @@
 	transform: translateX(-50%);
 	color: #282828;
 	text-shadow: 0px 0px 0px black;
+
+	pointer-events: none;
 }
 
 .rightAlt {
-	/* font-size: 0.7rem; */
 	position: absolute;
 	z-index: 1;
 
 	right: 4%;
 	top: 29%;
-	/* text-shadow: 0px 0px 0px black; */
 }

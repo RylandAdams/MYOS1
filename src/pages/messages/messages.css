@@ -1,17 +1,13 @@
 .messagesPage {
-	/* width: 100%;
-	max-width: 330px; */
-
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-	/* position: absolute; */
 
-	background-color: rgb(247, 247, 247);
+	background-color: rgb(180, 180, 180);
 	background-image: repeating-linear-gradient(
 		-45deg,
-		rgba(174, 174, 174, 0.25),
-		rgba(225, 225, 225, 0.25) 1px,
+		rgba(255, 255, 255, 0.25),
+		rgba(255, 255, 255, 0.25) 1px,
 		transparent 1px,
 		transparent 6px
 	);
@@ -21,6 +17,7 @@
 .HEADERmessages {
 	position: absolute;
 	color: rgb(248, 248, 248) !important;
+	background-color: none;
 
 	z-index: 1;
 	font-weight: 500;
@@ -30,6 +27,8 @@
 	height: 100%;
 	left: 28.7%;
 	top: -0.2%;
+
+	pointer-events: none;
 }
 
 .messageCaret {
@@ -37,7 +36,6 @@
 	z-index: 1;
 	opacity: 1;
 	color: #000000 !important;
-	/* background-color: #000000; */
 
 	width: 20%;
 	height: 40%;
@@ -70,7 +68,7 @@
 	font-size: 1.5rem;
 
 	top: 22%;
-	left: 18%;
+	left: 16%;
 }
 
 .circleNameLB {
@@ -87,7 +85,6 @@
 	position: absolute;
 	font-weight: bold;
 	text-shadow: none !important;
-	/* opacity: 1 !important; */
 
 	left: 25%;
 	top: 8%;
@@ -97,12 +94,13 @@
 	position: absolute;
 	z-index: 1;
 
+	background-color: rgb(255, 255, 255);
 	outline: 0.15rem solid rgb(106, 106, 106);
 
-	opacity: 0.7;
+	opacity: 0.8;
 	width: 100%;
 	height: 16%;
-	/* left: 7%; */
+
 	top: 13.9%;
 }
 
@@ -122,13 +120,13 @@
 .convo2Bar {
 	position: absolute;
 	z-index: 1;
-
+	background-color: rgb(255, 255, 255);
 	outline: 0.15rem solid rgb(106, 106, 106);
 
-	opacity: 0.7;
+	opacity: 0.8;
 	width: 100%;
 	height: 16%;
-	/* left: 7%; */
+
 	top: 30.2%;
 }
 
