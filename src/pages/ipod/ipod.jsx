@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ipod.css';
 
+import Iframe from 'react-iframe';
 import explicit from '../../assets/songs/explicit.png';
 import { BsMusicNote } from 'react-icons/bs';
 import { MdOutlineDownloading } from 'react-icons/md';
@@ -21,9 +22,16 @@ const Ipod = () => {
 	const [song1IsPlaying, setSong1IsPlaying] = useState(false);
 	const [song2IsPlaying, setSong2IsPlaying] = useState(false);
 
+	const clickSong1 = () => {
+		console.log('clicking');
+		document
+			.getElementById('denialSC')
+			.contentDocument.getElementsByClassName('playButton__overlay')
+			.click();
+	};
+
 	useEffect(() => {
 		// TEMP FIX FOR PLAYING 1 SONG AT A TIME
-
 		// Dopamine
 		if (song1IsPlaying === true) {
 			Dopamine.load();
@@ -31,7 +39,6 @@ const Ipod = () => {
 		} else {
 			Dopamine.pause();
 		}
-
 		// Denial
 		if (song2IsPlaying === true) {
 			Denial.load();
@@ -49,9 +56,17 @@ const Ipod = () => {
 			<div className='filterBar'></div>
 			<div className='byDate'></div>
 			<div className='songsListed'>
+				<Iframe
+					width='95%'
+					id='denialSC'
+					height='100'
+					scrolling='no'
+					allow='autoplay'
+					src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1583243632%3Fsecret_token%3Ds-f5krrSVSOia&color=%23250405&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=false'
+				></Iframe>
 				<button
 					className='song1'
-					onClick={() => setSong1IsPlaying(!song1IsPlaying)}
+					onClick={() => clickSong1()}
 				>
 					<img
 						className='songImg'
@@ -66,7 +81,7 @@ const Ipod = () => {
 				<div className='notReleased'>???</div>
 				<button
 					className='song2'
-					onClick={() => setSong2IsPlaying(!song2IsPlaying)}
+					onClick={() => clickSong1()}
 				>
 					<img
 						className='songImg'
