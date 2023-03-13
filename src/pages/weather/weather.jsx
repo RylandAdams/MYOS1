@@ -25,17 +25,6 @@ const Weather = () => {
 				/>
 			</a>
 			<h1 className='warning'>WARNING</h1>
-
-			{/* <img
-				src={Warning}
-				alt='Warning'
-				className='warning'
-			/> */}
-			{/* <img
-				src={heatwave}
-				alt='heatwave'
-				className='heatwave'
-			/> */}
 			<div className='barbottom'></div>
 			<div className='barbottomUp1'></div>
 			<div className='barbottomUp2'></div>
