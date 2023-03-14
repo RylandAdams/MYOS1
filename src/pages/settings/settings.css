@@ -39,7 +39,7 @@
 	top: 9%;
 	left: 16%;
 
-	text-shadow: 1% !important;
+	text-shadow: none !important;
 	pointer-events: none;
 }
 
@@ -52,7 +52,7 @@
 	top: 9%;
 	left: 74%;
 
-	text-shadow: 1% !important;
+	text-shadow: none !important;
 	pointer-events: none;
 }
 
