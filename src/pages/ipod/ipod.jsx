@@ -7,39 +7,12 @@ import { BsMusicNote } from 'react-icons/bs';
 import { MdOutlineDownloading } from 'react-icons/md';
 import { AiTwotoneStar, AiOutlineSearch } from 'react-icons/ai';
 
-import dopamine from '../../assets/songs/Dopamine.wav';
 import dopamineArt from '../../assets/songs/Dopamine.PNG';
-
-import denial from '../../assets/songs/Denial.wav';
 import denialArt from '../../assets/songs/Denial.JPG';
 
 import PWSHArt from '../../assets/songs/PWSH.jpg';
 
-const Dopamine = new Audio(dopamine);
-const Denial = new Audio(denial);
-
 const Ipod = () => {
-	const [song1IsPlaying, setSong1IsPlaying] = useState(false);
-	const [song2IsPlaying, setSong2IsPlaying] = useState(false);
-
-	useEffect(() => {
-		// TEMP FIX FOR PLAYING 1 SONG AT A TIME
-		// Dopamine
-		if (song1IsPlaying === true) {
-			Dopamine.load();
-			Dopamine.play();
-		} else {
-			Dopamine.pause();
-		}
-		// Denial
-		if (song2IsPlaying === true) {
-			Denial.load();
-			Denial.play();
-		} else {
-			Denial.pause();
-		}
-	}, [song1IsPlaying, song2IsPlaying]);
-
 	return (
 		<div className='ipod'>
 			<div className='topBarIpod'></div>
@@ -49,15 +22,11 @@ const Ipod = () => {
 			<div className='byDate'></div>
 			<div className='songsListed'>
 				<button className='song1'>
-					<div className='FrameDopamineTop'></div>
-					<div className='FrameDopamineBtm'></div>
-					<Iframe
+					<iframe
 						className='playerFrameDopamine'
-						scrolling='no'
-						frameborder='no'
 						allow='autoplay'
-						src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1454684725&color=%23250405%3Fsecret_token%3Ds-JAy8urr8Unw&color=%23250405&auto_play=false&hide_related=false&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false&single_active=true&liking=false'
-					></Iframe>
+						src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1454684725&color=%23171a0f&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&single_active=true&liking=false&show_artwork=false'
+					></iframe>
 
 					<img
 						className='songImg'
@@ -70,24 +39,26 @@ const Ipod = () => {
 					</div>
 				</button>
 				<div className='notReleased'>???</div>
-				<button
-					className='song2'
-					onClick={() => setSong2IsPlaying()}
-				>
+				<button className='song2'>
 					<img
 						className='songImg'
 						src={denialArt}
 						alt='DopamineArt'
 					/>
+					<Iframe
+						className='playerFrameDenial'
+						scrolling='no'
+						frameborder='no'
+						allow='autoplay'
+						src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1454686057%3Fsecret_token%3Ds-JAy8urr8Unw&color=%23250405&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&single_active=true&liking=false&show_artwork=false'
+					></Iframe>
+
 					<div className='songText'>
-						<h2 className='songName2'>Denial</h2>
-						<h5 className='artistName2'>RYLAND</h5>
+						{/* <h2 className='songName2'>Denial</h2>
+						<h5 className='artistName2'>RYLAND</h5> */}
 					</div>
 				</button>
-				<button
-					className='song3'
-					onClick={() => setSong1IsPlaying(!song1IsPlaying)}
-				>
+				<button className='song3'>
 					<img
 						className='songImg'
 						src={PWSHArt}

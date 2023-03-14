@@ -16,6 +16,7 @@
 
 Button:hover {
 	background-color: rgb(255, 255, 255);
+	cursor: default;
 	opacity: 0.9;
 }
 
@@ -29,7 +30,7 @@ Button:hover {
 
 	z-index: 1;
 	font-weight: 500;
-	opacity: 0.8;
+	opacity: 1;
 
 	width: 100%;
 	height: 100%;
@@ -268,33 +269,11 @@ Button:hover {
 	z-index: 0;
 	width: 130%;
 	height: 59%;
-	top: -13.5%;
+	top: -13.65%;
 	left: -2%;
 	border: none;
 	transform: scale(0.5);
-	border-radius: 9px;
-}
-
-.FrameDopamineTop {
-	position: absolute;
-	z-index: 2;
-	width: 67%;
-	height: 2.5%;
-
-	top: 0.7%;
-	left: 29%;
-	background-color: rgb(255, 255, 255);
-}
-
-.FrameDopamineBtm {
-	position: absolute;
-	z-index: 2;
-	width: 67%;
-	height: 3%;
-
-	top: 28%;
-	left: 29%;
-	background-color: rgb(255, 255, 255);
+	border-radius: 12px;
 }
 
 .songName1 {
@@ -328,6 +307,18 @@ Button:hover {
 	cursor: pointer;
 	background-color: rgb(255, 255, 255);
 	border-radius: 9px;
+}
+
+.playerFrameDenial {
+	position: absolute;
+	z-index: 0;
+	width: 130%;
+	height: 59%;
+	top: 20.57%;
+	left: -2%;
+	border: none;
+	transform: scale(0.5);
+	border-radius: 12px;
 }
 
 .songName2 {
