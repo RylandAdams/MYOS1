@@ -23,11 +23,6 @@ Button:hover {
 	border: none;
 }
 
-Iframe span {
-	color: black;
-	background-color: red;
-}
-
 .HEADER {
 	position: absolute;
 	color: rgb(248, 248, 248) !important;
@@ -265,6 +260,41 @@ Iframe span {
 	cursor: pointer;
 	background-color: rgb(255, 255, 255);
 	border-radius: 9px;
+	overflow: hidden;
+}
+
+.playerFrameDopamine {
+	position: absolute;
+	z-index: 0;
+	width: 130%;
+	height: 59%;
+	top: -13.5%;
+	left: -2%;
+	border: none;
+	transform: scale(0.5);
+	border-radius: 9px;
+}
+
+.FrameDopamineTop {
+	position: absolute;
+	z-index: 2;
+	width: 67%;
+	height: 2.5%;
+
+	top: 0.7%;
+	left: 29%;
+	background-color: rgb(255, 255, 255);
+}
+
+.FrameDopamineBtm {
+	position: absolute;
+	z-index: 2;
+	width: 67%;
+	height: 3%;
+
+	top: 28%;
+	left: 29%;
+	background-color: rgb(255, 255, 255);
 }
 
 .songName1 {

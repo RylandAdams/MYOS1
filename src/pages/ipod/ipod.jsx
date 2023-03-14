@@ -22,14 +22,6 @@ const Ipod = () => {
 	const [song1IsPlaying, setSong1IsPlaying] = useState(false);
 	const [song2IsPlaying, setSong2IsPlaying] = useState(false);
 
-	const clickSong1 = () => {
-		console.log('clicking');
-		document
-			.getElementById('denialSC')
-			.contentDocument.getElementsByClassName('playButton__overlay')
-			.click();
-	};
-
 	useEffect(() => {
 		// TEMP FIX FOR PLAYING 1 SONG AT A TIME
 		// Dopamine
@@ -56,32 +48,31 @@ const Ipod = () => {
 			<div className='filterBar'></div>
 			<div className='byDate'></div>
 			<div className='songsListed'>
-				<Iframe
-					width='95%'
-					id='denialSC'
-					height='100'
-					scrolling='no'
-					allow='autoplay'
-					src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1583243632%3Fsecret_token%3Ds-f5krrSVSOia&color=%23250405&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=false'
-				></Iframe>
-				<button
-					className='song1'
-					onClick={() => clickSong1()}
-				>
+				<button className='song1'>
+					<div className='FrameDopamineTop'></div>
+					<div className='FrameDopamineBtm'></div>
+					<Iframe
+						className='playerFrameDopamine'
+						scrolling='no'
+						frameborder='no'
+						allow='autoplay'
+						src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1454684725&color=%23250405%3Fsecret_token%3Ds-JAy8urr8Unw&color=%23250405&auto_play=false&hide_related=false&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false&single_active=true&liking=false'
+					></Iframe>
+
 					<img
 						className='songImg'
 						src={dopamineArt}
 						alt='DenialArt'
 					/>
 					<div className='songText'>
-						<h2 className='songName1'>Dopamine</h2>
-						<h5 className='artistName1'>RYLAND</h5>
+						{/* <h2 className='songName1'>Dopamine</h2>
+						<h5 className='artistName1'>RYLAND</h5> */}
 					</div>
 				</button>
 				<div className='notReleased'>???</div>
 				<button
 					className='song2'
-					onClick={() => clickSong1()}
+					onClick={() => setSong2IsPlaying()}
 				>
 					<img
 						className='songImg'
