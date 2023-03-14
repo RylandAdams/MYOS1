@@ -33,7 +33,7 @@
 	justify-content: center;
 	z-index: 1;
 	text-align: center;
-	left: 50.2%;
+	left: 50.5%;
 	top: 42%;
 	transform: translateX(-50%);
 	color: #f0f0f0;
@@ -46,7 +46,7 @@
 	z-index: 1;
 
 	right: 4%;
-	top: 29%;
+	top: 22%;
 }
 
 /* ALT FOR WHEN NOT ON HOMEPAGE */
@@ -88,7 +88,7 @@
 	justify-content: center;
 	z-index: 1;
 	text-align: center;
-	left: 50.2%;
+	left: 50.5%;
 	top: 42%;
 	transform: translateX(-50%);
 	color: #282828;
@@ -104,3 +104,15 @@
 	right: 4%;
 	top: 29%;
 }
+
+/* @media screen and (max-height: 650px) {
+	.right {
+		top: 12.5%;
+		transform: scale(0.9);
+	}
+
+	.rightAlt {
+		top: 12.5%;
+		transform: scale(0.9);
+	}
+} */

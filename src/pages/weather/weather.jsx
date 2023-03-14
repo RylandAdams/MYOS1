@@ -2,9 +2,6 @@ import React from 'react';
 import Iframe from 'react-iframe';
 import './weather.css';
 
-import Warning from './WeatherImgs/Warning.png';
-import heatwave from './WeatherImgs/heatwave.png';
-
 const Weather = () => {
 	return (
 		<div className='weatherPage'>
@@ -12,19 +9,11 @@ const Weather = () => {
 				<Iframe
 					className='spongebob'
 					src='https://gifer.com/embed/3x'
-					// frameBorder='1'
 				></Iframe>
 			</div>
-			<a>
-				<img
-					src='https://images.cooltext.com/5647878.gif'
-					width='218'
-					height='85'
-					alt='WARNING'
-					className='heatwave'
-				/>
-			</a>
 			<h1 className='warning'>WARNING</h1>
+			<h1 className='heatwave'>HEATWAVE</h1>
+			<h1 className='weatherDate'>MARCH 31</h1>
 			<div className='barbottom'></div>
 			<div className='barbottomUp1'></div>
 			<div className='barbottomUp2'></div>
