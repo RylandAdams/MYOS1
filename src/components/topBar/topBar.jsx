@@ -4,6 +4,7 @@ import './topBar.css';
 
 import BatteryGauge from 'react-battery-gauge';
 import { GiNetworkBars } from 'react-icons/gi';
+import { CgBatteryFull } from 'react-icons/cg';
 
 const TopBar = () => {
 	const [date, setDate] = useState(new Date());
@@ -46,10 +47,7 @@ const TopBar = () => {
 				})}
 			</div>
 			<div className={location.pathname === '/' ? 'right' : 'rightAlt'}>
-				<BatteryGauge
-					size={20}
-					value={45}
-				/>
+				<CgBatteryFull />
 			</div>
 		</div>
 	);
