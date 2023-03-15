@@ -43,17 +43,15 @@
 
 .right {
 	position: absolute;
-	justify-content: center;
 	z-index: 1;
 
-	top: 42%;
+	top: 36%;
 	left: 89.5%;
 
-	transform: scale(1.25);
+	opacity: 0.95;
 }
 
 /* ALT FOR WHEN NOT ON HOMEPAGE */
-
 .topBarAlt {
 	position: absolute;
 	z-index: 1;
@@ -104,30 +102,8 @@
 	position: absolute;
 	z-index: 1;
 
-	right: 4%;
-	top: 29%;
+	top: 36%;
+	left: 89.5%;
+
+	opacity: 0.75;
 }
-
-/* @media screen and (max-height: 720px) {
-	.right {
-		top: 23.5%;
-		transform: scale(0.9);
-	}
-
-	.rightAlt {
-		top: 23.5%;
-		transform: scale(0.9);
-	}
-} */
-
-/* @media screen and (max-height: 520px) {
-	.right {
-		top: 40.5%;
-		transform: scale(0.5);
-	}
-
-	.rightAlt {
-		top: 40.5%;
-		transform: scale(0.5);
-	}
-} */
