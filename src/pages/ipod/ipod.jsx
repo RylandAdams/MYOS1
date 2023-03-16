@@ -9,10 +9,10 @@ import { MdOutlineDownloading } from 'react-icons/md';
 import { AiTwotoneStar, AiOutlineSearch } from 'react-icons/ai';
 
 import dopamineArt from '../../assets/songs/Dopamine.PNG';
-import dopamine from '../../assets/songs/test.wav';
+import dopamine from '../../assets/songs/DopamineClip.mp3';
 
 import denialArt from '../../assets/songs/Denial.JPG';
-import denial from '../../assets/songs/test2.wav';
+import denial from '../../assets/songs/DenialClip.mp3';
 
 import PWSHArt from '../../assets/songs/PWSH.jpg';
 
@@ -28,7 +28,6 @@ const Ipod = () => {
 		Dopamine.pause();
 		Denial.pause();
 
-		// Dopamine
 		if (curretSong === 'dopamine') {
 			setPlay(true);
 			Dopamine.load();
