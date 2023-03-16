@@ -30,6 +30,7 @@
 
 	pointer-events: none;
 }
+
 @media screen and (max-height: 600px) {
 	.HEADERmessages {
 		position: absolute;

@@ -1,18 +1,62 @@
 import React, { useState, useEffect } from 'react';
+
 import './ipod.css';
 
 import Iframe from 'react-iframe';
 import explicit from '../../assets/songs/explicit.png';
-import { BsMusicNote } from 'react-icons/bs';
+import { BsMusicNote, BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { MdOutlineDownloading } from 'react-icons/md';
 import { AiTwotoneStar, AiOutlineSearch } from 'react-icons/ai';
 
 import dopamineArt from '../../assets/songs/Dopamine.PNG';
+import dopamine from '../../assets/songs/test.wav';
+
 import denialArt from '../../assets/songs/Denial.JPG';
+import denial from '../../assets/songs/test2.wav';
 
 import PWSHArt from '../../assets/songs/PWSH.jpg';
 
+const Dopamine = new Audio(dopamine);
+const Denial = new Audio(denial);
+
 const Ipod = () => {
+	const [curretSong, setCurrentSong] = useState('none');
+	const [play, setPlay] = useState(true);
+
+	useEffect(() => {
+		// TEMP FIX FOR PLAYING 1 SONG AT A TIME
+		Dopamine.pause();
+		Denial.pause();
+
+		// Dopamine
+		if (curretSong === 'dopamine') {
+			setPlay(true);
+			Dopamine.load();
+			Dopamine.play();
+		} else if (curretSong === 'denial') {
+			setPlay(true);
+			Denial.load();
+			Denial.play();
+		}
+	}, [curretSong]);
+
+	useEffect(() => {
+		//PLAY PAUSE
+
+		// Dopamine
+		if (curretSong === 'dopamine' && play === false) {
+			Dopamine.pause();
+		} else if (curretSong === 'dopamine' && play === true) {
+			Dopamine.play();
+		}
+
+		if (curretSong === 'denial' && play === false) {
+			Denial.pause();
+		} else if (curretSong === 'denial' && play === true) {
+			Denial.play();
+		}
+	}, [play]);
+
 	return (
 		<div className='ipod'>
 			<div className='topBarIpod'></div>
@@ -21,43 +65,84 @@ const Ipod = () => {
 			<div className='filterBar'></div>
 			<div className='byDate'></div>
 			<div className='songsListed'>
-				<button className='song1'>
-					<iframe
-						className='playerFrameDopamine'
-						allow='autoplay'
-						src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1454684725&color=%23171a0f&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&single_active=true&liking=false&show_artwork=false'
-					></iframe>
-
+				<button
+					onClick={() => setCurrentSong('dopamine')}
+					className='song1'
+				>
+					{curretSong === 'dopamine' ? (
+						<button
+							onClick={() => setPlay(!play)}
+							className='pausePlayOverlaySong1'
+						>
+							<div className='pausePlayText'>
+								{play === true ? (
+									<BsFillPauseFill
+										className='pausePlayIcon'
+										color='rgb(0, 0, 0)'
+										fill='rgb(0, 0, 0)'
+									/>
+								) : (
+									<BsFillPlayFill
+										className='pausePlayIcon'
+										color='rgb(0, 0, 0)'
+										fill='rgb(0, 0, 0)'
+									/>
+								)}
+							</div>
+						</button>
+					) : (
+						''
+					)}
 					<img
 						className='songImg'
 						src={dopamineArt}
 						alt='DenialArt'
 					/>
 					<div className='songText'>
-						{/* <h2 className='songName1'>Dopamine</h2>
-						<h5 className='artistName1'>RYLAND</h5> */}
+						<h2 className='songName1'>Dopamine</h2>
+						<h5 className='artistName1'>RYLAND</h5>
 					</div>
 				</button>
-				<div className='notReleased'>???</div>
-				<button className='song2'>
+
+				<button
+					onClick={() => setCurrentSong('denial')}
+					className='song2'
+				>
+					{curretSong === 'denial' ? (
+						<button
+							onClick={() => setPlay(!play)}
+							className='pausePlayOverlaySong2'
+						>
+							<div className='pausePlayText'>
+								{play === true ? (
+									<BsFillPauseFill
+										className='pausePlayIcon'
+										color='rgb(0, 0, 0)'
+										fill='rgb(0, 0, 0)'
+									/>
+								) : (
+									<BsFillPlayFill
+										className='pausePlayIcon'
+										color='rgb(0, 0, 0)'
+										fill='rgb(0, 0, 0)'
+									/>
+								)}
+							</div>
+						</button>
+					) : (
+						''
+					)}
 					<img
 						className='songImg'
 						src={denialArt}
 						alt='DopamineArt'
 					/>
-					<Iframe
-						className='playerFrameDenial'
-						scrolling='no'
-						frameborder='no'
-						allow='autoplay'
-						src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1454686057%3Fsecret_token%3Ds-JAy8urr8Unw&color=%23250405&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&single_active=true&liking=false&show_artwork=false'
-					></Iframe>
-
 					<div className='songText'>
-						{/* <h2 className='songName2'>Denial</h2>
-						<h5 className='artistName2'>RYLAND</h5> */}
+						<h2 className='songName2'>Denial</h2>
+						<h5 className='artistName2'>RYLAND</h5>
 					</div>
 				</button>
+				<div className='notReleased'>???</div>
 				<button className='song3'>
 					<img
 						className='songImg'
