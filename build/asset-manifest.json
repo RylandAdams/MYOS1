@@ -1,18 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.42c88569.css",
-    "main.js": "/static/js/main.eee0d274.js",
-    "static/media/Dopamine.wav": "/static/media/Dopamine.10f50d896b062f945905.wav",
-    "static/media/Denial.wav": "/static/media/Denial.8f5079bab750b895394b.wav",
+    "main.css": "/static/css/main.03c29291.css",
+    "main.js": "/static/js/main.984e86ab.js",
     "static/media/RylandStudioSide.png": "/static/media/RylandStudioSide.afb1255b97020cdd6215.png",
     "static/media/RiceNSpice.png": "/static/media/RiceNSpice.e9fbcd27d93bdccf22f2.png",
-    "static/media/SkateboardBed.png": "/static/media/SkateboardBed.710f8f8003a6b9027188.png",
     "static/media/FineByMe.png": "/static/media/FineByMe.2e8d95d96ddefffc5f72.png",
     "static/media/BHDenialSingle.png": "/static/media/BHDenialSingle.a60496e32337753888d5.png",
-    "static/media/OGDenialSingle.png": "/static/media/OGDenialSingle.7d6573d9bdf18d55ee19.png",
     "static/media/RhodesRoom.png": "/static/media/RhodesRoom.9137ad308a6aca831370.png",
     "static/media/DriveBlur.png": "/static/media/DriveBlur.d03bcac5c26fa3cec629.png",
     "static/media/Glisan.png": "/static/media/Glisan.4b56fb78a95aef2172e9.png",
+    "static/media/DenialClip.mp3": "/static/media/DenialClip.48b10e8ccbd342a4ba74.mp3",
+    "static/media/DopamineClip.mp3": "/static/media/DopamineClip.419eb4af68a629243784.mp3",
     "static/media/Denial.JPG": "/static/media/Denial.97f484231efd5f1f69d9.JPG",
     "static/media/HAND.jpg": "/static/media/HAND.16bddc8527f83d2c0db1.jpg",
     "static/media/Dopamine.PNG": "/static/media/Dopamine.2fdf725b358e45ba101f.PNG",
@@ -20,6 +18,7 @@
     "static/media/safari.png": "/static/media/safari.dbd13df8e53b90b20e42.png",
     "static/media/mail.png": "/static/media/mail.6ce1167ec60342af07ea.png",
     "static/media/flappybird.png": "/static/media/flappybird.1e6975e4a0b0e9d64b4e.png",
+    "static/media/Flow.png": "/static/media/Flow.7d7a6cbf1dd7c7d893ff.png",
     "static/media/spotify.png": "/static/media/spotify.0c939e16d8356b97fd67.png",
     "static/media/Instagram.png": "/static/media/Instagram.07af7a92b954c6549118.png",
     "static/media/Iphone.png": "/static/media/Iphone.e7ab374a8567d79e6d92.png",
@@ -27,20 +26,22 @@
     "static/media/settings.png": "/static/media/settings.e2ec5098ce8f9649e260.png",
     "static/media/DockBar.jpg": "/static/media/DockBar.6074df969408ca4b2fb0.jpg",
     "static/media/weather.png": "/static/media/weather.9a2aa9b93b50adaf72c0.png",
-    "static/media/Flow.png": "/static/media/Flow.3442f763925796ec3a0b.png",
+    "static/media/PWSH.jpg": "/static/media/PWSH.b2e5cc785b7f705f65d3.jpg",
     "static/media/soundcloud.png": "/static/media/soundcloud.b0d51012db15d9d85eaf.png",
     "static/media/calender.png": "/static/media/calender.06677eeae7f8d794f9b3.png",
     "static/media/messages.png": "/static/media/messages.b8f1b653c6ec1d6ca5a6.png",
     "static/media/apple.png": "/static/media/apple.eb52896fe16e63bd98e7.png",
     "static/media/youtube.jpg": "/static/media/youtube.42a55d825415eb67192a.jpg",
+    "static/media/typing.png": "/static/media/typing.576fe80f78a1d642c1e7.png",
     "static/media/ipod.png": "/static/media/ipod.5121dcf77fd0fce3351e.png",
+    "static/media/explicit.png": "/static/media/explicit.728eb2b4b5b7145b448e.png",
     "static/media/iCal-20230308-131800.ics": "/static/media/iCal-20230308-131800.dd98dd692dfc596935e3.ics",
     "index.html": "/index.html",
-    "main.42c88569.css.map": "/static/css/main.42c88569.css.map",
-    "main.eee0d274.js.map": "/static/js/main.eee0d274.js.map"
+    "main.03c29291.css.map": "/static/css/main.03c29291.css.map",
+    "main.984e86ab.js.map": "/static/js/main.984e86ab.js.map"
   },
   "entrypoints": [
-    "static/css/main.42c88569.css",
-    "static/js/main.eee0d274.js"
+    "static/css/main.03c29291.css",
+    "static/js/main.984e86ab.js"
   ]
 }
