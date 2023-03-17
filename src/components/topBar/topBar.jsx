@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './topBar.css';
 
-import BatteryGauge from 'react-battery-gauge';
 import { GiNetworkBars } from 'react-icons/gi';
 import { FaBatteryFull } from 'react-icons/fa';
 
