@@ -16,36 +16,43 @@ import BHDenialSingle from './photos/BHDenialSingle.png';
 const photos = [
 	{
 		src: DriveBlur,
+		loading: 'lazy',
 		width: 1,
 		height: 0.6,
 	},
 	{
 		src: RylandStudioSide,
+		loading: 'lazy',
 		width: 1,
 		height: 0.8,
 	},
 	{
 		src: Glisan,
+		loading: 'lazy',
 		width: 0.1,
 		height: 0.1,
 	},
 	{
 		src: BHDenialSingle,
+		loading: 'lazy',
 		width: 1,
 		height: 1,
 	},
 	{
 		src: FineByMe,
+		loading: 'lazy',
 		width: 1,
 		height: 1,
 	},
 	{
 		src: RiceNSpice,
+		loading: 'lazy',
 		width: 1,
 		height: 1,
 	},
 	{
 		src: RhodesRoom,
+		loading: 'lazy',
 		width: 1,
 		height: 1,
 	},

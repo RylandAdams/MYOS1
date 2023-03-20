@@ -54,3 +54,7 @@
 
 	transform: translateX(-50%);
 }
+
+.apps {
+	box-shadow: none !important;
+}

@@ -8,6 +8,7 @@ const Weather = () => {
 			<div>
 				<Iframe
 					className='spongebob'
+					loading='lazy'
 					src='https://gifer.com/embed/3x'
 				></Iframe>
 			</div>

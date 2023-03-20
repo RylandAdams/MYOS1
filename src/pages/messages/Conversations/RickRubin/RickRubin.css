@@ -96,6 +96,21 @@
 	border-radius: 15px 15px 4px 15px;
 }
 
+.textSongToRickBubbleInner {
+	position: absolute;
+	z-index: 2;
+	background: rgb(202, 202, 202);
+	opacity: 0.2;
+
+	width: 48%;
+	height: 15.5%;
+
+	top: 40.75%;
+	left: 43%;
+
+	border-radius: 10px 10px 10px 10px;
+}
+
 .textToRick {
 	position: absolute;
 	z-index: 1;
@@ -110,6 +125,33 @@
 	left: 49%;
 
 	pointer-events: none;
+}
+
+.song001 {
+	position: absolute;
+	z-index: 3;
+	opacity: 1 !important;
+
+	width: 20%;
+	height: 14%;
+
+	left: 45%;
+	top: 41.5%;
+}
+
+.songName001 {
+	position: absolute;
+	color: rgb(255, 255, 255);
+	text-shadow: none;
+	font-size: 0.68rem;
+	z-index: 3;
+	opacity: 1 !important;
+
+	width: 20%;
+	height: 14% !important;
+
+	left: 69%;
+	bottom: 42%;
 }
 
 /* RICK SIDE */

@@ -167,6 +167,17 @@ Button:hover {
 	top: 14%;
 	right: 74.7%;
 }
+@media (max-width: 641px) {
+	.pausePlayIcon {
+		position: absolute;
+		z-index: 11;
+		width: 20%;
+		height: 75%;
+
+		top: 14%;
+		right: 72.7%;
+	}
+}
 
 .songsListed {
 	position: absolute;

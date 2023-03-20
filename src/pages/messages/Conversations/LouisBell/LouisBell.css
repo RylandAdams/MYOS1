@@ -24,8 +24,8 @@
 
 	width: 100%;
 	height: 100%;
-	left: 29.5%;
-	top: 0%;
+	left: 35%;
+	top: 0.2%;
 
 	pointer-events: none;
 }
@@ -104,4 +104,46 @@
 	top: 47.2%;
 	left: 52%;
 	pointer-events: none;
+}
+
+.song002 {
+	position: absolute;
+	z-index: 3;
+	opacity: 1 !important;
+
+	width: 20%;
+	height: 14%;
+
+	left: 45%;
+	top: 29.5%;
+}
+
+.songName002 {
+	position: absolute;
+	color: rgb(255, 255, 255);
+	text-shadow: none;
+	font-size: 0.68rem;
+	z-index: 3;
+	opacity: 1 !important;
+
+	width: 20%;
+	height: 14% !important;
+
+	left: 69%;
+	bottom: 54%;
+}
+
+.textSongToLouisBubbleInner {
+	position: absolute;
+	z-index: 2;
+	background: rgb(202, 202, 202);
+	opacity: 0.2;
+
+	width: 48%;
+	height: 15.5%;
+
+	top: 28.75%;
+	left: 43%;
+
+	border-radius: 10px 10px 10px 10px;
 }

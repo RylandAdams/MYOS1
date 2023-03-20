@@ -73,7 +73,7 @@ body {
 	width: 361px;
 	max-width: 361px;
 
-	height: var(--doc-height);
+	height: calc(var(--doc-height) - 20px);
 	max-height: 690px;
 	display: flex;
 	justify-content: center;
@@ -91,7 +91,7 @@ body {
 	width: 109%;
 	max-width: 361px;
 
-	height: var(--doc-height);
+	height: calc(var(--doc-height) - 20px);
 	max-height: 690px;
 }
 
