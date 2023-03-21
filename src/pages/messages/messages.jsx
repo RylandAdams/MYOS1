@@ -33,7 +33,7 @@ const Messages = () => {
 				<div className='nameCircle'>
 					<div className='circleNameLB'>LB</div>
 				</div>
-				<div className='personsName'>Louis Bell</div>
+				<div className='personsName'>Mr.Bell</div>
 				<div className='louisTypingMessages'>This is where im at</div>
 				<RxCaretRight className='messageCaret' />
 			</Link>

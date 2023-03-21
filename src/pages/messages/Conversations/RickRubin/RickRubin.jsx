@@ -25,7 +25,10 @@ const RickRubin = () => {
 			</div>
 			<a className='textSongToRickBubble'></a>
 			<a className='textSongToRickBubbleInner'></a>
-			<a href='https://www.youtube.com/channel/UCnsf4Ul_Rl3E3DStJQOQD9g'>
+			<a
+				target='_blank'
+				href='https://www.youtube.com/channel/UCnsf4Ul_Rl3E3DStJQOQD9g'
+			>
 				<img
 					src={song001}
 					alt='typing'

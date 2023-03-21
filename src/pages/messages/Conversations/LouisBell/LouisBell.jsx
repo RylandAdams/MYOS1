@@ -19,7 +19,10 @@ const LouisBell = () => {
 			<h1 className='HEADERLouisBell'>Mr.Bell</h1>
 			<div className='textSongToLouisBubble'></div>
 			<a className='textSongToLouisBubbleInner'></a>
-			<a href='https://www.youtube.com/@RYLANDOfficial/featured'>
+			<a
+				target='_blank'
+				href='https://www.youtube.com/@RYLANDOfficial/featured'
+			>
 				<img
 					src={song002}
 					alt='typing'

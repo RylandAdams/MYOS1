@@ -58,3 +58,59 @@
 .apps {
 	box-shadow: none !important;
 }
+
+/* POP UP */
+
+.notificationAlert {
+	position: absolute;
+	background-color: rgb(255, 255, 255);
+	z-index: 12 !important;
+	opacity: 0.9;
+
+	width: 85%;
+	height: 11%;
+	left: 7.5%;
+	top: 5%;
+
+	border-radius: 15px;
+	box-shadow: 1.7px 1px 10px rgb(64, 64, 64);
+}
+
+.notificationTextTop {
+	position: absolute;
+	color: rgb(23, 23, 23);
+	font-size: 1rem;
+	opacity: 0.9;
+
+	left: 30%;
+	top: 10%;
+
+	text-shadow: none !important;
+}
+
+.notificationTextBottem {
+	position: absolute;
+	color: rgb(91, 91, 91);
+
+	font-size: 0.95rem;
+
+	opacity: 0.9;
+
+	left: 30%;
+	top: 50%;
+
+	text-shadow: none !important;
+}
+
+.notificationImg {
+	position: absolute;
+	color: black;
+
+	height: 85%;
+
+	left: 5%;
+	top: 8%;
+
+	border-radius: 5px;
+	/* box-shadow: 1px 1px 5px rgb(129, 129, 129); */
+}
