@@ -26,7 +26,7 @@ const Messages = () => {
 				<RxCaretRight className='messageCaret' />
 			</Link>
 
-			<Link
+			{/* <Link
 				to={`/messages/LouisBell`}
 				className='convo2Bar'
 			>
@@ -36,7 +36,7 @@ const Messages = () => {
 				<div className='personsName'>Mr.Bell</div>
 				<div className='louisTypingMessages'>This is where im at</div>
 				<RxCaretRight className='messageCaret' />
-			</Link>
+			</Link> */}
 		</div>
 	);
 };

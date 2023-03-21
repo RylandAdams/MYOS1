@@ -27,14 +27,16 @@ const RickRubin = () => {
 			<a className='textSongToRickBubbleInner'></a>
 			<a
 				target='_blank'
-				href='https://www.youtube.com/channel/UCnsf4Ul_Rl3E3DStJQOQD9g'
+				href='https://soundcloud.com/rylandofficialmusic/sets/demos'
 			>
 				<img
 					src={song001}
 					alt='typing'
 					className='song001'
 				/>
-				<div className='songName001'>Throw Your Hands Up - 001</div>
+				<div className='songName001'>
+					001 - Throw Your Hands Up (DEMO)
+				</div>
 			</a>
 			<img
 				src={typing}
