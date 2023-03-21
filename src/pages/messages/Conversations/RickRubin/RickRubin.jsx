@@ -27,7 +27,7 @@ const RickRubin = () => {
 			<a className='textSongToRickBubbleInner'></a>
 			<a
 				target='_blank'
-				href='https://soundcloud.com/rylandofficialmusic/sets/demos'
+				href='https://soundcloud.com/rylandofficialmusic/001-throw-your-hands-up-demo/s-ZFDcZpOz49r?in=rylandofficialmusic/sets/demos/s-w5OTL2VTnvV&si=50b7ebb1210e4992b987933a4e0aa9ab&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'
 			>
 				<img
 					src={song001}
