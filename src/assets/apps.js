@@ -70,7 +70,7 @@ export const MAINAPPS = [
 		id: 8,
 		appName: 'SoundCloud',
 		appImage: soundcloud,
-		url: 'https://soundcloud.com/rylandofficialmusic',
+		url: 'https://soundcloud.com/rylandofficialmusic/tracks',
 	},
 	{
 		id: 9,
