@@ -41,11 +41,11 @@ const HomeScreen = () => {
 							zIndex: 20,
 						}}
 						transition={{
-							duration: 2,
+							duration: 1.5,
 							type: 'spring',
 							repeat: 1,
 							repeatType: 'reverse',
-							repeatDelay: 3,
+							repeatDelay: 0.5,
 						}}
 						key='notification'
 						target='_blank'

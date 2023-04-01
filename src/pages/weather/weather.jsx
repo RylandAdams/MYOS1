@@ -14,7 +14,7 @@ const Weather = () => {
 			</div>
 			<h1 className='warning'>WARNING</h1>
 			<h1 className='heatwave'>HEATWAVE</h1>
-			<h1 className='weatherDate'>MARCH 31</h1>
+			<h1 className='weatherDate'>ACTIVE</h1>
 			<div className='barbottom'></div>
 			<div className='barbottomUp1'></div>
 			<div className='barbottomUp2'></div>
