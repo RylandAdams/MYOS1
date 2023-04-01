@@ -32,7 +32,7 @@ const HomeScreen = () => {
 		<>
 			{notification ? (
 				<AnimatePresence>
-					<motion.div
+					<motion.a
 						initial={{ opacity: 0, y: -10, zIndex: 20 }}
 						exit={{ opacity: 0, y: -10, zIndex: 20 }}
 						animate={{
@@ -49,6 +49,7 @@ const HomeScreen = () => {
 						}}
 						key='notification'
 						target='_blank'
+						onClick='https://distrokid.com/hyperfollow/ryland2/denial-2'
 						href='https://distrokid.com/hyperfollow/ryland2/denial-2'
 						className='notificationAlert'
 					>
@@ -58,12 +59,10 @@ const HomeScreen = () => {
 							alt='DenialCover'
 						/>
 						<div className='notificationTextTop'>
-							Denial - Out March 31st
+							Denial - OUT NOW
 						</div>
-						<div className='notificationTextBottem'>
-							- Presave Here
-						</div>
-					</motion.div>
+						<div className='notificationTextBottem'></div>
+					</motion.a>
 				</AnimatePresence>
 			) : (
 				''
