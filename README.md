@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <small>Last Updated: February 18th, 2023</small>
+  <small>Last Updated: April 3rd, 2023</small>
 </p>
 
 # ℹ️ Description
@@ -34,6 +34,8 @@ Artist Website for myself that emulates IOS 1.
 -   <a href="https://webpack.js.org/">Webpack</a>
 -   <a href="https://babeljs.io/">Babel</a>
 -   <a href="https://eslint.org/">Eslint</a>
+-   <a href="https://firebase.google.com">Firebase</a>
+-   <a href="https://www.framer.com/motion/">Framer Motion</a>
 
 # 💾 Installation Requirements
 
