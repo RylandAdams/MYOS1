@@ -1,4 +1,4 @@
-# <div align="center">RYLAND</div>
+# <div align="center">MYOS1</div>
 
 <p align="center">
     <br>
