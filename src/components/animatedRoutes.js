@@ -107,7 +107,7 @@ const AnimatedRoutes = () => {
 					element={<RickRubin />}
 				/>
 				<Route
-					path='/messages/LouisBell'
+					path='/messages/Virmedius'
 					element={<LouisBell />}
 				/>
 			</Routes>

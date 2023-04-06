@@ -26,17 +26,17 @@ const Messages = () => {
 				<RxCaretRight className='messageCaret' />
 			</Link>
 
-			{/* <Link
-				to={`/messages/LouisBell`}
+			<Link
+				to={`/messages/Virmedius`}
 				className='convo2Bar'
 			>
 				<div className='nameCircle'>
-					<div className='circleNameLB'>LB</div>
+					<div className='circleNameLB'>V</div>
 				</div>
-				<div className='personsName'>Mr.Bell</div>
+				<div className='personsName'>Virmedius</div>
 				<div className='louisTypingMessages'>This is where im at</div>
 				<RxCaretRight className='messageCaret' />
-			</Link> */}
+			</Link>
 		</div>
 	);
 };

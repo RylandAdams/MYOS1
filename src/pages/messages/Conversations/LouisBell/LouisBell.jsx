@@ -4,7 +4,7 @@ import './LouisBell.css';
 import { RxCaretLeft } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
 
-import song002 from '../../../../assets/songs/002.jpg';
+import popHits from '../../../../assets/songs/popHits.png';
 
 const LouisBell = () => {
 	return (
@@ -16,22 +16,28 @@ const LouisBell = () => {
 				<RxCaretLeft className='caretPostion' />
 			</Link>
 			<div className='topBarIpod'></div>
-			<h1 className='HEADERLouisBell'>Mr.Bell</h1>
+			<h1 className='HEADERLouisBell'>Virmedius</h1>
 			<div className='textSongToLouisBubble'></div>
 			<a className='textSongToLouisBubbleInner'></a>
 			<a
 				target='_blank'
-				href='https://www.youtube.com/@RYLANDOfficial/featured'
+				href='https://open.spotify.com/playlist/3Jl01AJ9ozTvBWYQbGJ3sj?si=3ae5f3e2ef57456a'
 			>
 				<img
-					src={song002}
+					src={popHits}
 					alt='typing'
 					className='song002'
 				/>
-				<div className='songName002'> FF - 002</div>
+				<div className='songName002'> Best Pop Playlist</div>
 			</a>
-			<div className='textToLouisBubble'></div>
-			<div className='textToLouis'>This is where im at</div>
+			<a
+				target='_blank'
+				href='https://virmedius.com/free-playlist-submission/'
+				className='textToLouisBubble'
+			></a>
+			<div className='textToLouis'>
+				Congrats on the playlist placement!
+			</div>
 		</div>
 	);
 };

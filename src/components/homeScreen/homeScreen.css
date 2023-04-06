@@ -79,11 +79,11 @@
 .notificationTextTop {
 	position: absolute;
 	color: rgb(23, 23, 23);
-	font-size: 1rem;
+	font-size: 1.2rem;
 	opacity: 0.9;
 
-	left: 30%;
-	top: 30%;
+	left: 28%;
+	top: 28%;
 
 	text-shadow: none !important;
 }
