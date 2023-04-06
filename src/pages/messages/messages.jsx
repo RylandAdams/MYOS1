@@ -35,7 +35,7 @@ const Messages = () => {
 				</div>
 				<div className='personsName'>Virmedius</div>
 				<div className='louisTypingMessages'>
-					Congrats on the playlist
+					Congrats on the playlist...
 				</div>
 				<RxCaretRight className='messageCaret' />
 			</Link>
