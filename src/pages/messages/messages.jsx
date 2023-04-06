@@ -34,7 +34,9 @@ const Messages = () => {
 					<div className='circleNameLB'>V</div>
 				</div>
 				<div className='personsName'>Virmedius</div>
-				<div className='louisTypingMessages'>This is where im at</div>
+				<div className='louisTypingMessages'>
+					Congrats on the playlist
+				</div>
 				<RxCaretRight className='messageCaret' />
 			</Link>
 		</div>
