@@ -7,7 +7,6 @@ import RylandStudioSide from './photos/RylandStudioSide.png';
 import Glisan from './photos/Glisan.png';
 import RiceNSpice from './photos/RiceNSpice.png';
 import RhodesRoom from './photos/RhodesRoom.png';
-import Cards from './photos/cards.JPG';
 import FineByMe from './photos/FineByMe.png';
 import DriveBlur from './photos/DriveBlur.png';
 import BHDenialSingle from './photos/BHDenialSingle.png';
@@ -51,12 +50,6 @@ const photos = [
 	},
 	{
 		src: RhodesRoom,
-		loading: 'lazy',
-		width: 1,
-		height: 1,
-	},
-	{
-		src: Cards,
 		loading: 'lazy',
 		width: 1,
 		height: 1,

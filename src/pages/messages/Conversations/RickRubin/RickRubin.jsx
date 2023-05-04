@@ -6,7 +6,7 @@ import { RxCaretLeft } from 'react-icons/rx';
 
 import { Link } from 'react-router-dom';
 
-import song001 from '../../../../assets/songs/001.jpg';
+import CountryIbprofen from '../../../../assets/songs/CountryIbprofen.png';
 
 const RickRubin = () => {
 	return (
@@ -27,16 +27,14 @@ const RickRubin = () => {
 			<a className='textSongToRickBubbleInner'></a>
 			<a
 				target='_blank'
-				href='https://soundcloud.com/rylandofficialmusic/001-throw-your-hands-up-demo/s-ZFDcZpOz49r?in=rylandofficialmusic/sets/demos/s-w5OTL2VTnvV&si=50b7ebb1210e4992b987933a4e0aa9ab&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'
+				href='https://soundcloud.com/rylandofficialmusic/country-ibuprofen/s-C7MKFVD3y97?si=65b2282d37e547cfb4c895d06a8c9f85&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'
 			>
 				<img
-					src={song001}
+					src={CountryIbprofen}
 					alt='typing'
 					className='song001'
 				/>
-				<div className='songName001'>
-					001 - Throw Your Hands Up (DEMO)
-				</div>
+				<div className='songName001'>Country Ibuprofen</div>
 			</a>
 			<img
 				src={typing}

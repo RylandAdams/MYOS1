@@ -26,7 +26,7 @@ const Messages = () => {
 				<RxCaretRight className='messageCaret' />
 			</Link>
 
-			<Link
+			{/* <Link
 				to={`/messages/Virmedius`}
 				className='convo2Bar'
 			>
@@ -38,7 +38,7 @@ const Messages = () => {
 					Congrats on the playlist...
 				</div>
 				<RxCaretRight className='messageCaret' />
-			</Link>
+			</Link> */}
 		</div>
 	);
 };
