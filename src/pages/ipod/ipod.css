@@ -429,12 +429,12 @@ Button:hover {
 	position: absolute;
 	color: black;
 
-	width: 55%;
+	width: 70%;
 	height: 25%;
-	left: 35.8%;
-	top: 65%;
+	left: 28.8%;
+	top: 68%;
 
-	font-size: 169%;
+	font-size: 150%;
 }
 
 .artistName3 {
@@ -445,7 +445,7 @@ Button:hover {
 	width: 55%;
 	height: 2%;
 	left: 35.8%;
-	top: 82%;
+	top: 83%;
 
 	font-size: 80%;
 }

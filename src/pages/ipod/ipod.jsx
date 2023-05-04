@@ -14,10 +14,12 @@ import dopamine from '../../assets/songs/DopamineClip.mp3';
 import denialArt from '../../assets/songs/Denial.JPG';
 import denial from '../../assets/songs/DenialClip.mp3';
 
-import PWSHArt from '../../assets/songs/PWSH.jpg';
+import badWeather from '../../assets/songs/BadWeather.png';
+import handsUp from '../../assets/songs/handsUpClip.mp3';
 
 const Dopamine = new Audio(dopamine);
 const Denial = new Audio(denial);
+const HandsUp = new Audio(handsUp);
 
 const Ipod = () => {
 	const [curretSong, setCurrentSong] = useState('none');
@@ -27,6 +29,7 @@ const Ipod = () => {
 		// TEMP FIX FOR PLAYING 1 SONG AT A TIME
 		Dopamine.pause();
 		Denial.pause();
+		HandsUp.pause();
 
 		if (curretSong === 'dopamine') {
 			setPlay(true);
@@ -36,6 +39,10 @@ const Ipod = () => {
 			setPlay(true);
 			Denial.load();
 			Denial.play();
+		} else if (curretSong === 'handsUp') {
+			setPlay(true);
+			HandsUp.load();
+			HandsUp.play();
 		}
 	}, [curretSong]);
 
@@ -53,6 +60,12 @@ const Ipod = () => {
 			Denial.pause();
 		} else if (curretSong === 'denial' && play === true) {
 			Denial.play();
+		}
+
+		if (curretSong === 'handsUp' && play === false) {
+			HandsUp.pause();
+		} else if (curretSong === 'handsUp' && play === true) {
+			HandsUp.play();
 		}
 	}, [play]);
 
@@ -141,21 +154,24 @@ const Ipod = () => {
 						<h5 className='artistName2'>RYLAND</h5>
 					</div>
 				</button>
-				<div className='notReleased'>???</div>
-				<button className='song3'>
+				{/* <div className='notReleased'>???</div> */}
+				<button
+					onClick={() => setCurrentSong('handsUp')}
+					className='song3'
+				>
 					<img
 						className='songImg'
-						src={PWSHArt}
-						alt='PWSHArt'
+						src={badWeather}
+						alt='badWeather'
 					/>
 					<div className='songText'>
-						<h2 className='songName3'>P W S H</h2>
+						<h2 className='songName3'>Throw Your Hands Up</h2>
 						<h5 className='artistName3'>RYLAND</h5>
-						<img
+						{/* <img
 							src={explicit}
 							alt='explicit'
 							className='explicit3'
-						/>
+						/> */}
 					</div>
 				</button>
 			</div>
