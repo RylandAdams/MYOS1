@@ -19,12 +19,12 @@ import IcalLink from './IcalLink/iCal-20230308-131800.ics';
 import { isMacOs, isIOS } from 'react-device-detect';
 var saveThedate = '';
 
-if (isMacOs === true || isIOS === true) {
-	saveThedate = IcalLink;
-} else {
-	saveThedate =
-		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com';
-}
+// if (isMacOs === true || isIOS === true) {
+// 	saveThedate = IcalLink;
+// } else {
+// 	saveThedate =
+// 		'https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MmR2aGoyc3U0ZHM1c282bWNmMDNrdHRudHYgcnlsYW5kYWRhbXNAeWFob28uY29t&tmsrc=rylandadams%40yahoo.com';
+// }
 
 export const MAINAPPS = [
 	{

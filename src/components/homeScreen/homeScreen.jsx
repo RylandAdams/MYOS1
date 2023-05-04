@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './homeScreen.css';
-import Denial from '../../assets/songs/Denial.JPG';
+import BadWeather from '../../assets/songs/BadWeather.png';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -25,7 +25,7 @@ const HomeScreen = () => {
 		didInit = true;
 		setTimeout(() => {
 			setNotification(false);
-		}, 7000);
+		}, 3450);
 	};
 
 	return (
@@ -49,17 +49,17 @@ const HomeScreen = () => {
 						}}
 						key='notification'
 						target='_blank'
-						onClick='https://distrokid.com/hyperfollow/ryland2/denial-2'
-						href='https://distrokid.com/hyperfollow/ryland2/denial-2'
+						onClick='https://distrokid.com/hyperfollow/ryland2/bad-weather---ep-2'
+						href='https://distrokid.com/hyperfollow/ryland2/bad-weather---ep-2'
 						className='notificationAlert'
 					>
 						<img
 							className='notificationImg'
-							src={Denial}
-							alt='DenialCover'
+							src={BadWeather}
+							alt='BadWeather'
 						/>
 						<div className='notificationTextTop'>
-							Denial - OUT NOW
+							Bad Weather - EP
 						</div>
 						<div className='notificationTextBottem'></div>
 					</motion.a>

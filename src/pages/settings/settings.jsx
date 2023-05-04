@@ -10,8 +10,8 @@ const Settings = () => {
 			<div className='autoText'>Auto Updates</div>
 			<div className='on'>On</div>
 			<RxCaretRight className='settingsCaret' />
-			<div className='News'> Next Update May 31st</div>
-			<div className='Version'>V1.0.2</div>
+			<div className='News'> Next Update June 30th</div>
+			<div className='Version'>V1.0.3</div>
 		</div>
 	);
 };
