@@ -109,25 +109,6 @@ Button:hover {
 	pointer-events: none;
 }
 
-.notReleased {
-	position: absolute;
-	z-index: 7;
-	opacity: 0.76;
-	background-color: rgb(100, 100, 100);
-
-	text-align: center;
-	align-items: center;
-	color: rgb(255, 255, 255);
-	letter-spacing: 0.182rem;
-
-	height: 32%;
-	width: 100%;
-	left: 0%;
-
-	top: 68.5%;
-	border-radius: 9px;
-}
-
 .pausePlayOverlaySong1 {
 	position: absolute;
 	background-color: whitesmoke;
@@ -156,6 +137,25 @@ Button:hover {
 	top: 34%;
 
 	font-size: 170%;
+}
+
+.pausePlayOverlaySong3 {
+	position: absolute;
+	z-index: 7;
+	opacity: 0.7;
+	background-color: whitesmoke;
+
+	text-align: center;
+	align-items: center;
+	color: rgb(255, 255, 255);
+	letter-spacing: 0.182rem;
+
+	height: 31.2%;
+	width: 100%;
+	left: 0%;
+
+	top: 68.5%;
+	border-radius: 9px;
 }
 
 .pausePlayIcon {

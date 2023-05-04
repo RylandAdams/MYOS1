@@ -154,11 +154,35 @@ const Ipod = () => {
 						<h5 className='artistName2'>RYLAND</h5>
 					</div>
 				</button>
-				{/* <div className='notReleased'>???</div> */}
+
 				<button
 					onClick={() => setCurrentSong('handsUp')}
 					className='song3'
 				>
+					{curretSong === 'handsUp' ? (
+						<button
+							onClick={() => setPlay(!play)}
+							className='pausePlayOverlaySong3'
+						>
+							<div className='pausePlayText'>
+								{play === true ? (
+									<BsFillPauseFill
+										className='pausePlayIcon'
+										color='rgb(0, 0, 0)'
+										fill='rgb(0, 0, 0)'
+									/>
+								) : (
+									<BsFillPlayFill
+										className='pausePlayIcon'
+										color='rgb(0, 0, 0)'
+										fill='rgb(0, 0, 0)'
+									/>
+								)}
+							</div>
+						</button>
+					) : (
+						''
+					)}
 					<img
 						className='songImg'
 						src={badWeather}
