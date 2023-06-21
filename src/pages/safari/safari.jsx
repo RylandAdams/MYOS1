@@ -34,7 +34,7 @@ const Safari = () => {
 			</a>
 			<a
 				target='_blank'
-				href='https://instagram.com/__.ryland.__?igshid=MjkzY2Y1YTY='
+				href='https://instagram.com/ryland.wav?igshid=MjEwN2IyYWYwYw=='
 				className='InstaCard'
 			>
 				s

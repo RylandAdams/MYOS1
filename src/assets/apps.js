@@ -76,13 +76,13 @@ export const MAINAPPS = [
 		id: 9,
 		appName: 'Instagram',
 		appImage: insta,
-		url: 'https://instagram.com/__.ryland.__?igshid=MjkzY2Y1YTY=',
+		url: 'https://instagram.com/ryland.wav?igshid=MjEwN2IyYWYwYw==',
 	},
 	{
 		id: 10,
 		appName: 'TikTok',
 		appImage: tiktok,
-		url: 'https://www.tiktok.com/@._ryland?_t=8alGqsragrO&_r=1',
+		url: 'https://www.tiktok.com/@ryland.wav',
 	},
 	{
 		id: 11,
