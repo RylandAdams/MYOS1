@@ -1,0 +1,81 @@
+/* .lockScreenPage {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 0;
+	width: 100%;
+	max-width: 310px;
+
+	top: 5%;
+	left: 1.75%;
+	right: 0%;
+
+	height: 100%;
+	max-height: 447px;
+
+	margin-top: -3%;
+
+	background-color: rgb(255, 255, 255);
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 255, 255, 0.25),
+		rgba(255, 255, 255, 0.25) 1px,
+		transparent 1px,
+		transparent 6px
+	);
+	background-size: 4px 4px;
+} */
+
+.lockScreenPicture {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+	width: 100%;
+	max-width: 310px;
+
+	top: 5%;
+	left: 1.75%;
+	right: 0%;
+
+	height: 100%;
+	max-height: 447px;
+
+	margin-top: -3%;
+}
+
+/* SLIDER CSS */
+
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+background: -webkit-gradient(
+	linear,
+	left top,
+	right top,
+	color-stop(0, #4d4d4d),
+	color-stop(0.4, #4d4d4d),
+	color-stop(0.5, white),
+	color-stop(0.6, #4d4d4d),
+	color-stop(1, #4d4d4d)
+);
+
+#well {
+	width: 720px;
+}
+
+h2 {
+	width: 200%;
+	-webkit-animation: slidetounlock 5s infinite;
+}
+
+@-webkit-keyframes slidetounlock {
+	0% {
+		background-position: -720px 0;
+	}
+	100% {
+		background-position: 720px 0;
+	}
+}

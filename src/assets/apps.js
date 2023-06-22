@@ -19,6 +19,8 @@ import IcalLink from './IcalLink/iCal-20230308-131800.ics';
 import { isMacOs, isIOS } from 'react-device-detect';
 var saveThedate = '';
 
+/* OS DEPENDENT CALENDER LINKS */
+
 // if (isMacOs === true || isIOS === true) {
 // 	saveThedate = IcalLink;
 // } else {

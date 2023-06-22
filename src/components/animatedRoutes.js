@@ -6,6 +6,7 @@ import {
 	useLocation,
 } from 'react-router-dom';
 
+import LockScreen from './LockScreen/lockScreen';
 import HomeScreen from './homeScreen/homeScreen';
 
 // MAIN APPS
@@ -40,6 +41,10 @@ const AnimatedRoutes = () => {
 				location={location}
 				key={location.pathname}
 			>
+				<Route
+					path='/lockscreen'
+					element={<LockScreen />}
+				></Route>
 				<Route
 					path='/'
 					element={<HomeScreen />}
