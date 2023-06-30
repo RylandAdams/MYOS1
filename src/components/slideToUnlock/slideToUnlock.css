@@ -1,29 +1,33 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	font: 14px Georgia, serif;
-	background-image: -webkit-gradient(
+	/* background-image: -webkit-gradient(
 		linear,
 		left top,
 		left bottom,
 		color-stop(0, #3b3b3b),
 		color-stop(1, #000000)
-	);
+	); */
 	background-repeat: no-repeat;
-	min-height: 250px;
+	min-height: 350px;
 }
+
 #page-wrap {
 	position: absolute;
-	width: 720px;
-
-	margin: 0 auto;
 	z-index: 10;
+	width: 95%; /* Adjust the width as needed */
+	max-width: 720px;
+	margin: 0 auto;
+	padding-top: 100%; /* Adjust the padding-top as needed */
 }
 
 #well {
-	padding: 14px 20px 20px 20px;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
+	padding: 2.5%;
 	border-radius: 30px;
-
 	background: -moz-linear-gradient(top, #010101, #181818);
 	background: -webkit-gradient(
 		linear,
@@ -32,11 +36,9 @@ body {
 		color-stop(0, #010101),
 		color-stop(1, #181818)
 	);
-
 	border: 2px solid #454545;
 	overflow: hidden;
-
-	-webkit-user-select: none;
+	user-select: none;
 }
 
 h2 {
@@ -61,39 +63,35 @@ h2 {
 		color-stop(0.6, #4d4d4d),
 		color-stop(1, #4d4d4d)
 	);
-
 	-moz-background-clip: text;
 	-webkit-background-clip: text;
-
 	-moz-text-fill-color: transparent;
 	-webkit-text-fill-color: transparent;
-
-	-webkit-animation: slidetounlock 5s infinite;
-
-	font-size: 80px;
+	animation: slidetounlock 5s infinite;
+	font-size: 5vw; /* Adjust the font size as needed */
 	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
 		Helvetica, Arial, 'Lucida Grande', sans-serif;
 	font-weight: 300;
-
 	padding: 0;
 	width: 200%;
-
-	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
 }
+
 #slider {
 	background: url(./images/arrow.png) no-repeat;
-	width: 146px;
-	height: 98px;
+	width: 20%;
+	padding-top: 13.7931034483%; /* Adjust the padding-top as needed */
 	display: inline-block;
 	vertical-align: middle;
 	line-height: 1;
+	background-size: contain;
 }
 
-@-webkit-keyframes slidetounlock {
+@keyframes slidetounlock {
 	0% {
-		background-position: -720px 0;
+		background-position: -100% 0;
 	}
 	100% {
-		background-position: 720px 0;
+		background-position: 100% 0;
 	}
 }
