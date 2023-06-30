@@ -93,13 +93,13 @@ const SlideToUnlock = () => {
 				id='well'
 				ref={wellRef}
 			>
-				<h2>
+				<div className='h2'>
 					<strong
 						id='slider'
 						ref={sliderRef}
 					></strong>
 					<span>slide to unlock</span>
-				</h2>
+				</div>
 				<div
 					className='arrow'
 					ref={arrowRef}

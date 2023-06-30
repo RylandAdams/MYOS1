@@ -1,28 +1,10 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	font: 14px Georgia, serif;
-	/* background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, #3b3b3b),
-		color-stop(1, #000000)
-	); */
-	background-repeat: no-repeat;
-	min-height: 350px;
-}
-
 #page-wrap {
 	position: absolute;
-	z-index: 10;
-	width: 95%; /* Adjust the width as needed */
+	width: 92%; /* Adjust the width as needed */
 	max-width: 720px;
 	margin: 0 auto;
-	padding-top: 100%; /* Adjust the padding-top as needed */
+	padding-top: 109%; /* Adjust the padding-top as needed */
+	padding-left: 4.5%;
 }
 
 #well {
@@ -41,7 +23,7 @@ body {
 	user-select: none;
 }
 
-h2 {
+.h2 {
 	background: -moz-linear-gradient(
 		left,
 		#4d4d4d,
@@ -80,7 +62,7 @@ h2 {
 #slider {
 	background: url(./images/arrow.png) no-repeat;
 	width: 20%;
-	padding-top: 13.7931034483%; /* Adjust the padding-top as needed */
+	padding-top: 10%; /* Adjust the padding-top as needed */
 	display: inline-block;
 	vertical-align: middle;
 	line-height: 1;
