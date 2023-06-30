@@ -7,6 +7,7 @@ import AnimatedRoutes from './components/animatedRoutes';
 import hand from './assets/imgs/HAND.jpg';
 import phone from './assets/imgs/Iphone.png';
 import HomeButton from './components/homeButton/homeButton';
+import PowerButton from './components/powerButton/powerButton';
 
 import TopBar from './components/topBar/topBar';
 
@@ -23,6 +24,7 @@ function App() {
 		<div className='App'>
 			<div className='Frame'>
 				<Router>
+					<PowerButton />
 					<HomeButton />
 					<div className='wallpaper'></div>
 					<div className='iphoneContent'>

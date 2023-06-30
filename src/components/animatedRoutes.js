@@ -8,6 +8,7 @@ import {
 
 import LockScreen from './LockScreen/lockScreen';
 import HomeScreen from './homeScreen/homeScreen';
+import OffScreen from './offScreen/offScreen';
 
 // MAIN APPS
 import Calender from '../pages/calender/calender';
@@ -42,15 +43,19 @@ const AnimatedRoutes = () => {
 				key={location.pathname}
 			>
 				<Route
+					path={'*'}
+					element={<HomeScreen />}
+				/>
+				<Route
 					path='/'
 					element={<LockScreen />}
 				></Route>
 				<Route
-					path='/homeScreen'
-					element={<HomeScreen />}
-				/>
+					path='/off'
+					element={<OffScreen />}
+				></Route>
 				<Route
-					path={'*'}
+					path='/homeScreen'
 					element={<HomeScreen />}
 				/>
 				<Route
