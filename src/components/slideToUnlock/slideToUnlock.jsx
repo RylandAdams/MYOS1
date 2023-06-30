@@ -1,10 +1,18 @@
 import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import './slideToUnlock.css';
 
 const SlideToUnlock = () => {
+	const navigate = useNavigate();
+
 	const sliderRef = useRef(null);
 	const arrowRef = useRef(null);
 	const wellRef = useRef(null);
+
+	const toHomeScreen = () => {
+		navigate('/');
+	};
 
 	useEffect(() => {
 		const slider = sliderRef.current;
@@ -44,7 +52,9 @@ const SlideToUnlock = () => {
 		const handleDragEnd = () => {
 			isDragging = false;
 			const translateX = getTranslateX();
-			if (translateX > 550) {
+			if (translateX > 150) {
+				console.log('DONE');
+				toHomeScreen();
 				well.style.display = 'none';
 			} else {
 				setTranslateX(0);

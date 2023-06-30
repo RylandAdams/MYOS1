@@ -50,7 +50,7 @@
 	-moz-text-fill-color: transparent;
 	-webkit-text-fill-color: transparent;
 	animation: slidetounlock 5s infinite;
-	font-size: 5vw; /* Adjust the font size as needed */
+	font-size: 1.5rem; /* Adjust the font size as needed */
 	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
 		Helvetica, Arial, 'Lucida Grande', sans-serif;
 	font-weight: 300;
