@@ -26,29 +26,61 @@ const TopBar = () => {
 	}, []);
 
 	return (
-		<div className={location.pathname === '/' ? 'topBar' : 'topBarAlt'}>
-			<div className={location.pathname === '/' ? 'left' : 'leftAlt'}>
+		<div
+			className={
+				location.pathname === '/lockScreen' ? 'topBar' : 'topBarAlt'
+			}
+		>
+			<div
+				className={
+					location.pathname === 'lockScreen' ? 'left' : 'leftAlt'
+				}
+			>
 				RYLAND
 				<GiNetworkBars
-					color={location.pathname === '/' ? '#d2d2d2' : '#000000'}
-					fill={location.pathname === '/' ? '#d2d2d2' : '#000000'}
+					color={
+						location.pathname === 'lockScreen'
+							? '#d2d2d2'
+							: '#000000'
+					}
+					fill={
+						location.pathname === '/lockScreen'
+							? '#d2d2d2'
+							: '#000000'
+					}
 					className={
-						location.pathname === '/'
+						location.pathname === '/lockScreen'
 							? 'cellularBars'
 							: 'cellularBarsAlt'
 					}
 				/>
 			</div>
-			<div className={location.pathname === '/' ? 'clock' : 'clockAlt'}>
+			<div
+				className={
+					location.pathname === '/lockScreen' ? 'clock' : 'clockAlt'
+				}
+			>
 				{date.toLocaleTimeString([], {
 					hour: '2-digit',
 					minute: '2-digit',
 				})}
 			</div>
-			<div className={location.pathname === '/' ? 'right' : 'rightAlt'}>
+			<div
+				className={
+					location.pathname === '/lockScreen' ? 'right' : 'rightAlt'
+				}
+			>
 				<FaBatteryFull
-					color={location.pathname === '/' ? '#d2d2d2' : '#000000'}
-					fill={location.pathname === '/' ? '#d2d2d2' : '#000000'}
+					color={
+						location.pathname === '/lockScreen'
+							? '#d2d2d2'
+							: '#000000'
+					}
+					fill={
+						location.pathname === '/lockScreen'
+							? '#d2d2d2'
+							: '#000000'
+					}
 				/>
 			</div>
 		</div>

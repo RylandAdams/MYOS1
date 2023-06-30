@@ -1,9 +1,9 @@
 #page-wrap {
 	position: absolute;
-	width: 92%; /* Adjust the width as needed */
+	width: 92%;
 	max-width: 720px;
 	margin: 0 auto;
-	padding-top: 109%; /* Adjust the padding-top as needed */
+	padding-top: 109%;
 	padding-left: 4.5%;
 }
 
@@ -50,7 +50,7 @@
 	-moz-text-fill-color: transparent;
 	-webkit-text-fill-color: transparent;
 	animation: slidetounlock 5s infinite;
-	font-size: 1.5rem; /* Adjust the font size as needed */
+	font-size: 1.5rem;
 	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
 		Helvetica, Arial, 'Lucida Grande', sans-serif;
 	font-weight: 300;
@@ -62,7 +62,7 @@
 #slider {
 	background: url(./images/arrow.png) no-repeat;
 	width: 20%;
-	padding-top: 10%; /* Adjust the padding-top as needed */
+	padding-top: 10%;
 	display: inline-block;
 	vertical-align: middle;
 	line-height: 1;

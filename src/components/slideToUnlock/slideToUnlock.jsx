@@ -11,7 +11,7 @@ const SlideToUnlock = () => {
 	const wellRef = useRef(null);
 
 	const toHomeScreen = () => {
-		navigate('/');
+		navigate('/homeScreen');
 	};
 
 	useEffect(() => {

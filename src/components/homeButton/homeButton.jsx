@@ -7,7 +7,7 @@ const HomeButton = () => {
 		<div className='homeBttn'>
 			<Link
 				className='bttn'
-				to='/'
+				to='/homeScreen'
 			>
 				HOME
 			</Link>

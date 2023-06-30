@@ -51,7 +51,8 @@
 	opacity: 0.95;
 }
 
-/* ALT FOR WHEN NOT ON HOMEPAGE */
+/* ALT FOR WHEN NOT ON LOCK SCREEN */
+
 .topBarAlt {
 	position: absolute;
 	z-index: 1;

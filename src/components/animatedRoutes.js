@@ -42,11 +42,11 @@ const AnimatedRoutes = () => {
 				key={location.pathname}
 			>
 				<Route
-					path='/lockscreen'
+					path='/'
 					element={<LockScreen />}
 				></Route>
 				<Route
-					path='/'
+					path='/homeScreen'
 					element={<HomeScreen />}
 				/>
 				<Route
