@@ -1,30 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import './powerButton.css';
 
 const PowerButton = () => {
-	let location = useLocation();
-	let navigate = useNavigate();
+	const [on, setOn] = useState(true);
 
-	console.log(location.pathname);
-
-	const phonePowerToggle = () => {
-		if (location.pathname === '/off') {
-			console.log('SCREEN ON');
-			navigate('/lockScreen');
-		} else {
-			navigate('/off');
-			console.log('SCREEN OFF');
-		}
+	const powerToggle = () => {
+		setOn(!on);
+		console.log(on);
 	};
 
 	return (
 		<div className='powerBttn'>
 			<Link
-				className='bttn'
-				onClick={phonePowerToggle}
+				className={on ? 'bttn-on' : 'bttn-off'}
+				to={on ? '/off' : '/'}
+				onClick={powerToggle}
 			>
 				POWER
 			</Link>
