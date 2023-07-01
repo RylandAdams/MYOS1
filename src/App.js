@@ -1,24 +1,30 @@
-import './App.css';
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import AnimatedRoutes from './components/animatedRoutes';
+import HomeButton from './components/homeButton/homeButton';
+import PowerButton from './components/powerButton/powerButton';
+import TopBar from './components/topBar/topBar';
 
 import hand from './assets/imgs/HAND.jpg';
 import phone from './assets/imgs/Iphone.png';
-import HomeButton from './components/homeButton/homeButton';
-import PowerButton from './components/powerButton/powerButton';
 
-import TopBar from './components/topBar/topBar';
+import './App.css';
 
-function App() {
-	const documentHeight = () => {
-		const doc = document.documentElement;
-		doc.style.setProperty('--doc-height', `${window.innerHeight}px`);
-		doc.style.setProperty('--doc-width', `${window.innerWidth}px`);
-	};
-	window.addEventListener('resize', documentHeight);
-	documentHeight();
+const App = () => {
+	useEffect(() => {
+		const documentHeight = () => {
+			const doc = document.documentElement;
+			doc.style.setProperty('--doc-height', `${window.innerHeight}px`);
+			doc.style.setProperty('--doc-width', `${window.innerWidth}px`);
+		};
+		window.addEventListener('resize', documentHeight);
+		documentHeight();
+
+		return () => {
+			window.removeEventListener('resize', documentHeight);
+		};
+	}, []);
 
 	return (
 		<div className='App'>
@@ -37,7 +43,6 @@ function App() {
 						className='hand'
 						alt='hand'
 					/>
-
 					<img
 						src={phone}
 						className='phone'
@@ -47,6 +52,6 @@ function App() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default App;
