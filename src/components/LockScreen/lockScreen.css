@@ -35,36 +35,34 @@
 	/* opacity: 8%; */
 }
 
-/* SLIDER CSS */
+.lockScreenTopTransSqr {
+	position: absolute;
+	z-index: 0.5;
+	width: 100%;
+	height: 23%;
+	top: 3%;
+	background: rgb(0, 0, 0);
+	background: linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 1) 39%,
+		rgba(110, 110, 110, 1) 100%
+	);
+	opacity: 65%;
 
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-
-background: -webkit-gradient(
-	linear,
-	left top,
-	right top,
-	color-stop(0, #4d4d4d),
-	color-stop(0.4, #4d4d4d),
-	color-stop(0.5, white),
-	color-stop(0.6, #4d4d4d),
-	color-stop(1, #4d4d4d)
-);
-
-#well {
-	width: 720px;
+	text-align: center;
 }
 
-h2 {
-	width: 200%;
-	-webkit-animation: slidetounlock 5s infinite;
-}
-
-@-webkit-keyframes slidetounlock {
-	0% {
-		background-position: -720px 0;
-	}
-	100% {
-		background-position: 720px 0;
-	}
+.lockScreenBottomTransSqr {
+	position: absolute;
+	z-index: 0;
+	width: 100%;
+	height: 27%;
+	top: 79%;
+	background: rgb(0, 0, 0);
+	background: linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 1) 39%,
+		rgba(110, 110, 110, 1) 100%
+	);
+	opacity: 65%;
 }

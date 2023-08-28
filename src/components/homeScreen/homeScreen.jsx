@@ -12,8 +12,10 @@ import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 let didInit = false;
 
 const HomeScreen = () => {
+	// State for notification
 	const [notification, setNotification] = useState(false);
 
+	// Initialize notification after 2 seconds
 	if (!didInit) {
 		setTimeout(() => {
 			setNotification(true);
@@ -21,6 +23,7 @@ const HomeScreen = () => {
 		}, 2000);
 	}
 
+	// Show notification and hide after 3.45 seconds
 	const shownotification = () => {
 		didInit = true;
 		setTimeout(() => {
@@ -30,6 +33,7 @@ const HomeScreen = () => {
 
 	return (
 		<>
+			{/* Render notification if notification state is true */}
 			{notification ? (
 				<AnimatePresence>
 					<motion.a
@@ -68,21 +72,29 @@ const HomeScreen = () => {
 				''
 			)}
 
+			{/* Render apps */}
 			<motion.div
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
 			>
-				{/* POP UP */}
-
+				{/* Main apps */}
 				<div className='apps'>
 					{MAINAPPS.map((app) => (
-						<App data={app} />
+						<App
+							data={app}
+							key={app.id}
+						/>
 					))}
 				</div>
+
+				{/* Footer apps */}
 				<div className='footerApps'>
 					{FOOTERAPPS.map((app) => (
-						<App data={app} />
+						<App
+							data={app}
+							key={app.id}
+						/>
 					))}
 					<link
 						rel='stylesheet'
@@ -93,6 +105,8 @@ const HomeScreen = () => {
 						href='EMAIL ME'
 					/>
 				</div>
+
+				{/* Dock bar */}
 				<img
 					src={dock}
 					className='dock'

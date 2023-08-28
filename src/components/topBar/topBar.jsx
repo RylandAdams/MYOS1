@@ -28,28 +28,28 @@ const TopBar = () => {
 	return (
 		<div
 			className={
-				location.pathname === '/lockScreen' ? 'topBar' : 'topBarAlt'
+				location.pathname === '/homeScreen' ? 'topBar' : 'topBarAlt'
 			}
 		>
 			<div
 				className={
-					location.pathname === 'lockScreen' ? 'left' : 'leftAlt'
+					location.pathname === '/homeScreen' ? 'left' : 'leftAlt'
 				}
 			>
 				RYLAND
 				<GiNetworkBars
 					color={
-						location.pathname === 'lockScreen'
+						location.pathname === '/homeScreen'
 							? '#d2d2d2'
 							: '#000000'
 					}
 					fill={
-						location.pathname === '/lockScreen'
+						location.pathname === '/homeScreen'
 							? '#d2d2d2'
 							: '#000000'
 					}
 					className={
-						location.pathname === '/lockScreen'
+						location.pathname === '/homeScreen'
 							? 'cellularBars'
 							: 'cellularBarsAlt'
 					}
@@ -57,27 +57,27 @@ const TopBar = () => {
 			</div>
 			<div
 				className={
-					location.pathname === '/lockScreen' ? 'clock' : 'clockAlt'
+					location.pathname === '/homeScreen' ? 'clock' : 'clockAlt'
 				}
 			>
 				{date.toLocaleTimeString([], {
-					hour: '2-digit',
+					hour: 'numeric',
 					minute: '2-digit',
 				})}
 			</div>
 			<div
 				className={
-					location.pathname === '/lockScreen' ? 'right' : 'rightAlt'
+					location.pathname === '/homeScreen' ? 'right' : 'rightAlt'
 				}
 			>
 				<FaBatteryFull
 					color={
-						location.pathname === '/lockScreen'
+						location.pathname === '/homeScreen'
 							? '#d2d2d2'
 							: '#000000'
 					}
 					fill={
-						location.pathname === '/lockScreen'
+						location.pathname === '/homeScreen'
 							? '#d2d2d2'
 							: '#000000'
 					}

@@ -10,6 +10,14 @@
 	}
 }
 
+@font-face {
+	font-family: 'SFMAC';
+	font-style: normal;
+	font-weight: normal;
+	src: local('PC'),
+		url('/src//font/sf-pro-display_regular.woff2') format('woff');
+}
+
 button {
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -17,11 +25,11 @@ button {
 }
 
 * {
-	font-family: Helvetica;
+	font-family: 'SFMAC';
 	font-style: normal;
 	font-weight: lighter;
 	text-shadow: 0.5px 0.5px 3px black;
-	color: rgb(215, 215, 215);
+	color: rgb(255, 255, 255);
 }
 
 RxCaretRight {
@@ -93,6 +101,8 @@ body {
 
 	height: calc(var(--doc-height) - 20px);
 	max-height: 690px;
+
+	filter: brightness(80%);
 }
 
 .iphoneContent {

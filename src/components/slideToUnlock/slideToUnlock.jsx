@@ -46,13 +46,24 @@ const SlideToUnlock = () => {
 
 			const diffX = clientX - startX;
 			const newTranslateX = startTranslateX + diffX;
-			setTranslateX(newTranslateX);
+
+			// Set your desired boundaries here
+			const minTranslateX = 0; // Minimum X position
+			const maxTranslateX = 215; // Maximum X position
+
+			// Make sure newTranslateX stays within the boundaries
+			const boundedTranslateX = Math.max(
+				minTranslateX,
+				Math.min(maxTranslateX, newTranslateX)
+			);
+
+			setTranslateX(boundedTranslateX);
 		};
 
 		const handleDragEnd = () => {
 			isDragging = false;
 			const translateX = getTranslateX();
-			if (translateX > 150) {
+			if (translateX > 160) {
 				console.log('DONE');
 				toHomeScreen();
 				well.style.display = 'none';
