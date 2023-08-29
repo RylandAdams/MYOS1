@@ -36,6 +36,9 @@ import { AnimatePresence } from 'framer-motion';
 const AnimatedRoutes = () => {
 	let location = useLocation();
 
+	let searchBarURL = window.location.href;
+	console.log(searchBarURL);
+
 	return (
 		<AnimatePresence>
 			<Routes

@@ -67,7 +67,8 @@
 		Helvetica, Arial, 'Lucida Grande', sans-serif;
 	font-weight: 300;
 	padding: 0;
-	width: 145%;
+	height: 100%;
+	width: 150%;
 	text-size-adjust: none;
 }
 
@@ -82,11 +83,35 @@
 	background-size: contain;
 }
 
-@keyframes slidetounlock {
+.textInSlide {
+	background-image: linear-gradient(
+		-250deg,
+		#202020 0%,
+		#6e6e6e 39%,
+		#5a5a5a 75%,
+		#aaaaaa 80%,
+		#1d1d1d 100%
+	);
+	background-size: 100% 60%; /* Adjusted background size for better visibility */
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	animation: textclip 20s linear infinite;
+	display: inline-block;
+}
+
+@keyframes textclip {
 	0% {
-		background-position: -100% 0;
+		background-position: -100% center; /* Adjusted initial position */
 	}
 	100% {
-		background-position: 100% 0;
+		background-position: 100% center; /* Adjusted final position */
+	}
+}
+
+/* Add a media query for smaller screens, such as mobile devices */
+@media (max-width: 768px) {
+	.textInSlide {
+		background-size: 100% 80%; /* Further adjusted background size */
 	}
 }

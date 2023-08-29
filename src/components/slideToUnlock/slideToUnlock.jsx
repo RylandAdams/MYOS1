@@ -119,7 +119,7 @@ const SlideToUnlock = () => {
 						id='slider'
 						ref={sliderRef}
 					></strong>
-					<span>slide to unlock</span>
+					<span className='textInSlide'>slide to unlock</span>
 				</div>
 				<div
 					className='arrow'

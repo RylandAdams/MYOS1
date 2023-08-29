@@ -29,7 +29,7 @@ button {
 	font-style: normal;
 	font-weight: lighter;
 	text-shadow: 0.5px 0.5px 3px black;
-	color: rgb(255, 255, 255);
+	color: rgb(243, 243, 243);
 }
 
 RxCaretRight {
@@ -128,4 +128,5 @@ body {
 		rgb(24, 24, 24) 48%,
 		rgba(168, 168, 168, 1) 100%
 	);
+	filter: brightness(75%);
 }
