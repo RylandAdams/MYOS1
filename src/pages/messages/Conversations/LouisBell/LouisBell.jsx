@@ -4,8 +4,6 @@ import './LouisBell.css';
 import { RxCaretLeft } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
 
-import popHits from '../../../../assets/songs/popHits.png';
-
 const LouisBell = () => {
 	return (
 		<div className='LouisBell'>
@@ -24,7 +22,6 @@ const LouisBell = () => {
 				href='https://open.spotify.com/playlist/3Jl01AJ9ozTvBWYQbGJ3sj?si=3ae5f3e2ef57456a'
 			>
 				<img
-					src={popHits}
 					alt='typing'
 					className='song002'
 				/>

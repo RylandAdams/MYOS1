@@ -52,6 +52,14 @@
 	text-align: center;
 }
 
+.lockScreenClock {
+	font-size: 4.2rem;
+
+	position: absolute;
+	left: 31.5%;
+	top: 4%;
+}
+
 .lockScreenBottomTransSqr {
 	position: absolute;
 	z-index: 0;

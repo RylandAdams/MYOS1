@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	useLocation,
-} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import LockScreen from './LockScreen/lockScreen';
 import HomeScreen from './homeScreen/homeScreen';
@@ -19,12 +14,10 @@ import Youtube from '../pages/youtube/youtube';
 import Apple from '../pages/apple/apple';
 import Spotify from '../pages/spotify/spotify';
 import SoundCloud from '../pages/soundcloud/soundcloud';
-import Calculator from '../pages/calculator/calculator';
 import Flappybird from '../pages/flappybird/flappyBird';
 
 // FOOTER APPS
 import Messages from '../pages/messages/messages';
-import Safari from '../pages/safari/safari';
 import Settings from '../pages/settings/settings';
 
 // MESSAGE CONVERSATIONS
@@ -94,18 +87,10 @@ const AnimatedRoutes = () => {
 					element={<SoundCloud />}
 				/>
 				<Route
-					path='/calculator'
-					element={<Calculator />}
-				/>
-				<Route
 					path='/flappyBird'
 					element={<Flappybird />}
 				/>
 				// FOOTER APPS -------------
-				<Route
-					path='/safari'
-					element={<Safari />}
-				/>
 				<Route
 					path='/settings'
 					element={<Settings />}

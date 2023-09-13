@@ -3,13 +3,13 @@ import './cameraRoll.css';
 
 import Gallery from 'react-photo-gallery';
 
-import RylandStudioSide from './photos/RylandStudioSide.png';
+import RylandStudioSide from './photos/RylandStudioSide.jpg';
 import Glisan from './photos/Glisan.png';
-import RiceNSpice from './photos/RiceNSpice.png';
+import RiceNSpice from './photos/RiceNSpice.jpg';
 import RhodesRoom from './photos/RhodesRoom.png';
-import FineByMe from './photos/FineByMe.png';
+import FineByMe from './photos/FineByMe.jpg';
 import DriveBlur from './photos/DriveBlur.png';
-import BHDenialSingle from './photos/BHDenialSingle.png';
+import BHDenialSingle from './photos/BHDenialSingle.jpg';
 
 const photos = [
 	{

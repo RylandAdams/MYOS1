@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import SlideToUnlock from '../slideToUnlock/slideToUnlock';
 
-import lockScreenBackground from '../../assets/imgs/lockScreenBackground.JPG';
+import lockScreenBackground from '../../assets/imgs/lockScreenBackground.jpg';
 
 const LockScreen = () => {
 	const [date, setDate] = useState(new Date());
@@ -37,14 +37,18 @@ const LockScreen = () => {
 					<SlideToUnlock />
 				</div>
 
-				<div className='lockScreenTopTransSqr'>
-					{date.toLocaleTimeString([], {
-						// hour: '2-digit',
-						// minute: '2-digit',
-						hour: 'numeric',
-						minute: '2-digit',
-						hour12: true,
-					})}
+				<div className='lockScreenTopTransSqr'></div>
+				<div className='lockScreenClock'>
+					{date
+						.toLocaleTimeString([], {
+							// hour: '2-digit',
+							// minute: '2-digit',
+							hour: 'numeric',
+							minute: '2-digit',
+							hour12: true,
+						})
+						.replace(/\s?[APap][Mm]\.?/, '')}{' '}
+					{/* REMOVES AM/PM TEXT */}
 				</div>
 				<div className='lockScreenBottomTransSqr'></div>
 			</motion.div>

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import './ipod.css';
-
-import Iframe from 'react-iframe';
-import explicit from '../../assets/songs/explicit.png';
 import { BsMusicNote, BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 import { MdOutlineDownloading } from 'react-icons/md';
 import { AiTwotoneStar, AiOutlineSearch } from 'react-icons/ai';

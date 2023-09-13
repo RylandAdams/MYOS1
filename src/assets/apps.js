@@ -4,7 +4,7 @@ import weather from './imgs/weather.png';
 import ipod from './imgs/ipod.png';
 import tiktok from './imgs/TikTok.png';
 import insta from './imgs/Instagram.png';
-import youtube from './imgs/youtube.jpg';
+import youtube from './imgs/youtube.png';
 import apple from './imgs/apple.png';
 import spotify from './imgs/spotify.png';
 import soundcloud from './imgs/soundcloud.png';
@@ -109,6 +109,7 @@ export const FOOTERAPPS = [
 		id: 3,
 		appName: 'Safari',
 		appImage: safari,
+		url: 'https://instagram.com/ryland.wav?igshid=MjEwN2IyYWYwYw==',
 	},
 	{
 		id: 4,
