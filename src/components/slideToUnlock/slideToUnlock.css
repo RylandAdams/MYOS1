@@ -85,6 +85,8 @@
 }
 
 .textInSlide {
+	padding-left: 4%;
+	color: transparent;
 	background-image: linear-gradient(
 		-250deg,
 		#202020 0%,
@@ -93,28 +95,17 @@
 		#aaaaaa 80%,
 		#1d1d1d 100%
 	);
-	background-size: 100% 60%; /* Adjusted background size for better visibility */
-	background-clip: text;
+	background-size: 200% 100%;
 	-webkit-background-clip: text;
-	color: transparent;
-	animation: textclip 20s linear infinite;
-	display: inline-block;
-
-	padding-left: 4.2%;
+	animation: slide 5s linear infinite;
+	white-space: nowrap; /* Prevent text from wrapping */
 }
 
-@keyframes textclip {
+@keyframes slide {
 	0% {
-		background-position: -100% center; /* Adjusted initial position */
+		background-position: 200% center;
 	}
 	100% {
-		background-position: 100% center; /* Adjusted final position */
-	}
-}
-
-/* Add a media query for smaller screens, such as mobile devices */
-@media (max-width: 768px) {
-	.textInSlide {
-		background-size: 100% 80%; /* Further adjusted background size */
+		background-position: -200% center;
 	}
 }
