@@ -50,7 +50,16 @@ const LockScreen = () => {
 					<SlideToUnlock />
 				</div>
 				<div className='lockScreenTopTransSqr'></div>
-				<div className='lockScreenClock'>{formattedTime}</div>
+				<div
+					className='lockScreenClock'
+					style={{
+						fontFamily: 'sans-serif',
+						fontWeight: '100',
+						textShadow: '1px 1px 2px rgba(0, 0, 0, 0.55)',
+					}}
+				>
+					{formattedTime}
+				</div>
 				<div className='lockScreenDate'>{formattedDate}</div>
 				<div className='lockScreenBottomTransSqr'></div>
 			</motion.div>
