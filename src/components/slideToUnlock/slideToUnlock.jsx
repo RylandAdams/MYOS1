@@ -49,7 +49,7 @@ const SlideToUnlock = () => {
 
 			// Set your desired boundaries here
 			const minTranslateX = 0; // Minimum X position
-			const maxTranslateX = 215; // Maximum X position
+			const maxTranslateX = 191; // Maximum X position
 
 			// Make sure newTranslateX stays within the boundaries
 			const boundedTranslateX = Math.max(

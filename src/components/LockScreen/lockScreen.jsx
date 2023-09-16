@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './lockScreen.css';
 import { motion } from 'framer-motion';
-
 import SlideToUnlock from '../slideToUnlock/slideToUnlock';
-
 import lockScreenBackground from '../../assets/imgs/lockScreenBackground.jpg';
 
 const LockScreen = () => {
@@ -19,6 +17,21 @@ const LockScreen = () => {
 			clearInterval(timerId);
 		};
 	}, []);
+
+	const formattedTime = date
+		.toLocaleTimeString([], {
+			hour: 'numeric',
+			minute: '2-digit',
+			hour12: true,
+		})
+		.replace(/\s?[APap][Mm]\.?/, ''); // Removes AM/PM text
+
+	const formattedDate = date.toLocaleString('en-US', {
+		weekday: 'long',
+		month: 'long',
+		day: 'numeric',
+	});
+
 	return (
 		<>
 			{/* Fades in the lock screen */}
@@ -36,20 +49,9 @@ const LockScreen = () => {
 					{/* Slide to unlock component */}
 					<SlideToUnlock />
 				</div>
-
 				<div className='lockScreenTopTransSqr'></div>
-				<div className='lockScreenClock'>
-					{date
-						.toLocaleTimeString([], {
-							// hour: '2-digit',
-							// minute: '2-digit',
-							hour: 'numeric',
-							minute: '2-digit',
-							hour12: true,
-						})
-						.replace(/\s?[APap][Mm]\.?/, '')}{' '}
-					{/* REMOVES AM/PM TEXT */}
-				</div>
+				<div className='lockScreenClock'>{formattedTime}</div>
+				<div className='lockScreenDate'>{formattedDate}</div>
 				<div className='lockScreenBottomTransSqr'></div>
 			</motion.div>
 		</>

@@ -7,6 +7,20 @@
 	top: -0.8%;
 }
 
+.lockIcon {
+	padding-left: 49%;
+	padding-top: 3%;
+	font-size: 0.75rem;
+}
+
+@media (max-width: 641px) {
+	.lockIcon {
+		padding-left: 49%;
+		padding-top: 3%;
+		font-size: 0.6rem;
+	}
+}
+
 .left {
 	font-size: 0.7rem;
 	position: absolute;
