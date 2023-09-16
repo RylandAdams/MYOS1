@@ -112,7 +112,7 @@ body {
 	height: 65%;
 }
 
-.wallpaper {
+/* .wallpaper {
 	position: absolute;
 	padding-top: 2%;
 	width: 100%;
@@ -129,4 +129,4 @@ body {
 		rgba(168, 168, 168, 1) 100%
 	);
 	filter: brightness(75%);
-}
+} */
