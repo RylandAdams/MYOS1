@@ -1,41 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './lockScreen.css';
-
 import SlideToUnlock from '../slideToUnlock/slideToUnlock';
 import lockScreenBackground from '../../assets/imgs/lockScreenBackground.jpg';
 import linkTreeImg from '../../assets/imgs/linkTree.png';
-
-import { motion, AnimatePresence } from 'framer-motion';
-
-let didInit = false;
+import { motion } from 'framer-motion';
 
 const LockScreen = () => {
 	const [date, setDate] = useState(new Date());
-	const [notification, setNotification] = useState(false);
+	const [notificationVisible, setNotificationVisible] = useState(false);
 
-	// Initialize notification after 2 seconds
-	if (!didInit) {
-		setTimeout(() => {
-			setNotification(true);
-			shownotification();
-		}, 200);
-	}
-
-	// Show notification and hide after 3.45 seconds
-	const shownotification = () => {
-		didInit = true;
-		setTimeout(() => {
-			setNotification(false);
-		}, 34500);
-	};
-
+	// Function to refresh the clock
 	function refreshClock() {
 		setDate(new Date());
 	}
 
 	useEffect(() => {
+		// Show notification after 2 seconds
+		const notificationTimeout = setTimeout(() => {
+			setNotificationVisible(true);
+		}, 200);
+
+		// Clean up the timeout when the component unmounts
+		return () => {
+			clearTimeout(notificationTimeout);
+		};
+	}, []);
+
+	useEffect(() => {
+		// Set up an interval to refresh the clock every second
 		const timerId = setInterval(refreshClock, 1000);
-		return function cleanup() {
+
+		return () => {
+			// Clean up the interval when the component unmounts
 			clearInterval(timerId);
 		};
 	}, []);
@@ -46,7 +42,7 @@ const LockScreen = () => {
 			minute: '2-digit',
 			hour12: true,
 		})
-		.replace(/\s?[APap][Mm]\.?/, ''); // Removes AM/PM text
+		.replace(/\s?[APap][Mm]\.?/, ''); // Removes AM/PM text~
 
 	const formattedDate = date.toLocaleString('en-US', {
 		weekday: 'long',
@@ -85,11 +81,10 @@ const LockScreen = () => {
 				<div className='lockScreenDate'>{formattedDate}</div>
 				<div className='lockScreenBottomTransSqr'></div>
 			</motion.div>
-			{/* Render notification if notification state is true */}
-			{notification ? (
+			{/* Render notification if notificationVisible is true */}
+			{notificationVisible && (
 				<motion.a
 					initial={{ opacity: 0, y: -10, zIndex: 20 }}
-					// exit={{ opacity: 0, y: -10, zIndex: 20 }}
 					animate={{
 						opacity: 1,
 						y: 0,
@@ -98,9 +93,7 @@ const LockScreen = () => {
 					transition={{
 						duration: 1.5,
 						type: 'spring',
-						repeat: 1,
-						// repeatType: 'reverse',
-						// repeatDelay: 0.5,
+						repeat: 0,
 					}}
 					key='notification'
 					target='_blank'
@@ -113,11 +106,9 @@ const LockScreen = () => {
 						src={linkTreeImg}
 						alt='BadWeather'
 					/>
-					<div className='notificationTextTop'>Bad Weather - EP</div>
+					<div className='notificationTextTop'>LinkTree</div>
 					<div className='notificationTextBottem'></div>
 				</motion.a>
-			) : (
-				''
 			)}
 		</>
 	);

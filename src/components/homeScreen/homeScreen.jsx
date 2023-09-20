@@ -13,18 +13,17 @@ import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 const HomeScreen = () => {
 	return (
 		<>
-			<img
-				src={homeScreenBackground}
-				alt=''
-				className='homeScreenPicture'
-			/>
-
 			{/* Render apps */}
 			<motion.div
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
 			>
+				<img
+					src={homeScreenBackground}
+					alt=''
+					className='homeScreenPicture'
+				/>
 				{/* Main apps */}
 				<div className='apps'>
 					{MAINAPPS.map((app) => (
