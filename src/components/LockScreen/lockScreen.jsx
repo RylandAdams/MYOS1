@@ -82,7 +82,7 @@ const LockScreen = () => {
 				<div className='lockScreenBottomTransSqr'></div>
 			</motion.div>
 			{/* Render notification if notificationVisible is true */}
-			{notificationVisible && (
+			{/* {notificationVisible && (
 				<motion.a
 					initial={{ opacity: 0, y: -10, zIndex: 20 }}
 					animate={{
@@ -106,10 +106,10 @@ const LockScreen = () => {
 						src={linkTreeImg}
 						alt='BadWeather'
 					/>
-					<div className='notificationTextTop'>LinkTree</div>
+					<div className='notificationTextTop'></div>
 					<div className='notificationTextBottem'></div>
 				</motion.a>
-			)}
+			)} */}
 		</>
 	);
 };
