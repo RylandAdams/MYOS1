@@ -11,15 +11,23 @@
 	max-height: 58.19px;
 }
 
+.calenderIcon .singleApp img {
+	width: 103%;
+	height: 103%;
+	max-width: calc(59.19px * 1.03);
+	max-height: calc(58.19px * 1.03);
+}
+
 .appName {
 	font-size: 0.7rem;
-	height: 13px;
-	max-height: 13px;
+	min-height: 13px;
+	margin-top: -1px;
+	overflow: visible;
+	white-space: nowrap;
 }
 
 .Apps:hover {
 	opacity: 0.85;
-	width: -20px !important;
-	height: -20px !important;
-	border-radius: 7px 7px;
+	transform: scale(0.95);
+	border-radius: 7px;
 }

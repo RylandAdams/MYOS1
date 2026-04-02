@@ -1,0 +1,97 @@
+/* News app – list style, white like iPod song rows */
+/* Override global text-shadow for crisp, readable text */
+.newsPage,
+.newsPage * {
+	text-shadow: none !important;
+}
+
+.newsPage {
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
+	position: relative;
+	overflow: hidden;
+	background: rgb(255, 255, 255);
+}
+
+.newsScroll {
+	position: absolute;
+	top: 13.2%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	padding: 0 26px;
+}
+
+.newsScroll::-webkit-scrollbar {
+	display: none;
+}
+
+.newsRow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 0;
+	text-decoration: none;
+	color: inherit;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	transition: background 0.15s ease;
+}
+
+.newsRow:active {
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.newsRowThumb {
+	width: 72px;
+	height: 72px;
+	flex-shrink: 0;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.06);
+}
+
+.newsRowThumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.newsRowThumb-contain img {
+	object-fit: contain;
+}
+
+.newsRowText {
+	flex: 1;
+	min-width: 0;
+}
+
+.newsRowTitle {
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: rgb(30, 32, 38);
+	text-shadow: none;
+	margin: 0 0 4px;
+	line-height: 1.3;
+}
+
+.newsRowExcerpt {
+	font-size: 0.75rem;
+	font-weight: 400;
+	color: rgb(60, 65, 72);
+	text-shadow: none;
+	margin: 0 0 2px;
+	line-height: 1.35;
+}
+
+.newsRowDate {
+	font-size: 0.68rem;
+	font-weight: 400;
+	color: rgb(100, 105, 112);
+	text-shadow: none;
+	margin: 0;
+	line-height: 1.3;
+}

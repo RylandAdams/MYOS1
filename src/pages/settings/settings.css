@@ -1,101 +1,137 @@
+/* Settings – match iPod: soft neutral gray body, white content cards */
+
 .settingsPage {
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-
-	background-color: rgb(180, 180, 180);
-	background-image: repeating-linear-gradient(
-		-45deg,
-		rgba(255, 255, 255, 0.25),
-		rgba(255, 255, 255, 0.25) 1px,
-		transparent 1px,
-		transparent 6px
+	position: relative;
+	overflow: hidden;
+	/* Same soft gray gradient as iPod */
+	background: linear-gradient(
+		180deg,
+		rgb(215, 218, 222) 0%,
+		rgb(198, 202, 207) 30%,
+		rgb(185, 190, 196) 100%
 	);
-	background-size: 4px 4px;
 }
 
-.autoBox {
+.settingsScroll {
 	position: absolute;
-	background-color: rgb(255, 255, 255);
-
-	top: 8%;
-	left: 13%;
-
-	width: 75%;
-	height: 6%;
-
-	opacity: 0.9;
-
-	border-radius: 10px;
-	box-shadow: 2px 3px 15px 2px rgb(151, 150, 150);
+	top: 13.2%;
+	left: 6%;
+	right: 6%;
+	bottom: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	padding: 14px 0 24px;
 }
 
-.autoText {
-	position: absolute;
-	z-index: 2;
-	color: rgb(55, 55, 55);
-	font-size: 0.9rem;
+.settingsScroll::-webkit-scrollbar {
+	display: none;
+}
 
-	top: 9%;
-	left: 16%;
+.settingsSection {
+	margin-bottom: 20px;
+}
 
+.settingsSectionTitle {
+	font-size: 0.65rem;
+	font-weight: 600;
+	color: rgb(120, 125, 130);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	margin: 0 0 8px 4px;
 	text-shadow: none !important;
-	pointer-events: none;
 }
 
-.on {
-	position: absolute;
-	z-index: 2;
-	color: rgb(55, 55, 55);
+.wallpaperGrid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+}
+
+.wallpaperOption {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 10px;
+	background: rgb(255, 255, 255);
+	border: none;
+	border-radius: 8px;
+	border-bottom: 1px solid rgb(220, 224, 228);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	cursor: pointer;
+	transition: background 0.1s, box-shadow 0.15s;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.wallpaperOption:active {
+	background: rgb(245, 248, 252);
+}
+
+.wallpaperOption-active {
+	background: rgb(230, 240, 255);
+	box-shadow: 0 1px 3px rgba(0, 122, 255, 0.2);
+	border-bottom: 1px solid rgb(200, 220, 255);
+}
+
+.wallpaperPreview {
+	width: 100%;
+	aspect-ratio: 9 / 16;
+	border-radius: 6px;
+	background-size: cover;
+	background-position: center;
+	background-color: rgb(55, 58, 62);
+}
+
+.wallpaperLabel {
+	font-size: 0.72rem;
+	font-weight: 500;
+	color: rgb(20, 20, 20);
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.08);
+}
+
+.settingsRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 14px;
+	background: rgb(255, 255, 255);
+	border-radius: 8px;
+	border-bottom: 1px solid rgb(220, 224, 228);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	margin-bottom: 0;
+}
+
+.settingsRowLabel {
 	font-size: 0.9rem;
+	font-weight: 500;
+	color: rgb(20, 20, 20);
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.08);
+}
 
-	top: 9%;
-	left: 74%;
-
+.settingsRowValue {
+	font-size: 0.85rem;
+	color: rgb(100, 105, 110);
 	text-shadow: none !important;
-	pointer-events: none;
 }
 
-.settingsCaret {
-	position: absolute;
-	z-index: 1;
-	opacity: 1;
-	color: #d01616 !important;
-
-	width: 8%;
-	height: 10%;
-
-	top: 6.2%;
-	left: 80%;
-}
-
-.News {
-	position: absolute;
-	z-index: 1;
+.settingsNote {
+	font-size: 0.75rem;
+	color: rgb(120, 125, 130);
 	text-align: center;
-	color: rgb(255, 250, 250);
-
-	font-size: 0.9rem;
-
-	top: 35%;
-	left: 36%;
-
-	width: 30%;
-
-	pointer-events: none;
+	margin: 12px 0 4px;
+	text-shadow: none !important;
 }
 
-.Version {
-	position: absolute;
+.settingsVersion {
+	font-size: 0.75rem;
+	color: rgb(120, 125, 130);
 	text-align: center;
-	color: rgb(255, 255, 255);
-
-	font-size: 0.9rem;
-
-	top: 45%;
-	left: 36%;
-
-	width: 30%;
-
-	pointer-events: none;
+	margin: 16px 0 0;
+	text-shadow: none !important;
 }

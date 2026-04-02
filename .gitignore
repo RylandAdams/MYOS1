@@ -11,6 +11,10 @@
 # production
 /build
 
+# photos to upload (user drops MYOS [Place] folders here)
+/photos-to-upload/*
+!/photos-to-upload/.gitkeep
+
 # misc
 .DS_Store
 .env.local

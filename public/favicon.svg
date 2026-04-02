@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="rounded">
+      <rect x="0" y="0" width="512" height="512" rx="110" ry="110" />
+    </clipPath>
+  </defs>
+  <image
+    href="/APPLOGO.png"
+    x="0"
+    y="0"
+    width="512"
+    height="512"
+    preserveAspectRatio="xMidYMid slice"
+    clip-path="url(#rounded)"
+  />
+</svg>

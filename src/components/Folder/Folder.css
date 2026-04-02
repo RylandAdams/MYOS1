@@ -1,0 +1,190 @@
+/* Folder button – same size as app icon */
+.folderButton {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	font-family: 'SFMAC', sans-serif;
+	font-weight: lighter;
+	font-style: normal;
+	width: 100%;
+	height: 100%;
+	max-width: 59px;
+	max-height: 76px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.folderButton:hover {
+	opacity: 0.85;
+	transform: scale(0.95);
+	border-radius: 7px;
+}
+
+/* iOS-style folder preview – 4 icons in 2x2 grid, match app icon height */
+.folderPreview {
+	position: relative;
+	width: 59px;
+	height: 58.19px;
+	flex-shrink: 0;
+}
+
+.folderPreviewBg {
+	position: absolute;
+	inset: 0;
+	background: rgba(180, 185, 195, 0.55);
+	border-radius: 14px;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	z-index: 0;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.folderPreviewGrid {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	gap: 3px;
+	padding: 8px;
+	box-sizing: border-box;
+}
+
+.folderPreviewIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.15);
+}
+
+.folderPreviewIcon img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	max-width: 20px;
+	max-height: 20px;
+}
+
+.folderButton .appName {
+	font-family: 'SFMAC', sans-serif;
+	font-size: 0.7rem;
+	font-weight: lighter;
+	min-height: 13px;
+	margin-top: 2px;
+	overflow: visible;
+	white-space: nowrap;
+	text-align: center;
+	color: white;
+	text-shadow: 0.5px 0.5px 3px black;
+}
+
+/* Folder overlay – same layout as apps (x locked, y flows with UI), micro-adjusted */
+.folderOverlay {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	width: calc(100% - 6px);
+	max-width: 304px;
+	top: -3px;
+	bottom: -4px;
+	z-index: 9999;
+	background: rgba(0, 0, 0, 0.4);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	/* Soft fade at edges */
+	-webkit-mask-image: radial-gradient(
+		ellipse 98% 98% at 50% 50%,
+		black 75%,
+		transparent 100%
+	);
+	mask-image: radial-gradient(
+		ellipse 98% 98% at 50% 50%,
+		black 75%,
+		transparent 100%
+	);
+	-webkit-mask-size: 100% 100%;
+	mask-size: 100% 100%;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	padding: 8% 24px 24px;
+	box-sizing: border-box;
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+/* Folder content – soft gray to match folder icon */
+.folderContent {
+	position: relative;
+	background: rgba(180, 185, 195, 0.95);
+	border-radius: 24px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	width: 100%;
+	min-height: 180px;
+	max-height: 55%;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	cursor: default;
+	pointer-events: auto;
+}
+
+.folderApps {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 16px 12px;
+	padding: 20px 20px 20px;
+	flex: 1;
+	overflow-y: auto;
+	justify-items: center;
+	align-content: start;
+}
+
+.folderApps .Apps {
+	max-width: 64px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.folderApps .singleApp {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.folderApps .singleApp img {
+	max-width: 58px;
+	max-height: 58px;
+	border-radius: 12px;
+}
+
+.folderApps .calenderIcon .singleApp img {
+	width: 103%;
+	height: 103%;
+	max-width: calc(58px * 1.03);
+	max-height: calc(58px * 1.03);
+}
+
+.folderApps .appName {
+	font-family: 'SFMAC', sans-serif;
+	font-size: 0.65rem;
+	font-weight: lighter;
+	color: white;
+	text-shadow: 0.5px 0.5px 3px black;
+	text-align: center;
+	width: 100%;
+	margin-top: 2px;
+	min-height: 13px;
+}

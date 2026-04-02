@@ -1,51 +1,50 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
-import LockScreen from './LockScreen/lockScreen';
+import PageTransition from './PageTransition';
+import PageFallback from './PageFallback';
 import HomeScreen from './homeScreen/homeScreen';
 import OffScreen from './offScreen/offScreen';
 
-// MAIN APPS
-import Calender from '../pages/calender/calender';
-import Photos from '../pages/photos/photos';
-import Weather from '../pages/weather/weather';
-import Ipod from '../pages/ipod/ipod';
-import Youtube from '../pages/youtube/youtube';
-import Apple from '../pages/apple/apple';
-import Spotify from '../pages/spotify/spotify';
-import SoundCloud from '../pages/soundcloud/soundcloud';
-import Flappybird from '../pages/flappybird/flappyBird';
+const Calender = lazy(() => import('../pages/calender/calender'));
+const Photos = lazy(() => import('../pages/photos/photos'));
+const Weather = lazy(() => import('../pages/weather/weather'));
+const Ipod = lazy(() => import('../pages/ipod/ipod'));
+const Youtube = lazy(() => import('../pages/youtube/youtube'));
+const Apple = lazy(() => import('../pages/apple/apple'));
+const Spotify = lazy(() => import('../pages/spotify/spotify'));
+const SoundCloud = lazy(() => import('../pages/soundcloud/soundcloud'));
+const Flappybird = lazy(() => import('../pages/flappybird/flappyBird'));
+const News = lazy(() => import('../pages/news/news'));
+const ArticleReader = lazy(() => import('../pages/news/ArticleReader'));
 
-// FOOTER APPS
-import Messages from '../pages/messages/messages';
-import Settings from '../pages/settings/settings';
+const Messages = lazy(() => import('../pages/messages/messages'));
+const Settings = lazy(() => import('../pages/settings/settings'));
 
-// MESSAGE CONVERSATIONS
-import RickRubin from '../pages/messages/Conversations/RickRubin/RickRubin';
-import LouisBell from '../pages/messages/Conversations/LouisBell/LouisBell';
-
-import { AnimatePresence } from 'framer-motion';
+const RickRubin = lazy(() => import('../pages/messages/Conversations/RickRubin/RickRubin'));
+const LouisBell = lazy(() => import('../pages/messages/Conversations/LouisBell/LouisBell'));
 
 const AnimatedRoutes = () => {
 	let location = useLocation();
 
-	let searchBarURL = window.location.href;
-	console.log(searchBarURL);
-
 	return (
-		<AnimatePresence>
-			<Routes
-				location={location}
-				key={location.pathname}
-			>
+		<AnimatePresence mode="sync" initial={false}>
+			<Suspense fallback={<PageFallback />}>
+				<Routes
+					location={location}
+					key={location.pathname}
+				>
+				{/* Homepage: myos1.org goes straight to home screen (lock screen commented out) */}
+				<Route
+					path='/'
+					element={<HomeScreen />}
+				/>
+				{/* <Route path='/lock' element={<LockScreen />} /> */}
 				<Route
 					path={'*'}
 					element={<HomeScreen />}
 				/>
-				<Route
-					path='/'
-					element={<LockScreen />}
-				></Route>
 				<Route
 					path='/off'
 					element={<OffScreen />}
@@ -56,59 +55,68 @@ const AnimatedRoutes = () => {
 				/>
 				<Route
 					path='/calender'
-					element={<Calender />}
+					element={<PageTransition><Calender /></PageTransition>}
 				/>
 				<Route
 					path='/photos'
-					element={<Photos />}
+					element={<PageTransition><Photos /></PageTransition>}
 				/>
 				<Route
 					path='/weather'
-					element={<Weather />}
+					element={<PageTransition><Weather /></PageTransition>}
 				/>
 				<Route
 					path='/ipod'
-					element={<Ipod />}
+					element={<PageTransition><Ipod /></PageTransition>}
 				/>
 				<Route
 					path='/youtube'
-					element={<Youtube />}
+					element={<PageTransition><Youtube /></PageTransition>}
 				/>
 				<Route
 					path='/apple'
-					element={<Apple />}
+					element={<PageTransition><Apple /></PageTransition>}
 				/>
 				<Route
 					path='/spotify'
-					element={<Spotify />}
+					element={<PageTransition><Spotify /></PageTransition>}
 				/>
 				<Route
 					path='/soundcloud'
-					element={<SoundCloud />}
+					element={<PageTransition><SoundCloud /></PageTransition>}
 				/>
 				<Route
 					path='/flappyBird'
-					element={<Flappybird />}
+					element={<PageTransition><Flappybird /></PageTransition>}
 				/>
-				// FOOTER APPS -------------
+				<Route
+					path='/news'
+					element={<PageTransition><News /></PageTransition>}
+				/>
+				<Route
+					path='/news/:id'
+					element={<PageTransition><ArticleReader /></PageTransition>}
+				/>
+				{/* FOOTER APPS */}
 				<Route
 					path='/settings'
-					element={<Settings />}
+					element={<PageTransition><Settings /></PageTransition>}
 				/>
 				<Route
 					path='/messages'
-					element={<Messages />}
+					element={<PageTransition><Messages /></PageTransition>}
 				/>
-				// MESSAGE CONVERSATIONS ------
+				{/* MESSAGE CONVERSATIONS */}
 				<Route
 					path='/messages/RickRubin'
-					element={<RickRubin />}
+					element={<PageTransition><RickRubin /></PageTransition>}
 				/>
 				<Route
 					path='/messages/Virmedius'
-					element={<LouisBell />}
+					element={<PageTransition><LouisBell /></PageTransition>}
 				/>
-			</Routes>
+				</Routes>
+			</Suspense>
 		</AnimatePresence>
 	);
 };

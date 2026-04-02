@@ -14,46 +14,38 @@
 	background-size: 4px 4px;
 }
 
-.lockScreenPicture {
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 0;
-	width: 100%;
-	max-width: 310px;
-
-	top: 3.8%;
-	left: 1.75%;
-	right: 0%;
-
-	height: 100%;
-	max-height: 455px;
-
-	margin-top: -4%;
-
-	/* opacity: 8%; */
-}
-
+.lockScreenPicture,
 .homeScreenPicture {
 	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	z-index: 0;
+	left: 50%;
+	transform: translateX(-50%);
 	width: 100%;
 	max-width: 310px;
-
-	left: 1.75%;
-	right: 0%;
-
 	height: 100%;
+	box-sizing: border-box;
+}
+
+.lockScreenPicture {
+	top: 3.8%;
+	max-height: 455px;
+	margin-top: -4%;
+}
+
+.homeScreenPicture {
+	top: 0;
 	max-height: 447px;
-
 	margin-top: -3%;
-
-	opacity: 90%;
-	filter: brightness(80%);
+	background: linear-gradient(
+		to bottom left,
+		rgb(105, 105, 105) 0%,
+		rgb(50, 50, 50) 45%,
+		rgb(15, 15, 15) 75%,
+		rgb(0, 0, 0) 100%
+	);
 }
 /* POP UP */
 

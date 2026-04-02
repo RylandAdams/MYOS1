@@ -1,0 +1,110 @@
+.calenderPage {
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	/* Same background as iPod */
+	background: linear-gradient(
+		180deg,
+		rgb(215, 218, 222) 0%,
+		rgb(198, 202, 207) 30%,
+		rgb(185, 190, 196) 100%
+	);
+}
+
+.calenderBody {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 14% 10px 16px 10px;
+	min-height: 0;
+}
+
+.calenderMonth {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: rgb(40, 40, 45);
+	text-shadow: none;
+	margin-bottom: 8px;
+	text-align: center;
+}
+
+.calenderWeekdays {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 1px;
+	margin-bottom: 1px;
+}
+
+.calenderWeekday {
+	font-size: 0.55rem;
+	font-weight: 600;
+	color: rgb(55, 55, 65);
+	text-shadow: none;
+	text-align: center;
+	background: rgba(195, 198, 205, 0.95);
+	padding: 4px 0;
+	border: 1px solid rgba(170, 173, 180, 0.9);
+}
+
+.calenderGrid {
+	flex: 1;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 1px;
+	min-height: 0;
+	align-content: start;
+}
+
+.calenderCell {
+	aspect-ratio: 1;
+	min-height: 0;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	background: rgb(255, 255, 255);
+	border: 1px solid rgba(200, 200, 210, 0.9);
+	position: relative;
+	padding: 2px;
+}
+
+.calenderCell.empty {
+	background: rgba(248, 248, 250, 0.6);
+}
+
+.calenderCell.today {
+	background: rgb(95, 135, 185);
+	border-color: rgb(85, 125, 175);
+}
+
+.calenderCell.today .calenderDayNum {
+	color: white;
+	text-shadow: none;
+}
+
+.calenderDayNum {
+	font-size: 0.58rem;
+	font-weight: 600;
+	color: rgb(50, 50, 55);
+	text-shadow: none;
+	line-height: 1;
+}
+
+.calenderQuestion {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: rgb(140, 140, 150);
+	text-shadow: none;
+	line-height: 1;
+}
+
+.calenderCell.today.lastFriday .calenderQuestion {
+	color: rgba(255, 255, 255, 0.95);
+}

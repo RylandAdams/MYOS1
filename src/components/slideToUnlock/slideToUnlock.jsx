@@ -64,7 +64,6 @@ const SlideToUnlock = () => {
 			isDragging = false;
 			const translateX = getTranslateX();
 			if (translateX > 160) {
-				console.log('DONE');
 				toHomeScreen();
 				well.style.display = 'none';
 			} else {

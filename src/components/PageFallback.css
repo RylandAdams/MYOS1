@@ -1,0 +1,13 @@
+/* Matches Photos, iPod, Calendar – light gray gradient so loading feels intentional */
+.pageFallback {
+	width: 100%;
+	min-height: 400px;
+	height: 105%;
+	margin-top: -3%;
+	background: linear-gradient(
+		180deg,
+		rgb(215, 218, 222) 0%,
+		rgb(198, 202, 207) 30%,
+		rgb(185, 190, 196) 100%
+	);
+}

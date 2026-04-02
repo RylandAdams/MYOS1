@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import './app.css';
 
-const App = (app) => {
-	const { id, appName, appImage, url } = app.data;
+const App = memo((app) => {
+	const { id, appName, appImage, url, path } = app.data;
+	const linkTo = path || `/${appName}`;
+	const isCalender = appName === 'Calender';
+	const appClass = isCalender ? 'Apps calenderIcon' : 'Apps';
 	return (
 		<>
 			{url === undefined ? (
 				<Link
-					to={`/${appName}`}
-					className='Apps'
+					to={linkTo}
+					className={appClass}
 				>
 					<div className='singleApp'>
 						<img
 							src={appImage}
 							alt={`app${id}`}
+							loading="lazy"
 						/>
 						<div className='appName'>{appName}</div>
 					</div>
@@ -23,12 +27,14 @@ const App = (app) => {
 				<a
 					href={url}
 					target='_blank'
-					className='Apps'
+					rel="noopener noreferrer"
+					className={appClass}
 				>
 					<div className='singleApp'>
 						<img
 							src={appImage}
 							alt={`app${id}`}
+							loading="lazy"
 						/>
 						<div className='appName'>{appName}</div>
 					</div>
@@ -36,6 +42,8 @@ const App = (app) => {
 			)}
 		</>
 	);
-};
+});
+
+App.displayName = 'App';
 
 export default App;

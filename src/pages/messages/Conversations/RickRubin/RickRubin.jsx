@@ -6,7 +6,7 @@ import { RxCaretLeft } from 'react-icons/rx';
 
 import { Link } from 'react-router-dom';
 
-import CountryIbprofen from '../../../../assets/songs/CountryIbprofen.png';
+import itunesCover from '../../../../assets/songs/itunesCover.png';
 
 const RickRubin = () => {
 	return (
@@ -18,28 +18,33 @@ const RickRubin = () => {
 				<RxCaretLeft className='caretPostion' />
 			</Link>
 			<div className='topBarIpod'></div>
-			<div className='HEADERRickRubin'>Mr.Rubin</div>
-			<div className='textToRickBubble'></div>
-			<div className='textToRick'>
+			<div className='HEADERRickRubin'>Rick Rubin</div>
+			{/* <div className='textToRickBubble'></div> */}
+			{/* <div className='textToRick'>
 				Hey Rick, let me know what your thinking.
-			</div>
-			<a className='textSongToRickBubble'></a>
-			<a className='textSongToRickBubbleInner'></a>
+			</div> */}
+			<div className='textSongToRickBubble' />
+			<div className='textSongToRickBubbleInner' />
 			<a
 				target='_blank'
+				rel='noopener noreferrer'
 				href='https://soundcloud.com/rylandofficialmusic/country-ibuprofen/s-C7MKFVD3y97?si=65b2282d37e547cfb4c895d06a8c9f85&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'
 			>
 				<img
-					src={CountryIbprofen}
+					src={itunesCover}
 					alt='typing'
 					className='song001'
+					loading="lazy"
 				/>
-				<div className='songName001'>Country Ibuprofen</div>
+				<div className='songName001'>
+					Listen Here <br />- DEMO
+				</div>
 			</a>
 			<img
 				src={typing}
 				alt='typing'
 				className='rickTyping'
+				loading="lazy"
 			/>
 		</div>
 	);

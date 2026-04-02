@@ -1,18 +1,14 @@
 import React from 'react';
 import './flappyBird.css';
-import Iframe from 'react-iframe';
-import { Dots } from 'loading-animations-react';
 
 const Flappybird = () => {
 	return (
 		<div className='game'>
-			<div className='loading'>
-				<Dots />
-			</div>
-			<Iframe
-				scrolling='no'
-				url='https://playcanv.as/p/2OlkUaxF/'
+			<iframe
+				src='https://playcanv.as/p/bSj5XiQn'
 				className='gameWindow'
+				title='Flappy Bird'
+				allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
 			/>
 		</div>
 	);

@@ -2,29 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './lockScreen.css';
 import SlideToUnlock from '../slideToUnlock/slideToUnlock';
 import lockScreenBackground from '../../assets/imgs/lockScreenBackground.jpg';
-import linkTreeImg from '../../assets/imgs/linkTree.png';
 import { motion } from 'framer-motion';
 
 const LockScreen = () => {
 	const [date, setDate] = useState(new Date());
-	const [notificationVisible, setNotificationVisible] = useState(false);
 
-	// Function to refresh the clock
 	function refreshClock() {
 		setDate(new Date());
 	}
-
-	useEffect(() => {
-		// Show notification after 2 seconds
-		const notificationTimeout = setTimeout(() => {
-			setNotificationVisible(true);
-		}, 200);
-
-		// Clean up the timeout when the component unmounts
-		return () => {
-			clearTimeout(notificationTimeout);
-		};
-	}, []);
 
 	useEffect(() => {
 		// Set up an interval to refresh the clock every second

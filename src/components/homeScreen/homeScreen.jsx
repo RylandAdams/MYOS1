@@ -1,46 +1,122 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './homeScreen.css';
-import BadWeather from '../../assets/songs/BadWeather.png';
-import homeScreenBackground from '../../assets/imgs/iosbackground.jpeg';
 
 import { motion } from 'framer-motion';
 
-import dock from '../../assets/imgs/DockBar.jpg';
-
+import { usePowerOn } from '../../context/PowerOnContext';
+import { preloadStoragePhotos } from '../../utils/photoStorage';
+import { useWallpaper } from '../../context/WallpaperContext';
 import App from '../app';
+import Folder from '../Folder/Folder';
 import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 
+const POWER_ON_KEY = 'homeScreenPowerOnSeen';
+
 const HomeScreen = () => {
+	const { powerOnComplete } = usePowerOn();
+	const { wallpaper } = useWallpaper();
+	const shouldInstantHome = (() => {
+		try {
+			return powerOnComplete && sessionStorage.getItem(POWER_ON_KEY) === '1';
+		} catch {
+			return false;
+		}
+	})();
+
+	const containerVariants = shouldInstantHome
+		? {
+			hidden: { opacity: 1 },
+			visible: { opacity: 1, transition: { staggerChildren: 0, delayChildren: 0 } },
+		}
+		: {
+			hidden: { opacity: 0 },
+			visible: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0.2 } },
+		};
+
+	const footerVariants = shouldInstantHome
+		? {
+			hidden: { opacity: 1 },
+			visible: { opacity: 1, transition: { staggerChildren: 0, delayChildren: 0 } },
+		}
+		: {
+			hidden: { opacity: 0 },
+			visible: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0.35 } },
+		};
+
+	const childVariants = shouldInstantHome
+		? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+		: { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+
+	useEffect(() => {
+		if (powerOnComplete) {
+			preloadStoragePhotos();
+			// Preload main apps so they open instantly
+			import('../../pages/photos/photos');
+			import('../../pages/ipod/ipod');
+			import('../../pages/calender/calender');
+			import('../../pages/weather/weather');
+		}
+	}, [powerOnComplete]);
+
+	const wallpaperStyle =
+		wallpaper.type === 'image'
+			? { backgroundImage: `url(${wallpaper.value})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+			: { background: wallpaper.value };
+
 	return (
 		<>
+			{/* Power-on overlay moved to PowerOnOverlay – covers full iPhone screen */}
 			{/* Render apps */}
 			<motion.div
-				initial={{ opacity: 0 }}
+				className="homeScreenWrapper"
+				initial={{ opacity: 1 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
+				transition={{ duration: 0.15 }}
 			>
-				<img
-					src={homeScreenBackground}
-					alt=''
+				{/* Screen bounds – same positioning as apps/dock (left 50%, translateX -50%, max-width 310px) */}
+				<div className="screenBounds" aria-hidden="true" />
+				<motion.div
 					className='homeScreenPicture'
+					style={wallpaperStyle}
+					initial={shouldInstantHome ? { opacity: 1 } : { opacity: 0 }}
+					animate={powerOnComplete ? { opacity: 1 } : { opacity: 0 }}
+					transition={shouldInstantHome ? { duration: 0 } : { duration: 0.8, ease: 'easeOut' }}
 				/>
-				{/* Main apps */}
-				<div className='apps'>
-					{MAINAPPS.map((app) => (
-						<App
-							data={app}
-							key={app.id}
-						/>
-					))}
-				</div>
+				{/* Main apps – fade in with stagger */}
+				<motion.div
+					className='apps'
+					initial="hidden"
+					animate={powerOnComplete ? 'visible' : 'hidden'}
+					variants={containerVariants}
+				>
+					{MAINAPPS.map((app) =>
+						app.isFolder ? (
+							<motion.div key={app.id} variants={childVariants}>
+								<Folder
+									folderName={app.folderName}
+									apps={app.apps}
+								/>
+							</motion.div>
+						) : (
+							<motion.div key={app.id} variants={childVariants}>
+								<App data={app} />
+							</motion.div>
+						)
+					)}
+				</motion.div>
 
-				{/* Footer apps */}
-				<div className='footerApps'>
+				{/* Footer apps – fade in with stagger like main apps */}
+				<motion.div
+					className='footerApps'
+					initial="hidden"
+					animate={powerOnComplete ? 'visible' : 'hidden'}
+					variants={footerVariants}
+				>
 					{FOOTERAPPS.map((app) => (
-						<App
-							data={app}
-							key={app.id}
-						/>
+						<motion.div key={app.id} variants={childVariants}>
+							<App data={app} />
+						</motion.div>
 					))}
 					<link
 						rel='stylesheet'
@@ -50,13 +126,14 @@ const HomeScreen = () => {
 						rel='stylesheet'
 						href='EMAIL ME'
 					/>
-				</div>
+				</motion.div>
 
-				{/* Dock bar */}
-				<img
-					src={dock}
+				{/* Dock bar – fades in with background, no separate icon-style animation */}
+				<motion.div
 					className='dock'
-					alt='dock'
+					initial={shouldInstantHome ? { opacity: 1 } : { opacity: 0 }}
+					animate={powerOnComplete ? { opacity: 1 } : { opacity: 0 }}
+					transition={shouldInstantHome ? { duration: 0 } : { duration: 0.8, ease: 'easeOut' }}
 				/>
 			</motion.div>
 		</>

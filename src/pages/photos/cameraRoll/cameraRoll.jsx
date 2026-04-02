@@ -1,71 +1,88 @@
-import React from 'react';
-import './cameraRoll.css';
+import React from "react";
+import "./cameraRoll.css";
 
-import Gallery from 'react-photo-gallery';
+import PhotoAlbum from "react-photo-album";
+import Lightbox from "yet-another-react-lightbox";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+import "yet-another-react-lightbox/styles.css";
 
-import RylandStudioSide from './photos/RylandStudioSide.jpg';
-import Glisan from './photos/Glisan.png';
-import RiceNSpice from './photos/RiceNSpice.jpg';
-import RhodesRoom from './photos/RhodesRoom.png';
-import FineByMe from './photos/FineByMe.jpg';
-import DriveBlur from './photos/DriveBlur.png';
-import BHDenialSingle from './photos/BHDenialSingle.jpg';
+import RylandStudioSide from "./photos/RylandStudioSide.jpg";
+import Glisan from "./photos/Glisan.png";
+import RiceNSpice from "./photos/RiceNSpice.jpg";
+import RhodesRoom from "./photos/RhodesRoom.png";
+import FineByMe from "./photos/FineByMe.jpg";
+import DriveBlur from "./photos/DriveBlur.png";
+import BHDenialSingle from "./photos/BHDenialSingle.jpg";
 
-const photos = [
-	{
-		src: DriveBlur,
-		loading: 'lazy',
-		width: 1,
-		height: 0.6,
-	},
-	{
-		src: RylandStudioSide,
-		loading: 'lazy',
-		width: 1,
-		height: 0.8,
-	},
-	{
-		src: Glisan,
-		loading: 'lazy',
-		width: 0.1,
-		height: 0.1,
-	},
-	{
-		src: BHDenialSingle,
-		loading: 'lazy',
-		width: 1,
-		height: 1,
-	},
-	{
-		src: FineByMe,
-		loading: 'lazy',
-		width: 1,
-		height: 1,
-	},
-	{
-		src: RiceNSpice,
-		loading: 'lazy',
-		width: 1,
-		height: 1,
-	},
-	{
-		src: RhodesRoom,
-		loading: 'lazy',
-		width: 1,
-		height: 1,
-	},
+function measure(src, title) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () =>
+      resolve({ src, width: img.naturalWidth || 1600, height: img.naturalHeight || 1066, title });
+    img.onerror = () => resolve({ src, width: 1600, height: 1066, title });
+    img.src = src;
+  });
+}
+
+const RAW = [
+  { src: DriveBlur, title: "DriveBlur" },
+  { src: BHDenialSingle, title: "BHDenialSingle" },
+  { src: FineByMe, title: "FineByMe" },
+  { src: Glisan, title: "Glisan" },
+  { src: RhodesRoom, title: "RhodesRoom" },
+  { src: RiceNSpice, title: "RiceNSpice" },
+  { src: RylandStudioSide, title: "RylandStudioSide" },
 ];
 
-const CameraRoll = () => {
-	return (
-		<div className='cameraRollPage'>
-			<Gallery
-				photos={photos}
-				direction={'column'}
-				onClick={''}
-			/>
-		</div>
-	);
-};
+export default function CameraRoll() {
+  const [photos, setPhotos] = React.useState([]);
+  const [index, setIndex] = React.useState(-1);
 
-export default CameraRoll;
+  React.useEffect(() => {
+    let alive = true;
+    Promise.all(RAW.map(({ src, title }) => measure(src, title))).then((out) => {
+      if (alive) setPhotos(out);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  if (!photos.length) {
+    return (
+      <div className="cameraRollPage">
+        <div className="cameraRollLoading">Loading photos…</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="cameraRollPage">
+      <PhotoAlbum
+        layout="columns"
+        columns={2}          // always 2 small columns
+        spacing={6}
+        photos={photos}
+        onClick={({ index }) => setIndex(index)}
+        renderPhoto={({ imageProps }) => (
+          <img
+            {...imageProps}
+            loading="lazy"
+            alt=""
+            style={{ ...imageProps.style, display: "block", borderRadius: 8, objectFit: "cover" }}
+          />
+        )}
+      />
+
+      <Lightbox
+        open={index >= 0}
+        close={() => setIndex(-1)}
+        index={index}
+        slides={photos.map((p) => ({ src: p.src, title: p.title }))}
+        plugins={[Captions]}
+        controller={{ closeOnBackdropClick: true }}
+        styles={{ container: { backgroundColor: "rgba(0,0,0,0.95)" } }}
+      />
+    </div>
+  );
+}

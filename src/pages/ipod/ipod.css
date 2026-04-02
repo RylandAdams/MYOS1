@@ -1,465 +1,671 @@
+/* iTunes-style iPod – classic iPhone aesthetic */
+
 .ipod {
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
+	position: relative;
+	overflow: hidden;
 
-	background-color: rgb(180, 180, 180);
-	background-image: repeating-linear-gradient(
-		-45deg,
-		rgba(255, 255, 255, 0.25),
-		rgba(255, 255, 255, 0.25) 1px,
-		transparent 1px,
-		transparent 6px
-	);
-	background-size: 4px 4px;
-}
-
-Button:hover {
-	background-color: rgb(255, 255, 255);
-	opacity: 0.9;
-}
-
-.songsListed button {
-	border: none;
-}
-
-.HEADER {
-	position: absolute;
-	color: rgb(248, 248, 248) !important;
-
-	z-index: 1;
-	font-weight: 500;
-	opacity: 1;
-
-	width: 100%;
-	height: 100%;
-	left: 40.5%;
-	top: 0%;
-
-	pointer-events: none;
-}
-
-@media screen and (max-height: 600px) {
-	.HEADER {
-		position: absolute;
-		color: rgb(248, 248, 248) !important;
-
-		z-index: 1;
-		font-weight: 400;
-		opacity: 1;
-
-		font-size: 1.8rem;
-
-		width: 100%;
-		height: 100%;
-		left: 41.5%;
-		top: -1%;
-
-		pointer-events: none;
-	}
-}
-
-.filterBy {
-	position: absolute;
-	color: rgb(255, 255, 255);
-	z-index: 2;
-	letter-spacing: 0.03rem;
-	font-size: 65%;
-	font-weight: 150;
-	opacity: 0.9;
-	text-shadow: 1px 1px 85px black !important;
-
-	left: 32.1%;
-	top: 20.72%;
-	pointer-events: none;
-}
-
-.filterBar {
-	position: absolute;
-	background-color: rgb(248, 248, 248);
-	border-radius: 10px;
-	z-index: 0;
-	font-weight: 500;
-	opacity: 0.95;
-	box-shadow: 1.7px 1px 10px rgb(132, 132, 132);
-
-	width: 40%;
-	height: 3.5%;
-	left: 30.5%;
-	top: 20.5%;
-}
-
-.byDate {
-	position: absolute;
-	color: rgb(52, 52, 52);
-	text-shadow: none;
-	box-shadow: 1px 1px rgb(0, 0, 0);
-	font-weight: bolder;
-	background-color: rgb(54, 55, 56);
-	text-align: center;
-	border-radius: 10px;
-	z-index: 1;
-	font-weight: 500;
-	opacity: 0.2;
-
-	width: 24%;
-	height: 3%;
-	left: 30.5%;
-	top: 20.7%;
-	pointer-events: none;
-}
-
-.pausePlayOverlaySong1 {
-	position: absolute;
-	background-color: whitesmoke;
-	opacity: 0.5;
-	z-index: 10;
-	border-radius: 9px;
-
-	width: 100%;
-	height: 32%;
-	left: 0%;
-	top: 0%;
-
-	font-size: 170%;
-}
-
-.pausePlayOverlaySong2 {
-	position: absolute;
-	background-color: whitesmoke;
-	opacity: 0.7;
-	z-index: 10;
-	border-radius: 9px;
-
-	width: 100%;
-	height: 32%;
-	left: 0%;
-	top: 34%;
-
-	font-size: 170%;
-}
-
-.pausePlayOverlaySong3 {
-	position: absolute;
-	z-index: 7;
-	opacity: 0.7;
-	background-color: whitesmoke;
-
-	text-align: center;
-	align-items: center;
-	color: rgb(255, 255, 255);
-	letter-spacing: 0.182rem;
-
-	height: 31.2%;
-	width: 100%;
-	left: 0%;
-
-	top: 68.5%;
-	border-radius: 9px;
-}
-
-.pausePlayIcon {
-	position: absolute;
-	z-index: 11;
-	width: 20%;
-	height: 75%;
-
-	top: 14%;
-	right: 74.7%;
-}
-@media (max-width: 641px) {
-	.pausePlayIcon {
-		position: absolute;
-		z-index: 11;
-		width: 20%;
-		height: 75%;
-
-		top: 14%;
-		right: 72.7%;
-	}
-}
-
-.songsListed {
-	position: absolute;
-	z-index: 2;
-	display: flex;
-	gap: 5px;
-	flex-direction: column;
-
-	width: 76%;
-	top: 29%;
-	left: 12%;
-}
-
-.songImg {
-	width: 3.5rem;
-
-	padding-top: 1.5%;
-	padding-bottom: 1%;
-	border-radius: 10%;
-}
-
-.songText {
-	left: 10%;
-}
-
-.topBarIpod {
-	position: absolute;
-	z-index: 0;
-	opacity: 0.9;
-
-	background: rgb(255, 255, 255);
+	/* Light gray gradient background – matches iTunes */
 	background: linear-gradient(
 		180deg,
-		rgba(255, 255, 255, 1) 0%,
-		rgba(100, 170, 208, 1) 68%
+		rgb(215, 218, 222) 0%,
+		rgb(198, 202, 207) 30%,
+		rgb(185, 190, 196) 100%
 	);
-	outline: 0.15rem solid rgb(106, 106, 106);
-
-	width: 100%;
-	height: 9%;
-
-	top: 4.45%;
 }
 
-.bottomBar {
-	position: absolute;
-	z-index: 1;
-
-	background-color: rgb(30, 30, 30);
-	opacity: 0.9;
-	width: 100%;
-	height: 13%;
-
-	top: 88%;
-}
-
-.farLeft {
-	position: absolute;
-	z-index: 1;
-
-	width: 25%;
-	height: 13%;
-	left: 1%;
-	top: 88%;
-}
-
-.musicIcon {
-	position: absolute;
-	z-index: 1;
-
-	width: 40%;
-	height: 100%;
-	left: 30%;
-}
-
-.midLeft {
-	position: absolute;
-	z-index: 1;
-	background-color: rgb(117, 117, 117);
-	opacity: 0.7;
-	width: 25%;
-	height: 13%;
-	left: 26%;
-	top: 88%;
-	border-radius: 10%;
-}
-
-.starIcon {
-	position: absolute;
-	z-index: 1;
-
-	width: 45%;
-	height: 100%;
-	left: 29%;
-	color: rgb(64, 240, 240) !important;
-}
-
-.starIconShadow {
-	position: absolute;
-	z-index: 0;
-
-	width: 45%;
-	height: 100%;
-	left: 30.5%;
-	top: 2%;
-	color: rgb(1, 1, 1);
-}
-
-.midRight {
-	position: absolute;
-	z-index: 1;
-
-	width: 25%;
-	height: 13%;
-	left: 51%;
-	top: 88%;
-}
-
-.searchIcon {
-	position: absolute;
-	z-index: 1;
-
-	width: 40%;
-	height: 100%;
-	left: 30%;
-}
-
-.farRight {
-	position: absolute;
-	z-index: 1;
-
-	width: 25%;
-	height: 13%;
-	left: 76%;
-	top: 88%;
-}
-
-.downloadIcon {
-	position: absolute;
-	z-index: 1;
-
-	width: 40%;
-	height: 100%;
-	left: 23%;
-}
-
-/* SONG 1 */
-.song1 {
-	display: flex;
-	flex-direction: row;
+button {
+	border: none;
+	background: none;
 	cursor: pointer;
-	background-color: rgb(255, 255, 255);
-	border-radius: 9px;
+	font: inherit;
+}
+
+/* Scroll area – starts below status bar (4.2%) + blue bar (9%) */
+.ipodScrollArea {
+	position: absolute;
+	z-index: 1;
+	top: 13.2%;
+	left: 6%;
+	right: 6%;
+	bottom: 14%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.ipodScrollArea::-webkit-scrollbar {
+	display: none;
+}
+
+/* Search bar – replaces segmented control when on Search tab */
+.ipodSearchBar {
+	position: relative;
+	z-index: 2;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.ipodSearchInput {
+	flex: 1;
+	min-width: 0;
+	height: 32px;
+	padding: 0 12px;
+	font-size: 16px; /* 16px prevents iOS from auto-zooming on focus */
+	font-weight: 500;
+	font-family: inherit;
+	border: none;
+	border-radius: 6px;
+	background: rgb(255, 255, 255);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06);
+	border: 1px solid rgb(220, 224, 228);
+	color: rgb(40, 45, 50);
+	outline: none;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
+}
+
+.ipodSearchBtn {
+	flex-shrink: 0;
+	height: 32px;
+	padding: 0 14px;
+	font-size: 0.7rem;
+	font-weight: 600;
+	font-family: inherit;
+	border: none;
+	border-radius: 6px;
+	background: rgb(0, 122, 255);
+	color: white;
+	cursor: pointer;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+.ipodSearchBtn:hover {
+	background: rgb(0, 100, 220);
+}
+
+.ipodSearchInput::placeholder {
+	color: rgb(140, 145, 150);
+	text-shadow: none;
+}
+
+/* Segmented control – scrolls with content */
+.ipodSegmentedControl {
+	position: relative;
+	z-index: 2;
+	height: 28px;
+	min-height: 28px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	display: flex;
+	background: rgb(200, 205, 210);
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ipodSegment {
+	flex: 1;
+	font-size: 0.7rem;
+	font-weight: 500;
+	color: rgb(80, 85, 90);
+	text-shadow: none;
+	transition: all 0.15s;
+	border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.ipodSegment:last-child {
+	border-right: none;
+}
+
+.ipodSegment:hover {
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.ipodSegment.active {
+	background: rgb(0, 122, 255);
+	color: white;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	box-shadow:
+		inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+		inset -1px 0 0 rgba(0, 0, 0, 0.12);
+	border-right-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Instructional hint */
+.ipodHint {
+	position: absolute;
+	z-index: 2;
+	top: 17.5%;
+	left: 4%;
+	margin: 0;
+	font-size: 0.65rem;
+	color: rgb(120, 125, 130);
+	text-shadow: none;
+	pointer-events: none;
+}
+
+/* Column headers – same gap below buttons as between blue bar and buttons */
+.songListHeader {
+	position: absolute;
+	z-index: 2;
+	left: 0;
+	right: 0;
+	top: 18%;
+	height: 18px;
+	display: grid;
+	grid-template-columns: 24px 44px 1fr 44px 26px;
+	gap: 8px;
+	align-items: center;
+	padding: 0 12px;
+	background: rgb(55, 60, 65);
+	border-bottom: 1px solid rgb(40, 44, 48);
+	font-size: 0.62rem;
+	font-weight: 700;
+	color: rgb(255, 255, 255);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.colNum { text-align: center; }
+.colTitle { min-width: 0; }
+.colDuration { display: flex; justify-content: flex-end; }
+.colDurationIcon { width: 12px; height: 12px; color: rgb(255, 255, 255); }
+
+/* Song list – inside scroll area */
+.songsListed {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	background: transparent;
+}
+
+/* Albums tab – section headers */
+.ipodSectionTitle {
+	font-size: 0.65rem;
+	font-weight: 600;
+	color: rgb(120, 125, 130);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	margin: 16px 4px 8px;
+	text-shadow: none !important;
+}
+
+.ipodSectionTitle:first-child {
+	margin-top: 0;
+}
+
+.ipodAlbumGroup {
+	margin-bottom: 12px;
+}
+
+.ipodAlbumName {
+	font-size: 0.72rem;
+	font-weight: 600;
+	color: rgb(60, 65, 70);
+	padding: 8px 12px 4px;
+	text-shadow: none !important;
+}
+
+.ipodAlbumGroup .songRow:first-of-type .songRowArtwork .songImg,
+.ipodAlbumGroup .songRow:first-of-type .songRowArtwork .songImgPlaceholder {
+	border-radius: 8px 0 0 0;
+}
+
+.ipodAlbumGroup .songRow:last-of-type .songRowArtwork .songImg,
+.ipodAlbumGroup .songRow:last-of-type .songRowArtwork .songImgPlaceholder {
+	border-radius: 0 0 0 8px;
+}
+
+.ipodAlbumGroup .songRow:first-of-type { border-radius: 8px 8px 0 0; }
+.ipodAlbumGroup .songRow:last-of-type { border-radius: 0 0 8px 8px; border-bottom: none; }
+.ipodAlbumGroup .songRow:only-of-type { border-radius: 8px; border-bottom: none; }
+.ipodAlbumGroup .songRow:first-of-type .progressDialOverlay { border-radius: 8px 0 0 0; }
+.ipodAlbumGroup .songRow:last-of-type .progressDialOverlay { border-radius: 0 0 0 8px; }
+.ipodAlbumGroup .songRow:only-of-type .progressDialOverlay { border-radius: 8px 0 0 8px; }
+
+/* Albums tab – clickable album rows */
+.ipodBackBtn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 10px 12px;
+	margin-bottom: 8px;
+	font-size: 0.85rem;
+	font-weight: 500;
+	color: rgb(0, 122, 255);
+	background: rgb(255, 255, 255);
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	text-shadow: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.ipodBackBtn:hover {
+	background: rgb(245, 248, 252);
+}
+
+.ipodAlbumHeader {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: rgb(20, 20, 20);
+	padding: 12px 12px 8px;
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.12);
+}
+
+.ipodAlbumRow {
+	display: grid;
+	grid-template-columns: 56px 1fr 24px;
+	gap: 12px;
+	align-items: center;
+	padding: 10px 12px;
+	background: rgb(255, 255, 255);
+	border: none;
+	border-radius: 8px;
+	border-bottom: 1px solid rgb(220, 224, 228);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	cursor: pointer;
+	text-align: left;
+	transition: background 0.1s;
+	margin-bottom: 6px;
+}
+
+.ipodAlbumRow:hover {
+	background: rgb(245, 248, 252);
+}
+
+.ipodAlbumRow:active {
+	background: rgb(235, 240, 245);
+}
+
+.ipodAlbumRowArtwork {
+	width: 56px;
+	height: 56px;
+	border-radius: 6px;
+	background: rgb(55, 58, 62);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	overflow: hidden;
 }
 
-.playerFrameDopamine {
-	position: absolute;
-	z-index: 0;
-	width: 130%;
-	height: 59%;
-	top: -13.65%;
-	left: -2%;
-	border: none;
-	transform: scale(0.5);
-	border-radius: 12px;
+.ipodAlbumRowArtwork img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
-.songName1 {
-	position: absolute;
-	color: black;
-
-	letter-spacing: 0.082rem;
-	width: 55%;
-	height: 25%;
-	left: 35.8%;
-	top: -2%;
-
-	font-size: 170%;
+.ipodAlbumRowArtwork .songImgPlaceholderIcon {
+	width: 24px;
+	height: 24px;
+	color: rgb(140, 145, 150);
 }
 
-.artistName1 {
-	position: absolute;
-	color: black;
-
-	width: 55%;
-	height: 25%;
-	left: 35.8%;
-	top: 15%;
-	font-size: 80%;
-}
-
-/* SONG 2 */
-.song2 {
+.ipodAlbumRowInfo {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ipodAlbumRowName {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: rgb(20, 20, 20);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.08);
+}
+
+.ipodAlbumRowMeta {
+	font-size: 0.7rem;
+	color: rgb(100, 105, 110);
+	text-shadow: none;
+}
+
+.ipodAlbumRowChevron {
+	font-size: 1.2rem;
+	color: rgb(140, 145, 150);
+	text-shadow: none;
+}
+
+/* List rows – no gap, rounded at top like iTunes */
+.songRow {
+	display: grid;
+	grid-template-columns: 56px 1fr 44px 26px;
+	gap: 8px;
+	align-items: center;
+	padding: 0 12px 0 0;
+	background: white;
+	text-align: left;
+	transition: background 0.1s;
+	border-radius: 0;
+	border-bottom: 1px solid rgb(220, 224, 228);
 	cursor: pointer;
-	background-color: rgb(255, 255, 255);
-	border-radius: 9px;
 }
 
-.playerFrameDenial {
-	position: absolute;
-	z-index: 0;
-	width: 130%;
-	height: 59%;
-	top: 20.57%;
-	left: -2%;
-	border: none;
-	transform: scale(0.5);
-	border-radius: 12px;
+.songRow:first-child {
+	border-radius: 8px 8px 0 0;
 }
 
-.songName2 {
-	position: absolute;
-	color: black;
-
-	letter-spacing: 0.082rem;
-	width: 55%;
-	height: 25%;
-	left: 35.8%;
-	top: 31%;
-
-	font-size: 170%;
+.songRow:last-child {
+	border-radius: 0 0 8px 8px;
+	border-bottom: none;
 }
 
-.artistName2 {
-	position: absolute;
-	color: black;
-
-	width: 55%;
-	height: 25%;
-	left: 35.8%;
-	top: 48%;
-
-	font-size: 80%;
+.songRow:only-child {
+	border-radius: 8px;
+	border-bottom: none;
 }
 
-/* SONG 3 */
-.song3 {
+.songRow:hover {
+	background: rgb(245, 248, 252);
+}
+
+.songRow.active {
+	background: rgb(230, 240, 255);
+}
+
+.songRowNum {
+	font-size: 0.62rem;
+	font-weight: 500;
+	color: rgb(80, 85, 90);
+	text-align: center;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+.songRowArtwork {
+	position: relative;
+	flex-shrink: 0;
+}
+
+.songRowArtwork .songImg,
+.songRowArtwork .songImgPlaceholder {
+	border-radius: 0;
+	display: block;
+}
+
+.songRow:first-child .songRowArtwork .songImg,
+.songRow:first-child .songRowArtwork .songImgPlaceholder {
+	border-radius: 8px 0 0 0;
+}
+
+.songRow:last-child .songRowArtwork .songImg,
+.songRow:last-child .songRowArtwork .songImgPlaceholder {
+	border-radius: 0 0 0 8px;
+}
+
+.songRow:only-child .songRowArtwork .songImg,
+.songRow:only-child .songRowArtwork .songImgPlaceholder {
+	border-radius: 8px 0 0 8px;
+}
+
+.songImg {
+	width: 56px;
+	height: 56px;
+	object-fit: cover;
+}
+
+/* Placeholder when no artwork – dark gray + music note like Spotify */
+.songImgPlaceholder {
+	width: 56px;
+	height: 56px;
+	background: rgb(55, 58, 62);
 	display: flex;
-	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.songImgPlaceholderIcon {
+	width: 24px;
+	height: 24px;
+	color: rgb(140, 145, 150);
+}
+
+.songRowDuration {
+	font-size: 0.62rem;
+	font-weight: 500;
+	color: rgb(80, 85, 90);
+	text-align: right;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+.progressDialOverlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.9);
+	border-radius: 0;
 	cursor: pointer;
-	background-color: rgb(255, 255, 255);
-	border-radius: 9px;
 }
 
-.songName3 {
-	position: absolute;
-	color: black;
-
-	width: 70%;
-	height: 25%;
-	left: 28.8%;
-	top: 68%;
-
-	font-size: 150%;
+.progressDialOverlay .progressDial {
+	position: relative;
+	z-index: 1;
 }
 
-.artistName3 {
+.progressDialOverlay .progressDialPlayIcon {
 	position: absolute;
-	color: black;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+	pointer-events: none;
+}
+
+.songRow:first-child .progressDialOverlay { border-radius: 8px 0 0 0; }
+.songRow:last-child .progressDialOverlay { border-radius: 0 0 0 8px; }
+.songRow:only-child .progressDialOverlay { border-radius: 8px 0 0 8px; }
+
+.progressDial {
+	width: 56px;
+	height: 56px;
+	transform: rotate(-90deg);
+}
+
+.progressDialBg {
+	fill: none;
+	stroke: rgb(200, 205, 210);
+	stroke-width: 3;
+}
+
+.progressDialFill {
+	fill: none;
+	stroke: rgb(0, 122, 255);
+	stroke-width: 3;
+	stroke-linecap: round;
+	transition: stroke-dashoffset 0.2s linear;
+}
+
+.progressDialPlayIcon {
+	width: 22px;
+	height: 22px;
+	color: rgb(0, 122, 255) !important;
+	fill: rgb(0, 122, 255) !important;
+}
+
+.songRowInfo {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.songName {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: rgb(20, 20, 20);
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.12);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.artistName {
+	font-size: 0.65rem;
+	color: rgb(100, 105, 110);
+	text-shadow: none;
+}
+
+.favoriteBtn {
+	flex-shrink: 0;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Favorited: blue outline + gold fill (iPhone theme) */
+.starFilled {
+	width: 22px;
+	height: 22px;
+	color: rgb(255, 204, 0) !important;
+}
+
+/* AiTwotoneStar: first path = fill (gold), second path = outline (blue) */
+.starFilled path:first-of-type {
+	fill: rgb(255, 204, 0) !important;
+}
+
+.starFilled path:last-of-type {
+	fill: rgb(0, 122, 255) !important;
+}
+
+/* Not favorited: blue outline only */
+.starOutline {
+	width: 22px;
+	height: 22px;
+	color: rgb(0, 122, 255) !important;
+	fill: rgb(0, 122, 255) !important;
+}
+
+.ipodEmpty {
+	padding: 32px 16px;
 	text-align: center;
-
-	width: 55%;
-	height: 2%;
-	left: 35.8%;
-	top: 83%;
-
-	font-size: 80%;
+	color: rgb(120, 125, 130);
+	font-size: 0.85rem;
+	text-shadow: none;
 }
 
-.explicit3 {
+/* Bottom tab bar – dark translucent like iTunes */
+.ipodBottomBar {
 	position: absolute;
-	color: black;
-	text-align: center;
-	opacity: 0.6;
+	z-index: 3;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 12%;
+	min-height: 48px;
+	background: rgba(45, 50, 55, 0.95);
+	display: flex;
+	align-items: stretch;
+	justify-content: space-around;
+	padding: 4px 2px 4px;
+	gap: 2px;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+}
 
-	width: 6%;
-	height: 6%;
-	left: 88.8%;
-	top: 89%;
+.ipodBottomTab {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	flex: 1;
+	min-width: 0;
+	padding: 6px 4px;
+	margin: 2px;
+	color: rgb(90, 95, 100);
+	transition: all 0.2s;
+	border-radius: 8px;
+	background: transparent;
+	border: none;
+}
 
-	font-size: 80%;
+.ipodBottomTab .ipodBottomIcon {
+	color: rgb(90, 95, 100);
+	fill: rgb(90, 95, 100);
+	stroke: rgb(90, 95, 100);
+}
+
+/* Star: solid when not selected – override AiTwotoneStar's light gray inner fill */
+.ipodBottomTab-favorites:not(.active) .ipodBottomIcon path {
+	fill: rgb(90, 95, 100) !important;
+}
+
+/* Search: see-through (outline only) when not selected – same gray as other icons */
+.ipodBottomTab-search:not(.active) .ipodBottomIcon,
+.ipodBottomTab-search:not(.active) .ipodBottomIcon path {
+	fill: none !important;
+	stroke: rgb(90, 95, 100) !important;
+}
+
+.ipodBottomTab.active {
+	color: rgb(0, 122, 255);
+	background: rgba(255, 255, 255, 0.18);
+	backdrop-filter: blur(4px);
+	border-top: 1px solid rgba(255, 255, 255, 0.25);
+	margin: 2px;
+	padding: 8px 4px 6px;
+}
+
+/* Active: only the icon gets the gradient – not the box */
+.ipodBottomTab.active .ipodBottomIcon {
+	fill: url(#ipodIconGradient) !important;
+	stroke: url(#ipodIconGradient) !important;
+}
+
+.ipodBottomTab.active .ipodBottomIcon path:not([fill="none"]) {
+	fill: url(#ipodIconGradient) !important;
+}
+
+/* Keep invisible/clipping paths hidden (e.g. MdOutlineFolder first path) */
+.ipodBottomTab.active .ipodBottomIcon path[fill="none"] {
+	fill: none !important;
+}
+
+/* Search icon uses stroke – apply gradient to stroke */
+.ipodBottomTab-search.active .ipodBottomIcon,
+.ipodBottomTab-search.active .ipodBottomIcon path {
+	stroke: url(#ipodIconGradient) !important;
+	fill: none !important;
+}
+
+.ipodBottomIcon {
+	width: 22px;
+	height: 22px;
+}
+
+.ipodBottomLabel {
+	font-size: 0.6rem;
+	text-shadow: none;
+}
+
+/* Hidden SoundCloud widget */
+/* In-viewport (1px) so browsers allow autoplay; visually hidden via clip */
+.soundcloudWidget {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 200px;
+	height: 166px;
+	opacity: 0.001;
+	pointer-events: none;
+	z-index: -1;
 }

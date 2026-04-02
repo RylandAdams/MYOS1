@@ -1,27 +1,35 @@
 .cameraRollPage {
-	width: 100%;
-	max-width: 330px;
-	overflow-y: auto;
-	overflow: hidden;
-	height: 105%;
-	max-height: 490px;
-	margin-top: -3%;
+  width: 100%;
+  max-width: 330px;
+  height: 105%;
+  max-height: 490px;
+  margin-top: -3%;
+  background-color: #000;
+  position: relative;
+  overflow: hidden;
 
-	background-color: rgb(0, 0, 0);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
-	background-size: 4px 4px;
-
-	overflow-y: scroll;
-	scrollbar-width: none;
-	-ms-overflow-style: none;
+  padding: 6px;
+  box-sizing: border-box;
 }
 
-.cameraRollPage::-webkit-scrollbar {
-	width: 0;
-	height: 0;
+.cameraRollPage::-webkit-scrollbar { width: 0; height: 0; }
+
+.cameraRollLoading {
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+  color: #cfcfcf;
+  opacity: 0.8;
 }
 
-.pictureViewer {
-	position: absolute;
-	z-index: 1000;
+.cameraRollPage .react-photo-album--container {
+  margin: 0;
+}
+
+.cameraRollPage img {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
 }

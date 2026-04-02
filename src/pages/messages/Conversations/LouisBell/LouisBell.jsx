@@ -16,9 +16,10 @@ const LouisBell = () => {
 			<div className='topBarIpod'></div>
 			<h1 className='HEADERLouisBell'>Virmedius</h1>
 			<div className='textSongToLouisBubble'></div>
-			<a className='textSongToLouisBubbleInner'></a>
+			<div className='textSongToLouisBubbleInner' />
 			<a
 				target='_blank'
+				rel='noopener noreferrer'
 				href='https://open.spotify.com/playlist/3Jl01AJ9ozTvBWYQbGJ3sj?si=3ae5f3e2ef57456a'
 			>
 				<img
@@ -29,9 +30,12 @@ const LouisBell = () => {
 			</a>
 			<a
 				target='_blank'
+				rel='noopener noreferrer'
 				href='https://virmedius.com/free-playlist-submission/'
 				className='textToLouisBubble'
-			></a>
+			>
+				{' '}
+			</a>
 			<div className='textToLouis'>
 				Congrats on the playlist placement!
 			</div>

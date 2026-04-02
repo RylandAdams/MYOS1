@@ -1,0 +1,80 @@
+/* Shared app header bar – blue gradient, shows app name (iPod, Weather, Photos, etc.) */
+.appHeaderBar {
+	position: absolute;
+	z-index: 10;
+	top: 4.2%;
+	left: 0;
+	right: 0;
+	height: 9%;
+	min-height: 36px;
+	background: linear-gradient(
+		180deg,
+		rgb(95, 135, 185) 0%,
+		rgb(115, 155, 205) 18%,
+		rgb(130, 170, 215) 35%,
+		rgb(120, 160, 210) 55%,
+		rgb(100, 145, 195) 75%,
+		rgb(85, 130, 185) 100%
+	);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.appHeaderTitle {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: white;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	pointer-events: none;
+	margin: 0;
+}
+
+/* Back button – lighter blue, nested, chevron-shaped left (iTunes style) */
+.appHeaderBackBtn {
+	position: absolute;
+	left: 18px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	padding: 4px 8px 4px 12px;
+	background: linear-gradient(
+		180deg,
+		rgb(105, 145, 195) 0%,
+		rgb(90, 130, 180) 50%,
+		rgb(80, 120, 170) 100%
+	);
+	border: none;
+	border-radius: 4px;
+	/* Rectangle with chevron protruding from left edge */
+	clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+	color: white;
+	font-size: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.15);
+	z-index: 2;
+}
+.appHeaderBackBtn:hover {
+	background: linear-gradient(
+		180deg,
+		rgb(115, 155, 205) 0%,
+		rgb(100, 140, 190) 50%,
+		rgb(90, 130, 180) 100%
+	);
+}
+.appHeaderBackBtn:active {
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.appHeaderBackLabel {
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}

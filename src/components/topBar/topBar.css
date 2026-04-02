@@ -1,34 +1,51 @@
 .topBar {
 	position: absolute;
-
-	z-index: 1;
+	z-index: 10;
 	width: 100%;
-	height: 5%;
-	top: -0.8%;
+	height: 2%;
+	min-height: 10px;
+	top: 0;
+}
+
+/* Home screen - same layout as app pages, white icons/text, no gradient */
+.topBarHome {
+	background: transparent;
+	box-shadow: none;
+}
+.topBarHome .leftIpod {
+	color: #ffffff;
+}
+.topBarHome .clockIpod {
+	color: #ffffff;
+}
+.topBarHome .topBarBluetooth {
+	color: #ffffff !important;
+	stroke: #ffffff !important;
 }
 
 .lockIcon {
-	padding-left: 48.75%;
-	padding-top: 3%;
+	position: absolute;
+	left: 50%;
+	top: 3%;
+	transform: translateX(-50%);
 	font-size: 0.75rem;
 }
 
 @media (max-width: 641px) {
 	.lockIcon {
-		padding-left: 48.75%;
-		padding-top: 3%;
 		font-size: 0.6rem;
 	}
 }
 
 .left {
-	font-size: 0.7rem;
+	font-size: 0.55rem;
+	font-weight: 700;
 	position: absolute;
 	z-index: 1;
-	left: 5.5%;
-	top: 42%;
+	left: 4%;
+	top: 50%;
+	transform: translateY(calc(-50% + 3px));
 	color: #d2d2d2;
-
 	pointer-events: none;
 }
 
@@ -37,19 +54,21 @@
 	color: #d2d2d2;
 	z-index: 1;
 	height: 70%;
-	left: 108.5%;
-	top: 11.5%;
+	left: 100%;
+	margin-left: 0.25em;
+	top: 8%;
 }
 
 .clock {
-	font-size: 0.7rem;
+	font-size: 0.55rem;
+	font-weight: 700;
 	position: absolute;
 	justify-content: center;
 	z-index: 1;
 	text-align: center;
 	left: 50.5%;
-	top: 42%;
-	transform: translateX(-50%);
+	top: 50%;
+	transform: translate(-50%, calc(-50% + 3px));
 	color: #f0f0f0;
 
 	pointer-events: none;
@@ -58,10 +77,13 @@
 .right {
 	position: absolute;
 	z-index: 1;
-
-	top: 36%;
-	left: 89.5%;
-
+	top: 50%;
+	left: auto;
+	right: 2%;
+	transform: translateY(calc(-50% + 3px));
+	display: flex;
+	align-items: center;
+	gap: 0px;
 	opacity: 0.95;
 }
 
@@ -69,20 +91,44 @@
 
 .topBarAlt {
 	position: absolute;
-	z-index: 1;
+	z-index: 10;
 	width: 100%;
-	height: 5%;
-	top: -0.8%;
-	background-color: rgb(176, 176, 176);
-	opacity: 80%;
+	height: 2%;
+	min-height: 10px;
+	top: 0;
+	background: linear-gradient(
+		180deg,
+		rgb(198, 201, 205) 0%,
+		rgb(210, 213, 217) 25%,
+		rgb(222, 225, 229) 50%,
+		rgb(210, 213, 217) 75%,
+		rgb(198, 201, 205) 100%
+	);
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+	opacity: 1;
+}
+.topBarAlt::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 100%;
+	height: 5px;
+	background: linear-gradient(
+		180deg,
+		rgb(205, 208, 212) 0%,
+		rgb(198, 201, 205) 100%
+	);
 }
 
 .leftAlt {
-	font-size: 0.7rem;
+	font-size: 0.55rem;
+	font-weight: 700;
 	position: absolute;
 	z-index: 1;
-	left: 5.5%;
-	top: 42%;
+	left: 4%;
+	top: 50%;
+	transform: translateY(calc(-50% + 3px));
 	color: #282828;
 	text-shadow: 0px 0px 0px rgb(157, 157, 157);
 
@@ -94,20 +140,22 @@
 	color: #000000;
 	z-index: 1;
 	height: 70%;
-	left: 108.5%;
-	top: 11.5%;
+	left: 100%;
+	margin-left: 0.25em;
+	top: 8%;
 }
 
 .clockAlt {
-	font-size: 0.7rem;
+	font-size: 0.55rem;
+	font-weight: 700;
 	position: absolute;
 	display: flex;
 	justify-content: center;
 	z-index: 1;
 	text-align: center;
 	left: 50.5%;
-	top: 42%;
-	transform: translateX(-50%);
+	top: 50%;
+	transform: translate(-50%, calc(-50% + 3px));
 	color: #282828;
 	text-shadow: 0px 0px 0px black;
 
@@ -117,9 +165,139 @@
 .rightAlt {
 	position: absolute;
 	z-index: 1;
-
-	top: 36%;
-	left: 89.5%;
-
+	top: 50%;
+	left: auto;
+	right: 2%;
+	transform: translateY(calc(-50% + 3px));
+	display: flex;
+	align-items: center;
+	gap: 0px;
 	opacity: 0.75;
+}
+
+/* iPod – gun metal silver, iTunes-style soft bulge gradient */
+.topBarIpod {
+	position: absolute;
+	z-index: 10;
+	width: 100%;
+	height: 2%;
+	min-height: 10px;
+	top: 0;
+	background: linear-gradient(
+		180deg,
+		rgb(198, 201, 205) 0%,
+		rgb(210, 213, 217) 25%,
+		rgb(222, 225, 229) 50%,
+		rgb(210, 213, 217) 75%,
+		rgb(198, 201, 205) 100%
+	);
+	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+	opacity: 1;
+}
+.topBarIpod::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 100%;
+	height: 5px;
+	background: linear-gradient(
+		180deg,
+		rgb(205, 208, 212) 0%,
+		rgb(198, 201, 205) 100%
+	);
+}
+
+/* Flappy Bird & similar pages – main bar extends down, content stays at top */
+.topBarCompact {
+	min-height: 14px;
+	height: 14px;
+}
+.topBarCompact::after {
+	display: none;
+}
+.topBarCompact .leftIpod,
+.topBarCompact .rightIpod {
+	top: 8px;
+	transform: translateY(-50%);
+}
+.topBarCompact .clockIpod {
+	top: 7px;
+	transform: translate(-50%, -50%);
+}
+
+.leftIpod {
+	font-size: 0.55rem;
+	font-weight: 700;
+	position: absolute;
+	z-index: 1;
+	left: 4%;
+	top: 50%;
+	transform: translateY(calc(-50% + 3px));
+	display: flex;
+	align-items: center;
+	gap: 0.35em;
+	color: #000000;
+	text-shadow: none;
+	pointer-events: none;
+}
+
+.cellularBarsIpod {
+	height: 9px;
+	width: auto;
+	flex-shrink: 0;
+	transform: translateY(-1px);
+}
+
+.clockIpod {
+	font-size: 0.6rem;
+	font-weight: 700;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	z-index: 1;
+	text-align: center;
+	left: 50.5%;
+	top: 50%;
+	transform: translate(-50%, calc(-50% + 3px));
+	color: #000000;
+	text-shadow: none;
+	pointer-events: none;
+}
+
+.rightIpod {
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: auto;
+	right: 2%;
+	transform: translateY(calc(-50% + 3px));
+	display: flex;
+	align-items: center;
+	gap: 0px;
+}
+
+
+/* Bluetooth: simple line icon, black */
+.topBarBluetooth {
+	display: block;
+	width: 9px;
+	height: 9px;
+	color: #000000;
+	stroke: #000000;
+	flex-shrink: 0;
+}
+
+/* Battery icon - remove inline spacing for alignment */
+.right svg,
+.rightAlt svg,
+.rightIpod svg {
+	display: block;
+	flex-shrink: 0;
+}
+
+.topBarWifi {
+	width: 9px;
+	height: 9px;
+	transform: translateY(-0.4px);
 }

@@ -1,23 +1,19 @@
 #page-wrap {
 	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 	width: 82%;
-	max-width: 720px;
+	max-width: 320px;
 	height: 130%;
 	margin: 0 auto;
 	padding-top: 120%;
-	padding-left: 9.5%;
 	z-index: 1;
+	box-sizing: border-box;
 }
 
 @media (max-width: 641px) {
 	#page-wrap {
-		position: absolute;
-		width: 82%;
-		max-width: 720px;
-		margin: 0 auto;
 		padding-top: 112%;
-		padding-left: 9%;
-		z-index: 1;
 	}
 }
 

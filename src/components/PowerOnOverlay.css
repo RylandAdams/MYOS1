@@ -1,0 +1,40 @@
+/* Full iPhone screen – pure black, covers TopBar + content */
+.powerOnOverlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgb(0, 0, 0);
+	z-index: 14;
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.powerOnBootWrap {
+	width: min(30%, 92px);
+}
+
+.powerOnBootTrack {
+	height: 1.5px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.18);
+	overflow: hidden;
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.powerOnBootFill {
+	height: 100%;
+	width: 100%;
+	transform-origin: left center;
+	transform: scaleX(0.06);
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0.78) 0%,
+		rgba(255, 255, 255, 1) 60%,
+		rgba(255, 255, 255, 0.86) 100%
+	);
+	transition: transform 160ms linear;
+}

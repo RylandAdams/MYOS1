@@ -1,69 +1,104 @@
+/* Shared screen content width – no conflicting left/right */
+.screenBounds,
+.apps,
+.dock,
+.footerApps {
+	--screen-content-max: 310px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: var(--screen-content-max);
+}
+
+/* Wrapper needs dimensions so absolute children (screenBounds, apps, etc.) position correctly */
+.homeScreenWrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+}
+
+/* Home screen background – set via wallpaper context */
+.homeScreenPicture {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: 310px;
+	box-sizing: border-box;
+	top: 0;
+	bottom: -5%;
+	height: auto;
+	max-height: 469px; /* 447 + 5% to extend bottom */
+	margin-top: -3%;
+	/* background set via inline style from WallpaperContext */
+}
+
+/* Screen bounds – same layout as wallpaper/apps, used for folder blur alignment */
+.screenBounds {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	height: 100%;
+	z-index: -1;
+	pointer-events: none;
+}
+
 .apps {
 	display: grid;
 	justify-content: center;
 	text-align: center;
+	align-content: start;
 	align-items: center;
 	position: absolute;
 	grid-template-columns: 20% 20% 20% 20%;
 	z-index: 10;
-
-	width: 100%;
-	max-width: 305px;
-	left: 3.07%;
-	height: 60%;
-
-	margin-top: 5%;
-
+	height: auto;
+	min-height: 0;
+	margin-top: 6%;
 	grid-column-gap: 0.7rem;
+	grid-row-gap: 0.4rem;
 	place-items: center;
-
 	filter: brightness(90%);
 }
 
 .dock {
 	position: absolute;
 	z-index: 0;
-	justify-content: center;
-	text-align: center;
-	place-items: center;
-
-	width: 100%;
-	max-width: 310px;
-	height: auto;
-	bottom: -2%;
 	left: 50%;
 	transform: translateX(-50%);
-	filter: brightness(104%);
+	width: 100%;
+	max-width: 310px;
+	height: 52px;
+	bottom: -1.3%;
+	background: linear-gradient(
+		180deg,
+		rgba(95, 95, 95, 0.95) 0%,
+		rgba(65, 65, 65, 0.98) 30%,
+		rgba(45, 45, 45, 1) 70%,
+		rgba(30, 30, 30, 1) 100%
+	);
+	border-radius: 12px 12px 0 0;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .footerApps {
 	display: grid;
 	position: absolute;
 	color: white !important;
-
 	grid-template-columns: 20% 20% 20% 20%;
-	width: 100%;
-	max-width: 310px;
-	height: 100%;
-	max-height: -1px;
-
 	z-index: 2;
 	grid-column-gap: 0.7rem;
-
 	justify-content: center;
 	text-align: center;
 	place-items: center;
-
-	bottom: -50%;
-	left: 50.5%;
-	margin-bottom: 10%;
-
-	transform: translateX(-50%);
+	bottom: 1%;
+	margin-bottom: 0;
 	filter: brightness(90%);
-}
-
-.footerApps .appName {
-	visibility: hidden;
 }
 
 .apps {

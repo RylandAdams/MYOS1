@@ -1,6 +1,6 @@
 import React from 'react';
 import './messages.css';
-
+import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import typing from '../../assets/imgs/typing.png';
 import { Link } from 'react-router-dom';
 import { RxCaretRight } from 'react-icons/rx';
@@ -8,8 +8,7 @@ import { RxCaretRight } from 'react-icons/rx';
 const Messages = () => {
 	return (
 		<div className='messagesPage'>
-			<div className='topBarIpod'></div>
-			<h1 className='HEADERmessages'>Messages</h1>
+			<AppHeaderBar title="Messages" />
 			<Link
 				to={`/messages/RickRubin`}
 				className='convo1Bar'
@@ -17,11 +16,12 @@ const Messages = () => {
 				<div className='nameCircle'>
 					<div className='circleNameRR'>RR</div>
 				</div>
-				<div className='personsName'>Mr.Rubin</div>
+				<div className='personsName'>Rick Rubin</div>
 				<img
 					src={typing}
 					alt='typing'
 					className='rickTypingMessages'
+					loading="lazy"
 				/>
 				<RxCaretRight className='messageCaret' />
 			</Link>

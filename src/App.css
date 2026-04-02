@@ -8,6 +8,9 @@
 		top: 100%;
 		left: 0;
 	}
+	.Frame {
+		transform: rotate(-90deg) scale(var(--scale, 1));
+	}
 }
 
 @font-face {
@@ -40,33 +43,18 @@ RxCaretRight {
 a {
 	text-decoration: none;
 }
+html,
+body,
+#root {
+	min-height: 100vh;
+	height: 100%;
+}
+
 body {
+	margin: 0;
 	background-color: black;
 	overflow-x: hidden;
 	overflow-y: hidden;
-}
-
-@media (min-width: 641px) {
-	.hand {
-		position: absolute;
-		background-size: cover;
-		background-repeat: inherit;
-		z-index: -10;
-		right: -540px;
-		transform: scale(0.99, 0.99);
-	}
-}
-
-@media (max-width: 641px) {
-	.hand {
-		position: absolute;
-		background-size: cover;
-		background-repeat: inherit;
-		z-index: -10;
-		right: -540px;
-		transform: scale(0.99, 0.99);
-		opacity: 0;
-	}
 }
 
 .App {
@@ -74,18 +62,31 @@ body {
 	justify-content: center;
 	align-items: center;
 	position: relative;
+	min-height: 100vh;
+	height: 100vh;
+	width: 100%;
+	padding: 24px 0;
+	box-sizing: border-box;
+	overflow: visible;
 }
 
+/* iPhone frame – intrinsic size; entire Frame + contents scale together to fit viewport */
 .Frame {
-	position: relative;
-	width: 361px;
-	max-width: 361px;
+	--frame-width: 361px;
+	--frame-height: 690px;
+	--screen-width: calc(var(--frame-width) * 0.89);
+	--screen-padding: 5.5%;
 
-	height: calc(var(--doc-height) - 20px);
-	max-height: 690px;
+	width: var(--frame-width);
+	height: var(--frame-height);
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transform-origin: center center;
+
+	/* Scale entire Frame (and all children) to fit viewport – no squishing */
+	transform: scale(var(--scale, 1));
 }
 
 .phone {
@@ -95,21 +96,49 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	width: 109%;
-	max-width: 361px;
-
-	height: calc(var(--doc-height) - 20px);
-	max-height: 690px;
-
-	filter: brightness(80%);
+	height: 100%;
+	max-width: var(--frame-width);
+	/* Less glossy – matte frame */
+	filter: brightness(0.82) saturate(0.88) contrast(0.96);
 }
 
 .iphoneContent {
 	position: relative;
-	padding-top: 2%;
 	width: 89%;
 	height: 65%;
+	padding-top: 1%;
+	box-sizing: border-box;
+}
+
+/* Matte glass film – clear, just a little grain */
+.screenFilm {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	pointer-events: none;
+	z-index: 20;
+	/* Light matte wash – no blur */
+	background:
+		linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.03) 0%,
+			rgba(255, 255, 255, 0.01) 40%,
+			rgba(0, 0, 0, 0.01) 70%,
+			rgba(0, 0, 0, 0.03) 100%
+		);
+	box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.04);
+}
+.screenFilm::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	/* Just a little grain */
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+	opacity: 0.04;
+	pointer-events: none;
 }
 
 /* .wallpaper {

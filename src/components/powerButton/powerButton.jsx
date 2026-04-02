@@ -8,7 +8,6 @@ const PowerButton = () => {
 
 	const powerToggle = () => {
 		setOn(!on);
-		console.log(on);
 	};
 
 	return (

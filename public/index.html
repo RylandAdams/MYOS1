@@ -1,22 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<link
+			rel="apple-touch-icon"
+			href="/APPLOGO.png"
+		/>
+		<link
+			rel="manifest"
+			href="/manifest.json"
+		/>
+		<meta
+			name="theme-color"
+			content="#0c0c0c"
+		/>
+
 		<meta charset="utf-8" />
 		<link
 			rel="icon"
-			href="%PUBLIC_URL%/APPLOGO.png"
+			type="image/png"
+			sizes="32x32"
+			href="%PUBLIC_URL%/favicon-rounded-32.png?v=2"
+		/>
+		<link
+			rel="alternate icon"
+			type="image/png"
+			sizes="64x64"
+			href="%PUBLIC_URL%/favicon-rounded-64.png?v=2"
 		/>
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1"
 		/>
 		<meta
-			name="theme-color"
-			content="#000000"
-		/>
-		<meta
-			name="description"
-			content=""
+			http-equiv="Permissions-Policy"
+			content="encrypted-media=(self 'https://w.soundcloud.com')"
 		/>
 		<link
 			rel="apple-touch-icon"
@@ -27,7 +44,91 @@
 			href="%PUBLIC_URL%/manifest.json"
 		/>
 
-		<title>RYLAND</title>
+		<!-- ============================================
+		     SEO + SOCIAL METADATA
+		     ============================================= -->
+
+		<!-- Primary SEO -->
+		<title>RYLAND — Official Site | Stream Denial, Tough, everlasting & More</title>
+		<meta name="description" content="RYLAND — self-produced artist from Oregon. Music that doesn't stay in one place. Stream Denial, Tough, everlasting and more on Spotify and Apple Music." />
+		<meta name="keywords" content="RYLAND, RYLAND artist, RYLAND music, Denial, everlasting, Tough, Glisan, So Delighted When She Speaks, Showing Friends, indie pop Oregon, independent artist" />
+		<meta name="author" content="RYLAND" />
+		<link rel="canonical" href="https://myphone.digital/" />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="profile" />
+		<meta property="og:site_name" content="RYLAND" />
+		<meta property="og:title" content="RYLAND — Official Site" />
+		<meta property="og:description" content="RYLAND makes music that doesn't stay in one place. Self-produced, self-directed, fully independent. Based in Oregon. Stream now." />
+		<meta property="og:url" content="https://myphone.digital/" />
+		<meta property="og:image" content="https://i.scdn.co/image/ab6761610000e5eb8d8ac7290d0fe2d12fb6e4d9" />
+		<meta property="og:image:width" content="640" />
+		<meta property="og:image:height" content="640" />
+		<meta property="og:image:alt" content="RYLAND — Artist Photo" />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter / X Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="RYLAND — Official Site" />
+		<meta name="twitter:description" content="RYLAND makes music that doesn't stay in one place. Self-produced, self-directed, fully independent. Based in Oregon. Stream now." />
+		<meta name="twitter:image" content="https://i.scdn.co/image/ab6761610000e5eb8d8ac7290d0fe2d12fb6e4d9" />
+		<meta name="twitter:image:alt" content="RYLAND — Artist Photo" />
+
+		<!-- Structured Data: Google Knowledge Graph -->
+		<script type="application/ld+json">
+		{
+		  "@context": "https://schema.org",
+		  "@type": "MusicGroup",
+		  "name": "RYLAND",
+		  "alternateName": "Ryland Adams",
+		  "url": "https://myphone.digital",
+		  "description": "RYLAND is an independent artist, producer, and multi-instrumentalist from Oregon. Fully independent, built on his own terms. His music moves between alt-pop, indie, and electronic without settling, driven by emotional honesty and meticulous craft. Songs include Denial, Tough, everlasting, and the album *Showing Friends.",
+		  "genre": ["Indie Pop", "Alt-Pop", "Electronic", "Alternative"],
+		  "foundingLocation": {
+		    "@type": "Place",
+		    "name": "Oregon, United States"
+		  },
+		  "image": "https://i.scdn.co/image/ab6761610000e5eb8d8ac7290d0fe2d12fb6e4d9",
+		  "sameAs": [
+		    "https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ",
+		    "https://www.instagram.com/ryland.wav",
+		    "https://www.youtube.com/@RYLANDOfficial"
+		  ],
+		  "track": [
+		    { "@type": "MusicRecording", "name": "Tough", "datePublished": "2025-03-28" },
+		    { "@type": "MusicRecording", "name": "08.18.23 glisan", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "Denial", "datePublished": "2023-03-10" },
+		    { "@type": "MusicRecording", "name": "So Delighted When She Speaks", "datePublished": "2025-04-25" },
+		    { "@type": "MusicRecording", "name": "everlasting", "datePublished": "2026-02-28" },
+		    { "@type": "MusicRecording", "name": "Switchblade (FU)", "datePublished": "2024-07-17" },
+		    { "@type": "MusicRecording", "name": "get by rn", "datePublished": "2024-06-09" },
+		    { "@type": "MusicRecording", "name": "Throw Your Hands Up", "datePublished": "2023-05-04" },
+		    { "@type": "MusicRecording", "name": "Dopamine", "datePublished": "2022-04-25" },
+		    { "@type": "MusicRecording", "name": "DONT FALL IN LOVE WITH ME", "datePublished": "2023-12-09" },
+		    { "@type": "MusicRecording", "name": "SCREAMIN", "datePublished": "2023-11-24" },
+		    { "@type": "MusicRecording", "name": "04.04.23 WEST OF ALAGOr", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "06.04.22 Dance Alone", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "09.08.23 cops in the head", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "08.16.23 Let Me Down", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "Pretty With Short Hair", "datePublished": "2023-05-04" },
+		    { "@type": "MusicRecording", "name": "09.16.22 Something That'll", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "09.01.23 DAYLIGHT", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "10.18.22 chickenHoney", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "Country Ibuprofen", "datePublished": "2023-11-30" },
+		    { "@type": "MusicRecording", "name": "02.23.23 Channel 42", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "08.08.23 Face2Face", "datePublished": "2024-09-29" },
+		    { "@type": "MusicRecording", "name": "KNOW", "datePublished": "2024-06-28" },
+		    { "@type": "MusicRecording", "name": "Wasn't Sad (interlude)", "datePublished": "2023-11-30" }
+		  ],
+		  "album": [
+		    { "@type": "MusicAlbum", "name": "*Showing Friends", "datePublished": "2024-09-29" }
+		  ]
+		}
+		</script>
+
+		<link rel="preconnect" href="https://w.soundcloud.com" />
+		<link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+		<script src="https://w.soundcloud.com/player/api.js" async></script>
 	</head>
 	<body>
 		<noscript></noscript>
