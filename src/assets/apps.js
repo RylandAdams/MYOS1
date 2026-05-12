@@ -11,12 +11,15 @@ import flappybird from './imgs/flappybird.png';
 import mail from './imgs/mail.png';
 import safari from './imgs/safari.png';
 import settings from './imgs/settings.png';
+// iOS Files (Wikimedia): https://commons.wikimedia.org/wiki/File:Files_App_icon_iOS.png
+import files from './imgs/files.png';
 
 export const EXTRAS_APPS = [
 	{ id: 'extras-1', appName: 'Calender', appImage: calender, path: '/calender' },
 	{ id: 'extras-2', appName: 'Safari', appImage: safari, path: '/news' },
 	{ id: 'extras-3', appName: 'Weather', appImage: weather, path: '/weather' },
 	{ id: 'extras-4', appName: 'Settings', appImage: settings, path: '/settings' },
+	{ id: 'extras-5', appName: 'Files', appImage: files, path: '/files' },
 ];
 
 export const MAINAPPS = [

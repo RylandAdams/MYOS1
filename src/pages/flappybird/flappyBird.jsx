@@ -5,10 +5,10 @@ const Flappybird = () => {
 	return (
 		<div className='game'>
 			<iframe
-				src='https://playcanv.as/p/bSj5XiQn'
+				src='https://flappybird.io/'
 				className='gameWindow'
 				title='Flappy Bird'
-				allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
+				allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; fullscreen'
 			/>
 		</div>
 	);

@@ -55,6 +55,7 @@ const HomeScreen = () => {
 			import('../../pages/ipod/ipod');
 			import('../../pages/calender/calender');
 			import('../../pages/weather/weather');
+			import('../../pages/files/files');
 		}
 	}, [powerOnComplete]);
 

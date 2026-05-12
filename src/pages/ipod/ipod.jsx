@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { flushSync } from 'react-dom';
 
 import './ipod.css';
 import { BsFillPlayFill, BsFillPauseFill, BsMusicNote } from 'react-icons/bs';
@@ -10,17 +11,40 @@ import { IPOD_TRACKS, ALBUM_NAMES } from '../../assets/ipodLibrary';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 
 const FAVORITES_KEY = 'ipod-favorites';
-const FAVORITES_VERSION = 6;
+const FAVORITES_VERSION = 7;
 const FAVORITE_TRACKS_KEY = 'ipod-favorite-tracks'; // tracks favorited from search (not in library)
-const DEFAULT_FAVORITES = ['3', '1', '2', '4', '7']; // Denial, everlasting, glisan, Tough, get by rn
+const DEFAULT_FAVORITES = ['3', 'btga', '2', '4', '7']; // Denial, be that girl again, glisan, Tough, get by rn
+const NON_FAVORITABLE_IDS = new Set(['1']); // everlasting
 const SEARCH_LIMIT_KEY = 'ipod-search-limit';
 const SEARCH_LIMIT = 5;
 const SEARCH_WINDOW_MS = 12 * 60 * 60 * 1000; // 12 hours
 const API_URL = '/api/soundcloud-tracks';
 const EXCLUDED_TRACK_URL = 'wasnt-sad-interlude'; // empty track, no art – exclude from library
+const EXCLUDED_TITLE_MATCHES = ['wasn’t sad', "wasn't sad"]; // filter legacy single variants
 // Use direct Cloud Functions URL so search works in dev and prod (avoids proxy/rewrite returning HTML)
 const SEARCH_API_URL =
 	'https://us-central1-myos1-8e625.cloudfunctions.net/getSoundCloudSearch';
+
+function normSoundcloudUrl(u) {
+	if (!u || typeof u !== 'string') return '';
+	try {
+		return u.trim().split('?')[0].split('#')[0].toLowerCase().replace(/\/$/, '');
+	} catch {
+		return '';
+	}
+}
+
+function isNonFavoritable(track) {
+	return NON_FAVORITABLE_IDS.has(track?.id) || (track?.title || '').toLowerCase() === 'everlasting';
+}
+
+function isExcludedTrack(track, norm) {
+	const title = (track?.title || '').toLowerCase();
+	return (
+		norm(track?.soundcloudUrl || '').includes(EXCLUDED_TRACK_URL) ||
+		EXCLUDED_TITLE_MATCHES.some((needle) => title.includes(needle))
+	);
+}
 
 function getSearchLimitState() {
 	try {
@@ -61,6 +85,7 @@ const Ipod = () => {
 	const [searchLimitMessage, setSearchLimitMessage] = useState(null);
 	const [currentTrack, setCurrentTrack] = useState(null);
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [playbackLoading, setPlaybackLoading] = useState(false);
 	const [playProgress, setPlayProgress] = useState(0);
 	const [tracksFromApi, setTracksFromApi] = useState(null);
 	const [tracksLoading, setTracksLoading] = useState(true);
@@ -77,6 +102,7 @@ const Ipod = () => {
 		}
 	});
 	const [expandedAlbum, setExpandedAlbum] = useState(null);
+	const [expandedSingleId, setExpandedSingleId] = useState(null);
 	const [favoriteTracks, setFavoriteTracks] = useState(() => {
 		try {
 			return JSON.parse(localStorage.getItem(FAVORITE_TRACKS_KEY) || '{}');
@@ -86,6 +112,10 @@ const Ipod = () => {
 	});
 	const widgetRef = useRef(null);
 	const iframeRef = useRef(null);
+	/** Refs keep widget handlers aligned with the latest row + loading flag (avoid stale PLAY / batched state). */
+	const currentTrackRef = useRef(null);
+	const playbackLoadingRef = useRef(false);
+	const loadingProgressFallbackUsedRef = useRef(false);
 	const [widgetSrc, setWidgetSrc] = useState(
 		'https://w.soundcloud.com/player/?url=https://soundcloud.com/rylandofficialmusic/tracks&auto_play=false&hide_related=true&show_comments=false'
 	);
@@ -105,20 +135,66 @@ const Ipod = () => {
 		} catch {}
 	};
 
+	useEffect(() => {
+		currentTrackRef.current = currentTrack;
+	}, [currentTrack]);
+	useEffect(() => {
+		playbackLoadingRef.current = playbackLoading;
+	}, [playbackLoading]);
+
 	const initWidget = () => {
-		if (window.SC && iframeRef.current) {
-			widgetRef.current = window.SC.Widget(iframeRef.current);
-			widgetRef.current.bind(window.SC.Widget.Events.PLAY, () => setIsPlaying(true));
-			widgetRef.current.bind(window.SC.Widget.Events.FINISH, () => {
-				setIsPlaying(false);
-				setPlayProgress(0);
+		if (!window.SC || !iframeRef.current) return;
+		const w = window.SC.Widget(iframeRef.current);
+		widgetRef.current = w;
+		const tryClearLoadingForCurrentSound = () => {
+			const want = currentTrackRef.current?.soundcloudUrl;
+			const done = () => setPlaybackLoading(false);
+			if (!want) {
+				queueMicrotask(done);
+				return;
+			}
+			if (typeof w.getCurrentSound !== 'function') {
+				queueMicrotask(done);
+				return;
+			}
+			w.getCurrentSound((sound) => {
+				if (!sound) {
+					queueMicrotask(done);
+					return;
+				}
+				const candidates = [
+					sound.permalink_url,
+					sound.stream_url,
+					sound.uri && String(sound.uri).startsWith('http') ? sound.uri : null,
+					sound.uri && !String(sound.uri).startsWith('http') ? `https://soundcloud.com${sound.uri}` : null,
+				].filter(Boolean);
+				const wantNorm = normSoundcloudUrl(want);
+				if (candidates.some((c) => normSoundcloudUrl(c) === wantNorm)) done();
 			});
-			widgetRef.current.bind(window.SC.Widget.Events.PAUSE, () => setIsPlaying(false));
-			widgetRef.current.bind(window.SC.Widget.Events.PLAY_PROGRESS, (data) => {
-				const pos = data.relativePosition ?? (data.currentPosition != null && data.duration ? data.currentPosition / data.duration : null);
-				if (typeof pos === 'number' && !Number.isNaN(pos) && pos >= 0) setPlayProgress(Math.min(1, pos));
-			});
-		}
+		};
+		w.bind(window.SC.Widget.Events.PLAY, () => {
+			setIsPlaying(true);
+			tryClearLoadingForCurrentSound();
+		});
+		w.bind(window.SC.Widget.Events.FINISH, () => {
+			setIsPlaying(false);
+			setPlayProgress(0);
+			setPlaybackLoading(false);
+		});
+		w.bind(window.SC.Widget.Events.PAUSE, () => {
+			setIsPlaying(false);
+		});
+		w.bind(window.SC.Widget.Events.PLAY_PROGRESS, (data) => {
+			const pos =
+				data.relativePosition ??
+				(data.currentPosition != null && data.duration ? data.currentPosition / data.duration : null);
+			if (typeof pos === 'number' && !Number.isNaN(pos) && pos >= 0) setPlayProgress(Math.min(1, pos));
+			// Some navigations never re-fire PLAY; once the stream advances, we're past buffering.
+			if (playbackLoadingRef.current && pos > 0.008 && !loadingProgressFallbackUsedRef.current) {
+				loadingProgressFallbackUsedRef.current = true;
+				tryClearLoadingForCurrentSound();
+			}
+		});
 	};
 
 	// Poll position when playing – PLAY_PROGRESS can be unreliable
@@ -136,6 +212,12 @@ const Ipod = () => {
 		return () => clearInterval(interval);
 	}, [isPlaying, currentTrack]);
 
+	useEffect(() => {
+		if (!playbackLoading) return;
+		const t = window.setTimeout(() => setPlaybackLoading(false), 45000);
+		return () => clearTimeout(t);
+	}, [playbackLoading]);
+
 	// Fetch tracks from SoundCloud API (artwork + metadata)
 	useEffect(() => {
 		let cancelled = false;
@@ -145,12 +227,13 @@ const Ipod = () => {
 				if (!cancelled && data.tracks?.length) {
 					const norm = (u) => (u || '').toLowerCase().replace(/\/$/, '');
 					const mapped = data.tracks
-						.filter((t) => !norm(t.soundcloudUrl || '').includes(EXCLUDED_TRACK_URL))
+						.filter((t) => !isExcludedTrack(t, norm))
 						.map((t) => {
 							const urlMatch = IPOD_TRACKS.find((lib) => norm(lib.soundcloudUrl) === norm(t.soundcloudUrl));
 							const titleMatch = IPOD_TRACKS.find((lib) => (lib.title || '').toLowerCase() === (t.title || '').toLowerCase());
 							const match = urlMatch || titleMatch;
-							const id = match ? match.id : String(t.id);
+							const isBeThatGirlAgain = (t.title || '').toLowerCase() === 'be that girl again';
+							const id = match ? match.id : (isBeThatGirlAgain ? 'btga' : String(t.id));
 							const album = match ? match.album : (t.album || 'Library');
 							const releaseDate = t.releaseDate || (match ? match.releaseDate : null);
 							return { ...t, id, album, releaseDate };
@@ -177,6 +260,7 @@ const Ipod = () => {
 	// Reset album view when switching tabs (show list when entering Albums)
 	useEffect(() => {
 		setExpandedAlbum(null);
+		setExpandedSingleId(null);
 	}, [activeTab]);
 
 	// Persist favorites and version (version triggers migration on next load)
@@ -189,6 +273,7 @@ const Ipod = () => {
 	}, [favoriteTracks]);
 
 	const toggleFavorite = (id, track) => {
+		if (isNonFavoritable(track)) return;
 		const isAdding = !favorites.includes(id);
 		if (isAdding && track && !allTracks.some((t) => t.id === id)) {
 			setFavoriteTracks((ft) => ({ ...ft, [id]: track }));
@@ -304,52 +389,94 @@ const Ipod = () => {
 	const libraryTracks = getTracks();
 	const tracks = activeTab === 'search' ? searchResults : (activeTab === 'albums' ? [] : libraryTracks);
 	const albumData = activeTab === 'albums' ? libraryTracks : null;
+	const expandedSingleTrack = expandedSingleId ? allTracks.find((t) => t.id === expandedSingleId) : null;
 
-	// Initialize SoundCloud widget when script loads and when iframe loads
-	useEffect(() => {
-		const doInit = () => {
-			if (window.SC && iframeRef.current) {
-				initWidget();
-			}
-		};
-		if (window.SC) {
-			doInit();
-		} else {
-			const check = setInterval(() => {
-				if (window.SC) {
-					clearInterval(check);
-					doInit();
-				}
-			}, 100);
-			return () => clearInterval(check);
-		}
-	}, []);
+	/** SoundCloud often ignores auto_play until the stream is ready — kick play in the load callback + retries (still within the tap gesture on first nudge). */
+	const nudgePlay = () => {
+		const w = widgetRef.current;
+		if (!w) return;
+		try {
+			w.play();
+		} catch (_) {}
+		requestAnimationFrame(() => {
+			try {
+				widgetRef.current?.play();
+			} catch (_) {}
+		});
+		setTimeout(() => {
+			try {
+				widgetRef.current?.play();
+			} catch (_) {}
+		}, 120);
+	};
+
+	const loadUrlInWidget = (url) => {
+		const w = widgetRef.current;
+		if (!w) return false;
+		w.load(url, {
+			auto_play: true,
+			callback: () => {
+				nudgePlay();
+				window.setTimeout(() => {
+					if (!playbackLoadingRef.current) return;
+					if (normSoundcloudUrl(currentTrackRef.current?.soundcloudUrl) !== normSoundcloudUrl(url)) return;
+					setPlaybackLoading(false);
+				}, 3200);
+			},
+		});
+		nudgePlay();
+		return true;
+	};
 
 	const playTrack = (track) => {
 		const isSameTrack = currentTrack?.id === track.id;
 
 		if (isSameTrack && isPlaying) {
+			setPlaybackLoading(false);
 			widgetRef.current?.pause();
-		} else if (isSameTrack && !isPlaying) {
-			widgetRef.current?.play();
-		} else {
+			return;
+		}
+		if (isSameTrack && !isPlaying) {
 			unlockAudio();
+			loadingProgressFallbackUsedRef.current = false;
+			flushSync(() => setPlaybackLoading(true));
+			nudgePlay();
+			return;
+		}
+		unlockAudio();
+		currentTrackRef.current = track;
+		loadingProgressFallbackUsedRef.current = false;
+		flushSync(() => {
+			setPlaybackLoading(true);
 			setCurrentTrack(track);
 			setPlayProgress(0);
 			setIsPlaying(false);
-			const url = track.soundcloudUrl;
-			if (widgetRef.current) {
-				widgetRef.current.load(url, { auto_play: true });
-			} else {
-				setWidgetSrc(`https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&auto_play=true&hide_related=true&show_comments=false`);
-			}
+		});
+		const url = track.soundcloudUrl;
+		if (!loadUrlInWidget(url)) {
+			setWidgetSrc(
+				`https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&auto_play=true&hide_related=true&show_comments=false`
+			);
 		}
 	};
 
 	const handlePlayPause = () => {
 		if (!widgetRef.current || !currentTrack) return;
+		if (playbackLoading) {
+			setPlaybackLoading(false);
+			try {
+				widgetRef.current.pause();
+			} catch (_) {}
+			return;
+		}
+		if (isPlaying) {
+			setPlaybackLoading(false);
+		} else {
+			unlockAudio();
+			loadingProgressFallbackUsedRef.current = false;
+			flushSync(() => setPlaybackLoading(true));
+		}
 		widgetRef.current.toggle();
-		setIsPlaying((p) => !p);
 	};
 
 	const bottomTabs = [
@@ -435,29 +562,29 @@ const Ipod = () => {
 					<>
 						{expandedAlbum ? (
 							<>
-								<button type="button" className="ipodBackBtn" onClick={() => setExpandedAlbum(null)}>
+								<button type="button" className="ipodBackBtn" onClick={() => { setExpandedAlbum(null); setExpandedSingleId(null); }}>
 									← All Albums
 								</button>
-								<div className="ipodAlbumHeader">{expandedAlbum}</div>
-								{(albumData.albums.find((a) => a.name === expandedAlbum)?.tracks ?? albumData.singles.filter((t) => t.album === expandedAlbum)).map((track, i) => {
+								<div className="ipodAlbumHeader">{expandedSingleTrack ? expandedSingleTrack.title : expandedAlbum}</div>
+								{(expandedSingleTrack ? [expandedSingleTrack] : (albumData.albums.find((a) => a.name === expandedAlbum)?.tracks ?? albumData.singles.filter((t) => t.album === expandedAlbum))).map((track, i) => {
 									const isActive = currentTrack?.id === track.id;
 									return (
 										<div key={track.id} role="button" tabIndex={0} className={`songRow ${isActive ? 'active' : ''}`} onClick={() => playTrack(track)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playTrack(track); } }}>
 											<div className="songRowArtwork">
 												{track.artwork ? <img src={track.artwork} alt="" className="songImg" loading="lazy" /> : <div className="songImgPlaceholder"><BsMusicNote className="songImgPlaceholderIcon" /></div>}
 												{isActive && (
-													<button type="button" className="progressDialOverlay" onClick={(e) => { e.stopPropagation(); handlePlayPause(); }} aria-label={isPlaying ? 'Pause' : 'Play'}>
+													<button type="button" className={`progressDialOverlay${playbackLoading ? ' progressDialOverlay--loading' : ''}`} onClick={(e) => { e.stopPropagation(); handlePlayPause(); }} aria-label={playbackLoading ? 'Loading audio' : isPlaying ? 'Pause' : 'Play'}>
 														<svg className="progressDial" viewBox="0 0 36 36">
 															<circle className="progressDialBg" cx="18" cy="18" r="15" />
-															<circle className="progressDialFill" cx="18" cy="18" r="15" style={{ strokeDasharray: 94.2, strokeDashoffset: 94.2 - playProgress * 94.2 }} />
+															<circle className="progressDialFill" cx="18" cy="18" r="15" style={{ strokeDasharray: 94.2, strokeDashoffset: playbackLoading ? 94.2 : 94.2 - playProgress * 94.2 }} />
 														</svg>
-														{isPlaying ? <BsFillPauseFill className="progressDialPlayIcon" /> : <BsFillPlayFill className="progressDialPlayIcon" />}
+														{playbackLoading ? <span className="ipodBufferSpinner" aria-hidden /> : isPlaying ? <BsFillPauseFill className="progressDialPlayIcon" /> : <BsFillPlayFill className="progressDialPlayIcon" />}
 													</button>
 												)}
 											</div>
 											<div className="songRowInfo"><span className="songName">{i + 1}. {track.title}</span><span className="artistName">{track.artist}</span></div>
 											<span className="songRowDuration">{track.duration || '—'}</span>
-											<button type="button" className="favoriteBtn" onClick={(e) => { e.stopPropagation(); toggleFavorite(track.id, track); }} aria-label={favorites.includes(track.id) ? 'Remove from favorites' : 'Add to favorites'}>
+									<button type="button" className="favoriteBtn" disabled={isNonFavoritable(track)} onClick={(e) => { e.stopPropagation(); toggleFavorite(track.id, track); }} aria-label={isNonFavoritable(track) ? 'Favoriting unavailable for this track' : (favorites.includes(track.id) ? 'Remove from favorites' : 'Add to favorites')}>
 												{favorites.includes(track.id) ? <AiTwotoneStar className="starFilled" /> : <AiOutlineStar className="starOutline" />}
 											</button>
 										</div>
@@ -470,7 +597,7 @@ const Ipod = () => {
 									<>
 										<h3 className="ipodSectionTitle">Albums</h3>
 										{albumData.albums.map(({ name, tracks: albumTracks }) => (
-											<button key={name} type="button" className="ipodAlbumRow" onClick={() => setExpandedAlbum(name)}>
+											<button key={name} type="button" className="ipodAlbumRow" onClick={() => { setExpandedSingleId(null); setExpandedAlbum(name); }}>
 												<div className="ipodAlbumRowArtwork">
 													{albumTracks[0]?.artwork ? <img src={albumTracks[0].artwork} alt="" loading="lazy" /> : <BsMusicNote className="songImgPlaceholderIcon" />}
 												</div>
@@ -487,7 +614,7 @@ const Ipod = () => {
 									<>
 										<h3 className="ipodSectionTitle">Singles</h3>
 										{albumData.singles.map((track) => (
-											<button key={track.id} type="button" className="ipodAlbumRow" onClick={() => setExpandedAlbum(track.album)}>
+											<button key={track.id} type="button" className="ipodAlbumRow" onClick={() => { setExpandedSingleId(track.id); setExpandedAlbum('__single__'); }}>
 												<div className="ipodAlbumRowArtwork">
 													{track.artwork ? <img src={track.artwork} alt="" loading="lazy" /> : <BsMusicNote className="songImgPlaceholderIcon" />}
 												</div>
@@ -540,12 +667,12 @@ const Ipod = () => {
 									{isActive && (
 										<button
 											type="button"
-											className="progressDialOverlay"
+											className={`progressDialOverlay${playbackLoading ? ' progressDialOverlay--loading' : ''}`}
 											onClick={(e) => {
 												e.stopPropagation();
 												handlePlayPause();
 											}}
-											aria-label={isPlaying ? 'Pause' : 'Play'}
+											aria-label={playbackLoading ? 'Loading audio' : isPlaying ? 'Pause' : 'Play'}
 										>
 											<svg className="progressDial" viewBox="0 0 36 36">
 												<circle className="progressDialBg" cx="18" cy="18" r="15" />
@@ -556,11 +683,17 @@ const Ipod = () => {
 													r="15"
 													style={{
 														strokeDasharray: 94.2,
-														strokeDashoffset: 94.2 - playProgress * 94.2,
+														strokeDashoffset: playbackLoading ? 94.2 : 94.2 - playProgress * 94.2,
 													}}
 												/>
 											</svg>
-											{isPlaying ? <BsFillPauseFill className="progressDialPlayIcon" /> : <BsFillPlayFill className="progressDialPlayIcon" />}
+											{playbackLoading ? (
+												<span className="ipodBufferSpinner" aria-hidden />
+											) : isPlaying ? (
+												<BsFillPauseFill className="progressDialPlayIcon" />
+											) : (
+												<BsFillPlayFill className="progressDialPlayIcon" />
+											)}
 										</button>
 									)}
 								</div>
@@ -572,11 +705,12 @@ const Ipod = () => {
 								<button
 									type="button"
 									className="favoriteBtn"
+									disabled={isNonFavoritable(track)}
 									onClick={(e) => {
 										e.stopPropagation();
 										toggleFavorite(track.id, track);
 									}}
-									aria-label={favorites.includes(track.id) ? 'Remove from favorites' : 'Add to favorites'}
+									aria-label={isNonFavoritable(track) ? 'Favoriting unavailable for this track' : (favorites.includes(track.id) ? 'Remove from favorites' : 'Add to favorites')}
 								>
 									{favorites.includes(track.id) ? (
 										<AiTwotoneStar className="starFilled" />
@@ -613,7 +747,22 @@ const Ipod = () => {
 				src={widgetSrc}
 				allow="encrypted-media; autoplay"
 				onLoad={() => {
-					if (window.SC && iframeRef.current) initWidget();
+					widgetRef.current = null;
+					const boot = () => {
+						if (!iframeRef.current || !window.SC) return;
+						initWidget();
+					};
+					if (window.SC) {
+						boot();
+					} else {
+						const iv = setInterval(() => {
+							if (window.SC) {
+								clearInterval(iv);
+								boot();
+							}
+						}, 30);
+						setTimeout(() => clearInterval(iv), 8000);
+					}
 				}}
 			/>
 		</div>

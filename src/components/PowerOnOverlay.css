@@ -13,11 +13,60 @@
 	justify-content: center;
 }
 
+/* Full width so .powerOnBootTrack's min(30%, 92px) resolves against the screen like before */
 .powerOnBootWrap {
-	width: min(30%, 92px);
+	--boot-bar-fill: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0.78) 0%,
+		rgba(255, 255, 255, 1) 60%,
+		rgba(255, 255, 255, 0.86) 100%
+	);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+	transform: translateY(-6px);
+}
+
+/* Same optical center as .clockIpod (50.5% − 50%): nudge cluster ~0.5% right */
+.powerOnBootInner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	transform: translateX(0.5%);
+}
+
+/* Same gradient as .powerOnBootFill — letterforms pick up the same whites */
+.powerOnBootTitle {
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	text-align: center;
+	background: var(--boot-bar-fill);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	width: max-content;
+	max-width: calc(100% - 24px);
+	box-sizing: border-box;
+	padding-inline: 0.08em;
+	filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.12))
+		drop-shadow(0 0 22px rgba(255, 255, 255, 0.06));
+	transform: translateX(2px);
+	margin-bottom: 11px;
 }
 
 .powerOnBootTrack {
+	width: min(30%, 92px);
+	flex-shrink: 0;
 	height: 1.5px;
 	border-radius: 999px;
 	background: rgba(255, 255, 255, 0.18);
@@ -25,16 +74,13 @@
 	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+/* Width % fills the track reliably; scaleX often stops shy of the end on some GPUs */
 .powerOnBootFill {
 	height: 100%;
-	width: 100%;
-	transform-origin: left center;
-	transform: scaleX(0.06);
-	background: linear-gradient(
-		90deg,
-		rgba(255, 255, 255, 0.78) 0%,
-		rgba(255, 255, 255, 1) 60%,
-		rgba(255, 255, 255, 0.86) 100%
-	);
-	transition: transform 160ms linear;
+	width: 1%;
+	max-width: 100%;
+	box-sizing: border-box;
+	background: var(--boot-bar-fill);
+	border-radius: 999px;
+	transition: width 280ms linear;
 }

@@ -1,0 +1,262 @@
+/* Files — Settings/iPod chrome; demo grid floats on gradient (no outer card) */
+
+.filesPage {
+	/* Matches AppHeaderBar `.appHeaderBar { top: 4.2% }` — keeps fullscreen player chrome below simulated status bar */
+	--files-player-top-offset: 4.2%;
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(
+		180deg,
+		rgb(215, 218, 222) 0%,
+		rgb(198, 202, 207) 30%,
+		rgb(185, 190, 196) 100%
+	);
+}
+
+/* Prevent scroll / overscroll escaping the mock screen while the audio player is open */
+.filesPagePlayerOpen {
+	overscroll-behavior: none;
+}
+
+.filesScroll {
+	position: absolute;
+	top: 13.2%;
+	left: 6%;
+	right: 6%;
+	bottom: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	padding: 14px 0 24px;
+}
+
+.filesScroll::-webkit-scrollbar {
+	display: none;
+}
+
+.filesScroll-demosOnly {
+	padding-top: 12px;
+}
+
+.filesScroll-behindPlayer {
+	pointer-events: none;
+	user-select: none;
+	overflow: hidden !important;
+	touch-action: none;
+	overscroll-behavior: none;
+}
+
+.filesAudioHud {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	opacity: 0;
+	pointer-events: none;
+}
+
+.filesIosAudioGrid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	align-items: start;
+	column-gap: 20px;
+	row-gap: 24px;
+	width: 100%;
+}
+
+.filesIosAudioCell {
+	margin: 0;
+	min-width: 0;
+}
+
+.filesIosAudioBtn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	text-align: center;
+	width: 100%;
+	padding: 0 4px;
+	border: none;
+	background: transparent;
+	font: inherit;
+	cursor: pointer;
+	-webkit-font-smoothing: antialiased;
+	color: inherit;
+	transition: transform 0.1s ease;
+	-webkit-tap-highlight-color: transparent;
+	box-sizing: border-box;
+}
+
+.filesIosAudioBtn:hover {
+	transform: scale(1.05);
+}
+
+.filesIosAudioBtn:active {
+	transform: scale(0.98);
+}
+
+/* Icon tile — glossy blue + drop shadow (Photos-style depth, no folder tab) */
+.filesIosAudioIconWrap {
+	position: relative;
+	width: 100%;
+	max-width: 72px;
+	aspect-ratio: 1;
+	margin: 0 0 8px;
+	box-sizing: border-box;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: min(12%, 9px);
+	background: linear-gradient(
+		165deg,
+		rgb(110, 165, 225) 0%,
+		rgb(78, 138, 210) 45%,
+		rgb(58, 118, 188) 100%
+	);
+	border-radius: 8px;
+	border: none;
+	box-shadow:
+		inset 0 2px 0 rgba(255, 255, 255, 0.45),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.14),
+		0 3px 6px rgba(0, 0, 0, 0.35);
+}
+
+.filesIosAudioBtn-playing .filesIosAudioIconWrap {
+	background: linear-gradient(
+		165deg,
+		rgb(95, 150, 230) 0%,
+		rgb(62, 120, 200) 50%,
+		rgb(48, 100, 178) 100%
+	);
+	box-shadow:
+		inset 0 2px 0 rgba(255, 255, 255, 0.5),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.14),
+		0 4px 8px rgba(0, 0, 0, 0.38),
+		0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.filesIosAudioIconInner {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.filesIosAudioGlyph {
+	display: block;
+	width: 56%;
+	height: 56%;
+	max-width: 28px;
+	max-height: 28px;
+	flex-shrink: 0;
+	min-width: 22px;
+	min-height: 22px;
+	color: rgb(255, 255, 255);
+	opacity: 0.95;
+	filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+	vertical-align: middle;
+}
+
+.filesIosAudioBtn-playing .filesIosAudioGlyph {
+	color: rgb(255, 255, 255);
+	opacity: 1;
+	filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.filesIosAudioIconPulse {
+	animation: filesIosPulse 1.08s ease-in-out infinite;
+}
+
+@keyframes filesIosPulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	55% {
+		opacity: 0.74;
+	}
+}
+
+/* Match Photos `.photosFolderLabel` — readable on gray chrome */
+.filesIosAudioName {
+	width: 100%;
+	max-width: 72px;
+	margin: 0 auto;
+	font-family: inherit;
+	font-size: clamp(0.72rem, 2.85vw, 0.82rem);
+	font-weight: 500;
+	line-height: 1.22;
+	color: rgb(45, 50, 55);
+	overflow: hidden;
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	max-height: 2.6em;
+	text-overflow: ellipsis;
+	word-break: break-word;
+	text-shadow: none;
+}
+
+.filesIosAudioName + .filesIosAudioMeta {
+	margin-top: 2px;
+}
+
+.filesIosAudioMeta {
+	width: 100%;
+	max-width: 72px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0;
+	font-family: inherit;
+	font-size: clamp(8px, 2.2vw, 9.25px);
+	font-weight: 500;
+	line-height: 1.12;
+	color: rgb(118, 124, 132);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-shadow: none !important;
+}
+
+.filesIosAudioMeta + .filesIosAudioMeta {
+	margin-top: 1px;
+}
+
+.filesDemoHint {
+	margin: 0 0 12px;
+	padding: 10px 12px;
+	font-size: 0.74rem;
+	line-height: 1.38;
+	color: rgb(95, 100, 108);
+	background: rgba(255, 255, 255, 0.35);
+	border-radius: 10px;
+	border: 1px dashed rgb(178, 185, 195);
+	box-shadow: none;
+	text-shadow: none !important;
+}
+
+.filesDemoHint code {
+	font-family: ui-monospace, monospace;
+	font-size: 0.68rem;
+	word-break: break-all;
+	background: rgb(239, 242, 245);
+	padding: 1px 4px;
+	border-radius: 4px;
+	color: rgb(70, 80, 92);
+}

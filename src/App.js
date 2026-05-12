@@ -33,15 +33,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const emitProgress = (progress) => {
-      window.__myosBootProgress = progress;
-      window.dispatchEvent(
-        new CustomEvent("myos:boot-progress", {
-          detail: { progress },
-        })
-      );
-    };
-
     const preloadImage = (src) =>
       new Promise((resolve) => {
         if (!src) return resolve();
@@ -60,8 +51,38 @@ const App = () => {
       return Array.from(new Set([...main, ...footer, ...extras, phone].filter(Boolean)));
     };
 
+    /** Icons often resolve from cache in parallel — without a cap the bar jumps to ~70%+ on first paint */
+    const MIN_BOOT_BAR_RAMP_MS = 2800;
+
     let cancelled = false;
     const startedAt = Date.now();
+    window.__myosBootStartedAt = startedAt;
+
+    let peakRaw = 0.01;
+
+    const emitCappedProgress = (raw) => {
+      peakRaw = Math.max(peakRaw, Math.min(1, raw));
+      const elapsed = Date.now() - startedAt;
+      const maxByTime = Math.min(
+        1,
+        0.01 + (elapsed / MIN_BOOT_BAR_RAMP_MS) * 0.99
+      );
+      const shown = Math.min(peakRaw, maxByTime);
+      window.__myosBootProgress = shown;
+      window.dispatchEvent(
+        new CustomEvent("myos:boot-progress", {
+          detail: { progress: shown },
+        })
+      );
+    };
+
+    const emitProgressFinal = () => {
+      peakRaw = 1;
+      window.__myosBootProgress = 1;
+      window.dispatchEvent(
+        new CustomEvent("myos:boot-progress", { detail: { progress: 1 } })
+      );
+    };
 
     const run = async () => {
       window.__myosBootReady = false;
@@ -69,25 +90,31 @@ const App = () => {
       const total = sources.length || 1;
       let loaded = 0;
 
-      emitProgress(0.12);
+      emitCappedProgress(0.01);
       await Promise.all(
         sources.map(async (src) => {
           await preloadImage(src);
           loaded += 1;
           const ratio = loaded / total;
-          // Keep headroom so final reveal feels deliberate.
-          emitProgress(0.12 + ratio * 0.76);
+          emitCappedProgress(0.01 + ratio * 0.99);
         })
       );
 
-      const elapsed = Date.now() - startedAt;
-      const minBootMs = 800;
-      if (elapsed < minBootMs) {
-        await new Promise((r) => setTimeout(r, minBootMs - elapsed));
+      if (cancelled) return;
+
+      while (!cancelled) {
+        const elapsed = Date.now() - startedAt;
+        const maxByTime = Math.min(
+          1,
+          0.01 + (elapsed / MIN_BOOT_BAR_RAMP_MS) * 0.99
+        );
+        emitCappedProgress(peakRaw);
+        if (peakRaw >= 1 - 1e-9 && maxByTime >= 1 - 1e-9) break;
+        await new Promise((r) => setTimeout(r, 24));
       }
 
       if (!cancelled) {
-        emitProgress(1);
+        emitProgressFinal();
         window.__myosBootReady = true;
         window.dispatchEvent(new Event("myos:app-ready"));
       }

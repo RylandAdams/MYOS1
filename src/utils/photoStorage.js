@@ -4,6 +4,18 @@
  */
 export const LOCAL_PLACES = { mexico: 73 };
 
+/** Appended after `001.jpg` … `{count}.jpg` for Mexico only */
+const MEXICO_EXTRA_PHOTOS = [
+	{ src: '/photos/mexico/grinch-organillo-night.png' },
+	{ src: '/photos/mexico/subway-motion-blur.png' },
+	{ src: '/photos/mexico/feast-mural-staircase-collage.png' },
+	{ src: '/photos/mexico/frida-hallway-pesos-collage.png' },
+	{ src: '/photos/mexico/soumaya-david-gallery.png' },
+	{ src: '/photos/mexico/convenience-store-drinks.png' },
+	{ src: '/photos/mexico/cathedral-golden-altar.png' },
+	{ src: '/photos/mexico/angel-lanterns-stickers-collage.png' },
+];
+
 function getLocalUrls(placeId) {
 	const count = LOCAL_PLACES[placeId];
 	if (!count) return [];
@@ -17,7 +29,11 @@ export function isLocalPlace(placeId) {
 }
 
 export function getLocalPhotoList(placeId) {
-	return getLocalUrls(placeId);
+	const base = getLocalUrls(placeId);
+	if (placeId === 'mexico') {
+		return [...base, ...MEXICO_EXTRA_PHOTOS];
+	}
+	return base;
 }
 
 /**
@@ -27,7 +43,7 @@ export function getLocalPhotoList(placeId) {
 export function preloadStoragePhotos() {
 	const run = () => {
 		Object.keys(LOCAL_PLACES).forEach((placeId) => {
-			getLocalUrls(placeId).forEach(({ src }) => {
+			getLocalPhotoList(placeId).forEach(({ src }) => {
 				const img = new Image();
 				img.src = src;
 			});

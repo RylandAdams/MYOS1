@@ -493,6 +493,32 @@ button {
 	transition: stroke-dashoffset 0.2s linear;
 }
 
+.progressDialOverlay--loading {
+	cursor: wait;
+}
+
+.ipodBufferSpinner {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 22px;
+	height: 22px;
+	margin: -11px 0 0 -11px;
+	box-sizing: border-box;
+	border: 2.5px solid rgba(0, 122, 255, 0.22);
+	border-top-color: rgb(0, 122, 255);
+	border-radius: 50%;
+	animation: ipodBufferSpin 0.7s linear infinite;
+	z-index: 2;
+	pointer-events: none;
+}
+
+@keyframes ipodBufferSpin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 .progressDialPlayIcon {
 	width: 22px;
 	height: 22px;

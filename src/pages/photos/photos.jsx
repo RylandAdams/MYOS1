@@ -9,11 +9,12 @@ const FOLDERS = [
 ];
 
 const PLACES = [
-	{ id: 'dayton', label: 'Dayton' },
-	{ id: 'corvallis', label: 'Corvallis' },
-	{ id: 'eugene', label: 'Eugene' },
-	{ id: 'portland', label: 'Portland' },
 	{ id: 'mexico', label: 'Mexico' },
+	{ id: 'new-york', label: 'New York' },
+	{ id: 'portland', label: 'Portland' },
+	{ id: 'eugene', label: 'Eugene' },
+	{ id: 'corvallis', label: 'Corvallis' },
+	{ id: 'dayton', label: 'Dayton' },
 ];
 
 const Photos = () => {
