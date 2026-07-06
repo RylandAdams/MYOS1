@@ -1,0 +1,9 @@
+# Firebase Hosting upload rules (replaces .gitignore for deploys).
+# Do NOT list /build here — hosting.public is "build", and .gitignore's /build
+# entry was causing static/js, photos, sw.js, etc. to be skipped on deploy.
+.git
+.firebase
+node_modules
+**/node_modules/**
+.env
+.env.*

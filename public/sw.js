@@ -1,26 +1,19 @@
-// public/sw.js
-const CACHE_NAME = 'myos-cache-v2';
-const CORE_ASSETS = ['/', '/index.html', '/manifest.json', '/APPLOGO.png'];
+// public/sw.js — network-first for app bundles; cache only shell assets.
+const CACHE_NAME = 'myos-cache-v3';
+const SHELL_ASSETS = ['/index.html', '/manifest.json', '/APPLOGO.png'];
 
-function shouldCache(request, response) {
-	if (!response || !response.ok) return false;
-	const type = response.headers.get('content-type') || '';
-	const path = new URL(request.url).pathname;
-	if (path.endsWith('.js') || path.endsWith('.css')) {
-		return type.includes('javascript') || type.includes('css');
-	}
-	if (path.endsWith('.json')) {
-		return type.includes('json');
-	}
-	if (path.endsWith('.html') || path === '/') {
-		return type.includes('html');
-	}
-	return true;
+function isAppBundle(pathname) {
+	return (
+		pathname.startsWith('/static/') ||
+		pathname.endsWith('.js') ||
+		pathname.endsWith('.css') ||
+		pathname.endsWith('.json')
+	);
 }
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
-		caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
+		caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_ASSETS))
 	);
 	self.skipWaiting();
 });
@@ -34,25 +27,50 @@ self.addEventListener('activate', (event) => {
 	self.clients.claim();
 });
 
+self.addEventListener('message', (event) => {
+	if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 self.addEventListener('fetch', (event) => {
 	const req = event.request;
 	if (req.method !== 'GET') return;
 
+	const url = new URL(req.url);
+	if (url.origin !== self.location.origin) return;
+
 	if (req.mode === 'navigate') {
-		event.respondWith(fetch(req).catch(() => caches.match('/index.html')));
+		event.respondWith(
+			fetch(req)
+				.then((res) => {
+					if (res.ok) {
+						const copy = res.clone();
+						caches.open(CACHE_NAME).then((cache) => cache.put('/index.html', copy));
+					}
+					return res;
+				})
+				.catch(() => caches.match('/index.html'))
+		);
+		return;
+	}
+
+	if (isAppBundle(url.pathname)) {
+		event.respondWith(
+			fetch(req).catch(() => caches.match(req))
+		);
 		return;
 	}
 
 	event.respondWith(
-		caches.match(req).then((cached) => {
-			if (cached) return cached;
-			return fetch(req).then((res) => {
-				if (shouldCache(req, res)) {
-					const copy = res.clone();
-					caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-				}
-				return res;
-			});
-		})
+		caches.match(req).then(
+			(cached) =>
+				cached ||
+				fetch(req).then((res) => {
+					if (res.ok) {
+						const copy = res.clone();
+						caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+					}
+					return res;
+				})
+		)
 	);
 });

@@ -9,11 +9,21 @@ root.render(
 	</React.StrictMode>
 );
 
-if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .catch(() => {});
-  });
-}
+if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+	let refreshing = false;
+	navigator.serviceWorker.addEventListener('controllerchange', () => {
+		if (refreshing) return;
+		refreshing = true;
+		window.location.reload();
+	});
 
+	window.addEventListener('load', () => {
+		navigator.serviceWorker
+			.register('/sw.js')
+			.then((reg) => {
+				reg.update();
+				if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+			})
+			.catch(() => {});
+	});
+}
