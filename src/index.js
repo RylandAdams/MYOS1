@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { isInAppBrowser, unregisterServiceWorkers } from './utils/inAppBrowser';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -9,21 +10,26 @@ root.render(
 	</React.StrictMode>
 );
 
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-	let refreshing = false;
-	navigator.serviceWorker.addEventListener('controllerchange', () => {
-		if (refreshing) return;
-		refreshing = true;
-		window.location.reload();
-	});
+if (process.env.NODE_ENV === 'production') {
+	if (isInAppBrowser()) {
+		// Instagram bio links use a separate WebView cache from Safari.
+		unregisterServiceWorkers().catch(() => {});
+	} else if ('serviceWorker' in navigator) {
+		let refreshing = false;
+		navigator.serviceWorker.addEventListener('controllerchange', () => {
+			if (refreshing) return;
+			refreshing = true;
+			window.location.reload();
+		});
 
-	window.addEventListener('load', () => {
-		navigator.serviceWorker
-			.register('/sw.js')
-			.then((reg) => {
-				reg.update();
-				if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-			})
-			.catch(() => {});
-	});
+		window.addEventListener('load', () => {
+			navigator.serviceWorker
+				.register('/sw.js')
+				.then((reg) => {
+					reg.update();
+					if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+				})
+				.catch(() => {});
+		});
+	}
 }

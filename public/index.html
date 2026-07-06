@@ -29,8 +29,33 @@
 		/>
 		<meta
 			name="viewport"
-			content="width=device-width, initial-scale=1"
+			content="width=device-width, initial-scale=1, viewport-fit=cover"
 		/>
+		<!-- Runs before React: flag in-app browsers, hide SEO noscript in Instagram WebView -->
+		<script>
+			(function () {
+				var ua = navigator.userAgent || '';
+				var inApp = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|Twitter|Line\//i.test(ua);
+				window.__MYOS_IN_APP_BROWSER = inApp;
+				document.documentElement.classList.add('js');
+				if (inApp && 'serviceWorker' in navigator) {
+					navigator.serviceWorker.getRegistrations().then(function (regs) {
+						regs.forEach(function (reg) { reg.unregister(); });
+					});
+				}
+			})();
+		</script>
+		<style>
+			html,
+			body {
+				margin: 0;
+				background: #000;
+			}
+			/* Hide SEO noscript fallback when JS runs (Instagram WebView quirk) */
+			html.js noscript {
+				display: none !important;
+			}
+		</style>
 		<meta
 			http-equiv="Permissions-Policy"
 			content="encrypted-media=(self 'https://w.soundcloud.com')"
