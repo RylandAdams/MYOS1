@@ -17,8 +17,7 @@
 	font-family: 'SFMAC';
 	font-style: normal;
 	font-weight: normal;
-	src: local('PC'),
-		url('/src//font/sf-pro-display_regular.woff2') format('woff');
+	src: local('SF Pro Display'), local('Helvetica Neue'), local('Helvetica'), local('Arial');
 }
 
 button {

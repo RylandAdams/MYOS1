@@ -31,18 +31,47 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1, viewport-fit=cover"
 		/>
-		<!-- Runs before React: flag in-app browsers, hide SEO noscript in Instagram WebView -->
+		<!-- Boot: in-app browser fixes (Instagram bio links use a separate WebView cache) -->
 		<script>
 			(function () {
 				var ua = navigator.userAgent || '';
 				var inApp = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|Twitter|Line\//i.test(ua);
 				window.__MYOS_IN_APP_BROWSER = inApp;
-				document.documentElement.classList.add('js');
-				if (inApp && 'serviceWorker' in navigator) {
-					navigator.serviceWorker.getRegistrations().then(function (regs) {
-						regs.forEach(function (reg) { reg.unregister(); });
-					});
+
+				function purgeCaches() {
+					var tasks = [];
+					if ('serviceWorker' in navigator) {
+						tasks.push(
+							navigator.serviceWorker.getRegistrations().then(function (regs) {
+								regs.forEach(function (reg) { reg.unregister(); });
+							})
+						);
+					}
+					if ('caches' in window) {
+						tasks.push(
+							caches.keys().then(function (keys) {
+								return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+							})
+						);
+					}
+					return Promise.all(tasks);
 				}
+
+				if (inApp) purgeCaches();
+
+				// Stale IG cache can serve old index.html → missing JS → HTML error page
+				window.addEventListener(
+					'error',
+					function (ev) {
+						var t = ev.target;
+						if (!t || t.tagName !== 'SCRIPT' || !t.src || window.__MYOS_SCRIPT_RETRY) return;
+						window.__MYOS_SCRIPT_RETRY = true;
+						purgeCaches().finally(function () {
+							window.location.reload();
+						});
+					},
+					true
+				);
 			})();
 		</script>
 		<style>
@@ -51,9 +80,8 @@
 				margin: 0;
 				background: #000;
 			}
-			/* Hide SEO noscript fallback when JS runs (Instagram WebView quirk) */
-			html.js noscript {
-				display: none !important;
+			#root:empty {
+				min-height: 100vh;
 			}
 		</style>
 		<meta
@@ -158,30 +186,6 @@
 		<script src="https://w.soundcloud.com/player/api.js" async></script>
 	</head>
 	<body>
-		<noscript>
-		<div style="font-family:sans-serif;max-width:600px;margin:40px auto;padding:20px;color:#111;">
-			<h1>RYLAND — Official Site</h1>
-			<p>RYLAND is an independent artist, producer, and multi-instrumentalist from Oregon. Self-produced, self-directed, fully independent. Music that doesn't stay in one place — alt-pop, indie, and electronic driven by emotional honesty.</p>
-			<h2>Music</h2>
-			<ul>
-				<li>be that girl again (2026)</li>
-				<li>everlasting (2026)</li>
-				<li>So Delighted When She Speaks (2025)</li>
-				<li>Tough (2025)</li>
-				<li>08.18.23 glisan (2024)</li>
-				<li>Denial (2023)</li>
-				<li>*Showing Friends — album (2024)</li>
-			</ul>
-			<h2>Stream</h2>
-			<p>
-				<a href="https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ">Spotify</a> ·
-				<a href="https://music.apple.com/us/artist/ryland/1620591111">Apple Music</a> ·
-				<a href="https://www.youtube.com/@RYLANDOfficial">YouTube</a>
-			</p>
-			<h2>Follow</h2>
-			<p><a href="https://www.instagram.com/ryland.wav">Instagram @ryland.wav</a></p>
-		</div>
-		</noscript>
 		<div id="root"></div>
 	</body>
 </html>

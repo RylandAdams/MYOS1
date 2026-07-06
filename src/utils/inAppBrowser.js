@@ -13,3 +13,14 @@ export function unregisterServiceWorkers() {
 		Promise.all(regs.map((reg) => reg.unregister()))
 	);
 }
+
+export function clearAllCaches() {
+	if (!('caches' in window)) return Promise.resolve();
+	return caches.keys().then((keys) =>
+		Promise.all(keys.map((key) => caches.delete(key)))
+	);
+}
+
+export function purgeInAppBrowserStorage() {
+	return Promise.all([unregisterServiceWorkers(), clearAllCaches()]);
+}

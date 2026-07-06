@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { isInAppBrowser, unregisterServiceWorkers } from './utils/inAppBrowser';
+import { isInAppBrowser, purgeInAppBrowserStorage } from './utils/inAppBrowser';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,8 +12,7 @@ root.render(
 
 if (process.env.NODE_ENV === 'production') {
 	if (isInAppBrowser()) {
-		// Instagram bio links use a separate WebView cache from Safari.
-		unregisterServiceWorkers().catch(() => {});
+		purgeInAppBrowserStorage().catch(() => {});
 	} else if ('serviceWorker' in navigator) {
 		let refreshing = false;
 		navigator.serviceWorker.addEventListener('controllerchange', () => {
