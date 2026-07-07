@@ -57,7 +57,9 @@
 					return Promise.all(tasks);
 				}
 
-				if (inApp) purgeCaches();
+				if (inApp) {
+					window.__MYOS_PURGE_READY = purgeCaches();
+				}
 
 				// Stale IG cache can serve old index.html → missing JS → HTML error page
 				window.addEventListener(
@@ -67,13 +69,16 @@
 						if (!t || t.tagName !== 'SCRIPT' || !t.src || window.__MYOS_SCRIPT_RETRY) return;
 						window.__MYOS_SCRIPT_RETRY = true;
 						purgeCaches().finally(function () {
-							window.location.reload();
+							var u = new URL(window.location.href);
+							u.searchParams.set('_cb', String(Date.now()));
+							window.location.replace(u.toString());
 						});
 					},
 					true
 				);
 			})();
 		</script>
+		<!-- Critical shell: black backdrop before CSS/JS load (does not affect app label styling) -->
 		<style>
 			html,
 			body {
@@ -82,6 +87,16 @@
 			}
 			#root:empty {
 				min-height: 100vh;
+			}
+			/* Hide HOME/POWER label flash before CSS loads — keep hit areas intact */
+			.homeBttn a,
+			.powerBttn a {
+				font-size: 0;
+				color: transparent;
+				text-decoration: none;
+			}
+			.Frame {
+				opacity: 0;
 			}
 		</style>
 		<meta
@@ -187,5 +202,57 @@
 	</head>
 	<body>
 		<div id="root"></div>
+		<!-- In-app browsers (Instagram) cache old index.html with stale /static/* hashes.
+		     Missing bundles fall through to SPA rewrite → HTML instead of JS. Load fresh
+		     entrypoints from asset-manifest.json before deferred scripts execute. -->
+		<script>
+			(function () {
+				if (!window.__MYOS_IN_APP_BROWSER) return;
+
+				var scripts = document.querySelectorAll('script[src*="/static/js/"]');
+				var links = document.querySelectorAll('link[href*="/static/css/"]');
+				for (var i = 0; i < scripts.length; i++) scripts[i].parentNode.removeChild(scripts[i]);
+				for (var j = 0; j < links.length; j++) links[j].parentNode.removeChild(links[j]);
+
+				var bust = String(Date.now());
+
+				function reloadOnce() {
+					if (window.__MYOS_MANIFEST_RETRY) return;
+					window.__MYOS_MANIFEST_RETRY = true;
+					var purge = window.__MYOS_PURGE_READY || Promise.resolve();
+					purge.finally(function () {
+						var u = new URL(window.location.href);
+						u.searchParams.set('_cb', String(Date.now()));
+						window.location.replace(u.toString());
+					});
+				}
+
+				fetch('/asset-manifest.json?v=' + bust, { cache: 'no-store' })
+					.then(function (res) {
+						if (!res.ok) throw new Error('manifest fetch failed');
+						return res.json();
+					})
+					.then(function (manifest) {
+						var files = manifest && manifest.files;
+						var mainJs = files && files['main.js'];
+						var mainCss = files && files['main.css'];
+						if (!mainJs) throw new Error('main.js missing from manifest');
+
+						if (mainCss) {
+							var link = document.createElement('link');
+							link.rel = 'stylesheet';
+							link.href = mainCss.split('?')[0] + '?v=' + bust;
+							document.head.appendChild(link);
+						}
+
+						var script = document.createElement('script');
+						script.defer = true;
+						script.src = mainJs.split('?')[0] + '?v=' + bust;
+						script.onerror = reloadOnce;
+						document.head.appendChild(script);
+					})
+					.catch(reloadOnce);
+			})();
+		</script>
 	</body>
 </html>

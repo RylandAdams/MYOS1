@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { PowerOnProvider } from "./context/PowerOnContext";
@@ -16,6 +16,17 @@ import phone from "./assets/imgs/Iphone.png";
 import "./App.css";
 
 const App = () => {
+  const frameRef = useRef(null);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const id = requestAnimationFrame(() => {
+      frame.classList.add("myos-frame-visible");
+    });
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   useEffect(() => {
     const updateViewport = () => {
       const doc = document.documentElement;
@@ -128,7 +139,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="Frame">
+      <div className="Frame" ref={frameRef}>
         <Router>
           <PowerOnProvider>
             <WallpaperProvider>

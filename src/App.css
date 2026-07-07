@@ -17,7 +17,8 @@
 	font-family: 'SFMAC';
 	font-style: normal;
 	font-weight: normal;
-	src: local('SF Pro Display'), local('Helvetica Neue'), local('Helvetica'), local('Arial');
+	src: local('PC'),
+		url('/src//font/sf-pro-display_regular.woff2') format('woff');
 }
 
 button {
@@ -83,9 +84,15 @@ body {
 	justify-content: center;
 	align-items: center;
 	transform-origin: center center;
+	opacity: 0;
+	transition: opacity 0.4s ease-out;
 
 	/* Scale entire Frame (and all children) to fit viewport – no squishing */
 	transform: scale(var(--scale, 1));
+}
+
+.Frame.myos-frame-visible {
+	opacity: 1;
 }
 
 .phone {
@@ -108,6 +115,7 @@ body {
 	height: 65%;
 	padding-top: 1%;
 	box-sizing: border-box;
+	--myos-status-bar-height: 14px;
 }
 
 /* Matte glass film – clear, just a little grain */

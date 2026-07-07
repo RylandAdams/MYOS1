@@ -13,8 +13,9 @@ const HomeButton = () => {
 				className='bttn'
 				to='/homeScreen'
 				onClick={handleClick}
+				aria-label='Home'
 			>
-				HOME
+				<span className='bttnHit' aria-hidden='true' />
 			</Link>
 		</div>
 	);

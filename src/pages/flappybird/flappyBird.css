@@ -1,20 +1,22 @@
 .game {
 	position: absolute;
 	z-index: 0;
+	top: var(--myos-status-bar-height, 14px);
 	width: 100%;
 	max-width: 400px;
-	height: 100%;
-
+	height: calc(100% - var(--myos-status-bar-height, 14px));
 	display: flex;
 	justify-content: center;
-	align-items: center;
-
+	align-items: flex-start;
+	overflow: hidden;
 	background-color: rgb(0, 0, 0);
 }
 
 .gameWindow {
 	width: 130%;
-	height: 127.5%;
+	height: 100%;
+	max-height: 100%;
+	border: none;
 }
 
 .loading {

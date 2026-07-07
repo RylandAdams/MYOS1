@@ -16,8 +16,9 @@ const PowerButton = () => {
 				className={on ? 'bttn-on' : 'bttn-off'}
 				to={on ? '/off' : '/'}
 				onClick={powerToggle}
+				aria-label='Power'
 			>
-				POWER
+				<span className='bttnHit' aria-hidden='true' />
 			</Link>
 		</div>
 	);

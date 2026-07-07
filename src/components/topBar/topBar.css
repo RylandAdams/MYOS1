@@ -210,8 +210,8 @@
 
 /* Flappy Bird & similar pages – main bar extends down, content stays at top */
 .topBarCompact {
-	min-height: 14px;
-	height: 14px;
+	min-height: var(--myos-status-bar-height, 14px);
+	height: var(--myos-status-bar-height, 14px);
 }
 .topBarCompact::after {
 	display: none;

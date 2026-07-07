@@ -6,6 +6,7 @@
 	margin-top: -3%;
 	position: relative;
 	overflow: hidden;
+	font-weight: normal;
 
 	/* Light gray gradient background – matches iTunes */
 	background: linear-gradient(
