@@ -64,6 +64,7 @@ const HomeScreen = () => {
 			idle(() => {
 				import('../../pages/flappybird/flappyBird');
 				import('../../pages/settings/settings');
+				import('../../pages/voicememos/voicememos');
 				import('../../pages/news/news');
 				import('../../pages/messages/messages');
 				import('../../pages/messages/Conversations/RickRubin/RickRubin');

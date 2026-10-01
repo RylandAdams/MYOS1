@@ -3,7 +3,7 @@ import './settings.css';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import { useWallpaper } from '../../context/WallpaperContext';
 import { soundsEnabled, setSoundsEnabled, onSoundsChange } from '../../utils/uiSound';
-import { getTheme, setTheme, onThemeChange } from '../../utils/theme';
+import { getTheme, getMode, setTheme, setAutomatic, onThemeChange } from '../../utils/theme';
 import { IPOD_TRACKS } from '../../assets/ipodLibrary';
 import { ALBUMS } from '../photos/photosData';
 
@@ -32,7 +32,15 @@ const Settings = () => {
 	const [page, setPage] = useState('main'); // main | wallpaper | about
 	useEffect(() => onSoundsChange(setSounds), []);
 	const [dark, setDark] = useState(() => getTheme() === 'dark');
-	useEffect(() => onThemeChange((t) => setDark(t === 'dark')), []);
+	const [auto, setAuto] = useState(() => getMode() === 'auto');
+	useEffect(
+		() =>
+			onThemeChange((t, m) => {
+				setDark(t === 'dark');
+				setAuto(m === 'auto');
+			}),
+		[]
+	);
 
 	const current = wallpapers.find((w) => w.id === wallpaperId);
 	const photoCount = ALBUMS.find((a) => a.id === 'camera-roll')?.photos.length ?? 0;
@@ -59,6 +67,13 @@ const Settings = () => {
 								</button>
 							</li>
 							<li className='stRow'>
+								<span className='stLabel'>
+									Automatic Dark
+									<span className='stSub'>9 PM – 5 AM</span>
+								</span>
+								<Switch on={auto} onChange={setAutomatic} label='Automatic Dark Mode' />
+							</li>
+							<li className={`stRow${auto ? ' stRowDim' : ''}`}>
 								<span className='stLabel'>Dark Mode</span>
 								<Switch on={dark} onChange={(on) => setTheme(on ? 'dark' : 'light')} label='Dark Mode' />
 							</li>

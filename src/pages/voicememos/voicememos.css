@@ -1,0 +1,261 @@
+/* iPhone OS 3 Voice Memos */
+
+.vmPage {
+	height: 105%;
+	max-height: 490px;
+	margin-top: -3%;
+	position: relative;
+	overflow: hidden;
+	background: #0b0b0d;
+	display: flex;
+	flex-direction: column;
+}
+
+.vmPage * {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-shadow: none;
+	box-sizing: border-box;
+}
+
+/* Brushed graphite stage with the microphone and the meter */
+.vmHero {
+	position: absolute;
+	top: 14.4%;
+	left: 0;
+	right: 0;
+	height: 44%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 18px;
+	background:
+		repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, rgba(0, 0, 0, 0.04) 1px 2px),
+		radial-gradient(120% 90% at 50% 0%, #3a3b40 0%, #17181b 60%, #0b0b0d 100%);
+	border-bottom: 1px solid #000;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Chrome studio microphone, built in CSS */
+.vmMic {
+	position: relative;
+	width: 58px;
+	height: 128px;
+}
+
+.vmMicHead {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 58px;
+	height: 84px;
+	border-radius: 29px;
+	background:
+		radial-gradient(circle at 3px 3px, rgba(25, 26, 30, 0.55) 1.4px, transparent 1.7px) 0 0 / 6px 6px,
+		linear-gradient(90deg, #55585f 0%, #eef0f3 22%, #9a9da5 45%, #e6e7eb 65%, #46484e 100%);
+	box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.65), inset 0 2px 3px rgba(255, 255, 255, 0.5);
+}
+
+.vmMicBand {
+	position: absolute;
+	left: 0;
+	top: 39px;
+	width: 58px;
+	height: 6px;
+	background: linear-gradient(180deg, #2a2c31 0%, #d2d4da 50%, #2a2c31 100%);
+}
+
+.vmMicYoke {
+	position: absolute;
+	left: -10px;
+	top: 52px;
+	width: 78px;
+	height: 44px;
+	border: 5px solid #b9bcc3;
+	border-top: none;
+	border-radius: 0 0 40px 40px;
+}
+
+.vmMicStem {
+	position: absolute;
+	left: 26px;
+	top: 96px;
+	width: 6px;
+	height: 30px;
+	background: linear-gradient(90deg, #6d7077 0%, #e1e3e7 50%, #6d7077 100%);
+}
+
+.vmMicStem::after {
+	content: '';
+	position: absolute;
+	left: -20px;
+	bottom: -4px;
+	width: 46px;
+	height: 8px;
+	border-radius: 50%;
+	background: linear-gradient(90deg, #6d7077 0%, #e1e3e7 50%, #6d7077 100%);
+}
+
+/* Analog meter */
+.vmMeter {
+	position: relative;
+	width: 150px;
+	height: 84px;
+	border-radius: 8px;
+	box-shadow: 0 0 0 2px #0b0b0d, 0 0 0 3px rgba(255, 255, 255, 0.12), 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 2px 6px rgba(0, 0, 0, 0.25);
+	overflow: hidden;
+}
+
+.vmMeterFace {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.vmNeedle {
+	position: absolute;
+	left: 50%;
+	bottom: 4px;
+	width: 2px;
+	height: 66px;
+	margin-left: -1px;
+	background: linear-gradient(180deg, #c8231b 0%, #1a1a1a 30%);
+	transform-origin: 50% 100%;
+	border-radius: 1px;
+	will-change: transform;
+}
+
+.vmPivot {
+	position: absolute;
+	left: 50%;
+	bottom: -6px;
+	width: 22px;
+	height: 22px;
+	margin-left: -11px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 40% 35%, #5a5a5e 0%, #1c1c1f 70%);
+	box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Memos list */
+.vmListWrap {
+	position: absolute;
+	top: calc(14.4% + 44%);
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-y: auto;
+	background: #fff;
+}
+
+.vmEmpty {
+	padding: 40px 0;
+	color: #9a9aa0;
+	font-size: 17px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.vmList {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.vmList li {
+	border-bottom: 1px solid #e0e0e3;
+}
+
+.vmRow {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	min-height: 54px;
+	padding: 0 14px;
+	border: none;
+	background: #fff;
+	text-align: left;
+	cursor: pointer;
+}
+
+.vmRowActive {
+	background: #f3f6fb;
+}
+
+.vmPlay {
+	flex: 0 0 auto;
+	width: 0;
+	height: 0;
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 11px solid #2f6fd6;
+}
+
+.vmPlaying {
+	width: 11px;
+	height: 14px;
+	border: none;
+	background: linear-gradient(90deg, #2f6fd6 0 4px, transparent 4px 7px, #2f6fd6 7px 11px);
+}
+
+.vmRowText {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.vmTitle {
+	color: #000;
+	font-size: 16px;
+	font-weight: 700;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.vmDate {
+	color: #7d7d84;
+	font-size: 12px;
+}
+
+.vmDur {
+	color: #385487;
+	font-size: 14px;
+	font-variant-numeric: tabular-nums;
+}
+
+.vmProgress {
+	height: 3px;
+	margin: 0 14px 8px 35px;
+	border-radius: 2px;
+	background: #e3e5ea;
+	overflow: hidden;
+}
+
+.vmProgress span {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #8fc1f5, #2f6fd6);
+}
+
+/* Dark Mode */
+.themeDark .vmListWrap,
+.themeDark .vmRow {
+	background: #000;
+}
+.themeDark .vmRowActive {
+	background: #111216;
+}
+.themeDark .vmList li {
+	border-bottom-color: #1e1e21;
+}
+.themeDark .vmTitle {
+	color: #fff;
+}
+.themeDark .vmDur {
+	color: #8fa6c9;
+}
+.themeDark .vmProgress {
+	background: #222226;
+}

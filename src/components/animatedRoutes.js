@@ -19,6 +19,7 @@ const ArticleReader = lazy(() => import('../pages/news/ArticleReader'));
 const Messages = lazy(() => import('../pages/messages/messages'));
 const Settings = lazy(() => import('../pages/settings/settings'));
 const Files = lazy(() => import('../pages/files/files'));
+const VoiceMemos = lazy(() => import('../pages/voicememos/voicememos'));
 
 const RickRubin = lazy(() => import('../pages/messages/Conversations/RickRubin/RickRubin'));
 const LouisBell = lazy(() => import('../pages/messages/Conversations/LouisBell/LouisBell'));
@@ -102,6 +103,10 @@ const AnimatedRoutes = () => {
 				<Route
 					path='/settings'
 					element={<PageTransition><Settings /></PageTransition>}
+				/>
+				<Route
+					path='/voicememos'
+					element={<PageTransition><VoiceMemos /></PageTransition>}
 				/>
 				<Route
 					path='/files'

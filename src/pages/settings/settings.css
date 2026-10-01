@@ -241,3 +241,15 @@ button.stRow:active .stChevron {
 	outline: 2px solid rgba(40, 110, 215, 0.6);
 	outline-offset: 2px;
 }
+
+.stSub {
+	display: block;
+	margin-top: 1px;
+	color: #7d7d84;
+	font-size: 11px;
+	font-weight: 400;
+}
+/* while Automatic is on, the manual switch shows the current state but is secondary */
+.stRowDim .settingsSwitch {
+	opacity: 0.55;
+}

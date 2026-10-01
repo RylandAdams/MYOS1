@@ -12,12 +12,15 @@ import mail from './imgs/mail.png';
 import settings from './imgs/settings.png';
 // iOS Files (Wikimedia): https://commons.wikimedia.org/wiki/File:Files_App_icon_iOS.png
 import files from './imgs/files.png';
+import voicememos from './imgs/voicememos.png';
 
+// Order chosen by Ryland: Settings, Calendar, Weather, Files, Voice Memos
 export const EXTRAS_APPS = [
+	{ id: 'extras-4', appName: 'Settings', appImage: settings, path: '/settings' },
 	{ id: 'extras-1', appName: 'Calendar', appImage: calender, path: '/calender' },
 	{ id: 'extras-3', appName: 'Weather', appImage: weather, path: '/weather' },
-	{ id: 'extras-4', appName: 'Settings', appImage: settings, path: '/settings' },
 	{ id: 'extras-5', appName: 'Files', appImage: files, path: '/files' },
+	{ id: 'extras-6', appName: 'Voice Memos', appImage: voicememos, path: '/voicememos' },
 ];
 
 export const MAINAPPS = [
