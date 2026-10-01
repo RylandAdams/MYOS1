@@ -96,6 +96,12 @@ body {
 	opacity: 1;
 }
 
+/* Desktop (mouse/trackpad) only – added by App.js. Phones keep the flat 2D scale above. */
+.Frame.tiltEnabled {
+	transition: opacity 0.4s ease-out, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+	transform: perspective(1600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--scale, 1));
+}
+
 .phone {
 	pointer-events: none;
 	position: absolute;

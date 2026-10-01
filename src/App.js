@@ -27,30 +27,35 @@ const App = () => {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // Desktop only: the glass glare drifts with the cursor (a 2D background move – no 3D tilt, which blurs text in Safari)
+  // Desktop only: the phone tilts a few degrees toward the cursor and the glare follows.
+  // Touch devices never get the 3D transform – it makes Safari rasterize the screen text soft.
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame || !window.matchMedia) return;
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (!fine.matches || reduced.matches) return;
+    frame.classList.add("tiltEnabled");
     let raf = 0;
     const onMove = (e) => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const nx = e.clientX / window.innerWidth - 0.5;
         const ny = e.clientY / window.innerHeight - 0.5;
+        frame.style.setProperty("--tilt-x", `${(-ny * 4).toFixed(2)}deg`);
+        frame.style.setProperty("--tilt-y", `${(nx * 5).toFixed(2)}deg`);
         frame.style.setProperty("--glare-x", `${(50 - nx * 40).toFixed(1)}%`);
         frame.style.setProperty("--glare-y", `${(50 - ny * 40).toFixed(1)}%`);
       });
     };
     const onLeave = () => {
-      ["--glare-x", "--glare-y"].forEach((k) => frame.style.removeProperty(k));
+      ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y"].forEach((k) => frame.style.removeProperty(k));
     };
     window.addEventListener("pointermove", onMove);
     document.documentElement.addEventListener("pointerleave", onLeave);
     return () => {
       cancelAnimationFrame(raf);
+      frame.classList.remove("tiltEnabled");
       window.removeEventListener("pointermove", onMove);
       document.documentElement.removeEventListener("pointerleave", onLeave);
     };
