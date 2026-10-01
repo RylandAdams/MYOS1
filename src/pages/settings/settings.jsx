@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './settings.css';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import { useWallpaper } from '../../context/WallpaperContext';
-import { soundsEnabled, setSoundsEnabled, onSoundsChange } from '../../utils/uiSound';
+import { soundsEnabled, setSoundsEnabled, onSoundsChange, playSound } from '../../utils/uiSound';
 import { getTheme, getMode, setTheme, setAutomatic, onThemeChange } from '../../utils/theme';
 import { IPOD_TRACKS } from '../../assets/ipodLibrary';
 import { ALBUMS } from '../photos/photosData';
@@ -16,7 +16,10 @@ const Switch = ({ on, onChange, label }) => (
 		aria-checked={on}
 		aria-label={label}
 		className={`settingsSwitch ${on ? 'settingsSwitch-on' : ''}`}
-		onClick={() => onChange(!on)}
+		onClick={() => {
+			playSound('tick');
+			onChange(!on);
+		}}
 	>
 		<span className='settingsSwitchTrack'>
 			<span className='settingsSwitchOn'>ON</span>

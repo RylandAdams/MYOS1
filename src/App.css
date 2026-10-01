@@ -1,15 +1,60 @@
-@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
-	* {
-		transform: rotate(-90deg);
-		transform-origin: left top;
-		width: 100vh;
-		overflow-x: hidden;
-		position: absolute;
-		top: 100%;
-		left: 0;
+/* Phones held sideways: like the original home screen, the phone stays portrait – show a calm
+   "turn upright" screen instead of a tiny shrunken phone. */
+.rotateHint {
+	display: none;
+}
+@media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {
+	.rotateHint {
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 18px;
+		background: #000;
+		color: #d8d8dc;
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-size: 14px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-shadow: none;
 	}
-	.Frame {
-		transform: rotate(-90deg) scale(var(--scale, 1));
+	.rotateHint * {
+		text-shadow: none;
+	}
+	.rotateGlyph {
+		width: 30px;
+		height: 52px;
+		border: 2px solid #d8d8dc;
+		border-radius: 7px;
+		position: relative;
+		animation: rotateUpright 2.4s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+	}
+	.rotateGlyph::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		bottom: 4px;
+		width: 7px;
+		height: 7px;
+		margin-left: -4.5px;
+		border: 1.5px solid #d8d8dc;
+		border-radius: 50%;
+	}
+	@keyframes rotateUpright {
+		0%,
+		20% {
+			transform: rotate(-90deg);
+		}
+		60%,
+		100% {
+			transform: rotate(0deg);
+		}
+	}
+	.App > .Frame {
+		visibility: hidden;
 	}
 }
 

@@ -135,7 +135,8 @@ export default function FilesAudioPlayer({ track, tracks = [track], audioRef, on
 						{peaks.map((h, i) => (
 							<span key={i} className={i < playedBins ? 'fpBar fpBarOn' : 'fpBar'} style={{ height: `${Math.round(h * 100)}%` }} />
 						))}
-						<span className="fpHead" style={{ left: `${progress * 100}%` }} />
+						{/* the playhead appears once the song is under way (at 0:00 it read as a stray mark) */}
+						<span className="fpHead" style={{ left: `${progress * 100}%`, opacity: time > 0.15 ? 1 : 0 }} />
 					</div>
 					<div className="fpArtFoot">RYLAND</div>
 				</div>

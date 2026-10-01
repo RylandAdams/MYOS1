@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import './app.css';
 import { playSound } from '../utils/uiSound';
-import { openInApp } from '../utils/openApp';
+import { openInApp, isInAppBrowser } from '../utils/openApp';
 import { launchFrom } from './PageTransition';
 import { iconFor } from '../utils/liveIcons';
 
@@ -39,6 +39,12 @@ const App = memo((app) => {
 					className={appClass}
 					onClick={(e) => {
 						playSound('tap');
+						// Email inside Instagram & co: mailto usually does nothing there – show the address sheet
+						if (url.startsWith('mailto:') && (isInAppBrowser || window.matchMedia?.('(pointer: coarse)').matches)) {
+							e.preventDefault();
+							window.dispatchEvent(new CustomEvent('myos:mail', { detail: url.slice(7) }));
+							return;
+						}
 						// Open Spotify/Apple Music/YouTube/etc. in their app from Instagram & other in-app browsers
 						if (openInApp(url)) e.preventDefault();
 					}}

@@ -9,6 +9,7 @@ import PowerOnOverlay from "./components/PowerOnOverlay";
 import MotionPrompt, { motionChoice, requestMotion } from "./components/MotionPrompt";
 import LockOverlay from "./components/LockScreen/LockOverlay";
 import ScreenOff from "./components/ScreenOff";
+import MailSheet from "./components/MailSheet";
 import { LockProvider } from "./context/LockContext";
 import HomeButton from "./components/homeButton/homeButton";
 import PowerButton from "./components/powerButton/powerButton";
@@ -250,6 +251,10 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="rotateHint" aria-live="polite">
+        <span className="rotateGlyph" aria-hidden="true" />
+        <span>Turn your phone upright</span>
+      </div>
       <div className="Frame" ref={frameRef}>
         <Router>
           <PowerOnProvider>
@@ -266,6 +271,7 @@ const App = () => {
             <PowerOnOverlay />
             <LockOverlay />
             <MotionPrompt />
+            <MailSheet />
             <ScreenOff />
             {/* Thin film overlay – apps look recessed behind glass */}
             <div className="screenFilm" aria-hidden="true" />
