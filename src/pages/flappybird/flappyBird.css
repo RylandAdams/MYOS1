@@ -25,3 +25,8 @@
 	position: absolute;
 	z-index: -1;
 }
+
+/* night sky behind the canvas while it draws */
+.themeDark .game {
+	background-color: #08142e;
+}

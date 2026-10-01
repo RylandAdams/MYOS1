@@ -72,9 +72,14 @@ const Calender = () => {
 							<button
 								type="button"
 								key={i}
-								disabled={c.outside}
 								className={`calCell${c.outside ? ' calOutside' : ''}${isToday ? ' calToday' : ''}${isSel ? ' calSel' : ''}`}
-								onClick={() => setSelected(c.day)}
+								onClick={() => {
+									if (!c.outside) return setSelected(c.day);
+									// a greyed day from the next/previous month jumps there, like iOS
+									const d = new Date(year, month + (c.day > 15 ? -1 : 1), c.day);
+									setView({ year: d.getFullYear(), month: d.getMonth() });
+									setSelected(c.day);
+								}}
 								aria-label={c.outside ? undefined : `${MONTHS[month]} ${c.day}${hasMark ? ', ?' : ''}`}
 							>
 								<span className="calNum">{c.day}</span>

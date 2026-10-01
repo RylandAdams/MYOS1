@@ -375,3 +375,53 @@
 	text-align: center;
 	text-decoration: none;
 }
+
+.wxList .wxListEmpty {
+	color: #8a8a90;
+	font-weight: 400;
+	cursor: default;
+}
+/* one weight voice on the back: bold city names, regular detail */
+.wxList .wxListRow,
+.wxList .wxListRow span:first-child {
+	font-weight: 700;
+}
+.wxListRow span:first-child {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.wxBackCredit {
+	bottom: 18px;
+	line-height: 1.4;
+}
+/* Dark Mode back side: dark grouped list like Settings */
+.themeDark .wxList {
+	background: #1b1b1e;
+	box-shadow: 0 0 0 1px #000;
+}
+.themeDark .wxList li + li {
+	border-top-color: #2a2a2e;
+}
+.themeDark .wxList .wxListRow {
+	background: #1b1b1e;
+	color: #fff;
+}
+.themeDark .wxList .wxListRow span:first-child,
+.themeDark .wxList .wxListCurrent span:first-child {
+	color: #fff;
+}
+.themeDark .wxSearchInput {
+	background: #222226;
+	border-color: #3a3a40;
+	color: #fff;
+}
+.wxList .wxListRow.wxListEmpty,
+.themeDark .wxList .wxListRow.wxListEmpty {
+	color: #8a8a90;
+	font-weight: 400;
+}
+.themeDark .wxList .wxListAction {
+	color: #6ea2ec;
+}

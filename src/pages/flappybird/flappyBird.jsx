@@ -209,11 +209,31 @@ const Flappybird = () => {
 			const g = c.getContext('2d');
 			g.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
 
-			g.fillStyle = C.sky;
-			g.fillRect(0, 0, W, H);
+			// Night variant when the phone is dark (Automatic Dark after 9 PM, or Dark Mode on)
+			const night = !!document.querySelector('.iphoneContent.themeDark');
+			const P = night
+				? { cloud: '#2a3a63', city: '#1a2747', cityWindow: '#f3cf6a', bush: '#2f6b3d', bushEdge: '#24542f' }
+				: { cloud: C.cloud, city: C.city, cityWindow: C.cityWindow, bush: C.bush, bushEdge: C.bushEdge };
+			if (night) {
+				const sky = g.createLinearGradient(0, 0, 0, floor);
+				sky.addColorStop(0, '#08142e');
+				sky.addColorStop(1, '#203663');
+				g.fillStyle = sky;
+				g.fillRect(0, 0, W, H);
+				const sr = seeded(99);
+				g.fillStyle = '#ffffff';
+				for (let i = 0; i < 40; i++) {
+					g.globalAlpha = 0.35 + sr() * 0.6;
+					g.fillRect(sr() * W, sr() * (floor - 120), sr() < 0.2 ? 2 : 1, sr() < 0.2 ? 2 : 1);
+				}
+				g.globalAlpha = 1;
+			} else {
+				g.fillStyle = C.sky;
+				g.fillRect(0, 0, W, H);
+			}
 
 			const cloudY = floor - 92;
-			g.fillStyle = C.cloud;
+			g.fillStyle = P.cloud;
 			for (let x = -10; x < W + 20; x += 18 + rand() * 10) {
 				g.beginPath();
 				g.arc(x, cloudY + rand() * 8, 13 + rand() * 9, 0, Math.PI * 2);
@@ -226,11 +246,14 @@ const Flappybird = () => {
 				const bw = 14 + Math.floor(rand() * 16);
 				const bh = 22 + Math.floor(rand() * 36);
 				const top = floor - 24 - bh;
-				g.fillStyle = C.city;
+				g.fillStyle = P.city;
 				g.fillRect(x, top, bw, bh + 24);
-				g.fillStyle = C.cityWindow;
+				g.fillStyle = P.cityWindow;
 				for (let wy = top + 4; wy < floor - 26; wy += 6) {
-					for (let wx = x + 3; wx < x + bw - 3; wx += 5) g.fillRect(wx, wy, 2, 3);
+					for (let wx = x + 3; wx < x + bw - 3; wx += 5) {
+						// at night only some windows are lit
+						if (!night || rand() < 0.35) g.fillRect(wx, wy, 2, 3);
+					}
 				}
 				x += bw + Math.floor(rand() * 3);
 			}
@@ -238,14 +261,14 @@ const Flappybird = () => {
 			const bushY = floor - 20;
 			for (let pass = 0; pass < 2; pass++) {
 				const r2 = seeded(7);
-				g.fillStyle = pass === 0 ? C.bushEdge : C.bush;
+				g.fillStyle = pass === 0 ? P.bushEdge : P.bush;
 				for (let bx = -6; bx < W + 16; bx += 14 + r2() * 8) {
 					g.beginPath();
 					g.arc(bx, bushY + r2() * 4, (9 + r2() * 6) - pass, 0, Math.PI * 2);
 					g.fill();
 				}
 			}
-			g.fillStyle = C.bush;
+			g.fillStyle = P.bush;
 			g.fillRect(0, bushY, W, floor - bushY);
 
 			backdrop = c;

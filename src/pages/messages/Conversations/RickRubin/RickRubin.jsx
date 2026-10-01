@@ -5,8 +5,7 @@ import './RickRubin.css';
 import AppHeaderBar from '../../../../components/AppHeaderBar/AppHeaderBar';
 import itunesCover from '../../../../assets/songs/itunesCover.png';
 
-const DEMO_URL =
-	'https://soundcloud.com/rylandofficialmusic/country-ibuprofen/s-C7MKFVD3y97?si=65b2282d37e547cfb4c895d06a8c9f85&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing';
+const DEMO_URL = 'https://soundcloud.com/rylandofficialmusic/country-ibuprofen/s-C7MKFVD3y97';
 
 /* iPhone OS Text thread: pale blue-gray background, green glossy sent bubble on the right,
    gray received bubble on the left (Rick is typing…). */

@@ -268,10 +268,13 @@ export default function Weather() {
     };
   }, [cached, load]);
 
+  const [searched, setSearched] = React.useState(false);
   const runSearch = async (e) => {
     e?.preventDefault();
+    if (query.trim().length < 2) return;
     setBusy(true);
     setResults(await searchCities(query));
+    setSearched(true);
     setBusy(false);
   };
 
@@ -370,12 +373,20 @@ export default function Weather() {
             )}
             {results.map((r) => (
               <li key={`${r.lat},${r.lon}`}>
-                <button type="button" className="wxListRow" onClick={() => load({ lat: r.lat, lon: r.lon, label: r.label, chosen: true })}>
+                <button type="button" className="wxListRow" onClick={() => {
+                    load({ lat: r.lat, lon: r.lon, label: r.label, chosen: true });
+                    setResults([]);
+                    setQuery("");
+                    setSearched(false);
+                  }}>
                   <span>{r.label}</span>
                   <span className="wxListDetail">{r.detail}</span>
                 </button>
               </li>
             ))}
+            {searched && !busy && results.length === 0 && (
+              <li className="wxListRow wxListEmpty">No cities found</li>
+            )}
             <li>
               <button type="button" className="wxListRow wxListAction" onClick={useMyLocation}>
                 Use My Location
