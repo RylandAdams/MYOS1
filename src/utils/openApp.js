@@ -5,7 +5,7 @@
  * handing them to installed apps, so Spotify shows its web page ("couldn't load this artist")
  * before it settles. Here, from those browsers:
  *   - Android: an intent:// URL – Android opens the app, or the browser_fallback_url if it isn't installed.
- *   - iPhone: the app's URL scheme, then the web page after a short wait if nothing took over.
+ *   - iPhone: the clean web page in the same tab (Instagram's iPhone browser blocks app schemes).
  * Regular mobile browsers on Android also get the intent (it skips the "open with" chooser);
  * desktop and iPhone Safari/Chrome keep the plain link, which already works there.
  */
@@ -15,7 +15,6 @@ const isIOS = /iPhone|iPad|iPod/i.test(ua) || (typeof navigator !== 'undefined' 
 const isAndroid = /Android/i.test(ua);
 export const isInAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|musical_ly|BytedanceWebview|TikTok|Snapchat|LinkedInApp|Line\//i.test(ua);
 
-const FALLBACK_MS = 1500;
 
 /** Per-service: Android package and how to build the iOS app URL from the web URL */
 const SERVICES = [
@@ -64,24 +63,6 @@ const androidIntent = (u, pkg) =>
 	`intent://${u.host}${u.pathname}${u.search}#Intent;scheme=https;package=${pkg};` +
 	`S.browser_fallback_url=${encodeURIComponent(u.href)};end`;
 
-/** Try the iOS app scheme; go to the web page if the app didn't open */
-const openIOS = (appUrl, webUrl) => {
-	let left = false;
-	const onHide = () => {
-		left = true;
-	};
-	document.addEventListener('visibilitychange', onHide, { once: true });
-	window.addEventListener('pagehide', onHide, { once: true });
-	window.addEventListener('blur', onHide, { once: true });
-	window.setTimeout(() => {
-		document.removeEventListener('visibilitychange', onHide);
-		window.removeEventListener('pagehide', onHide);
-		window.removeEventListener('blur', onHide);
-		if (!left && !document.hidden) window.location.href = webUrl;
-	}, FALLBACK_MS);
-	window.location.href = appUrl;
-};
-
 /**
  * Call from a link's click handler. Returns true when it took over the navigation
  * (the caller should then preventDefault); false to let the link behave normally.
@@ -101,9 +82,10 @@ export function openInApp(href) {
 		return true;
 	}
 	if (isIOS && isInAppBrowser) {
-		const appUrl = service.ios(u);
-		if (appUrl) openIOS(appUrl, u.href);
-		else window.location.href = u.href;
+		// Instagram's iPhone browser blocks app URL schemes (spotify:, music://…) and shows a
+		// "problem loading" page that also kills any fallback timer – so go straight to the clean
+		// web page in the same tab instead of trying the app first.
+		window.location.href = u.href;
 		return true;
 	}
 	return false;
