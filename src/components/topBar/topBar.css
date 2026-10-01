@@ -42,7 +42,7 @@
 	font-weight: 700;
 	position: absolute;
 	z-index: 1;
-	left: 4%;
+	left: 3%; /* equal inset with the right side */
 	top: 50%;
 	transform: translateY(calc(-50% + 3px));
 	color: #d2d2d2;
@@ -79,7 +79,7 @@
 	z-index: 1;
 	top: 50%;
 	left: auto;
-	right: 2%;
+	right: 3%; /* equal inset with the left side */
 	transform: translateY(calc(-50% + 3px));
 	display: flex;
 	align-items: center;
@@ -126,7 +126,7 @@
 	font-weight: 700;
 	position: absolute;
 	z-index: 1;
-	left: 4%;
+	left: 3%; /* equal inset with the right side */
 	top: 50%;
 	transform: translateY(calc(-50% + 3px));
 	color: #282828;
@@ -167,7 +167,7 @@
 	z-index: 1;
 	top: 50%;
 	left: auto;
-	right: 2%;
+	right: 3%; /* equal inset with the left side */
 	transform: translateY(calc(-50% + 3px));
 	display: flex;
 	align-items: center;
@@ -231,7 +231,7 @@
 	font-weight: 700;
 	position: absolute;
 	z-index: 1;
-	left: 4%;
+	left: 3%; /* equal inset with the right side */
 	top: 50%;
 	transform: translateY(calc(-50% + 3px));
 	display: flex;
@@ -270,7 +270,7 @@
 	z-index: 1;
 	top: 50%;
 	left: auto;
-	right: 2%;
+	right: 3%; /* equal inset with the left side */
 	transform: translateY(calc(-50% + 3px));
 	display: flex;
 	align-items: center;

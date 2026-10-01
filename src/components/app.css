@@ -1,29 +1,42 @@
 .Apps {
-	width: 100%;
-	height: 100%;
-	max-width: 59px;
-	max-height: 76px;
+	display: block;
+	width: 57px;
+	max-width: 57px;
 }
+.singleApp {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+/* 57px icons with the soft drop shadow the original springboard put under every icon */
 .singleApp img {
-	width: 100%;
-	height: 100%;
-	max-width: 59.19px;
-	max-height: 58.19px;
+	display: block;
+	width: 57px;
+	height: 57px;
+	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
 }
 
 .calenderIcon .singleApp img {
-	width: 103%;
-	height: 103%;
-	max-width: calc(59.19px * 1.03);
-	max-height: calc(58.19px * 1.03);
+	width: calc(57px * 1.03);
+	height: calc(57px * 1.03);
+	margin: calc(57px * -0.015);
 }
 
-.appName {
-	font-size: 0.7rem;
+/* Helvetica Bold 11px, pure white, tight dark shadow – iPhone OS 2 icon labels */
+.appName,
+.folderButton .appName {
+	margin-top: 3px;
 	min-height: 13px;
-	margin-top: -1px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 13px;
+	letter-spacing: 0;
+	color: #ffffff;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
 	overflow: visible;
 	white-space: nowrap;
+	text-align: center;
 }
 
 .Apps:hover {

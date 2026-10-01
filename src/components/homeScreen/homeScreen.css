@@ -3,7 +3,8 @@
 .apps,
 .dock,
 .footerApps {
-	--screen-content-max: 310px;
+	/* Full screen width so the 4 columns get equal side margins */
+	--screen-content-max: 100%;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 100%;
@@ -55,15 +56,18 @@
 	align-content: start;
 	align-items: center;
 	position: absolute;
-	grid-template-columns: 20% 20% 20% 20%;
+	/* Even grid: 57px icons on a 76px column pitch (equal ~18px side margins), 88px rows */
+	grid-template-columns: repeat(4, 57px);
+	grid-auto-rows: 88px;
+	column-gap: 19px;
+	row-gap: 0;
 	z-index: 10;
 	height: auto;
 	min-height: 0;
-	margin-top: 6%;
-	grid-column-gap: 0.7rem;
-	grid-row-gap: 0.4rem;
-	place-items: center;
-	filter: brightness(90%);
+	/* first row 33px from the screen top; the screen box has ~3px of top padding */
+	top: 30px;
+	margin-top: 0;
+	place-items: start center;
 }
 
 .dock {
@@ -90,12 +94,13 @@
 	display: grid;
 	position: absolute;
 	color: white !important;
-	grid-template-columns: 20% 20% 20% 20%;
+	/* Same columns as the main grid so dock icons line up under the rows above */
+	grid-template-columns: repeat(4, 57px);
+	column-gap: 19px;
 	z-index: 2;
-	grid-column-gap: 0.7rem;
 	justify-content: center;
 	text-align: center;
-	place-items: center;
+	place-items: start center;
 	bottom: 1%;
 	margin-bottom: 0;
 	filter: brightness(90%);

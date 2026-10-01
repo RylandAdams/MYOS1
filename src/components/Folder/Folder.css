@@ -4,10 +4,8 @@
 	border: none;
 	padding: 0;
 	cursor: pointer;
-	width: 100%;
-	height: 100%;
-	max-width: 59px;
-	max-height: 76px;
+	width: 57px;
+	max-width: 57px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -23,8 +21,9 @@
 /* iOS-style folder preview – 4 icons in 2x2 grid, match app icon height */
 .folderPreview {
 	position: relative;
-	width: 59px;
-	height: 58.19px;
+	width: 57px;
+	height: 57px;
+	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
 	flex-shrink: 0;
 }
 
@@ -69,14 +68,7 @@
 	max-height: 20px;
 }
 
-.folderButton .appName {
-	font-size: 0.7rem;
-	min-height: 13px;
-	margin-top: 2px;
-	overflow: visible;
-	white-space: nowrap;
-	text-align: center;
-}
+/* .folderButton .appName shares the springboard label style in app.css */
 
 /* Folder overlay – same layout as apps (x locked, y flows with UI), micro-adjusted */
 .folderOverlay {
@@ -143,6 +135,7 @@
 }
 
 .folderApps .Apps {
+	width: auto;
 	max-width: 64px;
 	display: flex;
 	flex-direction: column;
@@ -158,6 +151,8 @@
 }
 
 .folderApps .singleApp img {
+	width: 100%;
+	height: auto;
 	max-width: 58px;
 	max-height: 58px;
 	border-radius: 12px;
