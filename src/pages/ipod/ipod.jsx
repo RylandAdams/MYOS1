@@ -208,7 +208,7 @@ const Ipod = () => {
 			if (engineRef.current !== 'soundcloud') return;
 			setIsPlaying(false);
 			setPlaybackLoading(false);
-			stepTrackRef.current(1);
+			stepTrackRef.current(1, true);
 		});
 		w.bind(window.SC.Widget.Events.PAUSE, () => {
 			if (engineRef.current !== 'soundcloud') return;
@@ -336,10 +336,15 @@ const Ipod = () => {
 
 	const allTracks = tracksFromApi ?? IPOD_TRACKS;
 
+	const [favNote, setFavNote] = useState(null);
+	const favNoteTimer = useRef(0);
 	const toggleFavorite = (track) => {
 		if (!track || isNonFavoritable(track)) return;
 		const id = track.id;
 		const isAdding = !favorites.includes(id);
+		clearTimeout(favNoteTimer.current);
+		setFavNote(isAdding ? 'Added to Favorites' : 'Removed from Favorites');
+		favNoteTimer.current = setTimeout(() => setFavNote(null), 1400);
 		if (isAdding && !allTracks.some((t) => t.id === id)) {
 			setFavoriteTracks((ft) => ({ ...ft, [id]: track }));
 		}
@@ -584,7 +589,7 @@ const Ipod = () => {
 	};
 
 	/** dir = 1 next, -1 previous. Previous restarts the song if it is more than 3 seconds in. */
-	const stepTrack = (dir) => {
+	const stepTrack = (dir, auto = false) => {
 		const cur = currentTrackRef.current;
 		if (!cur) return;
 		if (dir < 0 && timeInfo.pos > 3) {
@@ -596,10 +601,13 @@ const Ipod = () => {
 		const next = i === -1 ? null : queue[i + dir];
 		if (!next) {
 			if (dir < 0) seekToSeconds(0);
+			// the last song of the list finished: go back to the list it came from
+			else if (auto) backFromNowPlayingRef.current();
 			return;
 		}
 		playTrack(next);
 	};
+	const backFromNowPlayingRef = useRef(() => {});
 	stepTrackRef.current = stepTrack;
 	const handlePlayPauseRef = useRef(handlePlayPause);
 	handlePlayPauseRef.current = handlePlayPause;
@@ -659,7 +667,7 @@ const Ipod = () => {
 		onEnded: () => {
 			if (engineRef.current !== 'native') return;
 			setIsPlaying(false);
-			stepTrackRef.current(1);
+			stepTrackRef.current(1, true);
 		},
 		onError: () => {
 			if (engineRef.current !== 'native' || !audioRef.current?.getAttribute('src')) return;
@@ -687,6 +695,9 @@ const Ipod = () => {
 		setStack((s) => s.slice(0, -1));
 	};
 	const setSel = (sel) => setStack((s) => s.map((v, i) => (i === s.length - 1 ? { ...v, sel } : v)));
+	backFromNowPlayingRef.current = () => {
+		if (view.id === 'nowplaying') back();
+	};
 
 	const openNowPlaying = () => {
 		if (view.id !== 'nowplaying') push('nowplaying');
@@ -931,6 +942,7 @@ const Ipod = () => {
 					{view.id === 'nowplaying' ? (
 						currentTrack ? (
 							<div className="icNowPlaying">
+								{favNote && <div className="icFavNote">{favNote}</div>}
 								<div className="icNpCount">
 									{queueIndex >= 0 ? `${queueIndex + 1} of ${queue.length}` : ''}
 								</div>
