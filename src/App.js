@@ -6,6 +6,7 @@ import { PowerOnProvider } from "./context/PowerOnContext";
 import { WallpaperProvider } from "./context/WallpaperContext";
 import AnimatedRoutes from "./components/animatedRoutes";
 import PowerOnOverlay from "./components/PowerOnOverlay";
+import MotionPrompt, { motionChoice, requestMotion } from "./components/MotionPrompt";
 import HomeButton from "./components/homeButton/homeButton";
 import PowerButton from "./components/powerButton/powerButton";
 import TopBar from "./components/topBar/topBar";
@@ -105,14 +106,16 @@ const App = () => {
       };
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       if (isIOS && typeof window.DeviceOrientationEvent.requestPermission === "function") {
-        // iPhone: the permission prompt must come from a tap
-        const ask = () => {
-          window.DeviceOrientationEvent.requestPermission()
-            .then((state) => state === "granted" && start())
-            .catch(() => {});
-        };
-        window.addEventListener("click", ask, { once: true });
-        cleanups.push(() => window.removeEventListener("click", ask));
+        // iPhone: permission needs a tap. First visit: MotionPrompt's "Allow" asks and fires
+        // 'myos:motion-granted'. Return visits that already allowed: the first tap re-confirms silently.
+        const onGranted = () => start();
+        window.addEventListener("myos:motion-granted", onGranted, { once: true });
+        cleanups.push(() => window.removeEventListener("myos:motion-granted", onGranted));
+        if (motionChoice() === "granted") {
+          const resume = () => requestMotion();
+          window.addEventListener("click", resume, { once: true });
+          cleanups.push(() => window.removeEventListener("click", resume));
+        }
       } else {
         start();
       }
@@ -250,6 +253,7 @@ const App = () => {
             <TopBar />
             <AnimatedRoutes />
             <PowerOnOverlay />
+            <MotionPrompt />
             {/* Thin film overlay – apps look recessed behind glass */}
             <div className="screenFilm" aria-hidden="true" />
             <div className="screenGlare" aria-hidden="true" />

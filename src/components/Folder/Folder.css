@@ -4,8 +4,8 @@
 	border: none;
 	padding: 0;
 	cursor: pointer;
-	width: 57px;
-	max-width: 57px;
+	width: 55px;
+	max-width: 55px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -21,8 +21,8 @@
 /* iOS-style folder preview – 4 icons in 2x2 grid, match app icon height */
 .folderPreview {
 	position: relative;
-	width: 57px;
-	height: 57px;
+	width: 55px;
+	height: 55px;
 	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
 	flex-shrink: 0;
 }

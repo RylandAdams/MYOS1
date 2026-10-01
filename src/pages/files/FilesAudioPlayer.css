@@ -1,373 +1,287 @@
-/* Files audio player — MYOS: blue bar, back left, waveform card + centered play */
+/* Files → song: original iPhone black Now Playing screen */
 
-.filesPlayerRoot {
+.fpRoot {
 	position: absolute;
-	top: var(--files-player-top-offset, 4.2%);
-	right: 0;
-	bottom: 0;
-	left: 0;
-	z-index: 28;
+	z-index: 9; /* under the phone status bar (z 10), over the page */
+	inset: 0;
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
-	overscroll-behavior: none;
-	background: linear-gradient(
-		180deg,
-		rgb(215, 218, 222) 0%,
-		rgb(198, 202, 207) 30%,
-		rgb(185, 190, 196) 100%
-	);
-	box-sizing: border-box;
-	animation: filesPlayerReveal 0.22s ease;
+	padding-top: 4.2%; /* below the phone status bar */
+	background: #000;
+	color: #fff;
+	animation: fpIn 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+	-webkit-user-select: none;
+	user-select: none;
 }
 
-@keyframes filesPlayerReveal {
+.fpRoot * {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-shadow: none;
+	box-sizing: border-box;
+}
+
+@keyframes fpIn {
 	from {
-		opacity: 0.92;
+		transform: translateY(5%);
+		opacity: 0;
 	}
 	to {
+		transform: none;
 		opacity: 1;
 	}
 }
 
-/* Same blue band as Files: reuse `.appHeaderBar` from AppHeaderBar.css.
-   That bar is 9% of `.filesPage` height; player root starts at 4.2% (status strip), so scale height to match. */
-.filesPlayerRoot > .appHeaderBar {
-	position: relative;
-	top: auto;
-	left: auto;
-	right: auto;
-	flex-shrink: 0;
-	z-index: 1;
-	width: 100%;
-	height: 9.4%;
-	height: calc(100% * 9 / 95.8);
-	min-height: 36px;
+@media (prefers-reduced-motion: reduce) {
+	.fpRoot {
+		animation: none;
+	}
 }
 
-/* Close control: match `.appHeaderBackBtn` placement / chrome (no chevron clip-path). */
-.filesPlayerRoot .filesPlayerBack {
-	position: absolute;
-	left: 18px;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 2;
-	display: inline-flex;
+/* ——— Glossy black top bar ——— */
+
+.fpTop {
+	position: relative;
+	flex: 0 0 auto;
+	height: 46px;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 4px 10px;
+	background: linear-gradient(180deg, #4a4a50 0%, #2a2a2e 50%, #121214 50%, #0a0a0b 100%);
+	border-bottom: 1px solid #000;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.fpBack {
+	position: absolute;
+	left: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 30px;
+	padding: 0 10px 0 16px;
 	border: none;
-	border-radius: 4px;
-	background: linear-gradient(
-		180deg,
-		rgb(105, 145, 195) 0%,
-		rgb(90, 130, 180) 50%,
-		rgb(80, 120, 170) 100%
-	);
-	color: rgb(255, 255, 255);
+	border-radius: 5px;
+	background: #000;
+	clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
 	cursor: pointer;
-	font-size: 1rem;
-	line-height: 0;
-	box-shadow:
-		inset 0 1px 0 rgba(255, 255, 255, 0.25),
-		0 1px 1px rgba(0, 0, 0, 0.15);
-	-webkit-tap-highlight-color: transparent;
 }
 
-.filesPlayerRoot .filesPlayerBack:active {
-	transform: translateY(-50%) scale(0.97);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+.fpBack::before {
+	content: '';
+	position: absolute;
+	inset: 1px;
+	border-radius: 4px;
+	clip-path: polygon(11px 0, 100% 0, 100% 100%, 11px 100%, 0 50%);
+	background: linear-gradient(180deg, #6c6c72 0%, #3e3e43 50%, #26262a 50%, #2e2e33 100%);
 }
 
-/* Title uses `.appHeaderTitle`; song names can run long vs “Files”. */
-.filesPlayerRoot .appHeaderTitle {
-	max-width: calc(100% - 100px);
+.fpBack:active::before {
+	background: linear-gradient(180deg, #4e4e54 0%, #2c2c30 50%, #18181b 50%, #202024 100%);
+}
+
+.fpBackLabel {
+	position: relative;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.fpMeta {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 58%;
+	line-height: 1.2;
+}
+
+.fpTitle {
+	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
 }
 
-.filesPlayerBody {
-	flex: 1;
+.fpSub {
+	color: #a4a4ab;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+/* ——— Black-glass cover drawn from the waveform ——— */
+
+.fpArtWrap {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 16px 16px 0;
+	overflow: hidden;
+}
+
+.fpArt {
+	position: relative;
+	width: min(100%, 260px);
+	aspect-ratio: 1 / 1;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	min-height: 0;
-	padding: 10px 6% calc(18px + env(safe-area-inset-bottom, 0px));
-	overflow: hidden;
-	box-sizing: border-box;
-}
-
-.filesPlayerBodyMain {
-	flex: 1 1 0;
-	min-height: 0;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-	box-sizing: border-box;
-}
-
-.filesPlayerArtCard {
-	position: relative;
-	flex: 0 1 auto;
-	width: min(360px, 88%);
-	min-width: 0;
-	max-width: 100%;
-	max-height: 100%;
-	aspect-ratio: 1;
-	height: auto;
-	margin: 4px auto;
-	border-radius: 16px;
-	background: linear-gradient(
-		185deg,
-		rgb(240, 246, 252) 0%,
-		rgb(226, 234, 244) 50%,
-		rgb(218, 228, 240) 100%
-	);
-	box-shadow:
-		inset 0 1px 2px rgba(255, 255, 255, 0.75),
-		0 1px 4px rgba(0, 0, 0, 0.08);
-	border: 1px solid rgb(205, 215, 228);
-	overflow: hidden;
-	box-sizing: border-box;
-}
-
-.filesPlayerWaveField {
-	position: absolute;
-	left: clamp(14px, 5%, 24px);
-	right: clamp(14px, 5%, 24px);
-	bottom: clamp(14px, 5%, 22px);
-	top: clamp(14px, 5%, 22px);
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	gap: 4px;
-	opacity: 0.58;
-	pointer-events: none;
-}
-
-.filesPlayerWaveBar {
-	flex: 1 1 4px;
-	max-width: 7px;
-	min-height: 4px;
-	align-self: flex-end;
-	border-radius: 2px;
-	background: linear-gradient(180deg, rgb(200, 208, 220) 0%, rgb(150, 165, 190) 100%);
-}
-
-.filesPlayerPlayInCard {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-	width: clamp(88px, 26%, 130px);
-	height: clamp(88px, 26%, 130px);
-	border-radius: 50%;
-	border: none;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: rgb(255, 255, 255);
-	font-size: 0;
-	background: linear-gradient(
-		165deg,
-		rgb(150, 186, 224) 0%,
-		rgb(118, 160, 210) 40%,
-		rgb(88, 128, 185) 100%
-	);
-	box-shadow:
-		inset 0 2px 4px rgba(255, 255, 255, 0.45),
-		inset 0 -2px 6px rgba(20, 50, 100, 0.18),
-		0 4px 14px rgba(65, 100, 150, 0.35),
-		0 1px 2px rgba(0, 0, 0, 0.12);
-	line-height: 0;
-	flex-shrink: 0;
-	transition: transform 0.08s ease, filter 0.12s ease;
-	-webkit-tap-highlight-color: transparent;
-	filter: saturate(1.03);
-}
-
-.filesPlayerPlayInCard:active {
-	transform: translate(-50%, -50%) scale(0.97);
-	filter: saturate(1.06) brightness(0.98);
-}
-
-.filesPlayerPlayInCard svg {
-	width: clamp(30px, 40%, 44px);
-	height: clamp(30px, 40%, 44px);
-	flex-shrink: 0;
-}
-
-.filesPlayerPlayInCard-play svg {
-	transform: translateX(2px);
-}
-
-.filesPlayerPlayInCard-pause svg {
-	transform: translateX(0);
-}
-
-/* Transport card */
-.filesPlayerTransport {
-	align-self: stretch;
-	width: 100%;
-	box-sizing: border-box;
-	flex-shrink: 0;
-	padding: 14px 12px 14px;
-	background: rgb(255, 255, 255);
-	border-radius: 8px;
-	border-bottom: 1px solid rgb(220, 224, 228);
-	box-shadow:
-		inset 0 1px 0 rgba(255, 255, 255, 0.94),
-		0 1px 2px rgba(0, 0, 0, 0.06);
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
-.filesPlayerTimeRow {
-	display: flex;
-	justify-content: center;
-	align-items: baseline;
-	gap: 6px;
-	font-variant-numeric: tabular-nums;
-}
-
-.filesPlayerTimeNow {
-	font-size: 0.94rem;
-	font-weight: 600;
-	color: rgb(86, 90, 98);
-	text-shadow: 0.4px 0.4px 0 rgba(255, 255, 255, 0.42);
-}
-
-.filesPlayerTimeSep {
-	font-size: 0.76rem;
-	color: rgb(162, 166, 174);
-	font-weight: 600;
-	opacity: 0.88;
-}
-
-.filesPlayerTimeTotal {
-	font-size: 0.8rem;
-	font-weight: 500;
-	color: rgb(124, 129, 138);
-	text-shadow: none !important;
-}
-
-.filesPlayerSeekTrack {
-	cursor: pointer;
-	user-select: none;
-	touch-action: none;
-	outline: none;
-}
-
-.filesPlayerSeekTrack:focus-visible {
-	outline: 2px solid rgb(130, 170, 220);
-	outline-offset: 4px;
-	border-radius: 8px;
-}
-
-.filesPlayerSeekRail {
-	position: relative;
-	width: 100%;
-	height: 28px;
-	display: flex;
-	align-items: center;
-}
-
-.filesPlayerSeekRail--waves {
-	position: relative;
-	height: auto;
-	min-height: 42px;
-	display: block;
-	width: 100%;
-}
-
-.filesPlayerWaveSeekStack {
-	position: relative;
-	width: 100%;
-	height: 36px;
-	border-radius: 6px;
-	overflow: visible;
-	box-shadow:
-		inset 0 1px 2px rgba(0, 0, 0, 0.1),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.55);
-	background: rgb(217, 222, 229);
-}
-
-.filesPlayerWaveSeekBars {
-	position: absolute;
-	left: 8px;
-	right: 8px;
-	top: 5px;
-	bottom: 5px;
-	display: flex;
-	align-items: flex-end;
 	justify-content: space-between;
-	gap: 1px;
-	pointer-events: none;
-	box-sizing: border-box;
+	padding: 16px 14px 14px;
+	border-radius: 3px;
+	background:
+		radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 55%),
+		linear-gradient(180deg, #1d1d21 0%, #0b0b0d 100%);
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 18px rgba(0, 0, 0, 0.8);
+	-webkit-box-reflect: below 2px linear-gradient(transparent 72%, rgba(255, 255, 255, 0.18));
+	cursor: pointer;
+	touch-action: none;
 }
 
-.filesPlayerWaveSeekBar {
-	flex: 1 1 0;
+.fpArtLabel {
+	color: #f2f2f4;
+	font-size: 17px;
+	font-weight: 700;
+	letter-spacing: 0.2px;
+}
+
+.fpArtFoot {
 	align-self: flex-end;
+	color: rgba(255, 255, 255, 0.45);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 3px;
+}
+
+.fpWave {
+	position: relative;
+	height: 44%;
+	display: flex;
+	align-items: center;
+	gap: 1px;
+}
+
+.fpBar {
+	flex: 1 1 0;
 	min-width: 0;
-	max-height: 100%;
-	min-height: 2px;
 	border-radius: 1px;
-	transition: opacity 0.12s ease;
+	background: rgba(255, 255, 255, 0.22);
 }
 
-.filesPlayerWaveSeekBars-muted .filesPlayerWaveSeekBar {
-	background: linear-gradient(
-		180deg,
-		rgb(142, 155, 175) 0%,
-		rgb(182, 192, 210) 100%
-	);
-	opacity: 0.88;
+.fpBarOn {
+	background: linear-gradient(180deg, #ffffff 0%, #cfd6e2 100%);
+	box-shadow: 0 0 4px rgba(255, 255, 255, 0.35);
 }
 
-.filesPlayerWaveSeekBars-played {
+.fpHead {
+	position: absolute;
+	top: -6%;
+	bottom: -6%;
+	width: 1px;
+	background: rgba(255, 255, 255, 0.85);
+	box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
 	pointer-events: none;
-	z-index: 1;
 }
 
-.filesPlayerWaveSeekBars-played .filesPlayerWaveSeekBar {
-	background: linear-gradient(
-		180deg,
-		rgb(108, 152, 210) 0%,
-		rgb(135, 175, 222) 40%,
-		rgb(88, 134, 198) 100%
-	);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-	opacity: 0.98;
+/* ——— Glossy control deck ——— */
+
+.fpDeck {
+	flex: 0 0 auto;
+	padding: 10px 16px 14px;
+	background: linear-gradient(180deg, rgba(64, 64, 70, 0.95) 0%, rgba(26, 26, 29, 0.98) 48%, #070708 49%, #000 100%);
+	border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
+.fpScrub {
+	display: grid;
+	grid-template-columns: 38px 1fr 42px;
+	align-items: center;
+	gap: 8px;
+}
 
+.fpTime {
+	color: #d4d4da;
+	font-size: 11px;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+}
 
-.filesPlayerSeekThumb {
+.fpRail {
+	position: relative;
+	height: 22px;
+	cursor: pointer;
+	touch-action: none;
+}
+
+.fpRail::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	height: 7px;
+	transform: translateY(-50%);
+	border-radius: 4px;
+	background: linear-gradient(180deg, #0c0c0d 0%, #2b2b2f 100%);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.fpRailFill {
 	position: absolute;
 	left: 0;
 	top: 50%;
-	width: 16px;
-	height: 16px;
-	margin-left: -8px;
-	border-radius: 50%;
+	height: 7px;
 	transform: translateY(-50%);
-	background: radial-gradient(circle at 35% 30%, rgb(254, 255, 255) 0%, rgb(245, 248, 252) 45%, rgb(210, 220, 235) 100%);
-	border: 1px solid rgb(170, 190, 215);
-	box-shadow:
-		0 1px 4px rgba(0, 0, 0, 0.2),
-		inset 0 1px 0 rgba(255, 255, 255, 0.95);
-	z-index: 2;
-	pointer-events: none;
-	transition: left 0.045s linear;
+	border-radius: 4px;
+	background: linear-gradient(180deg, #9cc6f7 0%, #3a87e4 55%, #2a6fcb 100%);
 }
 
-.filesPlayerSeekThumb--waves {
-	z-index: 4;
+.fpKnob {
+	position: absolute;
+	top: 50%;
+	width: 18px;
+	height: 18px;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	background: radial-gradient(circle at 40% 32%, #ffffff 0%, #dcdce2 45%, #9a9aa3 100%);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+	pointer-events: none;
+}
+
+.fpButtons {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	margin-top: 6px;
+}
+
+.fpBtn {
+	width: 56px;
+	height: 46px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	background: none;
+	color: #fff;
+	font-size: 22px;
+	cursor: pointer;
+	filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.9));
+	-webkit-tap-highlight-color: transparent;
+}
+
+.fpBtn:active {
+	transform: scale(0.92);
+}
+
+.fpBtn:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+.fpBtnMain {
+	font-size: 36px;
 }

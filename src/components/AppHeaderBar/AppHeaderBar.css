@@ -1,4 +1,5 @@
-/* Shared app header bar – blue gradient, shows app name (iPod, Weather, Photos, etc.) */
+/* Shared app header – the iPhone OS navigation bar: blue-gray with the glossy split,
+   crisp dark bottom edge, embossed white title, arrow-shaped glossy back button. */
 .appHeaderBar {
 	position: absolute;
 	z-index: 10;
@@ -7,106 +8,101 @@
 	right: 0;
 	height: 9%;
 	min-height: 36px;
-	background: linear-gradient(
-		180deg,
-		rgb(95, 135, 185) 0%,
-		rgb(115, 155, 205) 18%,
-		rgb(130, 170, 215) 35%,
-		rgb(120, 160, 210) 55%,
-		rgb(100, 145, 195) 75%,
-		rgb(85, 130, 185) 100%
-	);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	background: linear-gradient(180deg, #b2bfd0 0%, #8b9db5 50%, #8194ae 50%, #6d83a1 100%);
+	border-top: 1px solid #cdd5df;
+	border-bottom: 1px solid #2d3642;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .appHeaderTitle {
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
-	font-size: 1.25rem;
-	font-weight: 700;
-	color: white;
-	text-shadow: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	pointer-events: none;
+	/* leave room for a back button on either side */
+	max-width: 52%;
 	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-family: inherit;
+	font-size: 19px;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+	pointer-events: none;
+	-webkit-font-smoothing: antialiased;
 }
 
-/* Back button – lighter blue, nested, chevron-shaped left (iTunes style) */
-.appHeaderBackBtn {
+/* Back button: arrow-shaped, 1px dark outline, glossy split fill */
+.appHeaderBackBtn,
+.appHeaderActionBtn {
 	position: absolute;
-	left: 18px;
 	top: 50%;
 	transform: translateY(-50%);
+	z-index: 2;
 	display: flex;
 	align-items: center;
-	gap: 2px;
-	padding: 4px 8px 4px 12px;
-	background: linear-gradient(
-		180deg,
-		rgb(105, 145, 195) 0%,
-		rgb(90, 130, 180) 50%,
-		rgb(80, 120, 170) 100%
-	);
+	height: 30px;
+	max-width: 30%;
 	border: none;
-	border-radius: 4px;
-	/* Rectangle with chevron protruding from left edge */
-	clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
-	color: white;
-	font-size: 0.75rem;
-	font-weight: 600;
+	border-radius: 5px;
+	background: #3a4b62; /* the outline */
 	cursor: pointer;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.15);
-	z-index: 2;
+	-webkit-tap-highlight-color: transparent;
 }
-.appHeaderBackBtn:hover {
-	background: linear-gradient(
-		180deg,
-		rgb(115, 155, 205) 0%,
-		rgb(100, 140, 190) 50%,
-		rgb(90, 130, 180) 100%
-	);
+
+.appHeaderBackBtn {
+	left: 7px;
+	padding: 0 9px 0 15px;
+	clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
 }
-.appHeaderBackBtn:active {
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+
+.appHeaderActionBtn {
+	right: 7px;
+	padding: 0 15px 0 9px;
+	clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+}
+
+.appHeaderBackBtn::before,
+.appHeaderActionBtn::before {
+	content: '';
+	position: absolute;
+	inset: 1px;
+	border-radius: 4px;
+	background: linear-gradient(180deg, #a7b5c8 0%, #8396b0 50%, #768aa6 50%, #6c82a0 100%);
+	z-index: -1;
+}
+
+.appHeaderBackBtn::before {
+	clip-path: polygon(11px 0, 100% 0, 100% 100%, 11px 100%, 0 50%);
+}
+
+.appHeaderActionBtn::before {
+	clip-path: polygon(0 0, calc(100% - 11px) 0, 100% 50%, calc(100% - 11px) 100%, 0 100%);
+}
+
+.appHeaderBackBtn:active::before,
+.appHeaderActionBtn:active::before {
+	background: linear-gradient(180deg, #7f91aa 0%, #66799a 50%, #5d7192 50%, #576c8d 100%);
 }
 
 .appHeaderBackLabel {
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* Action button – mirror of the back button, chevron on the right (e.g. "Now Playing") */
-.appHeaderActionBtn {
-	position: absolute;
-	right: 12px;
-	top: 50%;
-	transform: translateY(-50%);
-	display: flex;
-	align-items: center;
-	padding: 4px 12px 4px 8px;
-	min-height: 26px;
-	background: linear-gradient(
-		180deg,
-		rgb(105, 145, 195) 0%,
-		rgb(90, 130, 180) 50%,
-		rgb(80, 120, 170) 100%
-	);
-	border: none;
-	border-radius: 4px;
-	clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
-	color: white;
-	font-size: 0.6rem;
-	font-weight: 600;
-	line-height: 1.05;
-	text-align: left;
-	cursor: pointer;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.15);
-	z-index: 2;
-}
-.appHeaderActionBtn:active {
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+.appHeaderBackBtn:focus-visible,
+.appHeaderActionBtn:focus-visible {
+	outline: 2px solid rgba(255, 255, 255, 0.8);
+	outline-offset: 1px;
 }

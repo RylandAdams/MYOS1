@@ -349,3 +349,21 @@
 .topBarCompact .clockIpod {
 	top: 1px;
 }
+
+/* Black status bar over full-screen black views (photo viewer, Files player), like the real iPhone.
+   Those views add .statusDark to .iphoneContent while open. */
+.statusDark .topBarIpod {
+	background: linear-gradient(180deg, rgba(30, 30, 32, 0.92) 0%, rgba(0, 0, 0, 0.92) 100%);
+	box-shadow: none;
+}
+.statusDark .topBarIpod::after {
+	display: none;
+}
+.statusDark .topBarIpod .leftIpod,
+.statusDark .topBarIpod .clockIpod {
+	color: #fff;
+}
+.statusDark .topBarIpod .topBarBluetooth {
+	color: #fff !important;
+	stroke: #fff !important;
+}

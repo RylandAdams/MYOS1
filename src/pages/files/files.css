@@ -359,3 +359,15 @@
 .filesPage .filesIosAudioIconWrap {
 	margin-right: 10px;
 }
+
+/* Even 16px side padding (inside the visible screen) and a clear gap between icon and text */
+.filesPage .filesIosAudioBtn {
+	padding: 0 16px;
+}
+.filesPage .filesIosAudioIconWrap {
+	margin-right: 0;
+}
+.filesPage .filesIosAudioName,
+.filesPage .filesIosAudioMeta:first-of-type {
+	margin-left: 12px;
+}

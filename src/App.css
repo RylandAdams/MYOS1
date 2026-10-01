@@ -131,8 +131,12 @@ body {
 	/* One layer for everything on the screen: apps, popups, film and glare all sit behind the phone frame (.phone, z 15) */
 	z-index: 1;
 	isolation: isolate;
-	width: 89%;
-	height: 65%;
+	/* Exactly the phone image's screen opening (measured on Iphone.webp: 83.58% × 65.39% of the
+	   frame, top at 17.72%). It used to be 89% wide, which hid ~10px of every page under the bezel. */
+	width: 83.58%;
+	height: 65.39%;
+	top: 0.41%; /* flex-centred top is 119.4px; the opening starts at 122.3px */
+	left: 0.21%;
 	padding-top: 1%;
 	box-sizing: border-box;
 	--myos-status-bar-height: 14px;

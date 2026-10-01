@@ -56,7 +56,7 @@ export default function Files() {
 	return (
 		<div className={playerTrack ? 'filesPage filesPagePlayerOpen' : 'filesPage'}>
 			<audio ref={audioRef} className='filesAudioHud' preload='metadata' />
-			<AppHeaderBar title='Files' />
+			{!playerTrack && <AppHeaderBar title='Files' />}
 			<div className={`filesScroll filesScroll-demosOnly${playerTrack ? ' filesScroll-behindPlayer' : ''}`}>
 				{FILES_DEMO_TRACKS.length > 0 ? (
 					<ul className='filesIosAudioGrid' aria-label='Files'>
@@ -97,7 +97,13 @@ export default function Files() {
 			</div>
 
 			{playerTrack ? (
-				<FilesAudioPlayer track={playerTrack} audioRef={audioRef} onClose={closePlayer} />
+				<FilesAudioPlayer
+					track={playerTrack}
+					tracks={FILES_DEMO_TRACKS}
+					audioRef={audioRef}
+					onClose={closePlayer}
+					onSwitch={openPlayerForTrack}
+				/>
 			) : null}
 		</div>
 	);

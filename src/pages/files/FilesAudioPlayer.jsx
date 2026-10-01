@@ -1,296 +1,166 @@
-import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { MdClose, MdPause, MdPlayArrow } from 'react-icons/md';
-import '../../components/AppHeaderBar/AppHeaderBar.css';
+import React, { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
+import { BsFillPlayFill, BsFillPauseFill, BsSkipBackwardFill, BsSkipForwardFill } from 'react-icons/bs';
 import './FilesAudioPlayer.css';
+import { useDarkStatusBar } from '../../utils/useDarkStatusBar';
 
-function formatAudioTime(seconds) {
+/* Files → song: the original iPhone's black Now Playing screen. Glossy black top bar with an
+   arrow-shaped back button, a black-glass "cover" drawn from the song's real waveform (tap or
+   drag it to jump), a reflection, and a glossy control deck with scrubber and ⏮ ⏯ ⏭. */
+
+const BINS = 120;
+
+function formatTime(seconds) {
 	if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
 	const m = Math.floor(seconds / 60);
-	const s = Math.floor(seconds % 60);
-	return `${m}:${String(s).padStart(2, '0')}`;
+	return `${m}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 }
 
-/** Deterministic filler bars (shown while decoding fails or loads). Heights 14–92%. */
-function waveBarHeights(seedStr, count) {
+/** Neutral, deterministic waveform for tracks without precomputed peaks */
+function fallbackPeaks(seedStr, count) {
 	let seed = [...seedStr].reduce((acc, ch) => acc + ch.charCodeAt(0), 1);
-	return Array.from({ length: count }, () => {
+	return Array.from({ length: count }, (_, i) => {
 		seed = (seed * 1103515245 + 12345) >>> 0;
-		const raw = (12 + (seed % 58)) / 69;
-		return Math.max(0.14, Math.min(0.94, raw));
+		const envelope = 0.55 + 0.45 * Math.sin((i / count) * Math.PI);
+		return Math.max(0.12, Math.min(1, envelope * (0.35 + (seed % 65) / 100)));
 	});
 }
 
-const SEEK_WAVE_BIN_COUNT = 140;
-
-/** Max-abs peaks per slice, normalized 0–1 with a shallow floor so silence still reads visually. */
-function peaksFromAudioBuffer(buffer, bins) {
-	const channels = Math.min(buffer.numberOfChannels, 2);
-	const len = buffer.length;
-	const slice = len / bins;
-	const merged = [];
-
-	for (let i = 0; i < bins; i++) {
-		const start = Math.floor(i * slice);
-		const end = Math.floor((i + 1) * slice);
-		let max = 0;
-		for (let c = 0; c < channels; c++) {
-			const ch = buffer.getChannelData(c);
-			for (let j = start; j < end && j < len; j++) max = Math.max(max, Math.abs(ch[j]));
-		}
-		merged.push(max);
-	}
-
-	const peakMax = merged.reduce((acc, x) => Math.max(acc, x), 0) || 1;
-	return merged.map((p) => Math.max(0.1, Math.min(1, p / peakMax)));
-}
-
-async function decodeTrackPeaks(audioUrl, bins, abortSignal) {
-	const res = await fetch(audioUrl, { signal: abortSignal });
-	if (!res.ok) throw new Error(`decode failed: ${res.status}`);
-	const arrayBuffer = await res.arrayBuffer();
-
-	const AudioCtx = window.AudioContext || window.webkitAudioContext;
-	const ctx = new AudioCtx();
-
-	try {
-		const copy = arrayBuffer.byteLength === 0 ? arrayBuffer : arrayBuffer.slice(0);
-		const buffer = await ctx.decodeAudioData(copy);
-		return peaksFromAudioBuffer(buffer, bins);
-	} finally {
-		try {
-			await ctx.close();
-		} catch {
-			/* ignore */
-		}
-	}
-}
-
-export default function FilesAudioPlayer({ track, audioRef, onClose }) {
+export default function FilesAudioPlayer({ track, tracks = [track], audioRef, onClose, onSwitch }) {
+	useDarkStatusBar();
 	const [, redraw] = useReducer((x) => x + 1, 0);
-	const barRef = useRef(null);
-	const draggingSeekRef = useRef(false);
-	const wasPlayingBeforeSeekRef = useRef(false);
-	const [seekPeaksFromAudio, setSeekPeaksFromAudio] = useState(null);
-	const [seekScrubbing, setSeekScrubbing] = useState(false);
+	const waveRef = useRef(null);
+	const scrubRef = useRef(null);
+	const dragRef = useRef(null);
 
-	const el = audioRef.current;
-	const duration = Number.isFinite(el?.duration) ? el.duration : 0;
-	const displayTime = el && Number.isFinite(el.currentTime) ? el.currentTime : 0;
-	const isPlaying = Boolean(el && !el.paused);
-	const showPauseTransport = seekScrubbing ? wasPlayingBeforeSeekRef.current : isPlaying;
-	const pct = duration > 0 ? Math.min(100, Math.max(0, (displayTime / duration) * 100)) : 0;
+	const a = audioRef.current;
+	const duration = Number.isFinite(a?.duration) ? a.duration : 0;
+	const time = a && Number.isFinite(a.currentTime) ? a.currentTime : 0;
+	const playing = Boolean(a && !a.paused);
+	const progress = duration > 0 ? Math.min(1, time / duration) : 0;
+	const peaks = useMemo(() => (track.peaks?.length ? track.peaks : fallbackPeaks(track.id, BINS)), [track]);
+	const index = tracks.findIndex((t) => t.id === track.id);
 
-	const artHeights = useMemo(() => {
-		const p = seekPeaksFromAudio;
-		if (p && p.length >= 8) {
-			const n = 36;
-			return Array.from({ length: n }, (_, i) => {
-				const idx = Math.min(p.length - 1, Math.floor((i / (n - 1)) * (p.length - 1)));
-				return p[idx];
-			});
-		}
-		return waveBarHeights(track.id, 36);
-	}, [seekPeaksFromAudio, track.id]);
-
-	const seekWaveHeights = useMemo(() => {
-		if (seekPeaksFromAudio && seekPeaksFromAudio.length >= 8) return seekPeaksFromAudio;
-		return waveBarHeights(track.id, SEEK_WAVE_BIN_COUNT);
-	}, [seekPeaksFromAudio, track.id]);
-
+	// Repaint on playback events and ~4x a second while playing
 	useEffect(() => {
-		if (!track?.src) return undefined;
-		const ac = new AbortController();
-		let canceled = false;
-		setSeekPeaksFromAudio(null);
-
-		decodeTrackPeaks(track.src, SEEK_WAVE_BIN_COUNT, ac.signal)
-			.then((peaks) => {
-				if (canceled) return;
-				setSeekPeaksFromAudio(peaks);
-			})
-			.catch((err) => {
-				if (canceled || err?.name === 'AbortError') return;
-				setSeekPeaksFromAudio(null);
-			});
-
-		return () => {
-			canceled = true;
-			ac.abort();
-		};
-	}, [track.id, track.src]);
-
-	const seekFromClientX = useCallback(
-		(clientX) => {
-			const a = audioRef.current;
-			const bar = barRef.current;
-			if (!a || !bar || !Number.isFinite(a.duration) || a.duration <= 0) return;
-			const r = bar.getBoundingClientRect();
-			const p = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
-			a.currentTime = p * a.duration;
-			redraw();
-		},
-		[audioRef]
-	);
-
-	const togglePlay = useCallback(() => {
-		const a = audioRef.current;
-		if (!a) return;
-		if (a.paused) void a.play();
-		else a.pause();
-		redraw();
+		const el = audioRef.current;
+		if (!el) return undefined;
+		const events = ['timeupdate', 'play', 'pause', 'loadedmetadata', 'durationchange', 'ended', 'seeked'];
+		events.forEach((ev) => el.addEventListener(ev, redraw));
+		return () => events.forEach((ev) => el.removeEventListener(ev, redraw));
 	}, [audioRef]);
 
-	useEffect(() => {
-		const a = audioRef.current;
-		if (!a) return undefined;
-		const bump = () => redraw();
-		a.addEventListener('timeupdate', bump);
-		a.addEventListener('loadedmetadata', bump);
-		a.addEventListener('durationchange', bump);
-		a.addEventListener('play', bump);
-		a.addEventListener('pause', bump);
-		a.addEventListener('ended', bump);
-		return () => {
-			a.removeEventListener('timeupdate', bump);
-			a.removeEventListener('loadedmetadata', bump);
-			a.removeEventListener('durationchange', bump);
-			a.removeEventListener('play', bump);
-			a.removeEventListener('pause', bump);
-			a.removeEventListener('ended', bump);
-		};
-	}, [track.id, audioRef]);
+	const toggle = useCallback(() => {
+		const el = audioRef.current;
+		if (!el) return;
+		if (el.paused) el.play().catch(() => {});
+		else el.pause();
+	}, [audioRef]);
 
-	useEffect(() => {
-		const end = () => {
-			if (!draggingSeekRef.current) return;
-			draggingSeekRef.current = false;
-			setSeekScrubbing(false);
-			const a = audioRef.current;
-			if (a && wasPlayingBeforeSeekRef.current) void a.play();
-			redraw();
-		};
-		const moveMouse = (e) => {
-			if (!draggingSeekRef.current) return;
-			seekFromClientX(e.clientX);
-		};
-		const moveTouch = (e) => {
-			if (!draggingSeekRef.current || !e.touches[0]) return;
-			e.preventDefault();
-			seekFromClientX(e.touches[0].clientX);
-		};
-		window.addEventListener('mouseup', end);
-		window.addEventListener('mousemove', moveMouse);
-		window.addEventListener('touchend', end);
-		window.addEventListener('touchcancel', end);
-		window.addEventListener('touchmove', moveTouch, { passive: false });
-		return () => {
-			window.removeEventListener('mouseup', end);
-			window.removeEventListener('mousemove', moveMouse);
-			window.removeEventListener('touchend', end);
-			window.removeEventListener('touchcancel', end);
-			window.removeEventListener('touchmove', moveTouch);
-		};
-	}, [seekFromClientX, audioRef]);
-
-	const onSeekDown = (e) => {
-		const a = audioRef.current;
-		if (a && Number.isFinite(a.duration) && a.duration > 0) {
-			wasPlayingBeforeSeekRef.current = !a.paused;
-			if (!a.paused) a.pause();
-		} else {
-			wasPlayingBeforeSeekRef.current = false;
+	const step = (dir) => {
+		const el = audioRef.current;
+		if (dir < 0 && el && el.currentTime > 3) {
+			el.currentTime = 0;
+			return;
 		}
-		draggingSeekRef.current = true;
-		setSeekScrubbing(true);
-		const touchX = e.touches?.[0]?.clientX;
-		const mouseX = e.nativeEvent.changedTouches?.[0]?.clientX ?? e.clientX;
-		const x = typeof touchX === 'number' ? touchX : mouseX;
-		if (typeof x === 'number') seekFromClientX(x);
+		const next = tracks[index + dir];
+		if (next && onSwitch) onSwitch(next);
+		else if (dir < 0 && el) el.currentTime = 0;
 	};
 
-	const dm = Number.isFinite(duration) && duration > 0 ? Math.round(duration) : 0;
-	const durLabel = duration > 0 ? formatAudioTime(duration) : '--:--';
+	// Space toggles, Escape closes
+	useEffect(() => {
+		const onKey = (e) => {
+			if (e.key === ' ') {
+				e.preventDefault();
+				toggle();
+			} else if (e.key === 'Escape') onClose();
+		};
+		window.addEventListener('keydown', onKey);
+		return () => window.removeEventListener('keydown', onKey);
+	}, [toggle, onClose]);
+
+	/** Seek by pointer on the waveform or the scrubber (drag to scrub) */
+	const seekAt = (clientX, el) => {
+		const audio = audioRef.current;
+		if (!audio || !el || !(audio.duration > 0)) return;
+		const r = el.getBoundingClientRect();
+		audio.currentTime = Math.min(1, Math.max(0, (clientX - r.left) / r.width)) * audio.duration;
+		redraw();
+	};
+	const dragHandlers = (ref) => ({
+		onPointerDown: (e) => {
+			dragRef.current = ref.current;
+			e.currentTarget.setPointerCapture?.(e.pointerId);
+			seekAt(e.clientX, ref.current);
+		},
+		onPointerMove: (e) => {
+			if (dragRef.current === ref.current) seekAt(e.clientX, ref.current);
+		},
+		onPointerUp: () => {
+			dragRef.current = null;
+		},
+		onPointerCancel: () => {
+			dragRef.current = null;
+		},
+	});
+
+	const subtitle = [track.modifiedTime, track.storage || 'On My Phone'].filter(Boolean).join(' · ');
+	const playedBins = Math.round(progress * peaks.length);
 
 	return (
-		<div className='filesPlayerRoot' role='dialog' aria-label='Audio player' aria-modal='true'>
-			<header className='appHeaderBar'>
-				<button type='button' className='filesPlayerBack' onClick={onClose} aria-label='Back'>
-					<MdClose />
+		<div className="fpRoot" role="dialog" aria-label={`Now playing: ${track.title}`}>
+			<header className="fpTop">
+				<button type="button" className="fpBack" onClick={onClose}>
+					<span className="fpBackLabel">Files</span>
 				</button>
-				<h1 className='appHeaderTitle'>{track.title}</h1>
+				<div className="fpMeta">
+					<span className="fpTitle">{track.title}</span>
+					<span className="fpSub">{subtitle}</span>
+				</div>
 			</header>
 
-			<div className='filesPlayerBody'>
-				<div className='filesPlayerBodyMain'>
-					<div className='filesPlayerArtCard'>
-						<div className='filesPlayerWaveField' aria-hidden>
-							{artHeights.map((h, i) => (
-								<span
-									key={`${track.id}-w-${i}`}
-									className='filesPlayerWaveBar'
-									style={{ height: `${h * 100}%` }}
-								/>
-							))}
-						</div>
-						<button
-							type='button'
-							className={`filesPlayerPlayInCard ${showPauseTransport ? 'filesPlayerPlayInCard-pause' : 'filesPlayerPlayInCard-play'}`}
-							onClick={togglePlay}
-							aria-label={showPauseTransport ? 'Pause' : 'Play'}
-						>
-							{showPauseTransport ? <MdPause /> : <MdPlayArrow />}
-						</button>
+			<div className="fpArtWrap">
+				<div
+					className="fpArt"
+					ref={waveRef}
+					{...dragHandlers(waveRef)}
+					role="slider"
+					aria-label="Seek"
+					aria-valuemin={0}
+					aria-valuemax={Math.round(duration)}
+					aria-valuenow={Math.round(time)}
+				>
+					<div className="fpArtLabel">{track.title}</div>
+					<div className="fpWave" aria-hidden>
+						{peaks.map((h, i) => (
+							<span key={i} className={i < playedBins ? 'fpBar fpBarOn' : 'fpBar'} style={{ height: `${Math.round(h * 100)}%` }} />
+						))}
+						<span className="fpHead" style={{ left: `${progress * 100}%` }} />
 					</div>
+					<div className="fpArtFoot">RYLAND</div>
 				</div>
+			</div>
 
-				<section className='filesPlayerTransport' aria-label='Playback'>
-					<div className='filesPlayerTimeRow'>
-						<span className='filesPlayerTimeNow'>{formatAudioTime(displayTime)}</span>
-						<span className='filesPlayerTimeSep'>/</span>
-						<span className='filesPlayerTimeTotal'>{durLabel}</span>
+			<div className="fpDeck">
+				<div className="fpScrub">
+					<span className="fpTime">{formatTime(time)}</span>
+					<div className="fpRail" ref={scrubRef} {...dragHandlers(scrubRef)}>
+						<span className="fpRailFill" style={{ width: `${progress * 100}%` }} />
+						<span className="fpKnob" style={{ left: `${progress * 100}%` }} />
 					</div>
-
-					<div
-						ref={barRef}
-						className='filesPlayerSeekTrack'
-						onMouseDown={onSeekDown}
-						onTouchStart={onSeekDown}
-						role='slider'
-						tabIndex={0}
-						aria-valuemin={0}
-						aria-valuemax={dm}
-						aria-valuenow={Math.min(dm, Math.max(0, Math.round(displayTime)))}
-						aria-valuetext={formatAudioTime(displayTime)}
-					>
-						<div className='filesPlayerSeekRail filesPlayerSeekRail--waves'>
-							<div className='filesPlayerWaveSeekStack'>
-								<div className='filesPlayerWaveSeekBars filesPlayerWaveSeekBars-muted' aria-hidden>
-									{seekWaveHeights.map((nh, i) => (
-										<span
-											key={`${track.id}-sm-${i}`}
-											className='filesPlayerWaveSeekBar'
-											style={{ height: `${nh * 100}%` }}
-										/>
-									))}
-								</div>
-								<div
-									className='filesPlayerWaveSeekBars filesPlayerWaveSeekBars-played'
-									style={{ clipPath: `inset(0 ${(100 - pct).toFixed(3)}% 0 0)` }}
-									aria-hidden
-								>
-									{seekWaveHeights.map((nh, i) => (
-										<span
-											key={`${track.id}-sp-${i}`}
-											className='filesPlayerWaveSeekBar'
-											style={{ height: `${nh * 100}%` }}
-										/>
-									))}
-								</div>
-							</div>
-							<span className='filesPlayerSeekThumb filesPlayerSeekThumb--waves' style={{ left: `${pct}%` }} />
-						</div>
-					</div>
-				</section>
+					<span className="fpTime">-{formatTime(Math.max(0, duration - time))}</span>
+				</div>
+				<div className="fpButtons">
+					<button type="button" className="fpBtn" onClick={() => step(-1)} aria-label="Previous / restart">
+						<BsSkipBackwardFill />
+					</button>
+					<button type="button" className="fpBtn fpBtnMain" onClick={toggle} aria-label={playing ? 'Pause' : 'Play'}>
+						{playing ? <BsFillPauseFill /> : <BsFillPlayFill />}
+					</button>
+					<button type="button" className="fpBtn" onClick={() => step(1)} disabled={index >= tracks.length - 1} aria-label="Next">
+						<BsSkipForwardFill />
+					</button>
+				</div>
 			</div>
 		</div>
 	);

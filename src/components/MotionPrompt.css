@@ -1,0 +1,114 @@
+/* iPhone OS 2 alert: translucent navy box, white rim, glossy top, glossy buttons */
+
+.mpScrim {
+	position: absolute;
+	inset: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 22px;
+	background: rgba(0, 0, 0, 0.45);
+	animation: mpFade 0.2s ease-out;
+}
+
+.mpScrim * {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	box-sizing: border-box;
+}
+
+@keyframes mpFade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.mpBox {
+	position: relative;
+	width: 100%;
+	max-width: 270px;
+	padding: 16px 14px 14px;
+	border-radius: 10px;
+	overflow: hidden;
+	background: linear-gradient(180deg, rgba(48, 66, 110, 0.94) 0%, rgba(14, 28, 66, 0.94) 100%);
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 6px 20px rgba(0, 0, 0, 0.6);
+	text-align: center;
+	animation: mpPop 0.32s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@keyframes mpPop {
+	0% {
+		transform: scale(0.8);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mpBox {
+		animation: none;
+	}
+}
+
+/* glossy top half */
+.mpBox::before {
+	content: '';
+	position: absolute;
+	left: -20%;
+	right: -20%;
+	top: -60%;
+	height: 100%;
+	border-radius: 50%;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 100%);
+	pointer-events: none;
+}
+
+.mpTitle {
+	position: relative;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.mpBody {
+	position: relative;
+	margin: 8px 2px 14px;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.35;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.mpButtons {
+	position: relative;
+	display: flex;
+	gap: 8px;
+}
+
+.mpBtn {
+	flex: 1 1 0;
+	height: 40px;
+	border: 1px solid rgba(0, 0, 0, 0.55);
+	border-radius: 6px;
+	background: linear-gradient(180deg, rgba(150, 160, 185, 0.55) 0%, rgba(80, 92, 125, 0.55) 50%, rgba(50, 62, 98, 0.6) 51%, rgba(62, 74, 110, 0.6) 100%);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+	color: #fff;
+	font-size: 15px;
+	font-weight: 700;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+	cursor: pointer;
+}
+
+.mpBtnPrimary {
+	background: linear-gradient(180deg, rgba(190, 200, 222, 0.75) 0%, rgba(120, 136, 172, 0.75) 50%, rgba(86, 104, 146, 0.8) 51%, rgba(100, 118, 160, 0.8) 100%);
+}
+
+.mpBtn:active {
+	background: rgba(30, 40, 70, 0.8);
+}

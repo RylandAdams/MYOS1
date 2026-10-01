@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './photos.css';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import { ALBUMS, thumbSrc, viewSrc } from './photosData';
+import { useDarkStatusBar } from '../../utils/useDarkStatusBar';
 
 /* iPhone OS Photos: Photo Albums list → 4-across thumbnail grid → black full-screen viewer
    (inside the phone screen). Grids load 160px thumbnails; the viewer loads phone-sized images. */
@@ -9,6 +10,7 @@ import { ALBUMS, thumbSrc, viewSrc } from './photosData';
 const SWIPE_PX = 45;
 
 function Viewer({ album, index, onIndex, onClose }) {
+	useDarkStatusBar();
 	const [chrome, setChrome] = useState(true);
 	const [dx, setDx] = useState(0);
 	const drag = useRef(null);
@@ -103,12 +105,12 @@ const Photos = () => {
 	const album = ALBUMS.find((a) => a.id === albumId);
 
 	const header = album
-		? { title: album.label, backLabel: 'Photo Albums', onBack: () => setAlbumId(null) }
+		? { title: album.label, backLabel: 'Albums', onBack: () => setAlbumId(null) }
 		: { title: 'Photo Albums' };
 
 	return (
 		<div className="photosPage">
-			<AppHeaderBar {...header} />
+			{viewIndex < 0 && <AppHeaderBar {...header} />}
 
 			<div className="phScroll" key={albumId || 'albums'}>
 				{!album ? (

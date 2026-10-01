@@ -161,7 +161,7 @@
 .phViewer {
 	position: absolute;
 	inset: 0;
-	z-index: 40;
+	z-index: 9; /* under the phone status bar (z 10) */
 	background: #000;
 	animation: phFade 0.2s ease-out;
 }

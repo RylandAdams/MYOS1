@@ -1,7 +1,7 @@
 .Apps {
 	display: block;
-	width: 57px;
-	max-width: 57px;
+	width: 55px;
+	max-width: 55px;
 }
 .singleApp {
 	display: flex;
@@ -11,15 +11,15 @@
 /* 57px icons with the soft drop shadow the original springboard put under every icon */
 .singleApp img {
 	display: block;
-	width: 57px;
-	height: 57px;
+	width: 55px;
+	height: 55px;
 	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
 }
 
 .calenderIcon .singleApp img {
-	width: calc(57px * 1.03);
-	height: calc(57px * 1.03);
-	margin: calc(57px * -0.015);
+	width: calc(55px * 1.03);
+	height: calc(55px * 1.03);
+	margin: calc(55px * -0.015);
 }
 
 /* Original label style (site font, size and shadow), centered under the icon */

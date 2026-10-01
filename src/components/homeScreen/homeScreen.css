@@ -56,10 +56,10 @@
 	align-content: start;
 	align-items: center;
 	position: absolute;
-	/* Even grid: 57px icons on a 76px column pitch (equal ~18px side margins), 88px rows */
-	grid-template-columns: repeat(4, 57px);
+	/* Even grid: 55px icons on a 71px column pitch (equal ~17px side margins), 88px rows */
+	grid-template-columns: repeat(4, 55px);
 	grid-auto-rows: 88px;
-	column-gap: 19px;
+	column-gap: 16px;
 	row-gap: 0;
 	z-index: 10;
 	height: auto;
@@ -95,8 +95,8 @@
 	position: absolute;
 	color: white !important;
 	/* Same columns as the main grid so dock icons line up under the rows above */
-	grid-template-columns: repeat(4, 57px);
-	column-gap: 19px;
+	grid-template-columns: repeat(4, 55px);
+	column-gap: 16px;
 	z-index: 2;
 	justify-content: center;
 	text-align: center;
