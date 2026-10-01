@@ -214,7 +214,8 @@
 }
 
 .phViewerTools {
-	bottom: 0;
+	/* the page runs ~2% under the bezel; keep the arrows fully on the glass */
+	bottom: 5%;
 	height: 44px;
 	justify-content: space-evenly;
 	border-top: 1px solid rgba(0, 0, 0, 0.6);
