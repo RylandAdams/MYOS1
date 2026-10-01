@@ -8,6 +8,7 @@ import AnimatedRoutes from "./components/animatedRoutes";
 import PowerOnOverlay from "./components/PowerOnOverlay";
 import MotionPrompt, { motionChoice, requestMotion } from "./components/MotionPrompt";
 import LockOverlay from "./components/LockScreen/LockOverlay";
+import ScreenOff from "./components/ScreenOff";
 import { LockProvider } from "./context/LockContext";
 import HomeButton from "./components/homeButton/homeButton";
 import PowerButton from "./components/powerButton/powerButton";
@@ -258,6 +259,7 @@ const App = () => {
             <PowerOnOverlay />
             <LockOverlay />
             <MotionPrompt />
+            <ScreenOff />
             {/* Thin film overlay – apps look recessed behind glass */}
             <div className="screenFilm" aria-hidden="true" />
             <div className="screenGlare" aria-hidden="true" />

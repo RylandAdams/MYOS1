@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import './powerButton.css';
 import { playSound } from '../../utils/uiSound';
+import { useLock } from '../../context/LockContext';
 
+/* Sleep/wake: switches the display off and on in place (no page change); waking shows the lock screen */
 const PowerButton = () => {
-	const [on, setOn] = useState(true);
+	const { off, togglePower } = useLock();
 
-	const powerToggle = () => {
+	const press = () => {
 		playSound('lock');
-		if (!on) playSound('boot');
-		setOn(!on);
+		if (off) playSound('boot');
+		togglePower();
 	};
 
 	return (
 		<div className='powerBttn'>
-			<Link
-				className={on ? 'bttn-on' : 'bttn-off'}
-				to={on ? '/off' : '/'}
-				onClick={powerToggle}
-				aria-label='Power'
-			>
+			<button type='button' className={off ? 'bttn-off' : 'bttn-on'} onClick={press} aria-label={off ? 'Turn on' : 'Turn off'}>
 				<span className='bttnHit' aria-hidden='true' />
-			</Link>
+			</button>
 		</div>
 	);
 };

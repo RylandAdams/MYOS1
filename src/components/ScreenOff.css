@@ -1,0 +1,7 @@
+.screenOff {
+	position: absolute;
+	inset: 0;
+	z-index: 20; /* above everything on the screen, under the glass film and glare */
+	background: radial-gradient(120% 90% at 50% 35%, #1c1d20 0%, #141518 55%, #0f1012 100%);
+	pointer-events: auto;
+}

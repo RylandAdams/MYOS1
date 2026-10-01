@@ -12,7 +12,7 @@ import './LockOverlay.css';
 const UNLOCK_AT = 0.86; // fraction of travel that unlocks
 
 const LockOverlay = () => {
-	const { locked, unlock } = useLock();
+	const { locked, unlock, off, waking } = useLock();
 	const { powerOnComplete } = usePowerOn();
 	const [now, setNow] = useState(() => new Date());
 	const [x, setX] = useState(0); // knob travel, px
@@ -31,10 +31,10 @@ const LockOverlay = () => {
 	// Mark the screen so the status bar swaps its clock for the lock glyph
 	useEffect(() => {
 		const screen = document.querySelector('.iphoneContent');
-		const show = locked && powerOnComplete && !leaving;
+		const show = locked && powerOnComplete && !leaving && !off;
 		screen?.classList.toggle('isLocked', show);
 		return () => screen?.classList.remove('isLocked');
-	}, [locked, powerOnComplete, leaving]);
+	}, [locked, powerOnComplete, leaving, off]);
 
 	useEffect(() => {
 		if (locked) {
@@ -104,7 +104,7 @@ const LockOverlay = () => {
 		};
 	});
 
-	if (!locked || !powerOnComplete) return null;
+	if (!locked || !powerOnComplete || off) return null;
 
 	const onDown = (e) => {
 		e.preventDefault();
@@ -138,7 +138,7 @@ const LockOverlay = () => {
 				<FaLock />
 			</span>
 		)}
-		<div className={`lkRoot${leaving ? ' lkLeaving' : ''}`} aria-label="Lock screen">
+		<div className={`lkRoot${leaving ? ' lkLeaving' : ''}${waking ? ' lkWaking' : ''}`} aria-label="Lock screen">
 			<div className="lkTop">
 				<div className="lkTime">{time}</div>
 				<div className="lkDate">{date}</div>

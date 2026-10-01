@@ -251,3 +251,18 @@
 		transition: none;
 	}
 }
+
+/* Waking from Power: the whole lock screen rises out of the dark */
+.lkWaking {
+	animation: lkWake 0.85s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+@keyframes lkWake {
+	from {
+		opacity: 0;
+		filter: brightness(0.4);
+	}
+	to {
+		opacity: 1;
+		filter: none;
+	}
+}
