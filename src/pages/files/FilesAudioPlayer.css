@@ -138,8 +138,10 @@
 	background:
 		radial-gradient(120% 80% at 30% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 55%),
 		linear-gradient(180deg, #1d1d21 0%, #0b0b0d 100%);
-	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 18px rgba(0, 0, 0, 0.8);
-	-webkit-box-reflect: below 2px linear-gradient(transparent 72%, rgba(255, 255, 255, 0.18));
+	/* a real border (not a shadow ring) so the reflection shows the card's edge, not just the letters */
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
+	-webkit-box-reflect: below 3px linear-gradient(transparent 76%, rgba(255, 255, 255, 0.22));
 	cursor: pointer;
 	touch-action: none;
 }
