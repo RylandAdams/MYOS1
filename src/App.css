@@ -352,3 +352,17 @@ body {
 		inset calc(var(--lx) * -1.6px) calc(var(--ly) * -1.6px) 1.5px rgba(255, 255, 255, 0.16);
 	transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+
+/* Scrolling a list on the phone never drags or bounces the page around it (Instagram, Safari) */
+html,
+body {
+	overscroll-behavior: none;
+}
+.iphoneContent .phScroll,
+.iphoneContent .icList,
+.iphoneContent .settingsScroll,
+.iphoneContent .vmListWrap,
+.iphoneContent .wxList,
+.iphoneContent .calEvents {
+	overscroll-behavior: contain;
+}

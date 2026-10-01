@@ -82,8 +82,10 @@
 	top: 13.9%;
 }
 
-.convo1Bar:hover {
-	background-color: #f5f6f8;
+@media (hover: hover) and (pointer: fine) {
+	.convo1Bar:hover {
+		background-color: #f5f6f8;
+	}
 }
 
 .convo1Bar:active {
