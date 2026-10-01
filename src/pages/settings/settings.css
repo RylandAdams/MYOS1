@@ -253,3 +253,20 @@ button.stRow:active .stChevron {
 .stRowDim .settingsSwitch {
 	opacity: 0.55;
 }
+
+/* Going back: the previous screen returns from the left */
+@media (prefers-reduced-motion: no-preference) {
+	.settingsScroll.stBack {
+		animation-name: stInBack;
+	}
+}
+@keyframes stInBack {
+	from {
+		transform: translateX(-14%);
+		opacity: 0.4;
+	}
+	to {
+		transform: none;
+		opacity: 1;
+	}
+}

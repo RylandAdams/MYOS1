@@ -33,6 +33,11 @@ const Settings = () => {
 	const { wallpaperId, setWallpaperId, wallpapers } = useWallpaper();
 	const [sounds, setSounds] = useState(soundsEnabled);
 	const [page, setPage] = useState('main'); // main | wallpaper | about
+	const [wentBack, setWentBack] = useState(false); // back slides in from the left
+	const open = (p) => {
+		setWentBack(p === 'main');
+		setPage(p);
+	};
 	useEffect(() => onSoundsChange(setSounds), []);
 	const [dark, setDark] = useState(() => getTheme() === 'dark');
 	const [auto, setAuto] = useState(() => getMode() === 'auto');
@@ -50,20 +55,20 @@ const Settings = () => {
 
 	const header =
 		page === 'wallpaper'
-			? { title: 'Wallpaper', backLabel: 'Settings', onBack: () => setPage('main') }
+			? { title: 'Wallpaper', backLabel: 'Settings', onBack: () => open('main') }
 			: page === 'about'
-				? { title: 'About', backLabel: 'Settings', onBack: () => setPage('main') }
+				? { title: 'About', backLabel: 'Settings', onBack: () => open('main') }
 				: { title: 'Settings' };
 
 	return (
 		<div className='settingsPage'>
 			<AppHeaderBar {...header} />
-			<div className='settingsScroll' key={page}>
+			<div className={`settingsScroll${wentBack ? ' stBack' : ''}`} key={page}>
 				{page === 'main' && (
 					<>
 						<ul className='stGroup'>
 							<li>
-								<button type='button' className='stRow' onClick={() => setPage('wallpaper')}>
+								<button type='button' className='stRow' onClick={() => open('wallpaper')}>
 									<span className='stLabel'>Wallpaper</span>
 									<span className='stValue'>{current?.label}</span>
 									<span className='stChevron'>›</span>
@@ -87,7 +92,7 @@ const Settings = () => {
 						</ul>
 						<ul className='stGroup'>
 							<li>
-								<button type='button' className='stRow' onClick={() => setPage('about')}>
+								<button type='button' className='stRow' onClick={() => open('about')}>
 									<span className='stLabel'>About</span>
 									<span className='stChevron'>›</span>
 								</button>

@@ -302,3 +302,20 @@
 		animation: none !important;
 	}
 }
+
+/* Going back: the previous screen returns from the left */
+@media (prefers-reduced-motion: no-preference) {
+	.phScroll.phBack {
+		animation-name: phInBack;
+	}
+}
+@keyframes phInBack {
+	from {
+		transform: translateX(-14%);
+		opacity: 0.4;
+	}
+	to {
+		transform: none;
+		opacity: 1;
+	}
+}
