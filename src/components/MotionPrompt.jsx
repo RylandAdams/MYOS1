@@ -10,6 +10,7 @@ import './MotionPrompt.css';
  * the tilt starts via the 'myos:motion-granted' event (App.js). Asked once per visitor.
  */
 export const MOTION_KEY = 'myos-motion';
+const ARRIVAL_PAUSE_MS = 500;
 
 export const motionChoice = () => {
 	try {
@@ -50,8 +51,19 @@ const MotionPrompt = () => {
 	useEffect(() => {
 		if (!powerOnComplete || locked || !isHome || motionChoice() || !needsIOSMotionPermission()) return undefined;
 		if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
-		const t = setTimeout(() => setOpen(true), 700);
-		return () => clearTimeout(t);
+		// Half a second after the home screen has arrived. After unlocking, the icons are still flying
+		// in, so wait for those animations to land first.
+		const screen = document.querySelector('.iphoneContent');
+		const flying = (screen?.getAnimations?.({ subtree: true }) || []).filter((a) => /lkFlyIn|lkDockUp/.test(a.animationName));
+		let alive = true;
+		let t = 0;
+		Promise.all(flying.map((a) => a.finished.catch(() => {}))).then(() => {
+			if (alive) t = setTimeout(() => setOpen(true), ARRIVAL_PAUSE_MS);
+		});
+		return () => {
+			alive = false;
+			clearTimeout(t);
+		};
 	}, [powerOnComplete, locked, isHome]);
 
 	if (!open || off || locked) return null;
