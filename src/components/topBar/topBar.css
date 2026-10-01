@@ -302,15 +302,14 @@
 	transform: translateY(-0.4px);
 }
 
-/* Signal bars and Wi-Fi sit on the carrier text baseline and stop at cap height,
-   so their tops line up with the top of "RYLAND" */
+/* Signal bars and Wi-Fi at their original 9px size, centered on the middle of
+   the capitals in "RYLAND" (the old 1px upward nudge made them sit high) */
 .leftIpod {
-	align-items: baseline;
+	align-items: center;
 }
 .leftIpod .cellularBarsIpod,
 .leftIpod .topBarWifi {
-	height: 0.72em;
+	height: 9px;
 	width: auto;
 	transform: none;
-	align-self: baseline;
 }
