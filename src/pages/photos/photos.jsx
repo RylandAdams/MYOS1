@@ -115,10 +115,14 @@ const Photos = () => {
 	const album = ALBUMS.find((a) => a.id === albumId);
 
 	const header = album
-		? { title: album.label, backLabel: 'Albums', onBack: () => {
-				setWentBack(true);
-				setAlbumId(null);
-			} }
+		? {
+				title: album.label,
+				backLabel: 'Albums',
+				onBack: () => {
+					setWentBack(true);
+					setAlbumId(null);
+				},
+			}
 		: { title: 'Photo Albums' };
 
 	return (
@@ -130,10 +134,14 @@ const Photos = () => {
 					<ul className="phAlbums">
 						{ALBUMS.map((a) => (
 							<li key={a.id}>
-								<button type="button" className="phAlbumRow" onClick={() => {
-									setWentBack(false);
-									setAlbumId(a.id);
-								}}>
+								<button
+									type="button"
+									className="phAlbumRow"
+									onClick={() => {
+										setWentBack(false);
+										setAlbumId(a.id);
+									}}
+								>
 									<img className="phAlbumThumb" src={thumbSrc(a.photos[0])} alt="" loading="lazy" decoding="async" />
 									<span className="phAlbumName">{a.label}</span>
 									<span className="phAlbumCount">({a.photos.length})</span>

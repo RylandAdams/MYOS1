@@ -1020,33 +1020,33 @@ const Ipod = () => {
 								</form>
 							)}
 							<div className={`icListWrap${bar ? ' icHasBar' : ''}`}>
-							<ul className="icList" ref={listRef} role="listbox" aria-label={menu.title} onScroll={updateBar}>
-								{menu.items.map((item, i) => (
-									<li
-										key={item.key}
-										data-index={i}
-										role="option"
-										aria-selected={i === sel}
-										aria-disabled={item.disabled || undefined}
-										className={`icRow${i === sel ? ' icRow-sel' : ''}${item.disabled ? ' icRow-disabled' : ''}`}
-										onClick={() => {
-											if (item.disabled) return;
-											playSound('tick');
-											setSel(i);
-											item.action?.();
-										}}
-									>
-										<span className="icRowLabel">{item.label}</span>
-										{item.playing && <span className="icRowSpeaker" aria-label="Now playing">♪</span>}
-										{item.chevron && <span className="icRowChevron">›</span>}
-									</li>
-								))}
-							</ul>
-							{bar && (
-								<div className="icBar" aria-hidden>
-									<div className="icBarThumb" style={{ top: bar.top, height: bar.size }} />
-								</div>
-							)}
+								<ul className="icList" ref={listRef} role="listbox" aria-label={menu.title} onScroll={updateBar}>
+									{menu.items.map((item, i) => (
+										<li
+											key={item.key}
+											data-index={i}
+											role="option"
+											aria-selected={i === sel}
+											aria-disabled={item.disabled || undefined}
+											className={`icRow${i === sel ? ' icRow-sel' : ''}${item.disabled ? ' icRow-disabled' : ''}`}
+											onClick={() => {
+												if (item.disabled) return;
+												playSound('tick');
+												setSel(i);
+												item.action?.();
+											}}
+										>
+											<span className="icRowLabel">{item.label}</span>
+											{item.playing && <span className="icRowSpeaker" aria-label="Now playing">♪</span>}
+											{item.chevron && <span className="icRowChevron">›</span>}
+										</li>
+									))}
+								</ul>
+								{bar && (
+									<div className="icBar" aria-hidden>
+										<div className="icBarThumb" style={{ top: bar.top, height: bar.size }} />
+									</div>
+								)}
 							</div>
 						</>
 					)}
