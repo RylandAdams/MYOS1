@@ -18,9 +18,16 @@ import { MAINAPPS, FOOTERAPPS, EXTRAS_APPS } from "./assets/apps";
 import phone from "./assets/imgs/Iphone.webp"; // 1200px Lanczos upscale of the original 800px frame
 
 import "./App.css";
+import "./darkTheme.css";
+import { applyTheme } from "./utils/theme";
 
 const App = () => {
   const frameRef = useRef(null);
+
+  // Dark Mode, if the visitor turned it on
+  useEffect(() => {
+    applyTheme();
+  }, []);
 
   useEffect(() => {
     const frame = frameRef.current;

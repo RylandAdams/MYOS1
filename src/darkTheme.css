@@ -1,0 +1,280 @@
+/* Dark Mode – the Files player's look across the phone: black glass, glossy black bars,
+   white type, blue accents. Everything is scoped to .themeDark on .iphoneContent. */
+
+/* ——— Status bar (apps) ——— */
+.themeDark .topBarIpod {
+	height: 16px;
+	min-height: 16px;
+	background: linear-gradient(180deg, #2a2a2e 0%, #0d0d0f 100%);
+	box-shadow: none;
+}
+.themeDark .topBarIpod::after {
+	display: none;
+}
+.themeDark .topBarIpod .leftIpod,
+.themeDark .topBarIpod .clockIpod {
+	color: #fff;
+}
+.themeDark .topBarIpod .topBarBluetooth {
+	color: #fff !important;
+	stroke: #fff !important;
+}
+
+/* ——— Navigation bar + back button ——— */
+.themeDark .appHeaderBar {
+	background: linear-gradient(180deg, #4a4a50 0%, #2a2a2e 50%, #121214 50%, #0a0a0b 100%);
+	border-top-color: #55555b;
+	border-bottom-color: #000;
+}
+.themeDark .appHeaderBackBtn,
+.themeDark .appHeaderActionBtn {
+	background: #000;
+}
+.themeDark .appHeaderBackBtn::before,
+.themeDark .appHeaderActionBtn::before {
+	background: linear-gradient(180deg, #6c6c72 0%, #3e3e43 50%, #26262a 50%, #2e2e33 100%);
+}
+.themeDark .appHeaderBackBtn:active::before,
+.themeDark .appHeaderActionBtn:active::before {
+	background: linear-gradient(180deg, #4e4e54 0%, #2c2c30 50%, #18181b 50%, #202024 100%);
+}
+
+/* ——— iPod: black edition ——— */
+.themeDark .ipodClassic {
+	background:
+		repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0 1px, rgba(0, 0, 0, 0.05) 1px 2px),
+		linear-gradient(180deg, #2b2b2f 0%, #18181b 55%, #0e0e10 100%);
+}
+.themeDark .icScreen {
+	background: #0c0c0e;
+	color: #f2f2f4;
+	box-shadow: 0 0 0 1px #000, 0 0 0 3px rgba(255, 255, 255, 0.1), inset 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+.themeDark .icScreen::after {
+	background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 38%);
+}
+.themeDark .icTitleBar {
+	background: linear-gradient(180deg, #3a3a3f 0%, #1e1e21 55%, #121214 100%);
+	border-bottom-color: #000;
+	color: #fff;
+}
+.themeDark .icRow {
+	color: #ededf0;
+}
+.themeDark .icRow-disabled {
+	color: #6c6c74;
+}
+.themeDark .icNpTitle {
+	color: #fff;
+}
+.themeDark .icNpArtist {
+	color: #c9c9cf;
+}
+.themeDark .icNpAlbum,
+.themeDark .icNpCount,
+.themeDark .icEmpty {
+	color: #8c8c94;
+}
+.themeDark .icNpTimes {
+	color: #d4d4da;
+}
+.themeDark .icNpBar {
+	border-color: #3a3a40;
+	background: linear-gradient(180deg, #0c0c0d 0%, #232326 100%);
+}
+.themeDark .icNpArt {
+	background: #1a1a1d;
+	-webkit-box-reflect: below 1px linear-gradient(transparent 86%, rgba(255, 255, 255, 0.14));
+}
+.themeDark .icSearch {
+	background: #141416;
+	border-bottom-color: #2a2a2e;
+}
+.themeDark .icSearchInput {
+	background: #222226;
+	border-color: #3a3a40;
+	color: #fff;
+}
+.themeDark .icWheel {
+	background: radial-gradient(circle at 50% 35%, #3a3a3f 0%, #222226 45%, #151517 100%);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), inset 0 2px 3px rgba(255, 255, 255, 0.08), inset 0 -3px 6px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.themeDark .icWheelLabel {
+	color: #8a8a92;
+}
+.themeDark .icWheelLabel.icPressed {
+	color: #e6e6ea;
+}
+.themeDark .icWheelCenter {
+	background: radial-gradient(circle at 50% 30%, #2e2e33 0%, #1c1c1f 60%, #111113 100%);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+.themeDark .icWheelCenter.icPressed,
+.themeDark .icWheelCenter:active {
+	background: radial-gradient(circle at 50% 40%, #18181b 0%, #0c0c0e 100%);
+}
+
+/* ——— Photos ——— */
+.themeDark .photosPage,
+.themeDark .phAlbumRow,
+.themeDark .phGrid {
+	background: #000;
+}
+.themeDark .phAlbums li {
+	border-bottom-color: #1e1e21;
+}
+.themeDark .phAlbumName {
+	color: #fff;
+}
+.themeDark .phAlbumCount,
+.themeDark .phFooter {
+	color: #85858d;
+}
+.themeDark .phAlbumThumb,
+.themeDark .phCell {
+	background: #161618;
+}
+
+/* ——— Settings ——— */
+.themeDark .settingsPage {
+	background: repeating-linear-gradient(90deg, #141518 0, #141518 4px, #18191c 4px, #18191c 7px);
+}
+.themeDark .stGroup {
+	background: #1b1b1e;
+	border-color: #000;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.themeDark .stGroup > li + li {
+	border-top-color: #2a2a2e;
+}
+.themeDark .stRow {
+	background: #1b1b1e;
+}
+.themeDark .stLabel {
+	color: #fff;
+}
+.themeDark .stValue {
+	color: #8fa6c9;
+}
+.themeDark .stWallLabel {
+	color: #b6b6bd;
+	text-shadow: none;
+}
+
+/* ——— Calendar ——— */
+.themeDark .calenderPage,
+.themeDark .calEvents {
+	background: #000;
+}
+.themeDark .calMonthBar,
+.themeDark .calWeekdays {
+	background: linear-gradient(180deg, #2c2c30 0%, #1a1a1d 100%);
+}
+.themeDark .calWeekdays {
+	border-bottom-color: #000;
+}
+.themeDark .calMonthTitle,
+.themeDark .calWeekdays span {
+	color: #f0f0f3;
+	text-shadow: 0 -1px 0 #000;
+}
+.themeDark .calTriLeft {
+	border-right-color: #c9c9cf;
+}
+.themeDark .calTriRight {
+	border-left-color: #c9c9cf;
+}
+.themeDark .calGrid {
+	background: #000;
+	border-bottom-color: #000;
+}
+.themeDark .calCell {
+	background: linear-gradient(180deg, #2a2a2e 0%, #1c1c1f 100%);
+}
+.themeDark .calNum {
+	color: #ededf0;
+	text-shadow: 0 -1px 0 #000;
+}
+.themeDark .calOutside {
+	background: linear-gradient(180deg, #19191c 0%, #121214 100%);
+}
+.themeDark .calOutside .calNum {
+	color: #55555c;
+}
+.themeDark .calDot {
+	background: #c9c9cf;
+}
+.themeDark .calEventsDate {
+	background: linear-gradient(180deg, #3a3a3f 0%, #232326 100%);
+	border-bottom-color: #000;
+}
+.themeDark .calEvent {
+	border-bottom-color: #1e1e21;
+}
+.themeDark .calEventTitle {
+	color: #fff;
+}
+.themeDark .calNoEvents {
+	color: #6c6c74;
+}
+
+/* ——— Files ——— */
+.themeDark .filesPage,
+.themeDark .filesPage .filesIosAudioBtn {
+	background: #000;
+}
+.themeDark .filesPage .filesIosAudioCell {
+	border-bottom-color: #1e1e21;
+}
+.themeDark .filesPage .filesIosAudioName {
+	color: #fff;
+}
+.themeDark .filesPage .filesIosAudioMeta {
+	color: #85858d;
+}
+
+/* ——— Messages ——— */
+.themeDark .messagesPage {
+	background: #000;
+}
+.themeDark .convo1Bar,
+.themeDark .convo2Bar,
+.themeDark .convo1Bar:hover,
+.themeDark .convo2Bar:hover {
+	background-color: #141416;
+	outline-color: #000;
+	opacity: 1;
+}
+.themeDark .personsName {
+	color: #fff;
+}
+.themeDark .RickRubin {
+	background: #0f1013;
+}
+.themeDark .smsStamp,
+.themeDark .smsReceipt {
+	color: #7a7a82;
+	text-shadow: none;
+}
+.themeDark .smsRecv {
+	background: linear-gradient(180deg, #3a3a3f 0%, #2a2a2e 48%, #222226 52%, #2c2c30 100%);
+	border-color: #000;
+}
+.themeDark .smsTyping i {
+	background: #a0a0a8;
+}
+
+/* ——— Weather back side + folder are already dark; Flappy Bird keeps its daylight ——— */
+
+/* Calendar: keep today and the selected day's blue tiles above the dark tile style */
+.themeDark .calToday {
+	background: linear-gradient(180deg, #5d6f8a 0%, #43536c 100%);
+}
+.themeDark .calSel {
+	background: linear-gradient(180deg, #4b8de4 0%, #2462c7 100%);
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+.themeDark .calToday .calNum,
+.themeDark .calSel .calNum {
+	color: #fff;
+}

@@ -3,6 +3,7 @@ import './settings.css';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import { useWallpaper } from '../../context/WallpaperContext';
 import { soundsEnabled, setSoundsEnabled, onSoundsChange } from '../../utils/uiSound';
+import { getTheme, setTheme, onThemeChange } from '../../utils/theme';
 import { IPOD_TRACKS } from '../../assets/ipodLibrary';
 import { ALBUMS } from '../photos/photosData';
 
@@ -30,6 +31,8 @@ const Settings = () => {
 	const [sounds, setSounds] = useState(soundsEnabled);
 	const [page, setPage] = useState('main'); // main | wallpaper | about
 	useEffect(() => onSoundsChange(setSounds), []);
+	const [dark, setDark] = useState(() => getTheme() === 'dark');
+	useEffect(() => onThemeChange((t) => setDark(t === 'dark')), []);
 
 	const current = wallpapers.find((w) => w.id === wallpaperId);
 	const photoCount = ALBUMS.find((a) => a.id === 'camera-roll')?.photos.length ?? 0;
@@ -54,6 +57,10 @@ const Settings = () => {
 									<span className='stValue'>{current?.label}</span>
 									<span className='stChevron'>›</span>
 								</button>
+							</li>
+							<li className='stRow'>
+								<span className='stLabel'>Dark Mode</span>
+								<Switch on={dark} onChange={(on) => setTheme(on ? 'dark' : 'light')} label='Dark Mode' />
 							</li>
 							<li className='stRow'>
 								<span className='stLabel'>Sounds</span>
