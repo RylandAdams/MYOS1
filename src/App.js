@@ -11,7 +11,7 @@ import PowerButton from "./components/powerButton/powerButton";
 import TopBar from "./components/topBar/topBar";
 import { MAINAPPS, FOOTERAPPS, EXTRAS_APPS } from "./assets/apps";
 
-import phone from "./assets/imgs/Iphone.png";
+import phone from "./assets/imgs/Iphone.webp"; // 1200px Lanczos upscale of the original 800px frame
 
 import "./App.css";
 
@@ -194,6 +194,9 @@ const App = () => {
           <div className="backLit" />
 
           <img src={phone} className="phone" alt="phone" />
+          {/* Light on the device itself: a sheen shaped by the phone image, and the Home button's own reflection */}
+          <div className="phoneSheen" aria-hidden="true" style={{ "--phone-mask": `url(${phone})` }} />
+          <div className="homeSheen" aria-hidden="true" />
           </WallpaperProvider>
           </PowerOnProvider>
         </Router>

@@ -112,8 +112,8 @@ body {
 	width: 109%;
 	height: 100%;
 	max-width: var(--frame-width);
-	/* Less glossy – matte frame */
-	filter: brightness(0.82) saturate(0.88) contrast(0.96);
+	/* Polished metal: brighter and crisper than the old matte treatment */
+	filter: brightness(0.93) saturate(0.95) contrast(1.06);
 }
 
 .iphoneContent {
@@ -195,4 +195,49 @@ body {
 	background-size: 260% 260%;
 	background-position: var(--glare-x, 38%) var(--glare-y, 38%);
 	transition: background-position 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Specular sheen on the chrome and black glass – masked to the phone image so it
+   never lands on the screen; drifts with the cursor (same vars as the screen glare) */
+.phoneSheen {
+	position: absolute;
+	z-index: 15;
+	width: 109%;
+	height: 100%;
+	max-width: var(--frame-width);
+	pointer-events: none;
+	-webkit-mask: var(--phone-mask) center / 100% 100% no-repeat;
+	mask: var(--phone-mask) center / 100% 100% no-repeat;
+	background: linear-gradient(
+		112deg,
+		rgba(255, 255, 255, 0) 30%,
+		rgba(255, 255, 255, 0.15) 43%,
+		rgba(255, 255, 255, 0.05) 50%,
+		rgba(255, 255, 255, 0) 60%
+	);
+	background-size: 300% 300%;
+	background-position: var(--glare-x, 38%) var(--glare-y, 38%);
+	mix-blend-mode: screen;
+	transition: background-position 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Home button: a convex cap, so its highlight moves the opposite way to the screen glare */
+.homeSheen {
+	position: absolute;
+	z-index: 15;
+	left: 50.3%;
+	top: 90.5%;
+	width: 62px;
+	height: 62px;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	pointer-events: none;
+	background: radial-gradient(
+		circle at calc(100% - var(--glare-x, 38%)) calc(100% - var(--glare-y, 62%)),
+		rgba(255, 255, 255, 0.24) 0%,
+		rgba(255, 255, 255, 0.06) 32%,
+		rgba(255, 255, 255, 0) 58%
+	);
+	mix-blend-mode: screen;
+	transition: background 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
