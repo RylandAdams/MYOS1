@@ -313,3 +313,39 @@
 	width: auto;
 	transform: none;
 }
+
+/* Crisp status bar.
+   1. The site's SF Pro file is regular-only, so bold here was synthesized (smeared). Use the device's
+      system font instead – SF Pro with a real semibold on Apple devices, like the real status bar.
+   2. Snap every item to whole pixels: the old percentage + translate positioning landed them on
+      fractional pixels (e.g. -2.15px), which softens edges. */
+.leftIpod,
+.clockIpod {
+	font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+	font-weight: 600;
+	/* the system font tracks wider at this size; pull it back to the old width */
+	letter-spacing: -0.3px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.leftIpod,
+.topBarCompact .leftIpod {
+	top: 3px;
+	transform: none;
+}
+.clockIpod,
+.topBarCompact .clockIpod {
+	left: 0;
+	right: 0;
+	top: 2px;
+	transform: none;
+	justify-content: center;
+}
+.rightIpod,
+.topBarCompact .rightIpod {
+	top: 0;
+	transform: none;
+}
+.topBarCompact .clockIpod {
+	top: 1px;
+}
