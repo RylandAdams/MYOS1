@@ -576,3 +576,37 @@ button {
 		opacity: 0;
 	}
 }
+
+/* iPod classic scroll bar: a slim inset track with a glossy blue thumb, only on long lists */
+.icListWrap {
+	position: relative;
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+}
+.icHasBar .icRow {
+	padding-right: 15px;
+}
+.icBar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 7px;
+	background: linear-gradient(90deg, #c9ccd2, #eef0f3 60%, #d9dce1);
+	border-left: 1px solid #a9adb5;
+	pointer-events: none;
+}
+.icBarThumb {
+	position: absolute;
+	left: 0;
+	right: 0;
+	border-radius: 1px;
+	background: linear-gradient(90deg, #2a5fbf, #77aef0 45%, #3b78d8);
+	box-shadow: inset 0 0 0 1px rgba(10, 40, 110, 0.45);
+}
+.themeDark .icBar {
+	background: linear-gradient(90deg, #1b1c1f, #2a2b2f 60%, #1f2023);
+	border-left-color: #000;
+}

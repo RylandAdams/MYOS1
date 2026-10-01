@@ -798,9 +798,23 @@ const Ipod = () => {
 		if (!row) return;
 		if (row.offsetTop < list.scrollTop) list.scrollTop = row.offsetTop;
 		else if (row.offsetTop + row.offsetHeight > list.scrollTop + list.clientHeight) {
-			list.scrollTop = row.offsetTop + row.offsetHeight - list.clientHeight;
+			// snap to whole rows so the top row is never cut in half, like the real iPod
+			const rh = row.offsetHeight || 1;
+			list.scrollTop = Math.ceil((row.offsetTop + rh - list.clientHeight) / rh) * rh;
 		}
-	}, [sel, view.id, view.param]);
+		updateBar();
+	}, [sel, view.id, view.param, menu.items.length]);
+
+	// iPod classic scroll bar: only on lists longer than the screen
+	const [bar, setBar] = useState(null);
+	function updateBar() {
+		const list = listRef.current;
+		if (!list || list.scrollHeight <= list.clientHeight + 1) return setBar(null);
+		const h = list.clientHeight;
+		const size = Math.max(14, (h / list.scrollHeight) * h);
+		const top = (list.scrollTop / (list.scrollHeight - h)) * (h - size);
+		setBar((b) => (b && Math.abs(b.top - top) < 0.5 && Math.abs(b.size - size) < 0.5 ? b : { top, size }));
+	}
 
 	useEffect(() => {
 		if (view.id === 'search') searchInputRef.current?.focus({ preventScroll: true });
@@ -1005,7 +1019,8 @@ const Ipod = () => {
 									/>
 								</form>
 							)}
-							<ul className="icList" ref={listRef} role="listbox" aria-label={menu.title}>
+							<div className={`icListWrap${bar ? ' icHasBar' : ''}`}>
+							<ul className="icList" ref={listRef} role="listbox" aria-label={menu.title} onScroll={updateBar}>
 								{menu.items.map((item, i) => (
 									<li
 										key={item.key}
@@ -1027,6 +1042,12 @@ const Ipod = () => {
 									</li>
 								))}
 							</ul>
+							{bar && (
+								<div className="icBar" aria-hidden>
+									<div className="icBarThumb" style={{ top: bar.top, height: bar.size }} />
+								</div>
+							)}
+							</div>
 						</>
 					)}
 				</div>
