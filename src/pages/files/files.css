@@ -1,8 +1,8 @@
 /* Files — Settings/iPod chrome; demo grid floats on gradient (no outer card) */
 
 .filesPage {
-	/* Matches AppHeaderBar `.appHeaderBar { top: 4.2% }` — keeps fullscreen player chrome below simulated status bar */
-	--files-player-top-offset: 4.2%;
+	/* Matches AppHeaderBar `.appHeaderBar { top: 5.4% }` — keeps fullscreen player chrome below simulated status bar */
+	--files-player-top-offset: 5.4%;
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
@@ -23,7 +23,7 @@
 
 .filesScroll {
 	position: absolute;
-	top: 13.2%;
+	top: 14.4%;
 	left: 6%;
 	right: 6%;
 	bottom: 0;

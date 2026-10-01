@@ -367,3 +367,10 @@
 	color: #fff !important;
 	stroke: #fff !important;
 }
+
+/* App status bar is 15px tall in total (10px bar + 5px extension) so its icons never reach the
+   app headers below, which start at 5.4%. The black variant keeps the same full height. */
+.statusDark .topBarIpod {
+	height: 16px;
+	min-height: 16px;
+}

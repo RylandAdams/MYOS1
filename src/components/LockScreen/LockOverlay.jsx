@@ -21,6 +21,18 @@ const LockOverlay = () => {
 	const knobRef = useRef(null);
 	const drag = useRef(null);
 	const xRef = useRef(0);
+	// Entrance chosen once per appearance (waking from Power rises out of the dark, otherwise a soft
+	// fade) – never switched mid-animation, which restarted it and caused a second blink.
+	const [entry, setEntry] = useState(waking ? 'lkWaking' : 'lkAppear');
+	const wasShown = useRef(false);
+	const shown = locked && powerOnComplete && !off;
+	if (shown && !wasShown.current) {
+		wasShown.current = true;
+		const want = waking ? 'lkWaking' : 'lkAppear';
+		if (want !== entry) setEntry(want);
+	} else if (!shown && wasShown.current) {
+		wasShown.current = false;
+	}
 
 	useEffect(() => {
 		if (!locked) return undefined;
@@ -35,14 +47,6 @@ const LockOverlay = () => {
 		screen?.classList.toggle('isLocked', show);
 		return () => screen?.classList.remove('isLocked');
 	}, [locked, powerOnComplete, leaving, off]);
-
-	useEffect(() => {
-		if (locked) {
-			setX(0);
-			xRef.current = 0;
-			setLeaving(false);
-		}
-	}, [locked]);
 
 	const maxTravel = () => {
 		const t = trackRef.current;
@@ -66,7 +70,7 @@ const LockOverlay = () => {
 			const push = 150; // px beyond where it sits
 			el.style.setProperty('--fx', `${((dx / len) * push + dx * 0.6).toFixed(1)}px`);
 			el.style.setProperty('--fy', `${((dy / len) * push + dy * 0.6).toFixed(1)}px`);
-			el.style.setProperty('--fd', `${Math.round(60 + len * 0.18)}ms`);
+			el.style.setProperty('--fd', `${Math.round(len * 0.12)}ms`);
 		});
 		screen.classList.add('lkReveal');
 	};
@@ -79,7 +83,13 @@ const LockOverlay = () => {
 			playSound('home');
 			prepareFlyIn();
 			setLeaving(true);
-			setTimeout(unlock, 440);
+			setTimeout(() => {
+				unlock();
+				// reset for the next lock right away, so a later wake never starts from the slid-away state
+				setLeaving(false);
+				setX(0);
+				xRef.current = 0;
+			}, 440);
 			setTimeout(() => document.querySelector('.iphoneContent')?.classList.remove('lkReveal'), 1100);
 		} else {
 			setX(0);
@@ -138,7 +148,7 @@ const LockOverlay = () => {
 				<FaLock />
 			</span>
 		)}
-		<div className={`lkRoot${leaving ? ' lkLeaving' : ''}${waking ? ' lkWaking' : ''}`} aria-label="Lock screen">
+		<div className={`lkRoot ${entry}${leaving ? ' lkLeaving' : ''}`} aria-label="Lock screen">
 			<div className="lkTop">
 				<div className="lkTime">{time}</div>
 				<div className="lkDate">{date}</div>

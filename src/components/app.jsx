@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './app.css';
 import { playSound } from '../utils/uiSound';
 import { openInApp } from '../utils/openApp';
+import { launchFrom } from './PageTransition';
 
 const App = memo((app) => {
 	const { id, appName, appImage, url, path } = app.data;
@@ -15,7 +16,10 @@ const App = memo((app) => {
 				<Link
 					to={linkTo}
 					className={appClass}
-					onClick={() => playSound('tap')}
+					onClick={(e) => {
+						playSound('tap');
+						launchFrom(e.currentTarget.querySelector('img') || e.currentTarget);
+					}}
 				>
 					<div className='singleApp'>
 						<img

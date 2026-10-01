@@ -212,7 +212,7 @@ body {
 	);
 	background-size: 260% 260%;
 	background-position: var(--glare-x, 38%) var(--glare-y, 38%);
-	transition: background-position 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+	transition: background-position 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Specular sheen on the chrome and black glass – masked to the phone image so it
@@ -236,7 +236,7 @@ body {
 	background-size: 300% 300%;
 	background-position: var(--glare-x, 38%) var(--glare-y, 38%);
 	mix-blend-mode: screen;
-	transition: background-position 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+	transition: background-position 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Depth: the Home button is a dish and the speaker a slot cut into the glass.

@@ -1,26 +1,29 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { WALLPAPERS } from '../assets/wallpapers';
 
-const STORAGE_KEY = 'myos1-wallpaper';
+// v2: only a wallpaper the visitor actually picked is saved (v1 saved the default on every visit).
+const STORAGE_KEY = 'myos1-wallpaper-v2';
+const DEFAULT_WALLPAPER = 'clownfish';
 
 const WallpaperContext = createContext(null);
 
 export function WallpaperProvider({ children }) {
-	const [wallpaperId, setWallpaperId] = useState(() => {
+	const [wallpaperId, setWallpaperIdState] = useState(() => {
 		try {
-			return localStorage.getItem(STORAGE_KEY) || 'default';
+			return localStorage.getItem(STORAGE_KEY) || DEFAULT_WALLPAPER;
 		} catch {
-			return 'default';
+			return DEFAULT_WALLPAPER;
 		}
 	});
 
-	useEffect(() => {
+	const setWallpaperId = (id) => {
+		setWallpaperIdState(id);
 		try {
-			localStorage.setItem(STORAGE_KEY, wallpaperId);
+			localStorage.setItem(STORAGE_KEY, id);
 		} catch {
 			// Ignore
 		}
-	}, [wallpaperId]);
+	};
 
 	const wallpaper = WALLPAPERS.find((w) => w.id === wallpaperId) || WALLPAPERS[0];
 

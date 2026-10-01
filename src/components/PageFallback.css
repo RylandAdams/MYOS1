@@ -4,10 +4,6 @@
 	min-height: 400px;
 	height: 105%;
 	margin-top: -3%;
-	background: linear-gradient(
-		180deg,
-		rgb(215, 218, 222) 0%,
-		rgb(198, 202, 207) 30%,
-		rgb(185, 190, 196) 100%
-	);
+	/* invisible: every app is preloaded, and a gray flash read as a glitch */
+	background: transparent;
 }

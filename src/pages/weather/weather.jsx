@@ -325,9 +325,6 @@ export default function Weather() {
             <div className="wxLoading">{failed ? "Weather unavailable" : "Updating…"}</div>
           )}
           <footer className="wxFoot">
-            <a className="wxCredit" href="https://open-meteo.com/" target="_blank" rel="noreferrer">
-              Open-Meteo
-            </a>
             <span className="wxDots" aria-hidden="true">
               <i className="wxDotOn" />
             </span>
@@ -378,6 +375,9 @@ export default function Weather() {
           </ul>
           {busy && <div className="wxBusy">Updating…</div>}
           {failed && !busy && <div className="wxBusy">Couldn't get that – try a city name.</div>}
+					<a className="wxBackCredit" href="https://open-meteo.com/" target="_blank" rel="noreferrer">
+						Weather data by Open-Meteo
+					</a>
         </section>
       </div>
     </div>

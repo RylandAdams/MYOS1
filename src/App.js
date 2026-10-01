@@ -49,8 +49,8 @@ const App = () => {
       // Direction the light travels (from the source across the phone), -1..1 – drives the depth shading
       frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
       frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));
-      frame.style.setProperty("--glare-x", `${(50 - nx * 40).toFixed(1)}%`);
-      frame.style.setProperty("--glare-y", `${(50 - ny * 40).toFixed(1)}%`);
+      frame.style.setProperty("--glare-x", `${(50 - nx * 80).toFixed(1)}%`);
+      frame.style.setProperty("--glare-y", `${(50 - ny * 80).toFixed(1)}%`);
     };
     const reset = () => VARS.forEach((k) => frame.style.removeProperty(k));
     let raf = 0;
@@ -76,15 +76,15 @@ const App = () => {
       let running = false;
       const clamp = (v) => Math.max(-0.5, Math.min(0.5, v));
       const tick = () => {
-        current = [current[0] + (target[0] - current[0]) * 0.18, current[1] + (target[1] - current[1]) * 0.18];
+        current = [current[0] + (target[0] - current[0]) * 0.32, current[1] + (target[1] - current[1]) * 0.32];
         apply(current[0], current[1]);
         raf = Math.abs(target[0] - current[0]) + Math.abs(target[1] - current[1]) > 0.002 ? requestAnimationFrame(tick) : ((running = false), 0);
       };
       const onOrient = (e) => {
         if (e.beta == null || e.gamma == null || !portrait.matches) return;
         if (!base) base = [e.beta, e.gamma];
-        // 20° of tilt from the starting angle = full effect
-        target = [clamp(-(e.gamma - base[1]) / 40), clamp(-(e.beta - base[0]) / 40)];
+        // ~10° of tilt from the starting angle = full effect
+        target = [clamp(-(e.gamma - base[1]) / 20), clamp(-(e.beta - base[0]) / 20)];
         if (!running) {
           running = true;
           raf = requestAnimationFrame(tick);

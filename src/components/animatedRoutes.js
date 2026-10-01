@@ -27,11 +27,14 @@ const AnimatedRoutes = () => {
 	let location = useLocation();
 
 	return (
-		<AnimatePresence mode="sync" initial={false}>
-			<Suspense fallback={<PageFallback />}>
+		/* Routes must be AnimatePresence's direct, keyed child so the page being left stays mounted
+		   while it animates out (Suspense in between made it vanish instantly). '/' and '/homeScreen'
+		   share a key so going home from home doesn't replay anything. */
+		<Suspense fallback={<PageFallback />}>
+			<AnimatePresence mode="sync" initial={false}>
 				<Routes
 					location={location}
-					key={location.pathname}
+					key={location.pathname === '/homeScreen' ? '/' : location.pathname}
 				>
 				{/* Homepage: myos1.org goes straight to home screen (lock screen commented out) */}
 				<Route
@@ -118,8 +121,8 @@ const AnimatedRoutes = () => {
 					element={<PageTransition><LouisBell /></PageTransition>}
 				/>
 				</Routes>
-			</Suspense>
-		</AnimatePresence>
+			</AnimatePresence>
+		</Suspense>
 	);
 };
 

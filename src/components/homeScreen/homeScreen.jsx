@@ -14,6 +14,11 @@ const POWER_ON_KEY = 'homeScreenPowerOnSeen';
 const HomeScreen = () => {
 	const { powerOnComplete } = usePowerOn();
 	const { wallpaper } = useWallpaper();
+	const [fromApp] = React.useState(() => {
+		const v = !!window.__myosFromApp;
+		window.__myosFromApp = false;
+		return v;
+	});
 	const shouldInstantHome = (() => {
 		try {
 			return powerOnComplete && sessionStorage.getItem(POWER_ON_KEY) === '1';
@@ -54,6 +59,15 @@ const HomeScreen = () => {
 			import('../../pages/calender/calender');
 			import('../../pages/weather/weather');
 			import('../../pages/files/files');
+			// every other app too, so no app ever flashes a loading placeholder on first open
+			const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1200));
+			idle(() => {
+				import('../../pages/flappybird/flappyBird');
+				import('../../pages/settings/settings');
+				import('../../pages/news/news');
+				import('../../pages/messages/messages');
+				import('../../pages/messages/Conversations/RickRubin/RickRubin');
+			});
 		}
 	}, [powerOnComplete]);
 
@@ -68,10 +82,11 @@ const HomeScreen = () => {
 			{/* Render apps */}
 			<motion.div
 				className="homeScreenWrapper"
-				initial={{ opacity: 1 }}
-				animate={{ opacity: 1 }}
-				exit={{ opacity: 0 }}
-				transition={{ duration: 0.15 }}
+				/* Returning from an app the springboard settles back from slightly larger;
+				   launching one, it pushes past you while the app grows out of its icon */
+				initial={fromApp ? { opacity: 0, scale: 1.14 } : { opacity: 1 }}
+				animate={{ opacity: 1, scale: 1, transition: { duration: 0.42, ease: [0.16, 0.84, 0.24, 1], opacity: { duration: 0.24 } } }}
+				exit={{ opacity: 0, scale: 1.14, transition: { duration: 0.36, ease: [0.4, 0, 0.6, 1] } }}
 			>
 				{/* Screen bounds – same positioning as apps/dock (left 50%, translateX -50%, max-width 310px) */}
 				<div className="screenBounds" aria-hidden="true" />

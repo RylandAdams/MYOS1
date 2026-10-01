@@ -3,10 +3,14 @@
 .fpRoot {
 	position: absolute;
 	z-index: 9; /* under the phone status bar (z 10), over the page */
-	inset: 0;
+	/* below the phone status bar – same offset as every app's header (a % top is of the height;
+	   the old % padding was of the width and slid the bar under the status bar) */
+	top: 5.4%;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	display: flex;
 	flex-direction: column;
-	padding-top: 4.2%; /* below the phone status bar */
 	background: #000;
 	color: #fff;
 	animation: fpIn 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);

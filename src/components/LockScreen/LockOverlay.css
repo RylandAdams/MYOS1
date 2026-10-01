@@ -11,7 +11,10 @@
 	overscroll-behavior: none;
 	-webkit-user-select: none;
 	user-select: none;
-	animation: lkIn 0.35s ease-out;
+}
+
+.lkAppear {
+	animation: lkIn 0.35s ease-out both;
 }
 
 .lkRoot * {
@@ -42,8 +45,8 @@
 .lkTop,
 .lkBottom {
 	position: relative;
-	/* quick start, then accelerating away */
-	transition: transform 0.42s cubic-bezier(0.6, 0.02, 0.75, 0.25);
+	/* moves the instant you let go, fast and decisive */
+	transition: transform 0.38s cubic-bezier(0.32, 0, 0.5, 1);
 	will-change: transform;
 	background: linear-gradient(180deg, rgba(60, 60, 64, 0.78) 0%, rgba(20, 20, 22, 0.82) 50%, rgba(0, 0, 0, 0.86) 51%, rgba(0, 0, 0, 0.8) 100%);
 }
