@@ -85,10 +85,11 @@ body {
 	align-items: center;
 	transform-origin: center center;
 	opacity: 0;
-	transition: opacity 0.4s ease-out, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+	transition: opacity 0.4s ease-out;
 
-	/* Scale entire Frame (and all children) to fit viewport – no squishing; tilt is desktop-only (App.js) */
-	transform: perspective(1600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--scale, 1));
+	/* Scale entire Frame (and all children) to fit viewport – no squishing.
+	   Keep this a flat 2D transform: 3D (perspective/rotate) makes Safari rasterize text soft. */
+	transform: scale(var(--scale, 1));
 }
 
 .Frame.myos-frame-visible {

@@ -13,7 +13,7 @@ const PageTransition = ({ children }) => {
 		animate={{ opacity: 1, scale: 1 }}
 		exit={{ opacity: 0.96 }}
 		transition={{ duration: reduced ? 0.2 : 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-		style={{ height: '100%', minHeight: '100%', willChange: 'opacity, transform', transformOrigin: '50% 45%' }}
+		style={{ height: '100%', minHeight: '100%', transformOrigin: '50% 45%' }}
 	>
 		{children}
 	</motion.div>
