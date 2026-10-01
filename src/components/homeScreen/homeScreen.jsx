@@ -64,7 +64,6 @@ const HomeScreen = () => {
 			idle(() => {
 				import('../../pages/flappybird/flappyBird');
 				import('../../pages/settings/settings');
-				import('../../pages/voicememos/voicememos');
 				import('../../pages/news/news');
 				import('../../pages/messages/messages');
 				import('../../pages/messages/Conversations/RickRubin/RickRubin');
@@ -133,14 +132,6 @@ const HomeScreen = () => {
 							<App data={app} />
 						</motion.div>
 					))}
-					<link
-						rel='stylesheet'
-						href='TEXT MY ARTIST NUMBER'
-					/>
-					<link
-						rel='stylesheet'
-						href='EMAIL ME'
-					/>
 				</motion.div>
 
 				{/* Dock bar – fades in with background, no separate icon-style animation */}

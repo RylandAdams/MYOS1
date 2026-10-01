@@ -3,8 +3,8 @@
 
 /* ——— Status bar (apps) ——— */
 .themeDark .topBarIpod {
-	height: 16px;
-	min-height: 16px;
+	height: 16.6px; /* meets the app headers (16.55px down) with no seam */
+	min-height: 16.6px;
 	background: linear-gradient(180deg, #2a2a2e 0%, #0d0d0f 100%);
 	box-shadow: none;
 }

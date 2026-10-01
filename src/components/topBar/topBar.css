@@ -113,7 +113,7 @@
 	left: 0;
 	right: 0;
 	top: 100%;
-	height: 5px;
+	height: 6.6px; /* meets the app headers exactly (they start 16.55px down) */
 	background: linear-gradient(
 		180deg,
 		rgb(205, 208, 212) 0%,
@@ -200,7 +200,7 @@
 	left: 0;
 	right: 0;
 	top: 100%;
-	height: 5px;
+	height: 6.6px; /* meets the app headers exactly (they start 16.55px down) */
 	background: linear-gradient(
 		180deg,
 		rgb(205, 208, 212) 0%,
@@ -368,9 +368,9 @@
 	stroke: #fff !important;
 }
 
-/* App status bar is 15px tall in total (10px bar + 5px extension) so its icons never reach the
-   app headers below, which start at 5.4%. The black variant keeps the same full height. */
+/* App status bar is 16.6px tall in total (10px bar + 6.6px extension) so it meets the app headers
+   below, which start 16.55px down (5.4% of the page), with no seam. The black variant matches. */
 .statusDark .topBarIpod {
-	height: 16px;
-	min-height: 16px;
+	height: 16.6px;
+	min-height: 16.6px;
 }

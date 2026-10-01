@@ -30,8 +30,23 @@
 	transform: rotateY(180deg);
 }
 
+/* Safari/WebKit (every iPhone browser) ignores backface-visibility here and painted the settings
+   side mirrored over the forecast. So the side facing away is also hidden outright, swapping at
+   the halfway point of the flip, when the card is edge-on. */
+.wxFront {
+	transform: rotateY(0deg);
+}
+.wxCard {
+	transition: visibility 0s linear 0.3s;
+}
+.wxFlip:not(.wxFlip-back) .wxBack,
+.wxFlip-back .wxFront {
+	visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
-	.wxFlip {
+	.wxFlip,
+	.wxCard {
 		transition: none;
 	}
 }

@@ -161,6 +161,5 @@ export function weatherIconUrl() {
 	return wcache.url;
 }
 
-/** The image to show for an app icon (live Calendar/Weather, otherwise its bitmap) */
-export const iconFor = (app) =>
-	(app?.appName === 'Calendar' && calendarIconUrl()) || (app?.appName === 'Weather' && weatherIconUrl()) || app?.appImage;
+/** The image to show for an app icon (live Calendar, otherwise its bitmap; Ryland kept the classic Weather icon) */
+export const iconFor = (app) => (app?.appName === 'Calendar' && calendarIconUrl()) || app?.appImage;

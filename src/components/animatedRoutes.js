@@ -19,7 +19,7 @@ const ArticleReader = lazy(() => import('../pages/news/ArticleReader'));
 const Messages = lazy(() => import('../pages/messages/messages'));
 const Settings = lazy(() => import('../pages/settings/settings'));
 const Files = lazy(() => import('../pages/files/files'));
-const VoiceMemos = lazy(() => import('../pages/voicememos/voicememos'));
+// Voice Memos is hidden until the recordings are ready: src/pages/voicememos
 
 const RickRubin = lazy(() => import('../pages/messages/Conversations/RickRubin/RickRubin'));
 
@@ -105,10 +105,7 @@ const AnimatedRoutes = () => {
 					path='/settings'
 					element={<PageTransition><Settings /></PageTransition>}
 				/>
-				<Route
-					path='/voicememos'
-					element={<PageTransition><VoiceMemos /></PageTransition>}
-				/>
+				<Route path='/voicememos' element={<Navigate to='/homeScreen' replace />} />
 				<Route
 					path='/files'
 					element={<PageTransition><Files /></PageTransition>}
