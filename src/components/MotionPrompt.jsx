@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { usePowerOn } from '../context/PowerOnContext';
+import { useLock } from '../context/LockContext';
 import './MotionPrompt.css';
 
 /**
@@ -41,16 +42,17 @@ export const requestMotion = () =>
 
 const MotionPrompt = () => {
 	const { powerOnComplete } = usePowerOn();
+	const { locked } = useLock();
 	const location = useLocation();
 	const [open, setOpen] = useState(false);
 	const isHome = location.pathname === '/' || location.pathname === '/homeScreen';
 
 	useEffect(() => {
-		if (!powerOnComplete || !isHome || motionChoice() || !needsIOSMotionPermission()) return undefined;
+		if (!powerOnComplete || locked || !isHome || motionChoice() || !needsIOSMotionPermission()) return undefined;
 		if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
 		const t = setTimeout(() => setOpen(true), 700);
 		return () => clearTimeout(t);
-	}, [powerOnComplete, isHome]);
+	}, [powerOnComplete, locked, isHome]);
 
 	if (!open) return null;
 
@@ -64,10 +66,10 @@ const MotionPrompt = () => {
 		<div className="mpScrim" role="alertdialog" aria-labelledby="mpTitle" aria-describedby="mpBody">
 			<div className="mpBox">
 				<div id="mpTitle" className="mpTitle">
-					Tilt to Look Around
+					Enable iPhone Tilt
 				</div>
 				<div id="mpBody" className="mpBody">
-					RYLAND's iPhone moves with your phone. Allow motion so the light follows you.
+					Tap Allow to enable tilt.
 				</div>
 				<div className="mpButtons">
 					<button type="button" className="mpBtn" onClick={() => close('later')}>

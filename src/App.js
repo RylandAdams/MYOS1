@@ -7,6 +7,8 @@ import { WallpaperProvider } from "./context/WallpaperContext";
 import AnimatedRoutes from "./components/animatedRoutes";
 import PowerOnOverlay from "./components/PowerOnOverlay";
 import MotionPrompt, { motionChoice, requestMotion } from "./components/MotionPrompt";
+import LockOverlay from "./components/LockScreen/LockOverlay";
+import { LockProvider } from "./context/LockContext";
 import HomeButton from "./components/homeButton/homeButton";
 import PowerButton from "./components/powerButton/powerButton";
 import TopBar from "./components/topBar/topBar";
@@ -41,8 +43,8 @@ const App = () => {
 
     /** nx, ny in -0.5..0.5 – where the light comes from relative to the phone's centre */
     const apply = (nx, ny) => {
-      frame.style.setProperty("--tilt-x", `${(-ny * 4).toFixed(2)}deg`);
-      frame.style.setProperty("--tilt-y", `${(nx * 5).toFixed(2)}deg`);
+      frame.style.setProperty("--tilt-x", `${(-ny * 4.8).toFixed(2)}deg`);
+      frame.style.setProperty("--tilt-y", `${(nx * 6).toFixed(2)}deg`);
       // Direction the light travels (from the source across the phone), -1..1 – drives the depth shading
       frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
       frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));
@@ -80,8 +82,8 @@ const App = () => {
       const onOrient = (e) => {
         if (e.beta == null || e.gamma == null || !portrait.matches) return;
         if (!base) base = [e.beta, e.gamma];
-        // 25° of tilt from the starting angle = full effect
-        target = [clamp(-(e.gamma - base[1]) / 50), clamp(-(e.beta - base[0]) / 50)];
+        // 20° of tilt from the starting angle = full effect
+        target = [clamp(-(e.gamma - base[1]) / 40), clamp(-(e.beta - base[0]) / 40)];
         if (!running) {
           running = true;
           raf = requestAnimationFrame(tick);
@@ -243,6 +245,7 @@ const App = () => {
       <div className="Frame" ref={frameRef}>
         <Router>
           <PowerOnProvider>
+            <LockProvider>
             <WallpaperProvider>
           <PowerButton />
           <HomeButton />
@@ -253,6 +256,7 @@ const App = () => {
             <TopBar />
             <AnimatedRoutes />
             <PowerOnOverlay />
+            <LockOverlay />
             <MotionPrompt />
             {/* Thin film overlay – apps look recessed behind glass */}
             <div className="screenFilm" aria-hidden="true" />
@@ -268,6 +272,7 @@ const App = () => {
           <div className="speakerSheen" aria-hidden="true" />
           <div className="screenRim" aria-hidden="true" />
           </WallpaperProvider>
+            </LockProvider>
           </PowerOnProvider>
         </Router>
       </div>

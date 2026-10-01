@@ -1,0 +1,214 @@
+/* Original iPhone lock screen */
+
+.lkRoot {
+	position: absolute;
+	z-index: 9; /* under the status bar (z 10), over the home screen */
+	inset: 0 0 -2% 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	touch-action: none;
+	overscroll-behavior: none;
+	-webkit-user-select: none;
+	user-select: none;
+	animation: lkIn 0.35s ease-out;
+}
+
+.lkRoot * {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	box-sizing: border-box;
+}
+
+@keyframes lkIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Unlock: panels slide off top and bottom, like the original */
+.lkLeaving {
+	pointer-events: none;
+}
+.lkLeaving .lkTop {
+	transform: translateY(-110%);
+	opacity: 0;
+}
+.lkLeaving .lkBottom {
+	transform: translateY(110%);
+	opacity: 0;
+}
+
+.lkTop,
+.lkBottom {
+	position: relative;
+	transition: transform 0.38s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.38s ease-in;
+	background: linear-gradient(180deg, rgba(60, 60, 64, 0.78) 0%, rgba(20, 20, 22, 0.82) 50%, rgba(0, 0, 0, 0.86) 51%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.lkTop {
+	padding: calc(4.2% + 8px) 0 12px;
+	text-align: center;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.lkTime {
+	color: #fff;
+	font-size: 64px;
+	font-weight: 200;
+	line-height: 1;
+	letter-spacing: -1px;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+	font-variant-numeric: tabular-nums;
+}
+
+.lkDate {
+	margin-top: 6px;
+	color: #fff;
+	font-size: 15px;
+	font-weight: 600;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Lock glyph where the status bar clock normally sits */
+.lkLock {
+	position: absolute;
+	z-index: 11;
+	left: 50%;
+	top: 3px;
+	transform: translateX(-50%);
+	color: #fff;
+	font-size: 10px;
+	line-height: 1;
+	pointer-events: none;
+}
+
+.isLocked .clockIpod {
+	visibility: hidden;
+}
+
+.lkBottom {
+	padding: 18px 18px calc(18px + 2%);
+	border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.lkTrack {
+	position: relative;
+	height: 50px;
+	padding: 4px;
+	border-radius: 12px;
+	background: linear-gradient(180deg, #0d0d0e 0%, #232326 100%);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.16);
+	touch-action: none;
+}
+
+.lkLabel {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-left: 52px;
+	font-size: 19px;
+	font-weight: 400;
+	letter-spacing: 0.2px;
+	color: transparent;
+	/* the moving shimmer of the original */
+	background: linear-gradient(100deg, #6a6a70 0%, #6a6a70 40%, #ffffff 50%, #6a6a70 60%, #6a6a70 100%) 0 0 / 250% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	animation: lkShimmer 2.6s linear infinite;
+	pointer-events: none;
+}
+
+@keyframes lkShimmer {
+	from {
+		background-position: 100% 0;
+	}
+	to {
+		background-position: -50% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lkLabel {
+		animation: none;
+		color: #a0a0a6;
+		background: none;
+	}
+}
+
+.lkKnob {
+	position: relative;
+	z-index: 1;
+	width: 62px;
+	height: 42px;
+	padding: 0;
+	border: none;
+	border-radius: 9px;
+	background: linear-gradient(180deg, #fbfbfc 0%, #d8d9dd 50%, #c3c5ca 51%, #d6d8dc 100%);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 0 #fff;
+	cursor: grab;
+	touch-action: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.lkKnob:active {
+	cursor: grabbing;
+}
+
+.lkKnob:focus-visible {
+	outline: 2px solid rgba(140, 196, 255, 0.9);
+	outline-offset: 2px;
+}
+
+/* Right-pointing arrow: shaft + head */
+.lkArrow {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 26px;
+	height: 14px;
+	transform: translate(-50%, -50%);
+}
+
+.lkArrow::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 4px;
+	width: 14px;
+	height: 6px;
+	border-radius: 1px;
+	background: linear-gradient(180deg, #8d9097 0%, #6d7078 100%);
+}
+
+.lkArrow::after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: -2px;
+	border-top: 9px solid transparent;
+	border-bottom: 9px solid transparent;
+	border-left: 13px solid #7a7d84;
+}
+
+/* While locked only the wallpaper shows (icons return as the panels slide away),
+   and the lock sits above the home screen's own layers; status bar stays on top. */
+.isLocked .apps,
+.isLocked .footerApps,
+.isLocked .dock {
+	visibility: hidden;
+}
+.lkRoot {
+	z-index: 11;
+}
+.isLocked > div[class*='topBar'] {
+	z-index: 12;
+}
+.lkLock {
+	z-index: 13;
+}
