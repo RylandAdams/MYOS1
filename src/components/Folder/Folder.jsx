@@ -54,9 +54,9 @@ const Folder = ({ folderName, apps }) => {
 					key="folderOverlay"
 					className="folderOverlay"
 					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
-					transition={{ duration: reduced ? 0 : 0.24, ease: [0.25, 0.1, 0.25, 1] }}
+					animate={{ opacity: 1, pointerEvents: 'auto' }}
+					exit={{ opacity: 0, pointerEvents: 'none' }} // fading out, the next tap reaches the home screen
+					transition={{ opacity: { duration: reduced ? 0 : 0.24, ease: [0.25, 0.1, 0.25, 1] } }}
 					onClick={() => setIsOpen(false)}
 					role="dialog"
 					aria-label={`${folderName} folder`}
