@@ -86,7 +86,7 @@ const writeManifest = (entries) => {
 	const merged = { ...existingManifest(src), ...entries };
 	const body = Object.keys(merged)
 		.sort()
-		.map((k) => `\t${JSON.stringify(k).replace(/^"|"$/g, "'")}: '${merged[k]}',`)
+		.map((k) => `\t${k.includes("'") ? JSON.stringify(k) : `'${k}'`}: '${merged[k]}',`)
 		.join('\n');
 	fs.writeFileSync(MANIFEST, `${src.slice(0, start)}export const HOSTED_AUDIO = {\n${body}\n${src.slice(end)}`);
 };
@@ -94,7 +94,7 @@ const writeManifest = (entries) => {
 const existingManifest = (src) => {
 	const block = src.slice(src.indexOf('export const HOSTED_AUDIO = {'));
 	const body = block.slice(0, block.indexOf('};'));
-	return Object.fromEntries([...body.matchAll(/^\t'(.+?)': '(.+?)',$/gm)].map((m) => [m[1], m[2]]));
+	return Object.fromEntries([...body.matchAll(/^\t(['"])(.+?)\1: '(.+?)',$/gm)].map((m) => [m[2], m[3]]));
 };
 
 async function run() {
