@@ -1,167 +1,153 @@
+/* iPhone OS Text thread */
+
 .RickRubin {
 	height: 105%;
 	max-height: 490px;
 	margin-top: -3%;
-
-	background-color: rgb(247, 247, 247);
-	background-image: repeating-linear-gradient(
-		-45deg,
-		rgba(174, 174, 174, 0.25),
-		rgba(225, 225, 225, 0.25) 1px,
-		transparent 1px,
-		transparent 6px
-	);
-	background-size: 4px 4px;
+	position: relative;
+	overflow: hidden;
+	background: #dbe2ed;
 }
 
-.HEADERRickRubin {
+.RickRubin * {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-shadow: none;
+	box-sizing: border-box;
+}
+
+.smsThread {
 	position: absolute;
-	color: rgb(248, 248, 248);
-	z-index: 1;
-	font-size: 2rem;
-	font-weight: 500;
-	opacity: 1;
-
-	width: 100%;
-	height: 100%;
-	left: 30%;
-	top: 5%;
-
-	pointer-events: none;
+	top: 13.2%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 10px 10px 16px;
+	overflow-y: auto;
 }
 
-@media screen and (max-height: 600px) {
-	.HEADERRickRubin {
-		position: absolute;
-		color: rgb(248, 248, 248);
-		z-index: 1;
-		font-size: 1.8rem;
-		font-weight: 500;
+.smsStamp {
+	align-self: center;
+	margin: 2px 0 12px;
+	color: #6d7787;
+	font-size: 11px;
+	font-weight: 700;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.smsBubble {
+	position: relative;
+	max-width: 76%;
+	padding: 8px 12px;
+	border-radius: 16px;
+	font-size: 15px;
+	line-height: 1.3;
+	text-decoration: none;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+}
+
+/* Sent: glossy green, right */
+.smsSent {
+	align-self: flex-end;
+	color: #000;
+	background: linear-gradient(180deg, #e7f9c9 0%, #b8e98a 48%, #a2df6f 52%, #c3ef97 100%);
+	border: 1px solid #7cb648;
+	border-bottom-right-radius: 4px;
+}
+
+/* Received: glossy gray, left */
+.smsRecv {
+	align-self: flex-start;
+	color: #000;
+	background: linear-gradient(180deg, #fbfbfc 0%, #e4e6ea 48%, #d8dbe1 52%, #e9ebee 100%);
+	border: 1px solid #a6abb5;
+	border-bottom-left-radius: 4px;
+}
+
+.smsSong {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 12px 6px 6px;
+	cursor: pointer;
+}
+
+.smsSong:active {
+	filter: brightness(0.92);
+}
+
+.smsSongArt {
+	width: 52px;
+	height: 52px;
+	border-radius: 6px;
+	object-fit: cover;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.smsSongText {
+	display: flex;
+	flex-direction: column;
+}
+
+.smsSongTitle {
+	color: #10340a;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.smsSongSub {
+	color: #3d6b28;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.smsReceipt {
+	align-self: flex-end;
+	margin: 3px 4px 14px;
+	color: #6d7787;
+	font-size: 10px;
+	font-weight: 700;
+}
+
+.smsTyping {
+	display: flex;
+	gap: 5px;
+	padding: 11px 14px;
+}
+
+.smsTyping i {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #8a909b;
+	animation: smsDot 1.2s infinite ease-in-out;
+}
+
+.smsTyping i:nth-child(2) {
+	animation-delay: 0.15s;
+}
+
+.smsTyping i:nth-child(3) {
+	animation-delay: 0.3s;
+}
+
+@keyframes smsDot {
+	0%,
+	60%,
+	100% {
+		opacity: 0.35;
+		transform: none;
+	}
+	30% {
 		opacity: 1;
-
-		width: 100%;
-		height: 100%;
-		left: 35%;
-		top: 4.5%;
-
-		pointer-events: none;
+		transform: translateY(-2px);
 	}
 }
 
-.back {
-	position: absolute;
-	font-size: 2.2rem;
-	z-index: 1;
-	opacity: 1;
-
-	width: 11%;
-	height: 8%;
-
-	top: 5.5% !important;
-	left: 5% !important;
-}
-
-.caretPostion {
-}
-
-/* MY MESSAGES */
-
-.textToRickBubble {
-	position: absolute;
-	z-index: 1;
-	background: rgb(2, 154, 248);
-	opacity: 0.8;
-
-	width: 46%;
-	height: 11%;
-
-	top: 28%;
-	left: 46%;
-
-	border-radius: 15px 15px 4px 15px;
-}
-
-.textSongToRickBubble {
-	position: absolute;
-	z-index: 1;
-	background: rgb(2, 154, 248);
-	opacity: 0.8;
-
-	width: 50%;
-	height: 17%;
-
-	top: 40%;
-	left: 42%;
-
-	border-radius: 15px 15px 4px 15px;
-}
-
-.textSongToRickBubbleInner {
-	position: absolute;
-	z-index: 2;
-	background: rgb(202, 202, 202);
-	opacity: 0.2;
-
-	width: 48%;
-	height: 15.5%;
-
-	top: 40.75%;
-	left: 43%;
-
-	border-radius: 10px 10px 10px 10px;
-}
-
-.textToRick {
-	position: absolute;
-	z-index: 1;
-	font-size: small;
-	color: rgb(255, 255, 255);
-
-	text-shadow: none;
-
-	width: 42%;
-
-	top: 30%;
-	left: 49%;
-
-	pointer-events: none;
-}
-
-.song001 {
-	position: absolute;
-	z-index: 3;
-	opacity: 1 !important;
-
-	width: 20%;
-	height: 14%;
-
-	left: 45%;
-	top: 41.5%;
-}
-
-.songName001 {
-	position: absolute;
-	color: rgb(255, 255, 255);
-	text-shadow: none;
-	font-size: 0.68rem;
-	z-index: 3;
-	opacity: 1 !important;
-
-	width: 20%;
-	height: 14% !important;
-
-	left: 69%;
-	bottom: 42%;
-}
-
-/* RICK SIDE */
-
-.rickTyping {
-	position: absolute;
-
-	top: 65%;
-	left: 6%;
-
-	width: 25%;
-	height: 13%;
+@media (prefers-reduced-motion: reduce) {
+	.smsTyping i {
+		animation: none;
+	}
 }

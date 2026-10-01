@@ -371,3 +371,7 @@
 .filesPage .filesIosAudioMeta:first-of-type {
 	margin-left: 12px;
 }
+/* the date line starts at the same x as the name */
+.filesPage .filesIosAudioName + .filesIosAudioMeta {
+	margin-left: 12px;
+}

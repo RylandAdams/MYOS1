@@ -1,51 +1,38 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RickRubin.css';
 
-import typing from '../../../../assets/imgs/typing.png';
-import { RxCaretLeft } from 'react-icons/rx';
-
-import { Link } from 'react-router-dom';
-
+import AppHeaderBar from '../../../../components/AppHeaderBar/AppHeaderBar';
 import itunesCover from '../../../../assets/songs/itunesCover.png';
 
+const DEMO_URL =
+	'https://soundcloud.com/rylandofficialmusic/country-ibuprofen/s-C7MKFVD3y97?si=65b2282d37e547cfb4c895d06a8c9f85&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing';
+
+/* iPhone OS Text thread: pale blue-gray background, green glossy sent bubble on the right,
+   gray received bubble on the left (Rick is typing…). */
 const RickRubin = () => {
+	const navigate = useNavigate();
 	return (
-		<div className='RickRubin'>
-			<Link
-				to={'/messages'}
-				className='back'
-			>
-				<RxCaretLeft className='caretPostion' />
-			</Link>
-			<div className='topBarIpod'></div>
-			<div className='HEADERRickRubin'>Rick Rubin</div>
-			{/* <div className='textToRickBubble'></div> */}
-			{/* <div className='textToRick'>
-				Hey Rick, let me know what your thinking.
-			</div> */}
-			<div className='textSongToRickBubble' />
-			<div className='textSongToRickBubbleInner' />
-			<a
-				target='_blank'
-				rel='noopener noreferrer'
-				href='https://soundcloud.com/rylandofficialmusic/country-ibuprofen/s-C7MKFVD3y97?si=65b2282d37e547cfb4c895d06a8c9f85&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing'
-			>
-				<img
-					src={itunesCover}
-					alt='typing'
-					className='song001'
-					loading="lazy"
-				/>
-				<div className='songName001'>
-					Listen Here <br />- DEMO
+		<div className="RickRubin">
+			<AppHeaderBar title="Rick Rubin" backLabel="Messages" onBack={() => navigate('/messages')} />
+			<div className="smsThread">
+				<div className="smsStamp">Today 2:14 AM</div>
+
+				<a className="smsBubble smsSent smsSong" href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+					<img src={itunesCover} alt="" className="smsSongArt" loading="lazy" />
+					<span className="smsSongText">
+						<span className="smsSongTitle">Listen Here</span>
+						<span className="smsSongSub">DEMO</span>
+					</span>
+				</a>
+				<div className="smsReceipt">Delivered</div>
+
+				<div className="smsBubble smsRecv smsTyping" aria-label="Rick is typing">
+					<i />
+					<i />
+					<i />
 				</div>
-			</a>
-			<img
-				src={typing}
-				alt='typing'
-				className='rickTyping'
-				loading="lazy"
-			/>
+			</div>
 		</div>
 	);
 };
