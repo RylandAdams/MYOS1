@@ -167,7 +167,7 @@ const App = () => {
     };
 
     /** Icons often resolve from cache in parallel — without a cap the bar jumps to ~70%+ on first paint */
-    const MIN_BOOT_BAR_RAMP_MS = 2800;
+    const MIN_BOOT_BAR_RAMP_MS = 3600;
 
     let cancelled = false;
     const startedAt = Date.now();

@@ -14,7 +14,8 @@
 }
 
 .lkAppear {
-	animation: lkIn 0.35s ease-out both;
+	/* the boot screen's black dissolves over it, so no fade of its own */
+	animation: none;
 }
 
 .lkRoot * {

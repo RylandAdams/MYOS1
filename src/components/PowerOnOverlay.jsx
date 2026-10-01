@@ -5,6 +5,10 @@ import './PowerOnOverlay.css';
 
 /** Must exceed .powerOnBootFill width transition if transitionend is missed */
 const BOOT_BAR_FALLBACK_MS = 600;
+/** Boot screen fade to black before the lock screen rises */
+const FADE_OUT_MS = 700;
+/** Then the black dissolves over the lock screen */
+const REVEAL_MS = 1000;
 
 /**
  * Full iPhone screen power-on overlay – covers TopBar + content.
@@ -22,8 +26,22 @@ const PowerOnOverlay = () => {
 	const isHome = location.pathname === '/' || location.pathname === '/homeScreen';
 	const showOverlay = isHome && !powerOnComplete;
 
+	// Fade the boot screen down to black before handing over to the lock screen
+	const [fading, setFading] = useState(false);
+	// After the wordmark fades, the black itself dissolves so the lock screen rises out of it
+	const [revealing, setRevealing] = useState(false);
 	useEffect(() => {
-		if (ready) setPowerOnComplete();
+		if (!ready) return undefined;
+		setFading(true);
+		const t1 = setTimeout(() => {
+			setRevealing(true);
+			setPowerOnComplete();
+		}, FADE_OUT_MS);
+		const t2 = setTimeout(() => setRevealing(false), FADE_OUT_MS + REVEAL_MS);
+		return () => {
+			clearTimeout(t1);
+			clearTimeout(t2);
+		};
 	}, [ready, setPowerOnComplete]);
 
 	useEffect(() => {
@@ -49,8 +67,9 @@ const PowerOnOverlay = () => {
 				typeof window.__myosBootStartedAt === 'number'
 					? window.__myosBootStartedAt
 					: Date.now();
-			const minTotalMs = 3000;
-			const holdFullBarMs = 1000;
+			// rhythm: ~0.9s of black, wordmark rises, bar fills, a held beat, fade out
+			const minTotalMs = 4300;
+			const holdFullBarMs = 650;
 
 			const scheduleDismiss = () => {
 				if (!alive) return;
@@ -118,10 +137,10 @@ const PowerOnOverlay = () => {
 		};
 	}, []);
 
-	if (!showOverlay) return null;
+	if (!showOverlay && !revealing) return null;
 
 	return (
-		<div className="powerOnOverlay">
+		<div className={`powerOnOverlay${fading ? ' powerOnFading' : ''}${revealing ? ' powerOnRevealing' : ''}`}>
 			<div className="powerOnBootWrap">
 				{/* Same horizontal anchor as .clockIpod: left 50.5% + translateX(-50%) → +0.5% vs pure center */}
 				<div className="powerOnBootInner">
