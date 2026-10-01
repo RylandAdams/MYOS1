@@ -20,10 +20,11 @@
 	}
 }
 
-@media (hover: none) {
-	.folderButton:active .folderPreview {
-		filter: brightness(0.55);
-	}
+/* Touch: darkens only while the finger is down. Driven by .folderPressed from touch events, not
+   :active – iPhone Safari can leave :active stuck on a button that stays on screen, so the folder
+   used to look pressed after you closed it. */
+.folderButton.folderPressed .folderPreview {
+	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55)) brightness(0.55);
 }
 
 /* iOS-style folder preview – 4 icons in 2x2 grid, match app icon height */

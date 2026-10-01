@@ -14,6 +14,7 @@ const SPRING = { type: 'spring', stiffness: 300, damping: 30, mass: 0.9, delay: 
 const Folder = ({ folderName, apps }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [origin, setOrigin] = useState('50% 20%');
+	const [pressed, setPressed] = useState(false);
 	const buttonRef = useRef(null);
 	const reduced = useReducedMotion();
 	const previewIcons = apps.slice(0, 4);
@@ -44,8 +45,10 @@ const Folder = ({ folderName, apps }) => {
 			const panelTop = screen.offsetHeight * 0.17;
 			setOrigin(`${Math.round(x - panelLeft)}px ${Math.round(y - panelTop)}px`);
 		}
+		setPressed(false);
 		setIsOpen(true);
 	};
+	const release = () => setPressed(false);
 
 	const overlayContent = (
 		<AnimatePresence>
@@ -92,8 +95,12 @@ const Folder = ({ folderName, apps }) => {
 			<button
 				ref={buttonRef}
 				type="button"
-				className="folderButton Apps"
+				className={`folderButton Apps${pressed ? ' folderPressed' : ''}`}
 				onClick={open}
+				onTouchStart={() => setPressed(true)}
+				onTouchEnd={release}
+				onTouchCancel={release}
+				onTouchMove={release}
 				aria-label={`Open ${folderName} folder`}
 			>
 				<div className="folderPreview">

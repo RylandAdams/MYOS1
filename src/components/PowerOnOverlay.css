@@ -40,13 +40,30 @@
 	transform: translateX(0.5%);
 }
 
-/* Same gradient as .powerOnBootFill — letterforms pick up the same whites */
+/* Same gradient as .powerOnBootFill — letterforms pick up the same whites.
+   Two stacked copies: a soft one (pre-blurred) and the sharp one, which fades in over it. */
 .powerOnBootTitle {
+	--boot-title-delay: 0.9s;
+	position: relative;
 	font-size: 0.78rem;
 	font-weight: 700;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	text-align: center;
+	width: max-content;
+	max-width: calc(100% - 24px);
+	box-sizing: border-box;
+	padding-inline: 0.08em;
+	transform: translateX(2px);
+	margin-bottom: 11px;
+}
+.powerOnBootSharp,
+.powerOnBootSoft {
+	display: inline-block;
+	vertical-align: top;
+	/* WebKit drops the last letter's tracking inside a span; put it back so RYLAND sits exactly
+	   where it did as plain text */
+	padding-right: 0.14em;
 	background: var(--boot-bar-fill);
 	-webkit-background-clip: text;
 	background-clip: text;
@@ -54,14 +71,17 @@
 	text-shadow: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	width: max-content;
-	max-width: calc(100% - 24px);
-	box-sizing: border-box;
-	padding-inline: 0.08em;
+}
+.powerOnBootSharp {
 	filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.12))
 		drop-shadow(0 0 22px rgba(255, 255, 255, 0.06));
-	transform: translateX(2px);
-	margin-bottom: 11px;
+}
+.powerOnBootSoft {
+	position: absolute;
+	top: 0;
+	left: 0.08em; /* the title's padding, so both copies line up */
+	filter: blur(3px);
+	opacity: 0;
 }
 
 .powerOnBootTrack {
@@ -86,21 +106,45 @@
 }
 
 /* ——— Rhythm ———
-   black → (0.9s) RYLAND rises, its tracking settling → (1.5s) the bar appears and fills →
-   a held beat → everything fades to black (0.7s) → the lock screen rises out of it. */
+   black → (0.9s) RYLAND rises out of soft focus, its tracking settling → (1.5s) the bar appears
+   and fills → a held beat → everything fades to black (0.7s) → the lock screen rises out of it.
+   The blur itself never animates: iPhone Safari draws an animated blur at low resolution and
+   snaps to full sharpness when it ends (a visible "pop into HD"). Only opacity moves here. */
 .powerOnBootTitle {
-	animation: bootTitleIn 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) 0.9s both;
+	animation: bootTitleTrack 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) var(--boot-title-delay) both;
 }
-@keyframes bootTitleIn {
+.powerOnBootSoft {
+	animation: bootTitleSoft 1.4s linear var(--boot-title-delay) both;
+}
+.powerOnBootSharp {
+	animation: bootTitleSharp 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) var(--boot-title-delay) both;
+}
+@keyframes bootTitleTrack {
 	from {
-		opacity: 0;
 		letter-spacing: 0.32em;
-		filter: blur(3px) drop-shadow(0 0 10px rgba(255, 255, 255, 0.12));
 	}
 	to {
-		opacity: 1;
 		letter-spacing: 0.14em;
-		filter: blur(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.12)) drop-shadow(0 0 22px rgba(255, 255, 255, 0.06));
+	}
+}
+@keyframes bootTitleSoft {
+	0% {
+		opacity: 0;
+	}
+	30% {
+		opacity: 0.85;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes bootTitleSharp {
+	0%,
+	12% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
 	}
 }
 .powerOnBootTrack {
@@ -108,7 +152,7 @@
 }
 /* Slow load: the black already happened while downloading, so the wordmark starts at once */
 .powerOnLate .powerOnBootTitle {
-	animation-delay: 0.1s;
+	--boot-title-delay: 0.1s;
 }
 .powerOnLate .powerOnBootTrack {
 	animation-delay: 0.7s;
@@ -132,6 +176,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
 	.powerOnBootTitle,
+	.powerOnBootSharp,
+	.powerOnBootSoft,
 	.powerOnBootTrack {
 		animation: none;
 	}

@@ -152,7 +152,10 @@ const PowerOnOverlay = () => {
 			<div className="powerOnBootWrap">
 				{/* Same horizontal anchor as .clockIpod: left 50.5% + translateX(-50%) → +0.5% vs pure center */}
 				<div className="powerOnBootInner">
-					<div className="powerOnBootTitle">RYLAND</div>
+					<div className="powerOnBootTitle">
+						<span className="powerOnBootSoft" aria-hidden>RYLAND</span>
+						<span className="powerOnBootSharp">RYLAND</span>
+					</div>
 					<div className="powerOnBootTrack">
 						<div
 							ref={fillRef}
