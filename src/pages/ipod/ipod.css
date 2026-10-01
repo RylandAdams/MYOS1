@@ -696,3 +696,45 @@ button {
 	pointer-events: none;
 	z-index: -1;
 }
+
+/* Playback failure – shown above the tab bar with a direct SoundCloud link */
+.ipodPlayError {
+	position: absolute;
+	z-index: 12;
+	left: 6%;
+	right: 6%;
+	bottom: calc(14% + 6px);
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 8px 7px 10px;
+	border-radius: 8px;
+	background: rgba(20, 24, 30, 0.92);
+	color: #fff;
+	font-size: 0.58rem;
+	line-height: 1.25;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.ipodPlayError span {
+	flex: 1;
+	min-width: 0;
+}
+
+.ipodPlayError a {
+	color: #8cc4ff;
+	font-weight: 700;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.ipodPlayError button {
+	width: 28px;
+	height: 28px;
+	flex: 0 0 28px;
+	border: none;
+	background: none;
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 0.9rem;
+	cursor: pointer;
+}

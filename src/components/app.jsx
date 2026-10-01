@@ -5,7 +5,7 @@ import './app.css';
 const App = memo((app) => {
 	const { id, appName, appImage, url, path } = app.data;
 	const linkTo = path || `/${appName}`;
-	const isCalender = appName === 'Calender';
+	const isCalender = appName === 'Calendar';
 	const appClass = isCalender ? 'Apps calenderIcon' : 'Apps';
 	return (
 		<>

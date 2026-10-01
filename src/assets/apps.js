@@ -15,7 +15,7 @@ import settings from './imgs/settings.png';
 import files from './imgs/files.png';
 
 export const EXTRAS_APPS = [
-	{ id: 'extras-1', appName: 'Calender', appImage: calender, path: '/calender' },
+	{ id: 'extras-1', appName: 'Calendar', appImage: calender, path: '/calender' },
 	{ id: 'extras-2', appName: 'Safari', appImage: safari, path: '/news' },
 	{ id: 'extras-3', appName: 'Weather', appImage: weather, path: '/weather' },
 	{ id: 'extras-4', appName: 'Settings', appImage: settings, path: '/settings' },
@@ -75,7 +75,7 @@ export const FOOTERAPPS = [
 	},
 	{
 		id: 3,
-		appName: 'Ipod',
+		appName: 'iPod',
 		appImage: ipod,
 		path: '/ipod',
 	},

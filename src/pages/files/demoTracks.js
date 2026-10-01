@@ -11,7 +11,7 @@ export const FILES_DEMO_TRACKS = [
 	{
 		id: 'demo-shockcollar-older-raw-vocals',
 		title: 'ShockCollar',
-		src: '/files-demos/shockcollar-older-raw-vocals.wav',
+		src: '/files-demos/shockcollar-older-raw-vocals.m4a',
 		modifiedTime: '7.1.25',
 	},
 ];

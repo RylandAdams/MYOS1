@@ -34,7 +34,7 @@ const Calender = () => {
 
 	return (
 		<div className="calenderPage">
-			<AppHeaderBar title="Calender" />
+			<AppHeaderBar title="Calendar" />
 			<div className="calenderBody">
 				<div className="calenderMonth">{monthName} {year}</div>
 				<div className="calenderWeekdays">

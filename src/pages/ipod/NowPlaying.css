@@ -1,0 +1,271 @@
+/* Now Playing – black glass, cover art with reflection, scrubber and transport (original iPhone iPod) */
+.npRoot {
+	position: absolute;
+	z-index: 30;
+	top: 4.2%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	background: #000;
+	color: #fff;
+	animation: npIn 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+	-webkit-font-smoothing: antialiased;
+}
+
+@keyframes npIn {
+	from {
+		transform: translateY(6%);
+		opacity: 0;
+	}
+	to {
+		transform: none;
+		opacity: 1;
+	}
+}
+
+.npTop {
+	position: relative;
+	flex: 0 0 auto;
+	height: 9%;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(180deg, rgba(70, 70, 74, 0.95) 0%, rgba(28, 28, 30, 0.95) 50%, rgba(8, 8, 9, 0.95) 51%, rgba(0, 0, 0, 0.95) 100%);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.npBack {
+	position: absolute;
+	left: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 44px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.npBackArrow {
+	width: 28px;
+	height: 22px;
+	border-radius: 4px;
+	background: linear-gradient(180deg, #5b5b60 0%, #2a2a2e 50%, #141416 51%, #1d1d20 100%);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.8);
+	position: relative;
+}
+
+.npBackArrow::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 7px;
+	height: 7px;
+	border-left: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+	transform: translate(-30%, -50%) rotate(45deg);
+}
+
+.npMeta {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 66%;
+	line-height: 1.15;
+	text-align: center;
+}
+
+.npArtist,
+.npAlbum {
+	font-size: 0.55rem;
+	font-weight: 600;
+	color: #a7a7ad;
+}
+
+.npTitle {
+	font-size: 0.68rem;
+	font-weight: 700;
+	color: #fff;
+}
+
+.npArtist,
+.npTitle,
+.npAlbum {
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.npArtWrap {
+	position: relative;
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: hidden;
+	background: #000;
+}
+
+.npArt {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	-webkit-box-reflect: below 0 linear-gradient(transparent 62%, rgba(255, 255, 255, 0.28));
+}
+
+.npArtEmpty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 3rem;
+	color: #3a3a3e;
+	background: linear-gradient(180deg, #1c1c1f, #0b0b0c);
+}
+
+.npError {
+	position: absolute;
+	left: 10%;
+	right: 10%;
+	bottom: 12px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	background: rgba(0, 0, 0, 0.78);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	font-size: 0.6rem;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.npError a {
+	color: #8cc4ff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.npControls {
+	flex: 0 0 auto;
+	padding: 8px 12px 10px;
+	background: linear-gradient(180deg, rgba(60, 60, 64, 0.96) 0%, rgba(24, 24, 26, 0.98) 48%, rgba(6, 6, 7, 1) 49%, #000 100%);
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.npScrub {
+	display: grid;
+	grid-template-columns: 34px 1fr 38px;
+	align-items: center;
+	gap: 6px;
+}
+
+.npTime {
+	font-size: 0.55rem;
+	font-weight: 600;
+	color: #d0d0d5;
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+}
+
+.npSlider {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	height: 22px;
+	background: transparent;
+	margin: 0;
+	cursor: pointer;
+	touch-action: none;
+}
+
+.npSlider::-webkit-slider-runnable-track {
+	height: 6px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, #8fc1f5 0%, #2f86e8 var(--fill), #1a1a1c var(--fill));
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.npSlider::-moz-range-track {
+	height: 6px;
+	border-radius: 3px;
+	background: #1a1a1c;
+}
+
+.npSlider::-moz-range-progress {
+	height: 6px;
+	border-radius: 3px;
+	background: #2f86e8;
+}
+
+.npSlider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 16px;
+	height: 16px;
+	margin-top: -5px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 40% 35%, #ffffff 0%, #d9d9de 45%, #9a9aa2 100%);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.npSlider::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border: none;
+	border-radius: 50%;
+	background: radial-gradient(circle at 40% 35%, #ffffff 0%, #d9d9de 45%, #9a9aa2 100%);
+}
+
+.npSlider:disabled {
+	opacity: 0.45;
+}
+
+.npButtons {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	margin-top: 4px;
+}
+
+.npBtn {
+	width: 48px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 1.35rem;
+	cursor: pointer;
+	filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.9));
+	-webkit-tap-highlight-color: transparent;
+}
+
+.npBtn:active {
+	transform: scale(0.92);
+}
+
+.npBtnMain {
+	font-size: 2rem;
+}
+
+.npSpinner {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	border: 2px solid rgba(255, 255, 255, 0.25);
+	border-top-color: #fff;
+	animation: npSpin 0.8s linear infinite;
+}
+
+@keyframes npSpin {
+	to {
+		transform: rotate(360deg);
+	}
+}

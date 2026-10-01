@@ -190,7 +190,7 @@ export default function FilesAudioPlayer({ track, audioRef, onClose }) {
 			window.removeEventListener('touchcancel', end);
 			window.removeEventListener('touchmove', moveTouch);
 		};
-	}, [seekFromClientX]);
+	}, [seekFromClientX, audioRef]);
 
 	const onSeekDown = (e) => {
 		const a = audioRef.current;

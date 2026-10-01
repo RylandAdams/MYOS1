@@ -8,7 +8,9 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import { MdOutlineFolder } from 'react-icons/md';
 
 import { IPOD_TRACKS, ALBUM_NAMES } from '../../assets/ipodLibrary';
+import { hostedAudioUrl } from '../../assets/ipodAudio';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
+import NowPlaying from './NowPlaying';
 
 const FAVORITES_KEY = 'ipod-favorites';
 const FAVORITES_VERSION = 7;
@@ -18,6 +20,7 @@ const NON_FAVORITABLE_IDS = new Set(['1']); // everlasting
 const SEARCH_LIMIT_KEY = 'ipod-search-limit';
 const SEARCH_LIMIT = 5;
 const SEARCH_WINDOW_MS = 12 * 60 * 60 * 1000; // 12 hours
+const LOAD_TIMEOUT_MS = 15000; // show the "open on SoundCloud" fallback after this long without audio
 const API_URL = '/api/soundcloud-tracks';
 const EXCLUDED_TRACK_URL = 'wasnt-sad-interlude'; // empty track, no art – exclude from library
 const EXCLUDED_TITLE_MATCHES = ['wasn’t sad', "wasn't sad"]; // filter legacy single variants
@@ -110,8 +113,17 @@ const Ipod = () => {
 			return {};
 		}
 	});
+	const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
+	const [playError, setPlayError] = useState(null);
+	const [timeInfo, setTimeInfo] = useState({ pos: 0, dur: 0 });
 	const widgetRef = useRef(null);
 	const iframeRef = useRef(null);
+	const audioRef = useRef(null);
+	/** 'native' = self-hosted file in <audio>; 'soundcloud' = hidden SoundCloud widget */
+	const engineRef = useRef('soundcloud');
+	/** List the current song was started from – next/previous and auto-advance walk it */
+	const queueRef = useRef([]);
+	const stepTrackRef = useRef(() => {});
 	/** Refs keep widget handlers aligned with the latest row + loading flag (avoid stale PLAY / batched state). */
 	const currentTrackRef = useRef(null);
 	const playbackLoadingRef = useRef(false);
@@ -173,18 +185,23 @@ const Ipod = () => {
 			});
 		};
 		w.bind(window.SC.Widget.Events.PLAY, () => {
+			if (engineRef.current !== 'soundcloud') return;
 			setIsPlaying(true);
 			tryClearLoadingForCurrentSound();
 		});
 		w.bind(window.SC.Widget.Events.FINISH, () => {
+			if (engineRef.current !== 'soundcloud') return;
 			setIsPlaying(false);
 			setPlayProgress(0);
 			setPlaybackLoading(false);
+			stepTrackRef.current(1);
 		});
 		w.bind(window.SC.Widget.Events.PAUSE, () => {
+			if (engineRef.current !== 'soundcloud') return;
 			setIsPlaying(false);
 		});
 		w.bind(window.SC.Widget.Events.PLAY_PROGRESS, (data) => {
+			if (engineRef.current !== 'soundcloud') return;
 			const pos =
 				data.relativePosition ??
 				(data.currentPosition != null && data.duration ? data.currentPosition / data.duration : null);
@@ -199,13 +216,16 @@ const Ipod = () => {
 
 	// Poll position when playing – PLAY_PROGRESS can be unreliable
 	useEffect(() => {
-		if (!isPlaying || !currentTrack || !widgetRef.current) return;
+		if (!isPlaying || !currentTrack || !widgetRef.current || engineRef.current !== 'soundcloud') return;
 		const interval = setInterval(() => {
 			const w = widgetRef.current;
 			if (!w) return;
 			w.getPosition((pos) => {
 				w.getDuration((dur) => {
-					if (dur > 0 && typeof pos === 'number') setPlayProgress(Math.min(1, Math.max(0, pos / dur)));
+					if (dur > 0 && typeof pos === 'number') {
+						setPlayProgress(Math.min(1, Math.max(0, pos / dur)));
+						setTimeInfo({ pos: pos / 1000, dur: dur / 1000 });
+					}
 				});
 			});
 		}, 200);
@@ -214,9 +234,29 @@ const Ipod = () => {
 
 	useEffect(() => {
 		if (!playbackLoading) return;
-		const t = window.setTimeout(() => setPlaybackLoading(false), 45000);
+		const t = window.setTimeout(() => {
+			setPlaybackLoading(false);
+			setPlayError(currentTrackRef.current);
+		}, LOAD_TIMEOUT_MS);
 		return () => clearTimeout(t);
 	}, [playbackLoading]);
+
+	// Stop the built-in player when leaving the iPod app
+	useEffect(() => {
+		const audio = audioRef.current;
+		return () => {
+			try {
+				audio?.pause();
+			} catch (_) {}
+			if ('mediaSession' in navigator) {
+				['play', 'pause', 'previoustrack', 'nexttrack', 'seekto'].forEach((a) => {
+					try {
+						navigator.mediaSession.setActionHandler(a, null);
+					} catch (_) {}
+				});
+			}
+		};
+	}, []);
 
 	// Fetch tracks from SoundCloud API (artwork + metadata)
 	useEffect(() => {
@@ -428,31 +468,25 @@ const Ipod = () => {
 		return true;
 	};
 
-	const playTrack = (track) => {
-		const isSameTrack = currentTrack?.id === track.id;
+	const stopNative = () => {
+		const a = audioRef.current;
+		if (!a) return;
+		try {
+			a.pause();
+			a.removeAttribute('src');
+			a.load();
+		} catch (_) {}
+	};
 
-		if (isSameTrack && isPlaying) {
-			setPlaybackLoading(false);
-			widgetRef.current?.pause();
-			return;
-		}
-		if (isSameTrack && !isPlaying) {
-			unlockAudio();
-			loadingProgressFallbackUsedRef.current = false;
-			flushSync(() => setPlaybackLoading(true));
-			nudgePlay();
-			return;
-		}
-		unlockAudio();
-		currentTrackRef.current = track;
-		loadingProgressFallbackUsedRef.current = false;
-		flushSync(() => {
-			setPlaybackLoading(true);
-			setCurrentTrack(track);
-			setPlayProgress(0);
-			setIsPlaying(false);
-		});
+	const startSoundCloud = (track) => {
+		engineRef.current = 'soundcloud';
+		stopNative();
 		const url = track.soundcloudUrl;
+		if (!url) {
+			setPlaybackLoading(false);
+			setPlayError(track);
+			return;
+		}
 		if (!loadUrlInWidget(url)) {
 			setWidgetSrc(
 				`https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&auto_play=true&hide_related=true&show_comments=false`
@@ -460,8 +494,61 @@ const Ipod = () => {
 		}
 	};
 
+	const startNative = (url) => {
+		engineRef.current = 'native';
+		try {
+			widgetRef.current?.pause();
+		} catch (_) {}
+		const a = audioRef.current;
+		a.src = url;
+		const p = a.play();
+		if (p && typeof p.catch === 'function') {
+			p.catch((err) => {
+				if (err?.name === 'NotAllowedError') {
+					setPlaybackLoading(false);
+					setIsPlaying(false);
+				}
+			});
+		}
+	};
+
+	const playTrack = (track, queue) => {
+		if (queue) queueRef.current = queue;
+		if (currentTrack?.id === track.id && !playError) {
+			handlePlayPause();
+			return;
+		}
+		unlockAudio();
+		currentTrackRef.current = track;
+		loadingProgressFallbackUsedRef.current = false;
+		flushSync(() => {
+			setPlayError(null);
+			setPlaybackLoading(true);
+			setCurrentTrack(track);
+			setPlayProgress(0);
+			setTimeInfo({ pos: 0, dur: 0 });
+			setIsPlaying(false);
+		});
+		const hosted = hostedAudioUrl(track);
+		if (hosted) startNative(hosted);
+		else startSoundCloud(track);
+	};
+
 	const handlePlayPause = () => {
-		if (!widgetRef.current || !currentTrack) return;
+		if (!currentTrack) return;
+		if (engineRef.current === 'native') {
+			const a = audioRef.current;
+			if (!a) return;
+			if (a.paused) {
+				unlockAudio();
+				const p = a.play();
+				if (p && typeof p.catch === 'function') p.catch(() => {});
+			} else {
+				a.pause();
+			}
+			return;
+		}
+		if (!widgetRef.current) return;
 		if (playbackLoading) {
 			setPlaybackLoading(false);
 			try {
@@ -477,6 +564,114 @@ const Ipod = () => {
 			flushSync(() => setPlaybackLoading(true));
 		}
 		widgetRef.current.toggle();
+	};
+
+	const seekTo = (fraction) => {
+		const f = Math.min(1, Math.max(0, fraction));
+		if (engineRef.current === 'native') {
+			const a = audioRef.current;
+			if (a && Number.isFinite(a.duration)) a.currentTime = f * a.duration;
+			return;
+		}
+		const w = widgetRef.current;
+		if (!w) return;
+		w.getDuration((d) => {
+			if (d > 0) w.seekTo(f * d);
+		});
+		setPlayProgress(f);
+	};
+
+	/** dir = 1 next, -1 previous. Previous restarts the song if it is more than 3 seconds in. */
+	const stepTrack = (dir) => {
+		const cur = currentTrackRef.current;
+		if (!cur) return;
+		if (dir < 0 && timeInfo.pos > 3) {
+			seekTo(0);
+			return;
+		}
+		const queue = queueRef.current.length ? queueRef.current : allTracks;
+		const i = queue.findIndex((t) => t.id === cur.id);
+		const next = i === -1 ? null : queue[i + dir];
+		if (!next) {
+			if (dir < 0) seekTo(0);
+			return;
+		}
+		playTrack(next);
+	};
+	stepTrackRef.current = stepTrack;
+	const handlePlayPauseRef = useRef(handlePlayPause);
+	handlePlayPauseRef.current = handlePlayPause;
+
+	// Lock-screen / headphone controls and artwork (Media Session API)
+	useEffect(() => {
+		if (!('mediaSession' in navigator) || !currentTrack) return;
+		try {
+			const art = currentTrack.artworkLarge || currentTrack.artwork;
+			navigator.mediaSession.metadata = new window.MediaMetadata({
+				title: currentTrack.title,
+				artist: currentTrack.artist || 'RYLAND',
+				album: currentTrack.album || '',
+				artwork: art ? [{ src: new URL(art, window.location.origin).href, sizes: '500x500', type: 'image/jpeg' }] : [],
+			});
+			navigator.mediaSession.setActionHandler('play', () => handlePlayPauseRef.current());
+			navigator.mediaSession.setActionHandler('pause', () => handlePlayPauseRef.current());
+			navigator.mediaSession.setActionHandler('previoustrack', () => stepTrackRef.current(-1));
+			navigator.mediaSession.setActionHandler('nexttrack', () => stepTrackRef.current(1));
+			navigator.mediaSession.setActionHandler('seekto', (d) => {
+				const a = audioRef.current;
+				if (engineRef.current === 'native' && a && Number.isFinite(a.duration) && d.seekTime != null) a.currentTime = d.seekTime;
+			});
+		} catch (_) {}
+	}, [currentTrack]);
+
+	useEffect(() => {
+		if ('mediaSession' in navigator) {
+			try {
+				navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+			} catch (_) {}
+		}
+	}, [isPlaying]);
+
+	const nativeHandlers = {
+		onPlaying: () => {
+			if (engineRef.current !== 'native') return;
+			setIsPlaying(true);
+			setPlaybackLoading(false);
+		},
+		onPause: () => {
+			if (engineRef.current === 'native') setIsPlaying(false);
+		},
+		onWaiting: () => {
+			if (engineRef.current === 'native') setPlaybackLoading(true);
+		},
+		onTimeUpdate: (e) => {
+			if (engineRef.current !== 'native') return;
+			const a = e.currentTarget;
+			const dur = Number.isFinite(a.duration) ? a.duration : 0;
+			setTimeInfo({ pos: a.currentTime, dur });
+			if (dur > 0) setPlayProgress(Math.min(1, a.currentTime / dur));
+		},
+		onLoadedMetadata: (e) => {
+			if (engineRef.current !== 'native') return;
+			const a = e.currentTarget;
+			setTimeInfo({ pos: a.currentTime, dur: Number.isFinite(a.duration) ? a.duration : 0 });
+		},
+		onEnded: () => {
+			if (engineRef.current !== 'native') return;
+			setIsPlaying(false);
+			setPlayProgress(0);
+			stepTrackRef.current(1);
+		},
+		onError: () => {
+			if (engineRef.current !== 'native' || !audioRef.current?.getAttribute('src')) return;
+			const track = currentTrackRef.current;
+			// Hosted file failed – fall back to SoundCloud for this song
+			if (track?.soundcloudUrl) startSoundCloud(track);
+			else {
+				setPlaybackLoading(false);
+				setPlayError(track);
+			}
+		},
 	};
 
 	const bottomTabs = [
@@ -499,7 +694,11 @@ const Ipod = () => {
 					</linearGradient>
 				</defs>
 			</svg>
-			<AppHeaderBar title="iPod" />
+			<AppHeaderBar
+				title="iPod"
+				actionLabel={currentTrack && !nowPlayingOpen ? 'Now Playing' : null}
+				onAction={() => setNowPlayingOpen(true)}
+			/>
 
 			{/* Scroll area – search bar or segmented control, then songs */}
 			<div className="ipodScrollArea">
@@ -566,10 +765,10 @@ const Ipod = () => {
 									← All Albums
 								</button>
 								<div className="ipodAlbumHeader">{expandedSingleTrack ? expandedSingleTrack.title : expandedAlbum}</div>
-								{(expandedSingleTrack ? [expandedSingleTrack] : (albumData.albums.find((a) => a.name === expandedAlbum)?.tracks ?? albumData.singles.filter((t) => t.album === expandedAlbum))).map((track, i) => {
+								{(expandedSingleTrack ? [expandedSingleTrack] : (albumData.albums.find((a) => a.name === expandedAlbum)?.tracks ?? albumData.singles.filter((t) => t.album === expandedAlbum))).map((track, i, rowList) => {
 									const isActive = currentTrack?.id === track.id;
 									return (
-										<div key={track.id} role="button" tabIndex={0} className={`songRow ${isActive ? 'active' : ''}`} onClick={() => playTrack(track)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playTrack(track); } }}>
+										<div key={track.id} role="button" tabIndex={0} className={`songRow ${isActive ? 'active' : ''}`} onClick={() => playTrack(track, rowList)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playTrack(track, rowList); } }}>
 											<div className="songRowArtwork">
 												{track.artwork ? <img src={track.artwork} alt="" className="songImg" loading="lazy" /> : <div className="songImgPlaceholder"><BsMusicNote className="songImgPlaceholderIcon" /></div>}
 												{isActive && (
@@ -648,11 +847,11 @@ const Ipod = () => {
 								role="button"
 								tabIndex={0}
 								className={`songRow ${isActive ? 'active' : ''}`}
-								onClick={() => playTrack(track)}
+								onClick={() => playTrack(track, tracks)}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter' || e.key === ' ') {
 										e.preventDefault();
-										playTrack(track);
+										playTrack(track, tracks);
 									}
 								}}
 							>
@@ -738,6 +937,39 @@ const Ipod = () => {
 					</button>
 				))}
 			</nav>
+
+			{playError && !nowPlayingOpen && (
+				<div className="ipodPlayError" role="alert">
+					<span>Couldn't load “{playError.title}”.</span>
+					{playError.soundcloudUrl && (
+						<a href={playError.soundcloudUrl} target="_blank" rel="noreferrer">
+							Open on SoundCloud ›
+						</a>
+					)}
+					<button type="button" onClick={() => setPlayError(null)} aria-label="Dismiss">
+						×
+					</button>
+				</div>
+			)}
+
+			{nowPlayingOpen && (
+				<NowPlaying
+					track={currentTrack}
+					isPlaying={isPlaying}
+					loading={playbackLoading}
+					position={timeInfo.pos}
+					duration={timeInfo.dur}
+					error={playError && playError.id === currentTrack?.id}
+					onClose={() => setNowPlayingOpen(false)}
+					onToggle={() => (playError ? playTrack(currentTrack) : handlePlayPause())}
+					onPrev={() => stepTrack(-1)}
+					onNext={() => stepTrack(1)}
+					onSeek={seekTo}
+				/>
+			)}
+
+			{/* Built-in player for self-hosted songs */}
+			<audio ref={audioRef} preload="none" playsInline {...nativeHandlers} />
 
 			{/* Hidden SoundCloud widget */}
 			<iframe
