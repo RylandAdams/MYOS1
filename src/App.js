@@ -27,40 +27,101 @@ const App = () => {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // Desktop only: the phone tilts a few degrees toward the cursor and the glare follows.
-  // Touch devices never get the 3D transform – it makes Safari rasterize the screen text soft.
+  // The phone tilts a few degrees and the light on the screen and device follows.
+  // Desktop: toward the cursor. Phones: with the motion sensor (iPhone asks once, on the first tap).
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame || !window.matchMedia) return;
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!fine.matches || reduced.matches) return;
-    frame.classList.add("tiltEnabled");
+    const portrait = window.matchMedia("(orientation: portrait)");
+    if (reduced.matches) return;
+    const VARS = ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y", "--light-x", "--light-y"];
+
+    /** nx, ny in -0.5..0.5 – where the light comes from relative to the phone's centre */
+    const apply = (nx, ny) => {
+      frame.style.setProperty("--tilt-x", `${(-ny * 4).toFixed(2)}deg`);
+      frame.style.setProperty("--tilt-y", `${(nx * 5).toFixed(2)}deg`);
+      // Direction the light travels (from the source across the phone), -1..1 – drives the depth shading
+      frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
+      frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));
+      frame.style.setProperty("--glare-x", `${(50 - nx * 40).toFixed(1)}%`);
+      frame.style.setProperty("--glare-y", `${(50 - ny * 40).toFixed(1)}%`);
+    };
+    const reset = () => VARS.forEach((k) => frame.style.removeProperty(k));
     let raf = 0;
-    const onMove = (e) => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const nx = e.clientX / window.innerWidth - 0.5;
-        const ny = e.clientY / window.innerHeight - 0.5;
-        frame.style.setProperty("--tilt-x", `${(-ny * 4).toFixed(2)}deg`);
-        frame.style.setProperty("--tilt-y", `${(nx * 5).toFixed(2)}deg`);
-        // Direction the light travels (from the cursor across the phone), -1..1 – drives the depth shading
-        frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
-        frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));
-        frame.style.setProperty("--glare-x", `${(50 - nx * 40).toFixed(1)}%`);
-        frame.style.setProperty("--glare-y", `${(50 - ny * 40).toFixed(1)}%`);
+    const cleanups = [];
+
+    if (fine.matches) {
+      frame.classList.add("tiltEnabled");
+      const onMove = (e) => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => apply(e.clientX / window.innerWidth - 0.5, e.clientY / window.innerHeight - 0.5));
+      };
+      window.addEventListener("pointermove", onMove);
+      document.documentElement.addEventListener("pointerleave", reset);
+      cleanups.push(() => {
+        window.removeEventListener("pointermove", onMove);
+        document.documentElement.removeEventListener("pointerleave", reset);
       });
-    };
-    const onLeave = () => {
-      ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y", "--light-x", "--light-y"].forEach((k) => frame.style.removeProperty(k));
-    };
-    window.addEventListener("pointermove", onMove);
-    document.documentElement.addEventListener("pointerleave", onLeave);
+    } else if (typeof window.DeviceOrientationEvent !== "undefined") {
+      // Whatever angle the phone is first held at counts as level; tilting from there moves it
+      let base = null;
+      let target = [0, 0];
+      let current = [0, 0];
+      let running = false;
+      const clamp = (v) => Math.max(-0.5, Math.min(0.5, v));
+      const tick = () => {
+        current = [current[0] + (target[0] - current[0]) * 0.18, current[1] + (target[1] - current[1]) * 0.18];
+        apply(current[0], current[1]);
+        raf = Math.abs(target[0] - current[0]) + Math.abs(target[1] - current[1]) > 0.002 ? requestAnimationFrame(tick) : ((running = false), 0);
+      };
+      const onOrient = (e) => {
+        if (e.beta == null || e.gamma == null || !portrait.matches) return;
+        if (!base) base = [e.beta, e.gamma];
+        // 25° of tilt from the starting angle = full effect
+        target = [clamp(-(e.gamma - base[1]) / 50), clamp(-(e.beta - base[0]) / 50)];
+        if (!running) {
+          running = true;
+          raf = requestAnimationFrame(tick);
+        }
+      };
+      const syncOrientation = () => {
+        if (portrait.matches) frame.classList.add("tiltEnabled");
+        else {
+          frame.classList.remove("tiltEnabled");
+          reset();
+          base = null;
+        }
+      };
+      const start = () => {
+        syncOrientation();
+        window.addEventListener("deviceorientation", onOrient);
+        portrait.addEventListener?.("change", syncOrientation);
+        cleanups.push(() => {
+          window.removeEventListener("deviceorientation", onOrient);
+          portrait.removeEventListener?.("change", syncOrientation);
+        });
+      };
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if (isIOS && typeof window.DeviceOrientationEvent.requestPermission === "function") {
+        // iPhone: the permission prompt must come from a tap
+        const ask = () => {
+          window.DeviceOrientationEvent.requestPermission()
+            .then((state) => state === "granted" && start())
+            .catch(() => {});
+        };
+        window.addEventListener("click", ask, { once: true });
+        cleanups.push(() => window.removeEventListener("click", ask));
+      } else {
+        start();
+      }
+    }
+
     return () => {
       cancelAnimationFrame(raf);
       frame.classList.remove("tiltEnabled");
-      window.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
+      cleanups.forEach((fn) => fn());
     };
   }, []);
 
