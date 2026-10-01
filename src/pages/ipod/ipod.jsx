@@ -145,6 +145,7 @@ const Ipod = () => {
 	const listRef = useRef(null);
 	const wheelRef = useRef(null);
 	const dragRef = useRef(null);
+	const wheelCarry = useRef(0); // partial rotation carried into the next gesture
 	const searchInputRef = useRef(null);
 	const [widgetSrc, setWidgetSrc] = useState(
 		'https://w.soundcloud.com/player/?url=https://soundcloud.com/rylandofficialmusic/tracks&auto_play=false&hide_related=true&show_comments=false'
@@ -250,14 +251,22 @@ const Ipod = () => {
 		return () => clearTimeout(t);
 	}, [playbackLoading]);
 
-	// Stop the built-in player when leaving the iPod app
+	// Leaving the iPod: fully unload the song and clear the lock-screen media session.
+	// (Only pausing left a loaded song behind with the session still "playing", so a system play –
+	// AirPods, Control Center, a car, the end of a notification – could start it on the home screen.)
 	useEffect(() => {
 		const audio = audioRef.current;
 		return () => {
 			try {
 				audio?.pause();
+				audio?.removeAttribute('src');
+				audio?.load();
 			} catch (_) {}
 			if ('mediaSession' in navigator) {
+				try {
+					navigator.mediaSession.metadata = null;
+					navigator.mediaSession.playbackState = 'none';
+				} catch (_) {}
 				['play', 'pause', 'previoustrack', 'nexttrack', 'seekto'].forEach((a) => {
 					try {
 						navigator.mediaSession.setActionHandler(a, null);
@@ -376,6 +385,17 @@ const Ipod = () => {
 		if (!trimmed) {
 			setSearchResults([]);
 			setSearchLimitMessage(null);
+			return;
+		}
+		// RYLAND first: whole-word / prefix match on his own catalogue, no network, not counted
+		const words = trimmed.split(/\s+/);
+		const own = allTracks.filter((t) => {
+			const hay = `${t.title} ${t.album} ${t.artist}`.toLowerCase();
+			return words.every((w) => hay.split(/[^a-z0-9']+/).some((h) => h.startsWith(w)) || hay.includes(w));
+		});
+		if (own.length || /^ryland\b/.test(trimmed)) {
+			setSearchLimitMessage(null);
+			setSearchResults(own.length ? own : allTracks);
 			return;
 		}
 		const { count } = getSearchLimitState();
@@ -791,7 +811,7 @@ const Ipod = () => {
 
 	const rotate = (steps) => {
 		if (view.id === 'nowplaying') {
-			if (currentTrack && timeInfo.dur > 0) seekToSeconds(timeInfo.pos + steps * SEEK_STEP_S);
+			if (currentTrack && timeInfo.dur > 0) seekToSeconds(Math.min(timeInfo.dur - 1, timeInfo.pos + steps * SEEK_STEP_S));
 			return;
 		}
 		const n = menu.items.length;
@@ -830,7 +850,7 @@ const Ipod = () => {
 		const p = wheelPoint(e);
 		if (p.dist < 0.38 || p.dist > 1.04) return;
 		e.preventDefault();
-		dragRef.current = { last: p.angle, start: p.angle, acc: 0, moved: 0 };
+		dragRef.current = { last: p.angle, start: p.angle, acc: wheelCarry.current, moved: 0 };
 		try {
 			wheelRef.current.setPointerCapture(e.pointerId);
 		} catch (_) {}
@@ -859,6 +879,7 @@ const Ipod = () => {
 	const onWheelUp = () => {
 		const d = dragRef.current;
 		dragRef.current = null;
+		if (d) wheelCarry.current = d.acc;
 		if (!d || d.moved > 10) return;
 		const a = d.start; // screen angles: -90 top, 0 right, 90 bottom, ±180 left
 		if (a >= -135 && a < -45) press('menu');
