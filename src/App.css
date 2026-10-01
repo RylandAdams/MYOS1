@@ -111,6 +111,9 @@ body {
 
 .iphoneContent {
 	position: relative;
+	/* One layer for everything on the screen: apps, popups, film and glare all sit behind the phone frame (.phone, z 15) */
+	z-index: 1;
+	isolation: isolate;
 	width: 89%;
 	height: 65%;
 	padding-top: 1%;
@@ -126,7 +129,8 @@ body {
 	right: 0;
 	bottom: 0;
 	pointer-events: none;
-	z-index: 20;
+	/* Above every app and popup on the screen (folder popup uses 9999) */
+	z-index: 100000;
 	/* Light matte wash – no blur */
 	background:
 		linear-gradient(
@@ -171,7 +175,7 @@ body {
 .screenGlare {
 	position: absolute;
 	inset: 0;
-	z-index: 21;
+	z-index: 100001;
 	pointer-events: none;
 	background: linear-gradient(
 		118deg,
