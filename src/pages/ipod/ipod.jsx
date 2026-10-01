@@ -95,13 +95,6 @@ const shuffled = (list) => {
 	return a;
 };
 
-/** Battery glyph drawn like the iPod classic title bar */
-const IpodBattery = () => (
-	<span className="icBattery" aria-hidden>
-		<span className="icBatteryFill" />
-	</span>
-);
-
 const Ipod = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
@@ -911,7 +904,6 @@ const Ipod = () => {
 						{currentTrack ? isPlaying ? <BsFillPlayFill /> : <BsFillPauseFill /> : null}
 					</span>
 					<span className="icTitle">{menu.title}</span>
-					<IpodBattery />
 				</div>
 
 				<div key={`${stack.length}-${view.id}-${view.param}`} className={`icPane icPane-${navDir}`}>

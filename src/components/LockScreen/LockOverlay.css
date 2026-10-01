@@ -28,23 +28,23 @@
 	}
 }
 
-/* Unlock: panels slide off top and bottom, like the original */
+/* Unlock: panels slide straight off top and bottom – no fades – like the original */
 .lkLeaving {
 	pointer-events: none;
 }
 .lkLeaving .lkTop {
-	transform: translateY(-110%);
-	opacity: 0;
+	transform: translateY(-102%);
 }
 .lkLeaving .lkBottom {
-	transform: translateY(110%);
-	opacity: 0;
+	transform: translateY(102%);
 }
 
 .lkTop,
 .lkBottom {
 	position: relative;
-	transition: transform 0.38s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.38s ease-in;
+	/* quick start, then accelerating away */
+	transition: transform 0.42s cubic-bezier(0.6, 0.02, 0.75, 0.25);
+	will-change: transform;
 	background: linear-gradient(180deg, rgba(60, 60, 64, 0.78) 0%, rgba(20, 20, 22, 0.82) 50%, rgba(0, 0, 0, 0.86) 51%, rgba(0, 0, 0, 0.8) 100%);
 }
 
@@ -206,9 +206,48 @@
 .lkRoot {
 	z-index: 11;
 }
-.isLocked > div[class*='topBar'] {
+/* The status bar stays above the lock the whole time, including while it slides away */
+.iphoneContent > div[class*='topBar'] {
 	z-index: 12;
 }
 .lkLock {
 	z-index: 13;
+}
+
+/* Home screen arriving: each icon flies in from beyond its nearest edge and settles into
+   place (vector set per icon by LockOverlay as --fx/--fy); the dock rises from below. */
+.lkReveal .apps > div,
+.lkReveal .footerApps > div {
+	animation: lkFlyIn 0.62s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+	animation-delay: var(--fd, 0ms);
+}
+.lkReveal .dock {
+	animation: lkDockUp 0.55s cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+@keyframes lkFlyIn {
+	from {
+		transform: translate(var(--fx, 0), var(--fy, 0)) scale(1.9);
+	}
+	to {
+		transform: none;
+	}
+}
+@keyframes lkDockUp {
+	from {
+		transform: translateX(-50%) translateY(100%);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.lkReveal .apps > div,
+	.lkReveal .footerApps > div,
+	.lkReveal .dock {
+		animation: none;
+	}
+	.lkTop,
+	.lkBottom {
+		transition: none;
+	}
 }

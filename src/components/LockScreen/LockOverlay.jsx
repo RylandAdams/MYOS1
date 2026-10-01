@@ -50,14 +50,37 @@ const LockOverlay = () => {
 		return t && k ? t.clientWidth - k.offsetWidth - 8 : 200;
 	};
 
+	/** Give every home icon a vector pointing out past its nearest screen edge, then reveal */
+	const prepareFlyIn = () => {
+		const screen = document.querySelector('.iphoneContent');
+		if (!screen) return;
+		const sr = screen.getBoundingClientRect();
+		const cx = sr.left + sr.width / 2;
+		const cy = sr.top + sr.height * 0.45;
+		const scale = sr.width / screen.offsetWidth || 1; // css zoom/scale of the phone
+		screen.querySelectorAll('.apps > div, .footerApps > div').forEach((el) => {
+			const r = el.getBoundingClientRect();
+			const dx = (r.left + r.width / 2 - cx) / scale;
+			const dy = (r.top + r.height / 2 - cy) / scale;
+			const len = Math.hypot(dx, dy) || 1;
+			const push = 150; // px beyond where it sits
+			el.style.setProperty('--fx', `${((dx / len) * push + dx * 0.6).toFixed(1)}px`);
+			el.style.setProperty('--fy', `${((dy / len) * push + dy * 0.6).toFixed(1)}px`);
+			el.style.setProperty('--fd', `${Math.round(60 + len * 0.18)}ms`);
+		});
+		screen.classList.add('lkReveal');
+	};
+
 	const finish = () => {
 		const done = xRef.current >= maxTravel() * UNLOCK_AT;
 		drag.current = null;
 		if (done) {
 			setX(maxTravel());
 			playSound('home');
+			prepareFlyIn();
 			setLeaving(true);
-			setTimeout(unlock, 380);
+			setTimeout(unlock, 440);
+			setTimeout(() => document.querySelector('.iphoneContent')?.classList.remove('lkReveal'), 1100);
 		} else {
 			setX(0);
 			xRef.current = 0;
