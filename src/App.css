@@ -140,6 +140,10 @@ body {
 	padding-top: 1%;
 	box-sizing: border-box;
 	--myos-status-bar-height: 14px;
+	/* Nothing on the screen – app zooms, the unlock fly-in, overlays – can ever draw outside the
+	   display: the box is exactly the frame's opening, so clip to it (slightly rounded corners). */
+	overflow: hidden;
+	clip-path: inset(0 round 4px);
 }
 
 /* Matte glass film – clear, just a little grain */
