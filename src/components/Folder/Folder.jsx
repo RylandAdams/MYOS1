@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import App from '../app';
+import { iconFor } from '../../utils/liveIcons';
 import './Folder.css';
 
 /* Folder: the whole display frosts over (strong blur + dim) and a glass panel springs out of
@@ -98,7 +99,7 @@ const Folder = ({ folderName, apps }) => {
 					<div className="folderPreviewGrid">
 						{previewIcons.map((app, i) => (
 							<div key={app.id} className="folderPreviewIcon" style={{ '--i': i }}>
-								<img src={app.appImage} alt="" loading="lazy" />
+								<img src={iconFor(app)} alt="" loading="lazy" />
 							</div>
 						))}
 					</div>

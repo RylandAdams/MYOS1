@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 import PageTransition from './PageTransition';
@@ -22,7 +22,6 @@ const Files = lazy(() => import('../pages/files/files'));
 const VoiceMemos = lazy(() => import('../pages/voicememos/voicememos'));
 
 const RickRubin = lazy(() => import('../pages/messages/Conversations/RickRubin/RickRubin'));
-const LouisBell = lazy(() => import('../pages/messages/Conversations/LouisBell/LouisBell'));
 
 const AnimatedRoutes = () => {
 	let location = useLocation();
@@ -55,6 +54,8 @@ const AnimatedRoutes = () => {
 					path='/homeScreen'
 					element={<HomeScreen />}
 				/>
+				{/* the correct spelling opens the same app */}
+				<Route path='/calendar' element={<Navigate to='/calender' replace />} />
 				<Route
 					path='/calender'
 					element={<PageTransition><Calender /></PageTransition>}
@@ -123,7 +124,7 @@ const AnimatedRoutes = () => {
 				/>
 				<Route
 					path='/messages/Virmedius'
-					element={<PageTransition><LouisBell /></PageTransition>}
+					element={<Navigate to='/messages' replace />}
 				/>
 				</Routes>
 			</AnimatePresence>

@@ -241,13 +241,15 @@
 						if (mainCss) {
 							var link = document.createElement('link');
 							link.rel = 'stylesheet';
-							link.href = mainCss.split('?')[0] + '?v=' + bust;
+							// hashed file names are immutable – the fresh manifest already gives the current one,
+							// so no cache-busting query: the file is fetched once and cached
+							link.href = mainCss.split('?')[0];
 							document.head.appendChild(link);
 						}
 
 						var script = document.createElement('script');
 						script.defer = true;
-						script.src = mainJs.split('?')[0] + '?v=' + bust;
+						script.src = mainJs.split('?')[0];
 						script.onerror = reloadOnce;
 						document.head.appendChild(script);
 					})

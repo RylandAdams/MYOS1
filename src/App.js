@@ -51,8 +51,8 @@ const App = () => {
 
     /** nx, ny in -0.5..0.5 – where the light comes from relative to the phone's centre */
     const apply = (nx, ny) => {
-      frame.style.setProperty("--tilt-x", `${(-ny * 4.8).toFixed(2)}deg`);
-      frame.style.setProperty("--tilt-y", `${(nx * 6).toFixed(2)}deg`);
+      frame.style.setProperty("--tilt-x", `${(-ny * 9.6).toFixed(2)}deg`); // up to ±4.8°
+      frame.style.setProperty("--tilt-y", `${(nx * 12).toFixed(2)}deg`); // up to ±6°
       // Direction the light travels (from the source across the phone), -1..1 – drives the depth shading
       frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
       frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));

@@ -4,6 +4,7 @@ import './app.css';
 import { playSound } from '../utils/uiSound';
 import { openInApp } from '../utils/openApp';
 import { launchFrom } from './PageTransition';
+import { iconFor } from '../utils/liveIcons';
 
 const App = memo((app) => {
 	const { id, appName, appImage, url, path } = app.data;
@@ -23,7 +24,7 @@ const App = memo((app) => {
 				>
 					<div className='singleApp'>
 						<img
-							src={appImage}
+							src={iconFor(app.data) || appImage}
 							alt={`app${id}`}
 							loading="lazy"
 						/>
@@ -44,7 +45,7 @@ const App = memo((app) => {
 				>
 					<div className='singleApp'>
 						<img
-							src={appImage}
+							src={iconFor(app.data) || appImage}
 							alt={`app${id}`}
 							loading="lazy"
 						/>
