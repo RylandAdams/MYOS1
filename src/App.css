@@ -131,10 +131,11 @@ body {
 /* Matte glass film – clear, just a little grain */
 .screenFilm {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
+	/* Overshoot the screen box on every side; apps run ~2% under the bezel and the frame hides the excess */
+	top: -2%;
+	left: -2%;
+	right: -2%;
+	bottom: -4%;
 	pointer-events: none;
 	/* Above every app and popup on the screen (folder popup uses 9999) */
 	z-index: 100000;
@@ -181,7 +182,7 @@ body {
 /* Glass glare – a soft diagonal sheen; drifts with the cursor on desktop */
 .screenGlare {
 	position: absolute;
-	inset: 0;
+	inset: -2% -2% -4% -2%;
 	z-index: 100001;
 	pointer-events: none;
 	background: linear-gradient(
