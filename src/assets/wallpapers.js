@@ -1,5 +1,6 @@
 /**
- * Wallpaper options – Classic, iconic iOS 1, and fun picks
+ * Wallpaper options – Classic, iconic iOS 1, and fun picks. All self-hosted in public/wallpapers
+ * (the three photos are from Unsplash, free licence) so nothing loads from another site.
  */
 export const WALLPAPERS = [
 	{
@@ -12,13 +13,13 @@ export const WALLPAPERS = [
 		id: 'neon',
 		label: 'Neon Dreams',
 		type: 'image',
-		value: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=800&fit=crop',
+		value: '/wallpapers/neon.jpg',
 	},
 	{
 		id: 'blue-marble',
 		label: 'Blue Marble',
 		type: 'image',
-		value: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=400&h=800&fit=crop',
+		value: '/wallpapers/blue-marble.jpg',
 	},
 	{
 		id: 'clownfish',
@@ -30,6 +31,6 @@ export const WALLPAPERS = [
 		id: 'cat',
 		label: 'Cat',
 		type: 'image',
-		value: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=400&h=800&fit=crop',
+		value: '/wallpapers/cat.jpg',
 	},
 ];
