@@ -102,6 +102,16 @@ body {
 	transform: perspective(1600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--scale, 1));
 }
 
+/* Fit the phone to the window with real layout zoom instead of scale(): the browser then
+   draws the screen's text and icons at full size, and the 3D transform only carries the
+   few-degree tilt – so nothing gets rasterized small and stretched while it tilts. */
+@supports (zoom: 1) {
+	.Frame.tiltEnabled {
+		zoom: var(--scale, 1);
+		transform: perspective(1600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+	}
+}
+
 .phone {
 	pointer-events: none;
 	position: absolute;
