@@ -12,13 +12,14 @@
 	position: absolute;
 	z-index: 1;
 	opacity: 1;
-	color: #000000 !important;
+	color: #8e8e93 !important; /* iPhone OS disclosure grey */
 
-	width: 20%;
-	height: 40%;
+	width: 22px;
+	height: 22px;
 
-	top: 35%;
-	left: 80%;
+	top: 50%;
+	right: 12px;
+	transform: translateY(-50%);
 }
 
 .nameCircle {
@@ -42,6 +43,7 @@
 .circleNameRR {
 	position: absolute;
 	color: #000000;
+	text-shadow: none !important;
 	font-size: 1.5rem;
 
 	top: 20%;
@@ -72,9 +74,8 @@
 	z-index: 1;
 
 	background-color: rgb(255, 255, 255);
-	outline: 0.15rem solid rgb(106, 106, 106);
+	border-bottom: 1px solid #d9d9de; /* hairline like the Text app */
 
-	opacity: 0.8;
 	width: 100%;
 	height: 16%;
 
@@ -82,8 +83,11 @@
 }
 
 .convo1Bar:hover {
-	background-color: rgb(255, 255, 255);
-	opacity: 0.92;
+	background-color: #f5f6f8;
+}
+
+.convo1Bar:active {
+	background: linear-gradient(180deg, #058cf5, #015fe6);
 }
 
 .rickTypingMessages {
@@ -134,4 +138,12 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
+}
+
+/* the link's own colour otherwise reaches the chevron's path */
+.messageCaret path {
+	fill: #8e8e93;
+}
+.themeDark .messageCaret path {
+	fill: #c7c7cc;
 }

@@ -242,8 +242,11 @@
 .themeDark .convo1Bar:hover,
 .themeDark .convo2Bar:hover {
 	background-color: #141416;
-	outline-color: #000;
+	border-bottom-color: #232327;
 	opacity: 1;
+}
+.themeDark .convo1Bar:active {
+	background: linear-gradient(180deg, #058cf5, #015fe6);
 }
 .themeDark .personsName {
 	color: #fff;
