@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import './app.css';
 import { playSound } from '../utils/uiSound';
+import { openInApp } from '../utils/openApp';
 
 const App = memo((app) => {
 	const { id, appName, appImage, url, path } = app.data;
@@ -31,7 +32,11 @@ const App = memo((app) => {
 					target='_blank'
 					rel="noopener noreferrer"
 					className={appClass}
-					onClick={() => playSound('tap')}
+					onClick={(e) => {
+						playSound('tap');
+						// Open Spotify/Apple Music/YouTube/etc. in their app from Instagram & other in-app browsers
+						if (openInApp(url)) e.preventDefault();
+					}}
 				>
 					<div className='singleApp'>
 						<img
