@@ -41,8 +41,8 @@ const PageTransition = ({ children }) => {
 		return (
 			<motion.div
 				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				exit={{ opacity: 0 }}
+				animate={{ opacity: 1, pointerEvents: 'auto' }}
+				exit={{ opacity: 0, pointerEvents: 'none' }}
 				transition={{ duration: 0.18 }}
 				style={{ height: '100%', minHeight: '100%' }}
 			>
@@ -54,8 +54,9 @@ const PageTransition = ({ children }) => {
 	return (
 		<motion.div
 			initial={{ opacity: 0, scale: from }}
-			animate={{ opacity: 1, scale: 1, transition: { scale: { duration: 0.5, ease: EASE_OUT }, opacity: { duration: 0.2, ease: 'linear' } } }}
-			exit={{ opacity: 0, scale: launch ? 0.08 : 0.92, transition: { scale: { duration: 0.34, ease: EASE_IN }, opacity: { duration: 0.2, delay: 0.14, ease: 'linear' } } }}
+			// a closing app never takes taps meant for the home screen it is shrinking over
+			animate={{ opacity: 1, scale: 1, pointerEvents: 'auto', transition: { scale: { duration: 0.5, ease: EASE_OUT }, opacity: { duration: 0.2, ease: 'linear' } } }}
+			exit={{ opacity: 0, scale: launch ? 0.08 : 0.92, pointerEvents: 'none', transition: { scale: { duration: 0.34, ease: EASE_IN }, opacity: { duration: 0.2, delay: 0.14, ease: 'linear' } } }}
 			style={{ position: 'absolute', inset: 0, height: '100%', minHeight: '100%', transformOrigin: origin, zIndex: 2 }}
 		>
 			<Suspense fallback={null}>{children}</Suspense>
