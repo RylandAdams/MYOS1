@@ -270,3 +270,19 @@
 		filter: none;
 	}
 }
+
+/* Wallpaper behind the lock when it sits over an app */
+.lkWall {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background-size: cover;
+	background-position: center;
+	transition: opacity 0.4s ease-out;
+}
+.lkLeaving .lkWall {
+	opacity: 0;
+}
+.lkRoot {
+	isolation: isolate;
+}

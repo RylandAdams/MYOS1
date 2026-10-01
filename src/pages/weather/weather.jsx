@@ -137,8 +137,17 @@ function writeCache(v) {
   } catch {}
 }
 
-/** City from the visitor's connection – no permission prompt */
+/** City from the visitor's connection – no permission prompt (geojs first, kamero as backup) */
 async function getLocationByIP() {
+  try {
+    const res = await fetch("https://get.geojs.io/v1/ip/geo.json");
+    if (res.ok) {
+      const j = await res.json();
+      const lat = parseFloat(j.latitude);
+      const lon = parseFloat(j.longitude);
+      if (Number.isFinite(lat) && Number.isFinite(lon)) return { lat, lon, label: j.city || "Your City" };
+    }
+  } catch {}
   try {
     const res = await fetch("https://geo.kamero.ai/api/geo");
     if (!res.ok) return null;

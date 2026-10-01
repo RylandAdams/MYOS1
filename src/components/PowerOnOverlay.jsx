@@ -30,19 +30,22 @@ const PowerOnOverlay = () => {
 	const [fading, setFading] = useState(false);
 	// After the wordmark fades, the black itself dissolves so the lock screen rises out of it
 	const [revealing, setRevealing] = useState(false);
+	// Run the hand-over once per boot. (setPowerOnComplete is recreated on every navigation,
+	// which used to replay this – a black blink ~0.8s after every app opened or closed.)
+	const handedOver = useRef(false);
+	const completeRef = useRef(setPowerOnComplete);
+	completeRef.current = setPowerOnComplete;
 	useEffect(() => {
-		if (!ready) return undefined;
+		if (!ready || handedOver.current) return undefined;
+		handedOver.current = true;
 		setFading(true);
-		const t1 = setTimeout(() => {
+		setTimeout(() => {
 			setRevealing(true);
-			setPowerOnComplete();
+			completeRef.current();
 		}, FADE_OUT_MS);
-		const t2 = setTimeout(() => setRevealing(false), FADE_OUT_MS + REVEAL_MS);
-		return () => {
-			clearTimeout(t1);
-			clearTimeout(t2);
-		};
-	}, [ready, setPowerOnComplete]);
+		setTimeout(() => setRevealing(false), FADE_OUT_MS + REVEAL_MS);
+		return undefined;
+	}, [ready]);
 
 	useEffect(() => {
 		let alive = true;

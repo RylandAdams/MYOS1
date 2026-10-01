@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaLock } from 'react-icons/fa';
 import { useLock } from '../../context/LockContext';
 import { usePowerOn } from '../../context/PowerOnContext';
+import { useWallpaper } from '../../context/WallpaperContext';
+import { useLocation } from 'react-router-dom';
 import { playSound } from '../../utils/uiSound';
 import './LockOverlay.css';
 
@@ -14,6 +16,9 @@ const UNLOCK_AT = 0.86; // fraction of travel that unlocks
 const LockOverlay = () => {
 	const { locked, unlock, off, waking } = useLock();
 	const { powerOnComplete } = usePowerOn();
+	const { wallpaper } = useWallpaper();
+	const { pathname } = useLocation();
+	const overApp = pathname !== '/' && pathname !== '/homeScreen';
 	const [now, setNow] = useState(() => new Date());
 	const [x, setX] = useState(0); // knob travel, px
 	const [leaving, setLeaving] = useState(false);
@@ -149,6 +154,13 @@ const LockOverlay = () => {
 			</span>
 		)}
 		<div className={`lkRoot ${entry}${leaving ? ' lkLeaving' : ''}`} aria-label="Lock screen">
+			{overApp && (
+				// Locked over an app: show the wallpaper like the real lock screen; it dissolves on unlock
+				<div
+					className="lkWall"
+					style={wallpaper.type === 'image' ? { backgroundImage: `url(${wallpaper.value})` } : { background: wallpaper.value }}
+				/>
+			)}
 			<div className="lkTop">
 				<div className="lkTime">{time}</div>
 				<div className="lkDate">{date}</div>

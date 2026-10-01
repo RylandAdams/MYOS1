@@ -42,7 +42,7 @@ export const requestMotion = () =>
 
 const MotionPrompt = () => {
 	const { powerOnComplete } = usePowerOn();
-	const { locked } = useLock();
+	const { locked, off } = useLock();
 	const location = useLocation();
 	const [open, setOpen] = useState(false);
 	const isHome = location.pathname === '/' || location.pathname === '/homeScreen';
@@ -54,7 +54,7 @@ const MotionPrompt = () => {
 		return () => clearTimeout(t);
 	}, [powerOnComplete, locked, isHome]);
 
-	if (!open) return null;
+	if (!open || off || locked) return null;
 
 	const close = (choice) => {
 		setOpen(false);

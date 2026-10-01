@@ -26,8 +26,12 @@ const TopBar = () => {
 
 	useEffect(() => {
 		const timerId = setInterval(refreshClock, 1000);
+		window.addEventListener('myos:wake', refreshClock);
+		document.addEventListener('visibilitychange', refreshClock);
 		return function cleanup() {
 			clearInterval(timerId);
+			window.removeEventListener('myos:wake', refreshClock);
+			document.removeEventListener('visibilitychange', refreshClock);
 		};
 	}, []);
 

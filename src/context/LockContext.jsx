@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 /**
  * Lock + power state for the original-iPhone lock screen. Both are overlays (not routes), so
@@ -24,7 +24,6 @@ const seenUnlock = () => {
 
 export const LockProvider = ({ children }) => {
 	const location = useLocation();
-	const navigate = useNavigate();
 	const isHome = location.pathname === '/' || location.pathname === '/homeScreen';
 	const [locked, setLocked] = useState(() => isHome && !seenUnlock());
 	const [off, setOff] = useState(false);
@@ -35,9 +34,11 @@ export const LockProvider = ({ children }) => {
 		const from = prevPath.current;
 		prevPath.current = location.pathname;
 		// legacy /off route (old links): waking from it locks too
+		if (from === location.pathname) return;
 		if (from === '/off' && isHome) setLocked(true);
-		else if (!isHome && !off) setLocked(false);
-	}, [location.pathname, isHome, off]);
+		// navigating into an app (deep link, back button) never leaves a lock behind
+		else if (!isHome) setLocked(false);
+	}, [location.pathname, isHome]);
 
 	const unlock = () => {
 		setLocked(false);
@@ -46,18 +47,15 @@ export const LockProvider = ({ children }) => {
 		} catch {}
 	};
 
+	// Like a real iPhone: music keeps playing while the screen is off and locked, and the phone
+	// wakes to the lock screen over whatever app was open.
 	const powerOff = () => {
-		document.querySelectorAll('audio').forEach((a) => {
-			try {
-				a.pause();
-			} catch {}
-		});
 		window.dispatchEvent(new CustomEvent('closeFolder'));
 		setOff(true);
 	};
 
 	const wake = () => {
-		if (!isHome) navigate('/', { replace: true });
+		window.dispatchEvent(new Event('myos:wake'));
 		setLocked(true);
 		setWaking(true);
 		setOff(false);

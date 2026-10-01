@@ -57,7 +57,7 @@ export const MAINAPPS = [
 		id: 6,
 		appName: 'Spotify',
 		appImage: spotify,
-		url: 'https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ?si=8uyjrQ0mSnW8BjUAtAdr0A',
+		url: 'https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ',
 	},
 ];
 
@@ -66,7 +66,7 @@ export const FOOTERAPPS = [
 		id: 1,
 		appName: 'Instagram',
 		appImage: insta,
-		url: 'https://instagram.com/ryland.wav?igshid=MjEwN2IyYWYwYw==',
+		url: 'https://www.instagram.com/ryland.wav/',
 	},
 	{
 		id: 2,

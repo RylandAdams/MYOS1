@@ -4,7 +4,7 @@ import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 
 /* iPhone OS Calendar month view: ◀ Month Year ▶, Sunday-first grid of gray tiles,
    blue selected day, a dot on days with something on them, and that day's list below.
-   The last Friday of each month carries the "?" mark. */
+   The last Friday of each month is a guaranteed mystery release ("?"), marked until it has passed. */
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -24,7 +24,10 @@ const Calender = () => {
 	const isThisMonth = year === now.getFullYear() && month === now.getMonth();
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
 	const lead = new Date(year, month, 1).getDay();
-	const mark = lastFridayOf(year, month);
+	// The last Friday of each month is a guaranteed (mystery) release – shown only while it's ahead
+	const lf = lastFridayOf(year, month);
+	const today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+	const mark = new Date(year, month, lf) >= today0 ? lf : null;
 	const prevDays = new Date(year, month, 0).getDate();
 
 	const cells = [];
