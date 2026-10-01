@@ -25,6 +25,9 @@ const PowerOnOverlay = () => {
 	const location = useLocation();
 	const isHome = location.pathname === '/' || location.pathname === '/homeScreen';
 	const showOverlay = isHome && !powerOnComplete;
+	// A slow network already held the screen black while the app downloaded: count that as the
+	// opening black and bring the wordmark in at once (performance.now() = ms since the tap)
+	const [late] = useState(() => typeof performance !== 'undefined' && performance.now() > 1200);
 
 	// Fade the boot screen down to black before handing over to the lock screen
 	const [fading, setFading] = useState(false);
@@ -32,7 +35,9 @@ const PowerOnOverlay = () => {
 	const [revealing, setRevealing] = useState(false);
 	// Run the hand-over once per boot. (setPowerOnComplete is recreated on every navigation,
 	// which used to replay this – a black blink ~0.8s after every app opened or closed.)
-	const handedOver = useRef(false);
+	// Boot already skipped (reload in the same session, or arriving on an app's link): never run the
+	// hand-over – it used to drop a full black screen over the page ~5 s in and fade it out.
+	const handedOver = useRef(powerOnComplete || !isHome);
 	const completeRef = useRef(setPowerOnComplete);
 	completeRef.current = setPowerOnComplete;
 	useEffect(() => {
@@ -143,7 +148,7 @@ const PowerOnOverlay = () => {
 	if (!showOverlay && !revealing) return null;
 
 	return (
-		<div className={`powerOnOverlay${fading ? ' powerOnFading' : ''}${revealing ? ' powerOnRevealing' : ''}`}>
+		<div className={`powerOnOverlay${late ? ' powerOnLate' : ''}${fading ? ' powerOnFading' : ''}${revealing ? ' powerOnRevealing' : ''}`}>
 			<div className="powerOnBootWrap">
 				{/* Same horizontal anchor as .clockIpod: left 50.5% + translateX(-50%) → +0.5% vs pure center */}
 				<div className="powerOnBootInner">

@@ -106,6 +106,13 @@
 .powerOnBootTrack {
 	animation: bootBarIn 0.9s ease-out 1.5s both;
 }
+/* Slow load: the black already happened while downloading, so the wordmark starts at once */
+.powerOnLate .powerOnBootTitle {
+	animation-delay: 0.1s;
+}
+.powerOnLate .powerOnBootTrack {
+	animation-delay: 0.7s;
+}
 @keyframes bootBarIn {
 	from {
 		opacity: 0;
