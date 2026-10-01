@@ -260,3 +260,102 @@
 	border-radius: 4px;
 	color: rgb(70, 80, 92);
 }
+
+/* ——— iPhone OS list look (overrides the iOS 11-style icon grid above) ——— */
+.filesPage {
+	background: #fff;
+}
+.filesPage .filesScroll {
+	left: 0;
+	right: 0;
+	padding: 0 0 24px;
+}
+.filesPage .filesIosAudioGrid {
+	display: block;
+}
+.filesPage .filesIosAudioCell {
+	border-bottom: 1px solid #d9d9de;
+}
+.filesPage .filesIosAudioBtn {
+	display: grid;
+	grid-template-columns: 40px auto 1fr;
+	grid-template-rows: auto auto;
+	column-gap: 10px;
+	align-items: center;
+	text-align: left;
+	height: 58px;
+	padding: 0 10px 0 9px;
+	background: #fff;
+}
+.filesPage .filesIosAudioBtn:active,
+.filesPage .filesIosAudioBtn-playing {
+	background: linear-gradient(180deg, #058cf5 0%, #015fe6 100%);
+}
+.filesPage .filesIosAudioIconWrap {
+	grid-row: 1 / span 2;
+	width: 40px;
+	max-width: 40px;
+	margin: 0;
+	padding: 7px;
+	border-radius: 9px;
+}
+.filesPage .filesIosAudioGlyph {
+	min-width: 0;
+	min-height: 0;
+	width: 22px;
+	height: 22px;
+}
+.filesPage .filesIosAudioName {
+	grid-column: 2 / span 2;
+	align-self: end;
+	white-space: nowrap;
+	word-break: normal;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: none;
+	width: auto;
+	color: #000;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 17px;
+	font-weight: 700;
+	text-shadow: none;
+}
+.filesPage .filesIosAudioMeta {
+	grid-column: 2;
+	align-self: start;
+	color: #7d7d84;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	font-weight: 400;
+	text-shadow: none;
+}
+.filesPage .filesIosAudioMeta {
+	white-space: nowrap;
+	width: auto;
+	max-width: none;
+}
+.filesPage .filesIosAudioMeta + .filesIosAudioMeta {
+	grid-column: 3;
+	grid-row: 2;
+}
+.filesPage .filesIosAudioMeta + .filesIosAudioMeta::before {
+	content: '\00a0·\00a0';
+}
+.filesPage .filesIosAudioBtn-playing .filesIosAudioName,
+.filesPage .filesIosAudioBtn-playing .filesIosAudioMeta,
+.filesPage .filesIosAudioBtn:active .filesIosAudioName,
+.filesPage .filesIosAudioBtn:active .filesIosAudioMeta {
+	color: #fff;
+}
+.filesPage .filesIosAudioName,
+.filesPage .filesIosAudioMeta {
+	justify-self: start;
+	text-align: left;
+	margin: 0;
+}
+.filesPage .filesIosAudioBtn {
+	column-gap: 0;
+}
+.filesPage .filesIosAudioIconWrap {
+	margin-right: 10px;
+}
