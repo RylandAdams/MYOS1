@@ -135,12 +135,15 @@ const LockOverlay = () => {
 
 	const onDown = (e) => {
 		e.preventDefault();
-		drag.current = { start: e.clientX - xRef.current };
+		// the phone is zoomed on desktop: convert screen px to the knob's own px so it stays under the cursor
+		const t = trackRef.current;
+		const scale = (t && t.getBoundingClientRect().width / t.offsetWidth) || 1;
+		drag.current = { scale, start: e.clientX / scale - xRef.current };
 		knobRef.current.setPointerCapture?.(e.pointerId);
 	};
 	const onMove = (e) => {
 		if (!drag.current) return;
-		const v = Math.max(0, Math.min(maxTravel(), e.clientX - drag.current.start));
+		const v = Math.max(0, Math.min(maxTravel(), e.clientX / drag.current.scale - drag.current.start));
 		xRef.current = v;
 		setX(v);
 	};
