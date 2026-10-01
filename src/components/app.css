@@ -22,18 +22,12 @@
 	margin: calc(57px * -0.015);
 }
 
-/* Helvetica Bold 11px, pure white, tight dark shadow – iPhone OS 2 icon labels */
+/* Original label style (site font, size and shadow), centered under the icon */
 .appName,
 .folderButton .appName {
-	margin-top: 3px;
+	font-size: 0.7rem;
 	min-height: 13px;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 11px;
-	font-weight: 700;
-	line-height: 13px;
-	letter-spacing: 0;
-	color: #ffffff;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+	margin-top: 2px;
 	overflow: visible;
 	white-space: nowrap;
 	text-align: center;

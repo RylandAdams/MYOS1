@@ -301,3 +301,16 @@
 	height: 9px;
 	transform: translateY(-0.4px);
 }
+
+/* Signal bars and Wi-Fi sit on the carrier text baseline and stop at cap height,
+   so their tops line up with the top of "RYLAND" */
+.leftIpod {
+	align-items: baseline;
+}
+.leftIpod .cellularBarsIpod,
+.leftIpod .topBarWifi {
+	height: 0.72em;
+	width: auto;
+	transform: none;
+	align-self: baseline;
+}
