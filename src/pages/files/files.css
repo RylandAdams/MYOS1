@@ -98,8 +98,10 @@
 	box-sizing: border-box;
 }
 
-.filesIosAudioBtn:hover {
-	transform: scale(1.05);
+@media (hover: hover) and (pointer: fine) {
+	.filesIosAudioBtn:hover {
+		transform: scale(1.05);
+	}
 }
 
 .filesIosAudioBtn:active {

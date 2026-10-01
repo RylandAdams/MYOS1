@@ -33,8 +33,18 @@
 	text-align: center;
 }
 
-.Apps:hover {
-	opacity: 0.85;
-	transform: scale(0.95);
-	border-radius: 7px;
+/* Mouse only: on touch screens :hover sticks after a tap, leaving the icon dim when you come home */
+@media (hover: hover) and (pointer: fine) {
+	.Apps:hover {
+		opacity: 0.85;
+		transform: scale(0.95);
+		border-radius: 7px;
+	}
+}
+
+/* Touch: the icon darkens while your finger is on it, like the original springboard */
+@media (hover: none) {
+	.Apps:active .singleApp img {
+		filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55)) brightness(0.55);
+	}
 }

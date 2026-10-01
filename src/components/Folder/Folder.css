@@ -12,10 +12,18 @@
 	justify-content: flex-start;
 }
 
-.folderButton:hover {
-	opacity: 0.85;
-	transform: scale(0.95);
-	border-radius: 7px;
+@media (hover: hover) and (pointer: fine) {
+	.folderButton:hover {
+		opacity: 0.85;
+		transform: scale(0.95);
+		border-radius: 7px;
+	}
+}
+
+@media (hover: none) {
+	.folderButton:active .folderPreview {
+		filter: brightness(0.55);
+	}
 }
 
 /* iOS-style folder preview – 4 icons in 2x2 grid, match app icon height */
