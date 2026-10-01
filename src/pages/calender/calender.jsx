@@ -1,63 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './calender.css';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 
-const WEEKDAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+/* iPhone OS Calendar month view: ◀ Month Year ▶, Sunday-first grid of gray tiles,
+   blue selected day, a dot on days with something on them, and that day's list below.
+   The last Friday of each month carries the "?" mark. */
 
-function getLastFridayOfMonth(year, month) {
-	const lastDay = new Date(year, month + 1, 0);
-	for (let d = lastDay.getDate(); d >= 1; d--) {
-		const date = new Date(year, month, d);
-		if (date.getDay() === 5) return d;
-	}
-	return null;
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+function lastFridayOf(year, month) {
+	const last = new Date(year, month + 1, 0);
+	const back = (last.getDay() - 5 + 7) % 7;
+	return last.getDate() - back;
 }
 
 const Calender = () => {
 	const now = new Date();
-	const year = now.getFullYear();
-	const month = now.getMonth();
-	const today = now.getDate();
-	const lastFriday = getLastFridayOfMonth(year, month);
+	const [view, setView] = useState({ year: now.getFullYear(), month: now.getMonth() });
+	const [selected, setSelected] = useState(now.getDate());
 
-	const firstDay = new Date(year, month, 1);
+	const { year, month } = view;
+	const isThisMonth = year === now.getFullYear() && month === now.getMonth();
 	const daysInMonth = new Date(year, month + 1, 0).getDate();
-	const startOffset = (firstDay.getDay() + 6) % 7;
+	const lead = new Date(year, month, 1).getDay();
+	const mark = lastFridayOf(year, month);
+	const prevDays = new Date(year, month, 0).getDate();
 
-	const gridCells = [];
-	for (let i = 0; i < startOffset; i++) gridCells.push(null);
-	for (let d = 1; d <= daysInMonth; d++) gridCells.push(d);
+	const cells = [];
+	for (let i = lead - 1; i >= 0; i--) cells.push({ day: prevDays - i, outside: true });
+	for (let d = 1; d <= daysInMonth; d++) cells.push({ day: d });
+	for (let d = 1; cells.length % 7; d++) cells.push({ day: d, outside: true });
 
-	const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-		'July', 'August', 'September', 'October', 'November', 'December'];
-	const monthName = monthNames[month];
+	const shift = (step) => {
+		const d = new Date(year, month + step, 1);
+		setView({ year: d.getFullYear(), month: d.getMonth() });
+		setSelected(1);
+	};
+
+	const selectedDate = new Date(year, month, Math.min(selected, daysInMonth));
 
 	return (
 		<div className="calenderPage">
 			<AppHeaderBar title="Calendar" />
-			<div className="calenderBody">
-				<div className="calenderMonth">{monthName} {year}</div>
-				<div className="calenderWeekdays">
+			<div className="calBody">
+				<div className="calMonthBar">
+					<button type="button" className="calArrow" onClick={() => shift(-1)} aria-label="Previous month">
+						<span className="calTriLeft" />
+					</button>
+					<span className="calMonthTitle">
+						{MONTHS[month]} {year}
+					</span>
+					<button type="button" className="calArrow" onClick={() => shift(1)} aria-label="Next month">
+						<span className="calTriRight" />
+					</button>
+				</div>
+				<div className="calWeekdays">
 					{WEEKDAYS.map((d) => (
-						<div key={d} className="calenderWeekday">{d}</div>
+						<span key={d}>{d}</span>
 					))}
 				</div>
-				<div className="calenderGrid">
-					{gridCells.map((day, i) => (
-						<div
-							key={i}
-							className={`calenderCell ${day === null ? 'empty' : ''} ${day === today ? 'today' : ''} ${day === lastFriday ? 'lastFriday' : ''}`}
-						>
-							{day !== null && (
-								<>
-									<span className="calenderDayNum">{day}</span>
-									{day === lastFriday && (
-										<span className="calenderQuestion">?</span>
-									)}
-								</>
-							)}
+				<div className="calGrid">
+					{cells.map((c, i) => {
+						const isToday = !c.outside && isThisMonth && c.day === now.getDate();
+						const isSel = !c.outside && c.day === selected;
+						const hasMark = !c.outside && c.day === mark;
+						return (
+							<button
+								type="button"
+								key={i}
+								disabled={c.outside}
+								className={`calCell${c.outside ? ' calOutside' : ''}${isToday ? ' calToday' : ''}${isSel ? ' calSel' : ''}`}
+								onClick={() => setSelected(c.day)}
+								aria-label={c.outside ? undefined : `${MONTHS[month]} ${c.day}${hasMark ? ', ?' : ''}`}
+							>
+								<span className="calNum">{c.day}</span>
+								{hasMark && <span className="calDot" />}
+							</button>
+						);
+					})}
+				</div>
+				<div className="calEvents">
+					<div className="calEventsDate">
+						{selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+					</div>
+					{selected === mark ? (
+						<div className="calEvent">
+							<span className="calEventTime">all-day</span>
+							<span className="calEventTitle">?</span>
 						</div>
-					))}
+					) : (
+						<div className="calNoEvents">No Events</div>
+					)}
 				</div>
 			</div>
 		</div>
