@@ -188,8 +188,8 @@ body {
 	background: linear-gradient(
 		118deg,
 		rgba(255, 255, 255, 0) 32%,
-		rgba(255, 255, 255, 0.075) 46%,
-		rgba(255, 255, 255, 0.02) 52%,
+		rgba(255, 255, 255, 0.026) 46%,
+		rgba(255, 255, 255, 0.007) 52%,
 		rgba(255, 255, 255, 0) 62%
 	);
 	background-size: 260% 260%;
@@ -211,8 +211,8 @@ body {
 	background: linear-gradient(
 		112deg,
 		rgba(255, 255, 255, 0) 30%,
-		rgba(255, 255, 255, 0.15) 43%,
-		rgba(255, 255, 255, 0.05) 50%,
+		rgba(255, 255, 255, 0.05) 43%,
+		rgba(255, 255, 255, 0.017) 50%,
 		rgba(255, 255, 255, 0) 60%
 	);
 	background-size: 300% 300%;
@@ -221,23 +221,45 @@ body {
 	transition: background-position 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Home button: a convex cap, so its highlight moves the opposite way to the screen glare */
-.homeSheen {
+/* Depth: the Home button is a dish and the speaker a slot cut into the glass.
+   Light travels along (--light-x, --light-y): the near inner wall falls into shadow,
+   the far inner wall catches a soft highlight. Phones (no cursor) get light from the top left. */
+.homeSheen,
+.speakerSheen {
+	--lx: var(--light-x, 0.45);
+	--ly: var(--light-y, 0.75);
 	position: absolute;
 	z-index: 15;
-	left: 50.3%;
-	top: 90.5%;
-	width: 62px;
-	height: 62px;
 	transform: translate(-50%, -50%);
-	border-radius: 50%;
 	pointer-events: none;
+	transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.homeSheen {
+	left: 50.4%;
+	top: 90.8%;
+	width: 16.9%;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+	box-shadow:
+		inset calc(var(--lx) * 2.6px) calc(var(--ly) * 2.6px) 3px rgba(0, 0, 0, 0.5),
+		inset calc(var(--lx) * -1.6px) calc(var(--ly) * -1.6px) 2px rgba(255, 255, 255, 0.09);
+	/* lit far wall of the dish */
 	background: radial-gradient(
-		circle at calc(100% - var(--glare-x, 38%)) calc(100% - var(--glare-y, 62%)),
-		rgba(255, 255, 255, 0.24) 0%,
-		rgba(255, 255, 255, 0.06) 32%,
-		rgba(255, 255, 255, 0) 58%
+		circle at calc(50% + var(--lx) * 26%) calc(50% + var(--ly) * 26%),
+		rgba(255, 255, 255, 0.07) 0%,
+		rgba(255, 255, 255, 0.02) 30%,
+		rgba(255, 255, 255, 0) 55%
 	);
-	mix-blend-mode: screen;
-	transition: background 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.speakerSheen {
+	left: 50.4%;
+	top: 11%;
+	width: 18.6%;
+	height: 1.9%;
+	border-radius: 999px;
+	box-shadow:
+		inset calc(var(--lx) * 1.4px) calc(var(--ly) * 1.6px) 1.5px rgba(0, 0, 0, 0.65),
+		inset calc(var(--lx) * -1px) calc(var(--ly) * -1px) 1px rgba(255, 255, 255, 0.1);
 }

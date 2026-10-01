@@ -44,12 +44,15 @@ const App = () => {
         const ny = e.clientY / window.innerHeight - 0.5;
         frame.style.setProperty("--tilt-x", `${(-ny * 4).toFixed(2)}deg`);
         frame.style.setProperty("--tilt-y", `${(nx * 5).toFixed(2)}deg`);
+        // Direction the light travels (from the cursor across the phone), -1..1 – drives the depth shading
+        frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
+        frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));
         frame.style.setProperty("--glare-x", `${(50 - nx * 40).toFixed(1)}%`);
         frame.style.setProperty("--glare-y", `${(50 - ny * 40).toFixed(1)}%`);
       });
     };
     const onLeave = () => {
-      ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y"].forEach((k) => frame.style.removeProperty(k));
+      ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y", "--light-x", "--light-y"].forEach((k) => frame.style.removeProperty(k));
     };
     window.addEventListener("pointermove", onMove);
     document.documentElement.addEventListener("pointerleave", onLeave);
@@ -197,6 +200,7 @@ const App = () => {
           {/* Light on the device itself: a sheen shaped by the phone image, and the Home button's own reflection */}
           <div className="phoneSheen" aria-hidden="true" style={{ "--phone-mask": `url(${phone})` }} />
           <div className="homeSheen" aria-hidden="true" />
+          <div className="speakerSheen" aria-hidden="true" />
           </WallpaperProvider>
           </PowerOnProvider>
         </Router>
