@@ -201,6 +201,7 @@ const App = () => {
           <div className="phoneSheen" aria-hidden="true" style={{ "--phone-mask": `url(${phone})` }} />
           <div className="homeSheen" aria-hidden="true" />
           <div className="speakerSheen" aria-hidden="true" />
+          <div className="screenRim" aria-hidden="true" />
           </WallpaperProvider>
           </PowerOnProvider>
         </Router>

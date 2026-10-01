@@ -273,3 +273,29 @@ body {
 		inset calc(var(--lx) * 1.4px) calc(var(--ly) * 1.6px) 1.5px rgba(0, 0, 0, 0.65),
 		inset calc(var(--lx) * -1px) calc(var(--ly) * -1px) 1px rgba(255, 255, 255, 0.1);
 }
+
+/* The gray rim between the black glass and the display is a bevel that slopes down into the
+   screen. Same light model as the Home button: the wall facing the light falls into shadow,
+   the far wall catches a thin highlight. Geometry measured from Iphone.webp (1200×2291):
+   outer edge x 87–1115, y 394–1919, ~13px band, ~13px corner radius. */
+.screenRim {
+	--lx: var(--light-x, 0.45);
+	--ly: var(--light-y, 0.75);
+	position: absolute;
+	z-index: 15;
+	left: 7.25%;
+	top: 17.2%;
+	width: 85.67%;
+	height: 66.57%;
+	box-sizing: border-box;
+	padding: 3.9px; /* the band itself – only this ring is painted */
+	border-radius: 3.9px;
+	pointer-events: none;
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+	box-shadow:
+		inset calc(var(--lx) * 2.4px) calc(var(--ly) * 2.4px) 2px rgba(0, 0, 0, 0.55),
+		inset calc(var(--lx) * -1.6px) calc(var(--ly) * -1.6px) 1.5px rgba(255, 255, 255, 0.16);
+	transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
