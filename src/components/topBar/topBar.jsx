@@ -20,8 +20,10 @@ const TopBar = () => {
 	const isAppPage = !isLockScreen && !isHomeScreen;
 
 
+	// re-render only when the minute changes
 	function refreshClock() {
-		setDate(new Date());
+		const d = new Date();
+		setDate((prev) => (prev && prev.getMinutes() === d.getMinutes() && prev.getHours() === d.getHours() ? prev : d));
 	}
 
 	useEffect(() => {

@@ -41,8 +41,20 @@ const LockOverlay = () => {
 
 	useEffect(() => {
 		if (!locked) return undefined;
-		const t = setInterval(() => setNow(new Date()), 1000);
-		return () => clearInterval(t);
+		// fresh time the moment the lock shows (no stale clock after a long sleep), then per minute
+		const tick = () => {
+			const d = new Date();
+			setNow((prev) => (prev.getMinutes() === d.getMinutes() && prev.getHours() === d.getHours() && prev.getDate() === d.getDate() ? prev : d));
+		};
+		tick();
+		const t = setInterval(tick, 1000);
+		window.addEventListener('myos:wake', tick);
+		document.addEventListener('visibilitychange', tick);
+		return () => {
+			clearInterval(t);
+			window.removeEventListener('myos:wake', tick);
+			document.removeEventListener('visibilitychange', tick);
+		};
 	}, [locked]);
 
 	// Mark the screen so the status bar swaps its clock for the lock glyph

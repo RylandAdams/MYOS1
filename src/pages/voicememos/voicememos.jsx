@@ -68,8 +68,10 @@ const VoiceMemos = () => {
 	const [level, setLevel] = useState(0);
 
 	// Needle: follow the playing memo; ease back to rest otherwise
+	const levelRef = useRef(0);
+	levelRef.current = level;
 	useEffect(() => {
-		let current = 0;
+		let current = levelRef.current;
 		const buf = new Uint8Array(512);
 		const tick = () => {
 			let target = 0;
@@ -85,6 +87,11 @@ const VoiceMemos = () => {
 			}
 			// fast attack, slow release – like a real needle
 			current += (target - current) * (target > current ? 0.35 : 0.08);
+			// at rest and nothing playing: stop the loop (no idle re-renders)
+			if (paused && current < 0.002) {
+				setLevel(0);
+				return;
+			}
 			setLevel(current);
 			rafRef.current = requestAnimationFrame(tick);
 		};
