@@ -7,7 +7,7 @@
  * Filled in by: node scripts/upload-music.js "<folder of WAVs>"
  * Keys are track titles, lowercased, matching ipodLibrary.js.
  */
-const STORAGE_BASE = 'https://firebasestorage.googleapis.com/v0/b/myos1-8e625.appspot.com/o/music%2F';
+const STORAGE_BASE = 'https://firebasestorage.googleapis.com/v0/b/myos1-8e625.firebasestorage.app/o/music%2F';
 
 export const HOSTED_AUDIO = {
 	// 'denial': 'denial.m4a',

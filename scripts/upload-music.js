@@ -103,7 +103,7 @@ async function run() {
 	if (!dryRun) {
 		const admin = require(path.join(__dirname, '../functions/node_modules/firebase-admin'));
 		if (!admin.apps.length) admin.initializeApp({ projectId: 'myos1-8e625' });
-		bucket = admin.storage().bucket('myos1-8e625.appspot.com');
+		bucket = admin.storage().bucket('myos1-8e625.firebasestorage.app');
 	}
 
 	const uploaded = {};

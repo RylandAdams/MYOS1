@@ -50,7 +50,7 @@ if (!admin.apps.length) {
   }
 }
 
-const bucket = admin.storage().bucket('myos1-8e625.appspot.com');
+const bucket = admin.storage().bucket('myos1-8e625.firebasestorage.app');
 const files = fs.readdirSync(folderPath).filter((f) => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
 const sorted = files.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
