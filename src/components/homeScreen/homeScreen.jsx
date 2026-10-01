@@ -4,7 +4,6 @@ import './homeScreen.css';
 import { motion } from 'framer-motion';
 
 import { usePowerOn } from '../../context/PowerOnContext';
-import { preloadStoragePhotos } from '../../utils/photoStorage';
 import { useWallpaper } from '../../context/WallpaperContext';
 import App from '../app';
 import Folder from '../Folder/Folder';
@@ -49,7 +48,6 @@ const HomeScreen = () => {
 
 	useEffect(() => {
 		if (powerOnComplete) {
-			preloadStoragePhotos();
 			// Preload main apps so they open instantly
 			import('../../pages/photos/photos');
 			import('../../pages/ipod/ipod');
