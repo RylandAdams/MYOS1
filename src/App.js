@@ -27,6 +27,37 @@ const App = () => {
     return () => cancelAnimationFrame(id);
   }, []);
 
+  // Desktop only: the phone tilts a few degrees toward the cursor and the glass glare follows
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame || !window.matchMedia) return;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!fine.matches || reduced.matches) return;
+    let raf = 0;
+    const onMove = (e) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const nx = e.clientX / window.innerWidth - 0.5;
+        const ny = e.clientY / window.innerHeight - 0.5;
+        frame.style.setProperty("--tilt-x", `${(-ny * 4).toFixed(2)}deg`);
+        frame.style.setProperty("--tilt-y", `${(nx * 5).toFixed(2)}deg`);
+        frame.style.setProperty("--glare-x", `${(50 - nx * 40).toFixed(1)}%`);
+        frame.style.setProperty("--glare-y", `${(50 - ny * 40).toFixed(1)}%`);
+      });
+    };
+    const onLeave = () => {
+      ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y"].forEach((k) => frame.style.removeProperty(k));
+    };
+    window.addEventListener("pointermove", onMove);
+    document.documentElement.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("pointermove", onMove);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
+    };
+  }, []);
+
   useEffect(() => {
     const updateViewport = () => {
       const doc = document.documentElement;
@@ -154,6 +185,7 @@ const App = () => {
             <PowerOnOverlay />
             {/* Thin film overlay – apps look recessed behind glass */}
             <div className="screenFilm" aria-hidden="true" />
+            <div className="screenGlare" aria-hidden="true" />
           </div>
 
           <div className="backLit" />

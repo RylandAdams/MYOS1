@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import './app.css';
+import { playSound } from '../utils/uiSound';
 
 const App = memo((app) => {
 	const { id, appName, appImage, url, path } = app.data;
@@ -13,6 +14,7 @@ const App = memo((app) => {
 				<Link
 					to={linkTo}
 					className={appClass}
+					onClick={() => playSound('tap')}
 				>
 					<div className='singleApp'>
 						<img
@@ -29,6 +31,7 @@ const App = memo((app) => {
 					target='_blank'
 					rel="noopener noreferrer"
 					className={appClass}
+					onClick={() => playSound('tap')}
 				>
 					<div className='singleApp'>
 						<img

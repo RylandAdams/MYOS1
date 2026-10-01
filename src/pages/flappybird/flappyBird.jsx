@@ -252,13 +252,16 @@ const Flappybird = () => {
 		};
 
 		const resize = () => {
-			const r = wrap.getBoundingClientRect();
-			if (!r.width || !r.height) return;
-			dpr = Math.min(window.devicePixelRatio || 1, 2);
-			canvas.width = Math.round(r.width * dpr);
-			canvas.height = Math.round(r.height * dpr);
-			scale = r.width / W;
-			H = r.height / scale;
+			// Layout size, not the on-screen rect: the app opens with a zoom transform
+			const w = wrap.clientWidth;
+			const h = wrap.clientHeight;
+			if (!w || !h) return;
+			const frameScale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale')) || 1;
+			dpr = Math.min((window.devicePixelRatio || 1) * frameScale, 3);
+			canvas.width = Math.round(w * dpr);
+			canvas.height = Math.round(h * dpr);
+			scale = w / W;
+			H = h / scale;
 			buildBackdrop();
 			if (s.mode === 'ready') s.y = H * 0.42;
 		};

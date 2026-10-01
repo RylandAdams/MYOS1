@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './homeButton.css';
+import { playSound } from '../../utils/uiSound';
 
 const HomeButton = () => {
 	const handleClick = () => {
+		playSound('home');
 		window.dispatchEvent(new CustomEvent('closeFolder'));
 	};
 

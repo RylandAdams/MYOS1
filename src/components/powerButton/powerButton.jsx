@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import './powerButton.css';
+import { playSound } from '../../utils/uiSound';
 
 const PowerButton = () => {
 	const [on, setOn] = useState(true);
 
 	const powerToggle = () => {
+		playSound('lock');
+		if (!on) playSound('boot');
 		setOn(!on);
 	};
 
