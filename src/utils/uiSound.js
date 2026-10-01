@@ -79,6 +79,10 @@ const SOUNDS = {
 		click(c, t, { freq: 3200, gain: 0.12, decay: 0.018 });
 		thump(c, t, { from: 160, to: 70, gain: 0.12, decay: 0.05 });
 	},
+	/** Click wheel – the tiny tick per scroll step */
+	tick: (c, t) => {
+		click(c, t, { freq: 4200, q: 2, gain: 0.07, decay: 0.008 });
+	},
 	/** Home button – a firmer press */
 	home: (c, t) => {
 		click(c, t, { freq: 1800, gain: 0.18, decay: 0.025 });

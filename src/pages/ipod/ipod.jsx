@@ -1,16 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { flushSync } from 'react-dom';
 
 import './ipod.css';
 import { BsFillPlayFill, BsFillPauseFill, BsMusicNote } from 'react-icons/bs';
-import { AiTwotoneStar, AiOutlineStar } from 'react-icons/ai';
-import { HiOutlineSearch } from 'react-icons/hi';
-import { MdOutlineFolder } from 'react-icons/md';
 
 import { IPOD_TRACKS, ALBUM_NAMES } from '../../assets/ipodLibrary';
 import { hostedAudioUrl } from '../../assets/ipodAudio';
-import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
-import NowPlaying from './NowPlaying';
+import { playSound } from '../../utils/uiSound';
 
 const FAVORITES_KEY = 'ipod-favorites';
 const FAVORITES_VERSION = 7;
@@ -27,6 +23,8 @@ const EXCLUDED_TITLE_MATCHES = ['wasn’t sad', "wasn't sad"]; // filter legacy 
 // Use direct Cloud Functions URL so search works in dev and prod (avoids proxy/rewrite returning HTML)
 const SEARCH_API_URL =
 	'https://us-central1-myos1-8e625.cloudfunctions.net/getSoundCloudSearch';
+const WHEEL_STEP_DEG = 18; // one list step per 18° of wheel rotation
+const SEEK_STEP_S = 5; // Now Playing: one wheel step scrubs 5 seconds
 
 function normSoundcloudUrl(u) {
 	if (!u || typeof u !== 'string') return '';
@@ -67,7 +65,9 @@ function getSearchLimitState() {
 function incrementSearchCount() {
 	const state = getSearchLimitState();
 	state.count += 1;
-	localStorage.setItem(SEARCH_LIMIT_KEY, JSON.stringify(state));
+	try {
+		localStorage.setItem(SEARCH_LIMIT_KEY, JSON.stringify(state));
+	} catch {}
 	return state;
 }
 
@@ -80,8 +80,29 @@ function getSearchLimitMessage() {
 	return `Search limit reached. Try again in ${remainingHours} hour${remainingHours !== 1 ? 's' : ''}.`;
 }
 
+const formatTime = (s) => {
+	if (!Number.isFinite(s) || s < 0) return '0:00';
+	const m = Math.floor(s / 60);
+	return `${m}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+};
+
+const shuffled = (list) => {
+	const a = [...list];
+	for (let i = a.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[a[i], a[j]] = [a[j], a[i]];
+	}
+	return a;
+};
+
+/** Battery glyph drawn like the iPod classic title bar */
+const IpodBattery = () => (
+	<span className="icBattery" aria-hidden>
+		<span className="icBatteryFill" />
+	</span>
+);
+
 const Ipod = () => {
-	const [activeTab, setActiveTab] = useState('library');
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchLoading, setSearchLoading] = useState(false);
@@ -89,9 +110,7 @@ const Ipod = () => {
 	const [currentTrack, setCurrentTrack] = useState(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [playbackLoading, setPlaybackLoading] = useState(false);
-	const [playProgress, setPlayProgress] = useState(0);
 	const [tracksFromApi, setTracksFromApi] = useState(null);
-	const [tracksLoading, setTracksLoading] = useState(true);
 	const [favorites, setFavorites] = useState(() => {
 		try {
 			const ver = parseInt(localStorage.getItem('ipod-favorites-version') || '0', 10);
@@ -104,8 +123,6 @@ const Ipod = () => {
 			return DEFAULT_FAVORITES;
 		}
 	});
-	const [expandedAlbum, setExpandedAlbum] = useState(null);
-	const [expandedSingleId, setExpandedSingleId] = useState(null);
 	const [favoriteTracks, setFavoriteTracks] = useState(() => {
 		try {
 			return JSON.parse(localStorage.getItem(FAVORITE_TRACKS_KEY) || '{}');
@@ -113,9 +130,13 @@ const Ipod = () => {
 			return {};
 		}
 	});
-	const [nowPlayingOpen, setNowPlayingOpen] = useState(false);
 	const [playError, setPlayError] = useState(null);
 	const [timeInfo, setTimeInfo] = useState({ pos: 0, dur: 0 });
+	/** iPod menu stack – each entry remembers its own highlighted row */
+	const [stack, setStack] = useState([{ id: 'main', param: null, sel: 0 }]);
+	const [navDir, setNavDir] = useState('none');
+	const [wheelPressed, setWheelPressed] = useState(null);
+
 	const widgetRef = useRef(null);
 	const iframeRef = useRef(null);
 	const audioRef = useRef(null);
@@ -128,6 +149,10 @@ const Ipod = () => {
 	const currentTrackRef = useRef(null);
 	const playbackLoadingRef = useRef(false);
 	const loadingProgressFallbackUsedRef = useRef(false);
+	const listRef = useRef(null);
+	const wheelRef = useRef(null);
+	const dragRef = useRef(null);
+	const searchInputRef = useRef(null);
 	const [widgetSrc, setWidgetSrc] = useState(
 		'https://w.soundcloud.com/player/?url=https://soundcloud.com/rylandofficialmusic/tracks&auto_play=false&hide_related=true&show_comments=false'
 	);
@@ -161,11 +186,7 @@ const Ipod = () => {
 		const tryClearLoadingForCurrentSound = () => {
 			const want = currentTrackRef.current?.soundcloudUrl;
 			const done = () => setPlaybackLoading(false);
-			if (!want) {
-				queueMicrotask(done);
-				return;
-			}
-			if (typeof w.getCurrentSound !== 'function') {
+			if (!want || typeof w.getCurrentSound !== 'function') {
 				queueMicrotask(done);
 				return;
 			}
@@ -192,7 +213,6 @@ const Ipod = () => {
 		w.bind(window.SC.Widget.Events.FINISH, () => {
 			if (engineRef.current !== 'soundcloud') return;
 			setIsPlaying(false);
-			setPlayProgress(0);
 			setPlaybackLoading(false);
 			stepTrackRef.current(1);
 		});
@@ -205,7 +225,6 @@ const Ipod = () => {
 			const pos =
 				data.relativePosition ??
 				(data.currentPosition != null && data.duration ? data.currentPosition / data.duration : null);
-			if (typeof pos === 'number' && !Number.isNaN(pos) && pos >= 0) setPlayProgress(Math.min(1, pos));
 			// Some navigations never re-fire PLAY; once the stream advances, we're past buffering.
 			if (playbackLoadingRef.current && pos > 0.008 && !loadingProgressFallbackUsedRef.current) {
 				loadingProgressFallbackUsedRef.current = true;
@@ -214,7 +233,7 @@ const Ipod = () => {
 		});
 	};
 
-	// Poll position when playing – PLAY_PROGRESS can be unreliable
+	// Poll position when playing through SoundCloud – PLAY_PROGRESS can be unreliable
 	useEffect(() => {
 		if (!isPlaying || !currentTrack || !widgetRef.current || engineRef.current !== 'soundcloud') return;
 		const interval = setInterval(() => {
@@ -222,13 +241,10 @@ const Ipod = () => {
 			if (!w) return;
 			w.getPosition((pos) => {
 				w.getDuration((dur) => {
-					if (dur > 0 && typeof pos === 'number') {
-						setPlayProgress(Math.min(1, Math.max(0, pos / dur)));
-						setTimeInfo({ pos: pos / 1000, dur: dur / 1000 });
-					}
+					if (dur > 0 && typeof pos === 'number') setTimeInfo({ pos: pos / 1000, dur: dur / 1000 });
 				});
 			});
-		}, 200);
+		}, 250);
 		return () => clearInterval(interval);
 	}, [isPlaying, currentTrack]);
 
@@ -258,7 +274,7 @@ const Ipod = () => {
 		};
 	}, []);
 
-	// Fetch tracks from SoundCloud API (artwork + metadata)
+	// Fetch tracks from SoundCloud API (artwork + metadata); the local library is complete without it
 	useEffect(() => {
 		let cancelled = false;
 		fetch(API_URL)
@@ -276,7 +292,14 @@ const Ipod = () => {
 							const id = match ? match.id : (isBeThatGirlAgain ? 'btga' : String(t.id));
 							const album = match ? match.album : (t.album || 'Library');
 							const releaseDate = t.releaseDate || (match ? match.releaseDate : null);
-							return { ...t, id, album, releaseDate };
+							return {
+								...t,
+								id,
+								album,
+								releaseDate,
+								artwork: match?.artwork || t.artwork,
+								artworkLarge: match?.artworkLarge || t.artwork,
+							};
 						});
 					const apiUrls = new Set(mapped.map((t) => norm(t.soundcloudUrl)));
 					const apiTitles = new Set(mapped.map((t) => (t.title || '').toLowerCase()));
@@ -290,32 +313,32 @@ const Ipod = () => {
 			})
 			.catch(() => {
 				if (!cancelled) setTracksFromApi(null);
-			})
-			.finally(() => {
-				if (!cancelled) setTracksLoading(false);
 			});
-		return () => { cancelled = true; };
+		return () => {
+			cancelled = true;
+		};
 	}, []);
-
-	// Reset album view when switching tabs (show list when entering Albums)
-	useEffect(() => {
-		setExpandedAlbum(null);
-		setExpandedSingleId(null);
-	}, [activeTab]);
 
 	// Persist favorites and version (version triggers migration on next load)
 	useEffect(() => {
-		localStorage.setItem('ipod-favorites-version', String(FAVORITES_VERSION));
-		localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+		try {
+			localStorage.setItem('ipod-favorites-version', String(FAVORITES_VERSION));
+			localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+		} catch {}
 	}, [favorites]);
 	useEffect(() => {
-		localStorage.setItem(FAVORITE_TRACKS_KEY, JSON.stringify(favoriteTracks));
+		try {
+			localStorage.setItem(FAVORITE_TRACKS_KEY, JSON.stringify(favoriteTracks));
+		} catch {}
 	}, [favoriteTracks]);
 
-	const toggleFavorite = (id, track) => {
-		if (isNonFavoritable(track)) return;
+	const allTracks = tracksFromApi ?? IPOD_TRACKS;
+
+	const toggleFavorite = (track) => {
+		if (!track || isNonFavoritable(track)) return;
+		const id = track.id;
 		const isAdding = !favorites.includes(id);
-		if (isAdding && track && !allTracks.some((t) => t.id === id)) {
+		if (isAdding && !allTracks.some((t) => t.id === id)) {
 			setFavoriteTracks((ft) => ({ ...ft, [id]: track }));
 		}
 		if (!isAdding) {
@@ -325,14 +348,36 @@ const Ipod = () => {
 				return next;
 			});
 		}
-		setFavorites((prev) =>
-			prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
-		);
+		setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]));
 	};
 
-	const allTracks = tracksFromApi ?? IPOD_TRACKS;
+	const favoriteList = () => {
+		const fromLibrary = allTracks.filter((t) => favorites.includes(t.id));
+		const libraryIds = new Set(fromLibrary.map((t) => t.id));
+		const fromSearch = Object.values(favoriteTracks).filter((t) => favorites.includes(t.id) && !libraryIds.has(t.id));
+		return [...fromLibrary, ...fromSearch].sort((a, b) => favorites.indexOf(a.id) - favorites.indexOf(b.id));
+	};
 
-	// Search – runs when user presses Enter or clicks Search button
+	/** Albums with 2+ songs first (newest first), then singles (newest first) – each opens its song list */
+	const albumList = () => {
+		const byAlbum = {};
+		allTracks.forEach((t) => {
+			const album = t.album || 'Other';
+			if (!byAlbum[album]) byAlbum[album] = [];
+			byAlbum[album].push(t);
+		});
+		const latest = (tracks) => tracks.reduce((max, t) => ((t.releaseDate || '') > max ? t.releaseDate : max), '');
+		const albums = ALBUM_NAMES.filter((name) => byAlbum[name]?.length >= 2)
+			.map((name) => ({ name, tracks: byAlbum[name], date: latest(byAlbum[name]) }))
+			.sort((a, b) => (b.date > a.date ? 1 : -1));
+		const singles = Object.entries(byAlbum)
+			.filter(([name]) => !ALBUM_NAMES.includes(name))
+			.map(([name, tracks]) => ({ name, tracks, date: latest(tracks) }))
+			.sort((a, b) => (b.date > a.date ? 1 : -1));
+		return [...albums, ...singles];
+	};
+
+	// Search – runs on Enter or the center button
 	const runSearch = (q) => {
 		const trimmed = q.trim().toLowerCase();
 		if (!trimmed) {
@@ -348,88 +393,28 @@ const Ipod = () => {
 		setSearchLimitMessage(null);
 		incrementSearchCount();
 		setSearchLoading(true);
-		const url = `${SEARCH_API_URL}?q=${encodeURIComponent(trimmed)}`;
-		fetch(url)
+		const localMatches = () =>
+			allTracks
+				.filter(
+					(t) =>
+						(t.title || '').toLowerCase().includes(trimmed) ||
+						(t.artist || '').toLowerCase().includes(trimmed) ||
+						(t.album || '').toLowerCase().includes(trimmed)
+				)
+				.slice(0, 10);
+		fetch(`${SEARCH_API_URL}?q=${encodeURIComponent(trimmed)}`)
 			.then(async (res) => {
 				const text = await res.text();
-				if (!text.trim().startsWith('{')) {
-					throw new Error('Server returned HTML instead of JSON');
-				}
+				if (!text.trim().startsWith('{')) throw new Error('Server returned HTML instead of JSON');
 				return JSON.parse(text);
 			})
 			.then((data) => {
 				const apiTracks = data.tracks || [];
-				if (apiTracks.length > 0) {
-					setSearchResults(apiTracks);
-					return;
-				}
-				// Fallback: search within your library
-				const local = allTracks.filter(
-					(t) =>
-						(t.title || '').toLowerCase().includes(trimmed) ||
-						(t.artist || '').toLowerCase().includes(trimmed) ||
-						(t.album || '').toLowerCase().includes(trimmed)
-				);
-				setSearchResults(local.slice(0, 10));
+				setSearchResults(apiTracks.length > 0 ? apiTracks : localMatches());
 			})
-			.catch(() => {
-				const local = allTracks.filter(
-					(t) =>
-						(t.title || '').toLowerCase().includes(trimmed) ||
-						(t.artist || '').toLowerCase().includes(trimmed) ||
-						(t.album || '').toLowerCase().includes(trimmed)
-				);
-				setSearchResults(local.slice(0, 10));
-			})
+			.catch(() => setSearchResults(localMatches()))
 			.finally(() => setSearchLoading(false));
 	};
-
-
-	// Filter tracks by tab
-	const getTracks = () => {
-		if (activeTab === 'favorites') {
-			const fromLibrary = allTracks.filter((t) => favorites.includes(t.id));
-			const libraryIds = new Set(fromLibrary.map((t) => t.id));
-			const fromSearch = Object.values(favoriteTracks).filter(
-				(t) => favorites.includes(t.id) && !libraryIds.has(t.id)
-			);
-			const combined = [...fromLibrary, ...fromSearch];
-			combined.sort((a, b) => favorites.indexOf(a.id) - favorites.indexOf(b.id));
-			return combined;
-		}
-		if (activeTab === 'albums') {
-			const byAlbum = {};
-			allTracks.forEach((t) => {
-				const album = t.album || 'Other';
-				if (!byAlbum[album]) byAlbum[album] = [];
-				byAlbum[album].push(t);
-			});
-			const getLatestDate = (tracks) =>
-				tracks.reduce((max, t) => {
-					const d = t.releaseDate || '0000-00-00';
-					return d > max ? d : max;
-				}, '0000-00-00');
-			const albums = ALBUM_NAMES.filter((name) => byAlbum[name]?.length >= 2)
-				.map((name) => ({ name, tracks: byAlbum[name], releaseDate: getLatestDate(byAlbum[name]) }))
-				.sort((a, b) => (b.releaseDate > a.releaseDate ? 1 : -1));
-			const singleTracks = Object.entries(byAlbum)
-				.filter(([name]) => !ALBUM_NAMES.includes(name))
-				.flatMap(([, tracks]) => tracks);
-			const getDate = (t) => t.releaseDate || IPOD_TRACKS.find((lib) => lib.id === t.id)?.releaseDate || '0000-00-00';
-			const singles = [...singleTracks].sort((a, b) => {
-				const da = getDate(a);
-				const db = getDate(b);
-				return db.localeCompare(da);
-			});
-			return { albums, singles };
-		}
-		return allTracks;
-	};
-
-	const libraryTracks = getTracks();
-	const tracks = activeTab === 'search' ? searchResults : (activeTab === 'albums' ? [] : libraryTracks);
-	const albumData = activeTab === 'albums' ? libraryTracks : null;
-	const expandedSingleTrack = expandedSingleId ? allTracks.find((t) => t.id === expandedSingleId) : null;
 
 	/** SoundCloud often ignores auto_play until the stream is ready — kick play in the load callback + retries (still within the tap gesture on first nudge). */
 	const nudgePlay = () => {
@@ -515,7 +500,7 @@ const Ipod = () => {
 	const playTrack = (track, queue) => {
 		if (queue) queueRef.current = queue;
 		if (currentTrack?.id === track.id && !playError) {
-			handlePlayPause();
+			if (!isPlaying) handlePlayPause();
 			return;
 		}
 		unlockAudio();
@@ -525,7 +510,6 @@ const Ipod = () => {
 			setPlayError(null);
 			setPlaybackLoading(true);
 			setCurrentTrack(track);
-			setPlayProgress(0);
 			setTimeInfo({ pos: 0, dur: 0 });
 			setIsPlaying(false);
 		});
@@ -536,6 +520,12 @@ const Ipod = () => {
 
 	const handlePlayPause = () => {
 		if (!currentTrack) return;
+		if (playError) {
+			const track = currentTrack;
+			flushSync(() => setCurrentTrack(null));
+			playTrack(track);
+			return;
+		}
 		if (engineRef.current === 'native') {
 			const a = audioRef.current;
 			if (!a) return;
@@ -566,19 +556,18 @@ const Ipod = () => {
 		widgetRef.current.toggle();
 	};
 
-	const seekTo = (fraction) => {
-		const f = Math.min(1, Math.max(0, fraction));
+	const seekToSeconds = (seconds) => {
 		if (engineRef.current === 'native') {
 			const a = audioRef.current;
-			if (a && Number.isFinite(a.duration)) a.currentTime = f * a.duration;
+			if (a && Number.isFinite(a.duration)) a.currentTime = Math.min(a.duration, Math.max(0, seconds));
 			return;
 		}
 		const w = widgetRef.current;
 		if (!w) return;
 		w.getDuration((d) => {
-			if (d > 0) w.seekTo(f * d);
+			if (d > 0) w.seekTo(Math.min(d, Math.max(0, seconds * 1000)));
 		});
-		setPlayProgress(f);
+		setTimeInfo((t) => ({ ...t, pos: Math.max(0, seconds) }));
 	};
 
 	/** dir = 1 next, -1 previous. Previous restarts the song if it is more than 3 seconds in. */
@@ -586,14 +575,14 @@ const Ipod = () => {
 		const cur = currentTrackRef.current;
 		if (!cur) return;
 		if (dir < 0 && timeInfo.pos > 3) {
-			seekTo(0);
+			seekToSeconds(0);
 			return;
 		}
 		const queue = queueRef.current.length ? queueRef.current : allTracks;
 		const i = queue.findIndex((t) => t.id === cur.id);
 		const next = i === -1 ? null : queue[i + dir];
 		if (!next) {
-			if (dir < 0) seekTo(0);
+			if (dir < 0) seekToSeconds(0);
 			return;
 		}
 		playTrack(next);
@@ -647,9 +636,7 @@ const Ipod = () => {
 		onTimeUpdate: (e) => {
 			if (engineRef.current !== 'native') return;
 			const a = e.currentTarget;
-			const dur = Number.isFinite(a.duration) ? a.duration : 0;
-			setTimeInfo({ pos: a.currentTime, dur });
-			if (dur > 0) setPlayProgress(Math.min(1, a.currentTime / dur));
+			setTimeInfo({ pos: a.currentTime, dur: Number.isFinite(a.duration) ? a.duration : 0 });
 		},
 		onLoadedMetadata: (e) => {
 			if (engineRef.current !== 'native') return;
@@ -659,7 +646,6 @@ const Ipod = () => {
 		onEnded: () => {
 			if (engineRef.current !== 'native') return;
 			setIsPlaying(false);
-			setPlayProgress(0);
 			stepTrackRef.current(1);
 		},
 		onError: () => {
@@ -674,299 +660,390 @@ const Ipod = () => {
 		},
 	};
 
-	const bottomTabs = [
-		{ id: 'library', label: 'Library', icon: BsMusicNote },
-		{ id: 'favorites', label: 'Favorites', icon: AiTwotoneStar },
-		{ id: 'albums', label: 'Albums', icon: MdOutlineFolder },
-		{ id: 'search', label: 'Search', icon: HiOutlineSearch },
-	];
+	// ——— iPod menus ———
+
+	const view = stack[stack.length - 1];
+
+	const push = (id, param = null) => {
+		setNavDir('forward');
+		setStack((s) => [...s, { id, param, sel: 0 }]);
+	};
+	const back = () => {
+		if (stack.length <= 1) return;
+		setNavDir('back');
+		setStack((s) => s.slice(0, -1));
+	};
+	const setSel = (sel) => setStack((s) => s.map((v, i) => (i === s.length - 1 ? { ...v, sel } : v)));
+
+	const openNowPlaying = () => {
+		if (view.id !== 'nowplaying') push('nowplaying');
+	};
+
+	const songItems = (tracks) =>
+		tracks.map((t) => ({
+			key: t.id,
+			label: t.title,
+			playing: currentTrack?.id === t.id,
+			action: () => {
+				playTrack(t, tracks);
+				openNowPlaying();
+			},
+		}));
+
+	/** Rows for the current menu: { key, label, chevron, playing, disabled, action } */
+	const menuFor = (v) => {
+		switch (v.id) {
+			case 'main':
+				return {
+					title: 'iPod',
+					items: [
+						{ key: 'music', label: 'Music', chevron: true, action: () => push('music') },
+						{
+							key: 'shuffle',
+							label: 'Shuffle Songs',
+							action: () => {
+								const queue = shuffled(allTracks);
+								if (!queue.length) return;
+								flushSync(() => setCurrentTrack(null));
+								playTrack(queue[0], queue);
+								openNowPlaying();
+							},
+						},
+						...(currentTrack
+							? [{ key: 'np', label: 'Now Playing', chevron: true, action: openNowPlaying }]
+							: []),
+					],
+				};
+			case 'music':
+				return {
+					title: 'Music',
+					items: [
+						{ key: 'favorites', label: 'Favorites', chevron: true, action: () => push('favorites') },
+						{ key: 'albums', label: 'Albums', chevron: true, action: () => push('albums') },
+						{ key: 'songs', label: 'Songs', chevron: true, action: () => push('songs') },
+						{ key: 'search', label: 'Search', chevron: true, action: () => push('search') },
+					],
+				};
+			case 'songs':
+				return { title: 'Songs', items: songItems(allTracks) };
+			case 'favorites': {
+				const favs = favoriteList();
+				return {
+					title: 'Favorites',
+					items: favs.length
+						? songItems(favs)
+						: [{ key: 'none', label: 'No favorites yet', disabled: true }],
+				};
+			}
+			case 'albums':
+				return {
+					title: 'Albums',
+					items: albumList().map((a) => ({
+						key: a.name,
+						label: a.name,
+						chevron: true,
+						action: () => push('album', a.name),
+					})),
+				};
+			case 'album': {
+				const tracks = allTracks.filter((t) => (t.album || 'Other') === v.param);
+				return { title: v.param, items: songItems(tracks) };
+			}
+			case 'search':
+				return {
+					title: 'Search',
+					items: searchLimitMessage
+						? [{ key: 'limit', label: searchLimitMessage, disabled: true }]
+						: searchLoading
+							? [{ key: 'loading', label: 'Searching…', disabled: true }]
+							: songItems(searchResults),
+				};
+			default:
+				return { title: 'Now Playing', items: [] };
+		}
+	};
+
+	const menu = menuFor(view);
+	const sel = Math.min(view.sel, Math.max(0, menu.items.length - 1));
+
+	// Keep the highlighted row in view (scroll the list, never the page)
+	useLayoutEffect(() => {
+		const list = listRef.current;
+		if (!list) return;
+		const row = list.querySelector(`[data-index="${sel}"]`);
+		if (!row) return;
+		if (row.offsetTop < list.scrollTop) list.scrollTop = row.offsetTop;
+		else if (row.offsetTop + row.offsetHeight > list.scrollTop + list.clientHeight) {
+			list.scrollTop = row.offsetTop + row.offsetHeight - list.clientHeight;
+		}
+	}, [sel, view.id, view.param]);
+
+	useEffect(() => {
+		if (view.id === 'search') searchInputRef.current?.focus({ preventScroll: true });
+	}, [view.id]);
+
+	const selectCurrent = () => {
+		if (view.id === 'nowplaying') {
+			toggleFavorite(currentTrack);
+			return;
+		}
+		if (view.id === 'search' && document.activeElement === searchInputRef.current) {
+			runSearch(searchQuery);
+			searchInputRef.current?.blur();
+			return;
+		}
+		const item = menu.items[sel];
+		if (item && !item.disabled && item.action) item.action();
+	};
+
+	const rotate = (steps) => {
+		if (view.id === 'nowplaying') {
+			if (currentTrack && timeInfo.dur > 0) seekToSeconds(timeInfo.pos + steps * SEEK_STEP_S);
+			return;
+		}
+		const n = menu.items.length;
+		if (!n) return;
+		const next = Math.min(n - 1, Math.max(0, sel + steps));
+		if (next !== sel) {
+			setSel(next);
+			playSound('tick');
+		}
+	};
+
+	const press = (button) => {
+		playSound('tick');
+		setWheelPressed(button);
+		window.setTimeout(() => setWheelPressed(null), 140);
+		if (button === 'menu') back();
+		else if (button === 'next') stepTrack(1);
+		else if (button === 'prev') stepTrack(-1);
+		else if (button === 'play') {
+			if (currentTrack) handlePlayPause();
+			else if (allTracks.length) {
+				playTrack(allTracks[0], allTracks);
+				openNowPlaying();
+			}
+		} else if (button === 'center') selectCurrent();
+	};
+
+	// Click wheel: drag around the ring to scroll; a short tap on the ring presses MENU / ⏭ / ⏯ / ⏮
+	const wheelPoint = (e) => {
+		const r = wheelRef.current.getBoundingClientRect();
+		const x = e.clientX - (r.left + r.width / 2);
+		const y = e.clientY - (r.top + r.height / 2);
+		return { angle: (Math.atan2(y, x) * 180) / Math.PI, dist: Math.hypot(x, y) / (r.width / 2) };
+	};
+	const onWheelDown = (e) => {
+		const p = wheelPoint(e);
+		if (p.dist < 0.38 || p.dist > 1.04) return;
+		e.preventDefault();
+		dragRef.current = { last: p.angle, start: p.angle, acc: 0, moved: 0 };
+		try {
+			wheelRef.current.setPointerCapture(e.pointerId);
+		} catch (_) {}
+	};
+	const onWheelMove = (e) => {
+		const d = dragRef.current;
+		if (!d) return;
+		const p = wheelPoint(e);
+		let delta = p.angle - d.last;
+		if (delta > 180) delta -= 360;
+		if (delta < -180) delta += 360;
+		d.last = p.angle;
+		d.acc += delta;
+		d.moved += Math.abs(delta);
+		let steps = 0;
+		while (d.acc >= WHEEL_STEP_DEG) {
+			d.acc -= WHEEL_STEP_DEG;
+			steps += 1;
+		}
+		while (d.acc <= -WHEEL_STEP_DEG) {
+			d.acc += WHEEL_STEP_DEG;
+			steps -= 1;
+		}
+		if (steps) rotate(steps);
+	};
+	const onWheelUp = () => {
+		const d = dragRef.current;
+		dragRef.current = null;
+		if (!d || d.moved > 10) return;
+		const a = d.start; // screen angles: -90 top, 0 right, 90 bottom, ±180 left
+		if (a >= -135 && a < -45) press('menu');
+		else if (a >= -45 && a < 45) press('next');
+		else if (a >= 45 && a < 135) press('play');
+		else press('prev');
+	};
+
+	// Keyboard: arrows scroll, Enter selects, Escape/Backspace go back, Space plays/pauses
+	const keyRef = useRef(() => {});
+	keyRef.current = (e) => {
+		const typing = e.target === searchInputRef.current;
+		if (typing && e.key !== 'Enter' && e.key !== 'Escape' && e.key !== 'ArrowDown') return;
+		if (e.key === 'ArrowDown') {
+			if (typing) searchInputRef.current.blur();
+			rotate(1);
+		} else if (e.key === 'ArrowRight') {
+			if (view.id === 'nowplaying') rotate(1);
+			else selectCurrent();
+		} else if (e.key === 'ArrowUp') rotate(-1);
+		else if (e.key === 'Enter') selectCurrent();
+		else if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'ArrowLeft') back();
+		else if (e.key === ' ') press('play');
+		else return;
+		e.preventDefault();
+	};
+	useEffect(() => {
+		const onKey = (e) => keyRef.current(e);
+		window.addEventListener('keydown', onKey);
+		return () => window.removeEventListener('keydown', onKey);
+	}, []);
+
+	const queue = queueRef.current.length ? queueRef.current : allTracks;
+	const queueIndex = currentTrack ? queue.findIndex((t) => t.id === currentTrack.id) : -1;
+	const progress = timeInfo.dur > 0 ? Math.min(1, timeInfo.pos / timeInfo.dur) : 0;
+	const art = currentTrack?.artworkLarge || currentTrack?.artwork;
 
 	return (
-		<div className="ipod">
-			{/* SVG gradient for active tab icons – metallic silver to blue */}
-			<svg width="0" height="0" aria-hidden="true">
-				<defs>
-					<linearGradient id="ipodIconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-						<stop offset="0%" stopColor="#f0f5fc" />
-						<stop offset="25%" stopColor="#d8e8f8" />
-						<stop offset="50%" stopColor="#90c0f0" />
-						<stop offset="100%" stopColor="#007AFF" />
-					</linearGradient>
-				</defs>
-			</svg>
-			<AppHeaderBar
-				title="iPod"
-				actionLabel={currentTrack && !nowPlayingOpen ? 'Now Playing' : null}
-				onAction={() => setNowPlayingOpen(true)}
-			/>
+		<div className="ipod ipodClassic">
+			<div className="icScreen">
+				<div className="icTitleBar">
+					<span className="icTitleState" aria-hidden>
+						{currentTrack ? isPlaying ? <BsFillPlayFill /> : <BsFillPauseFill /> : null}
+					</span>
+					<span className="icTitle">{menu.title}</span>
+					<IpodBattery />
+				</div>
 
-			{/* Scroll area – search bar or segmented control, then songs */}
-			<div className="ipodScrollArea">
-				{activeTab === 'search' ? (
-					<div className="ipodSearchBar">
-						<input
-							type="text"
-							className="ipodSearchInput"
-							placeholder="Search any song ever"
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === 'Enter') {
-									e.preventDefault();
-									runSearch(searchQuery);
-								}
-							}}
-						/>
-						<button
-							type="button"
-							className="ipodSearchBtn"
-							onClick={() => runSearch(searchQuery)}
-						>
-							Search
-						</button>
-					</div>
-				) : (
-					<div className="ipodSegmentedControl">
-						<button
-							className={`ipodSegment ${activeTab === 'library' ? 'active' : ''}`}
-							onClick={() => setActiveTab('library')}
-						>
-							Library
-						</button>
-						<button
-							className={`ipodSegment ${activeTab === 'favorites' ? 'active' : ''}`}
-							onClick={() => setActiveTab('favorites')}
-						>
-							Favorites
-						</button>
-						<button
-							className={`ipodSegment ${activeTab === 'albums' ? 'active' : ''}`}
-							onClick={() => setActiveTab('albums')}
-						>
-							Albums
-						</button>
-					</div>
-				)}
-
-				<div className="songsListed">
-				{activeTab === 'search' && searchLimitMessage ? (
-					<div className="ipodEmpty ipodSearchLimit">{searchLimitMessage}</div>
-				) : activeTab === 'search' && searchLoading ? (
-					<div className="ipodEmpty">Searching…</div>
-				) : activeTab === 'search' && !searchQuery.trim() ? null : activeTab === 'search' && tracks.length === 0 ? (
-					<div className="ipodEmpty">No results found</div>
-				) : tracksLoading ? (
-					<div className="ipodEmpty">Loading tracks…</div>
-				) : albumData ? (
-					<>
-						{expandedAlbum ? (
-							<>
-								<button type="button" className="ipodBackBtn" onClick={() => { setExpandedAlbum(null); setExpandedSingleId(null); }}>
-									← All Albums
-								</button>
-								<div className="ipodAlbumHeader">{expandedSingleTrack ? expandedSingleTrack.title : expandedAlbum}</div>
-								{(expandedSingleTrack ? [expandedSingleTrack] : (albumData.albums.find((a) => a.name === expandedAlbum)?.tracks ?? albumData.singles.filter((t) => t.album === expandedAlbum))).map((track, i, rowList) => {
-									const isActive = currentTrack?.id === track.id;
-									return (
-										<div key={track.id} role="button" tabIndex={0} className={`songRow ${isActive ? 'active' : ''}`} onClick={() => playTrack(track, rowList)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playTrack(track, rowList); } }}>
-											<div className="songRowArtwork">
-												{track.artwork ? <img src={track.artwork} alt="" className="songImg" loading="lazy" /> : <div className="songImgPlaceholder"><BsMusicNote className="songImgPlaceholderIcon" /></div>}
-												{isActive && (
-													<button type="button" className={`progressDialOverlay${playbackLoading ? ' progressDialOverlay--loading' : ''}`} onClick={(e) => { e.stopPropagation(); handlePlayPause(); }} aria-label={playbackLoading ? 'Loading audio' : isPlaying ? 'Pause' : 'Play'}>
-														<svg className="progressDial" viewBox="0 0 36 36">
-															<circle className="progressDialBg" cx="18" cy="18" r="15" />
-															<circle className="progressDialFill" cx="18" cy="18" r="15" style={{ strokeDasharray: 94.2, strokeDashoffset: playbackLoading ? 94.2 : 94.2 - playProgress * 94.2 }} />
-														</svg>
-														{playbackLoading ? <span className="ipodBufferSpinner" aria-hidden /> : isPlaying ? <BsFillPauseFill className="progressDialPlayIcon" /> : <BsFillPlayFill className="progressDialPlayIcon" />}
-													</button>
-												)}
-											</div>
-											<div className="songRowInfo"><span className="songName">{i + 1}. {track.title}</span><span className="artistName">{track.artist}</span></div>
-											<span className="songRowDuration">{track.duration || '—'}</span>
-									<button type="button" className="favoriteBtn" disabled={isNonFavoritable(track)} onClick={(e) => { e.stopPropagation(); toggleFavorite(track.id, track); }} aria-label={isNonFavoritable(track) ? 'Favoriting unavailable for this track' : (favorites.includes(track.id) ? 'Remove from favorites' : 'Add to favorites')}>
-												{favorites.includes(track.id) ? <AiTwotoneStar className="starFilled" /> : <AiOutlineStar className="starOutline" />}
-											</button>
-										</div>
-									);
-								})}
-							</>
-						) : (
-							<>
-								{albumData.albums.length > 0 && (
-									<>
-										<h3 className="ipodSectionTitle">Albums</h3>
-										{albumData.albums.map(({ name, tracks: albumTracks }) => (
-											<button key={name} type="button" className="ipodAlbumRow" onClick={() => { setExpandedSingleId(null); setExpandedAlbum(name); }}>
-												<div className="ipodAlbumRowArtwork">
-													{albumTracks[0]?.artwork ? <img src={albumTracks[0].artwork} alt="" loading="lazy" /> : <BsMusicNote className="songImgPlaceholderIcon" />}
-												</div>
-												<div className="ipodAlbumRowInfo">
-													<span className="ipodAlbumRowName">{name}</span>
-													<span className="ipodAlbumRowMeta">{albumTracks.length} songs</span>
-												</div>
-												<span className="ipodAlbumRowChevron">›</span>
-											</button>
-										))}
-									</>
-								)}
-								{albumData.singles.length > 0 && (
-									<>
-										<h3 className="ipodSectionTitle">Singles</h3>
-										{albumData.singles.map((track) => (
-											<button key={track.id} type="button" className="ipodAlbumRow" onClick={() => { setExpandedSingleId(track.id); setExpandedAlbum('__single__'); }}>
-												<div className="ipodAlbumRowArtwork">
-													{track.artwork ? <img src={track.artwork} alt="" loading="lazy" /> : <BsMusicNote className="songImgPlaceholderIcon" />}
-												</div>
-												<div className="ipodAlbumRowInfo">
-													<span className="ipodAlbumRowName">{track.title}</span>
-													<span className="ipodAlbumRowMeta">{track.artist}</span>
-												</div>
-												<span className="ipodAlbumRowChevron">›</span>
-											</button>
-										))}
-									</>
-								)}
-								{albumData.albums.length === 0 && albumData.singles.length === 0 && (
-									<div className="ipodEmpty">No tracks</div>
-								)}
-							</>
-						)}
-					</>
-				) : tracks.length === 0 ? (
-					<div className="ipodEmpty">
-						{activeTab === 'favorites'
-							? 'Tap the star on tracks to add favorites'
-							: 'No tracks'}
-					</div>
-				) : (
-					tracks.map((track, index) => {
-						const isActive = currentTrack?.id === track.id;
-						return (
-							<div
-								key={track.id + (activeTab === 'search' ? '-search' : '')}
-								role="button"
-								tabIndex={0}
-								className={`songRow ${isActive ? 'active' : ''}`}
-								onClick={() => playTrack(track, tracks)}
-								onKeyDown={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') {
-										e.preventDefault();
-										playTrack(track, tracks);
-									}
-								}}
-							>
-								<div className="songRowArtwork">
-									{track.artwork ? (
-										<img src={track.artwork} alt="" className="songImg" loading="lazy" />
-									) : (
-										<div className="songImgPlaceholder">
-											<BsMusicNote className="songImgPlaceholderIcon" />
-										</div>
-									)}
-									{isActive && (
-										<button
-											type="button"
-											className={`progressDialOverlay${playbackLoading ? ' progressDialOverlay--loading' : ''}`}
-											onClick={(e) => {
-												e.stopPropagation();
-												handlePlayPause();
-											}}
-											aria-label={playbackLoading ? 'Loading audio' : isPlaying ? 'Pause' : 'Play'}
-										>
-											<svg className="progressDial" viewBox="0 0 36 36">
-												<circle className="progressDialBg" cx="18" cy="18" r="15" />
-												<circle
-													className="progressDialFill"
-													cx="18"
-													cy="18"
-													r="15"
-													style={{
-														strokeDasharray: 94.2,
-														strokeDashoffset: playbackLoading ? 94.2 : 94.2 - playProgress * 94.2,
-													}}
-												/>
-											</svg>
-											{playbackLoading ? (
-												<span className="ipodBufferSpinner" aria-hidden />
-											) : isPlaying ? (
-												<BsFillPauseFill className="progressDialPlayIcon" />
-											) : (
-												<BsFillPlayFill className="progressDialPlayIcon" />
-											)}
-										</button>
-									)}
+				<div key={`${stack.length}-${view.id}-${view.param}`} className={`icPane icPane-${navDir}`}>
+					{view.id === 'nowplaying' ? (
+						currentTrack ? (
+							<div className="icNowPlaying">
+								<div className="icNpCount">
+									{queueIndex >= 0 ? `${queueIndex + 1} of ${queue.length}` : ''}
 								</div>
-								<div className="songRowInfo">
-									<span className="songName">{index + 1}. {track.title}</span>
-									<span className="artistName">{track.artist}</span>
+								<div className="icNpBody">
+									<div className="icNpArt">
+										{art ? <img src={art} alt={`${currentTrack.title} cover art`} /> : <BsMusicNote />}
+									</div>
+									<div className="icNpMeta">
+										<span className="icNpTitle">
+											{currentTrack.title}
+											{favorites.includes(currentTrack.id) && <span className="icNpStar"> ★</span>}
+										</span>
+										<span className="icNpArtist">{currentTrack.artist || 'RYLAND'}</span>
+										<span className="icNpAlbum">{currentTrack.album}</span>
+									</div>
 								</div>
-								<span className="songRowDuration">{track.duration || '—'}</span>
-								<button
-									type="button"
-									className="favoriteBtn"
-									disabled={isNonFavoritable(track)}
-									onClick={(e) => {
-										e.stopPropagation();
-										toggleFavorite(track.id, track);
-									}}
-									aria-label={isNonFavoritable(track) ? 'Favoriting unavailable for this track' : (favorites.includes(track.id) ? 'Remove from favorites' : 'Add to favorites')}
-								>
-									{favorites.includes(track.id) ? (
-										<AiTwotoneStar className="starFilled" />
-									) : (
-										<AiOutlineStar className="starOutline" />
-									)}
-								</button>
+								{playError && playError.id === currentTrack.id ? (
+									<div className="icNpError">
+										Couldn't load this song.{' '}
+										{currentTrack.soundcloudUrl && (
+											<a href={currentTrack.soundcloudUrl} target="_blank" rel="noreferrer">
+												Open on SoundCloud ›
+											</a>
+										)}
+									</div>
+								) : (
+									<div className="icNpProgress">
+										<div className="icNpBar" aria-label="Song progress">
+											<div className="icNpBarFill" style={{ width: `${progress * 100}%` }} />
+										</div>
+										<div className="icNpTimes">
+											<span>{playbackLoading ? 'Loading…' : formatTime(timeInfo.pos)}</span>
+											<span>-{formatTime(Math.max(0, timeInfo.dur - timeInfo.pos))}</span>
+										</div>
+									</div>
+								)}
 							</div>
-						);
-					})
-				)}
+						) : (
+							<div className="icEmpty">Nothing playing</div>
+						)
+					) : (
+						<>
+							{view.id === 'search' && (
+								<form
+									className="icSearch"
+									onSubmit={(e) => {
+										e.preventDefault();
+										runSearch(searchQuery);
+										searchInputRef.current?.blur();
+									}}
+								>
+									<input
+										ref={searchInputRef}
+										type="search"
+										className="icSearchInput"
+										placeholder="Search any song ever"
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										enterKeyHint="search"
+									/>
+								</form>
+							)}
+							<ul className="icList" ref={listRef} role="listbox" aria-label={menu.title}>
+								{menu.items.map((item, i) => (
+									<li
+										key={item.key}
+										data-index={i}
+										role="option"
+										aria-selected={i === sel}
+										aria-disabled={item.disabled || undefined}
+										className={`icRow${i === sel ? ' icRow-sel' : ''}${item.disabled ? ' icRow-disabled' : ''}`}
+										onClick={() => {
+											if (item.disabled) return;
+											playSound('tick');
+											setSel(i);
+											item.action?.();
+										}}
+									>
+										<span className="icRowLabel">{item.label}</span>
+										{item.playing && <span className="icRowSpeaker" aria-label="Now playing">♪</span>}
+										{item.chevron && <span className="icRowChevron">›</span>}
+									</li>
+								))}
+							</ul>
+						</>
+					)}
 				</div>
 			</div>
 
-			{/* Bottom tab bar – iTunes style */}
-			<nav className="ipodBottomBar">
-				{bottomTabs.map((tab) => (
-					<button
-						key={tab.id}
-						className={`ipodBottomTab ${activeTab === tab.id ? 'active' : ''} ipodBottomTab-${tab.id}`}
-						onClick={() => setActiveTab(tab.id)}
-					>
-						<tab.icon className="ipodBottomIcon" />
-						<span className="ipodBottomLabel">{tab.label}</span>
-					</button>
-				))}
-			</nav>
-
-			{playError && !nowPlayingOpen && (
-				<div className="ipodPlayError" role="alert">
-					<span>Couldn't load “{playError.title}”.</span>
-					{playError.soundcloudUrl && (
-						<a href={playError.soundcloudUrl} target="_blank" rel="noreferrer">
-							Open on SoundCloud ›
-						</a>
-					)}
-					<button type="button" onClick={() => setPlayError(null)} aria-label="Dismiss">
-						×
-					</button>
-				</div>
-			)}
-
-			{nowPlayingOpen && (
-				<NowPlaying
-					track={currentTrack}
-					isPlaying={isPlaying}
-					loading={playbackLoading}
-					position={timeInfo.pos}
-					duration={timeInfo.dur}
-					error={playError && playError.id === currentTrack?.id}
-					onClose={() => setNowPlayingOpen(false)}
-					onToggle={() => (playError ? playTrack(currentTrack) : handlePlayPause())}
-					onPrev={() => stepTrack(-1)}
-					onNext={() => stepTrack(1)}
-					onSeek={seekTo}
+			<div
+				className="icWheel"
+				ref={wheelRef}
+				onPointerDown={onWheelDown}
+				onPointerMove={onWheelMove}
+				onPointerUp={onWheelUp}
+				onPointerCancel={() => (dragRef.current = null)}
+				role="group"
+				aria-label="Click wheel"
+			>
+				<span className={`icWheelLabel icWheelMenu${wheelPressed === 'menu' ? ' icPressed' : ''}`} aria-hidden>
+					MENU
+				</span>
+				<span className={`icWheelLabel icWheelNext${wheelPressed === 'next' ? ' icPressed' : ''}`} aria-hidden>
+					<span className="icGlyphNext" />
+				</span>
+				<span className={`icWheelLabel icWheelPrev${wheelPressed === 'prev' ? ' icPressed' : ''}`} aria-hidden>
+					<span className="icGlyphPrev" />
+				</span>
+				<span className={`icWheelLabel icWheelPlay${wheelPressed === 'play' ? ' icPressed' : ''}`} aria-hidden>
+					<span className="icGlyphPlayPause" />
+				</span>
+				<button
+					type="button"
+					className={`icWheelCenter${wheelPressed === 'center' ? ' icPressed' : ''}`}
+					onPointerDown={(e) => e.stopPropagation()}
+					onClick={() => press('center')}
+					aria-label="Select"
 				/>
-			)}
+				{/* Screen-reader / keyboard access to the ring buttons */}
+				<span className="icSrOnly">
+					<button type="button" onClick={() => press('menu')}>Menu</button>
+					<button type="button" onClick={() => press('prev')}>Previous song</button>
+					<button type="button" onClick={() => press('play')}>Play or pause</button>
+					<button type="button" onClick={() => press('next')}>Next song</button>
+				</span>
+			</div>
 
 			{/* Built-in player for self-hosted songs */}
 			<audio ref={audioRef} preload="none" playsInline {...nativeHandlers} />
