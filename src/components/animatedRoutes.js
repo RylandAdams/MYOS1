@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 import PageTransition from './PageTransition';
+import ExternalRedirect from './ExternalRedirect';
 import PageFallback from './PageFallback';
 import HomeScreen from './homeScreen/homeScreen';
 import OffScreen from './offScreen/offScreen';
@@ -11,10 +12,6 @@ const Calender = lazy(() => import('../pages/calender/calender'));
 const Photos = lazy(() => import('../pages/photos/photos'));
 const Weather = lazy(() => import('../pages/weather/weather'));
 const Ipod = lazy(() => import('../pages/ipod/ipod'));
-const Youtube = lazy(() => import('../pages/youtube/youtube'));
-const Apple = lazy(() => import('../pages/apple/apple'));
-const Spotify = lazy(() => import('../pages/spotify/spotify'));
-const SoundCloud = lazy(() => import('../pages/soundcloud/soundcloud'));
 const Flappybird = lazy(() => import('../pages/flappybird/flappyBird'));
 const News = lazy(() => import('../pages/news/news'));
 const ArticleReader = lazy(() => import('../pages/news/ArticleReader'));
@@ -72,19 +69,19 @@ const AnimatedRoutes = () => {
 				/>
 				<Route
 					path='/youtube'
-					element={<PageTransition><Youtube /></PageTransition>}
+					element={<ExternalRedirect appName='YouTube' />}
 				/>
 				<Route
 					path='/apple'
-					element={<PageTransition><Apple /></PageTransition>}
+					element={<ExternalRedirect appName='Apple' />}
 				/>
 				<Route
 					path='/spotify'
-					element={<PageTransition><Spotify /></PageTransition>}
+					element={<ExternalRedirect appName='Spotify' />}
 				/>
 				<Route
 					path='/soundcloud'
-					element={<PageTransition><SoundCloud /></PageTransition>}
+					element={<ExternalRedirect appName='SoundCloud' />}
 				/>
 				<Route
 					path='/flappyBird'

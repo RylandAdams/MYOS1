@@ -1,4 +1,4 @@
-/* Settings – match iPod: soft neutral gray body, white content cards */
+/* iPhone OS Settings – grouped rows on the classic pinstripe background */
 
 .settingsPage {
 	height: 105%;
@@ -6,134 +6,168 @@
 	margin-top: -3%;
 	position: relative;
 	overflow: hidden;
-	/* Same soft gray gradient as iPod */
-	background: linear-gradient(
-		180deg,
-		rgb(215, 218, 222) 0%,
-		rgb(198, 202, 207) 30%,
-		rgb(185, 190, 196) 100%
-	);
+	background: repeating-linear-gradient(90deg, #c5ccd4 0, #c5ccd4 4px, #cbd2d9 4px, #cbd2d9 7px);
+}
+
+.settingsPage * {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-shadow: none;
+	box-sizing: border-box;
 }
 
 .settingsScroll {
 	position: absolute;
 	top: 13.2%;
-	left: 6%;
-	right: 6%;
+	left: 0;
+	right: 0;
 	bottom: 0;
+	padding: 4px 10px 24px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 	scrollbar-width: none;
-	-ms-overflow-style: none;
-	padding: 14px 0 24px;
+	animation: stIn 0.22s ease-out;
 }
 
 .settingsScroll::-webkit-scrollbar {
 	display: none;
 }
 
-.settingsSection {
-	margin-bottom: 20px;
+@keyframes stIn {
+	from {
+		transform: translateX(14%);
+		opacity: 0.4;
+	}
+	to {
+		transform: none;
+		opacity: 1;
+	}
 }
 
-.settingsSectionTitle {
-	font-size: 0.65rem;
-	font-weight: 600;
-	color: rgb(120, 125, 130);
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	margin: 0 0 8px 4px;
-	text-shadow: none !important;
+@media (prefers-reduced-motion: reduce) {
+	.settingsScroll {
+		animation: none;
+	}
 }
 
-.wallpaperGrid {
+/* Grouped table */
+.stGroup {
+	margin: 12px 0 0;
+	padding: 0;
+	list-style: none;
+	background: #fff;
+	border: 1px solid #a9adb3;
+	border-radius: 9px;
+	overflow: hidden;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.stGroup > li + li {
+	border-top: 1px solid #e0e0e3;
+}
+
+.stRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	min-height: 44px;
+	padding: 0 10px 0 12px;
+	border: none;
+	background: #fff;
+	text-align: left;
+}
+
+button.stRow {
+	cursor: pointer;
+}
+
+button.stRow:active {
+	background: linear-gradient(180deg, #058cf5 0%, #015fe6 100%);
+}
+
+button.stRow:active .stLabel,
+button.stRow:active .stValue,
+button.stRow:active .stChevron {
+	color: #fff;
+}
+
+.stLabel {
+	flex: 1 1 auto;
+	color: #000;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.stValue {
+	color: #385487;
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.stChevron {
+	color: #8e8e93;
+	font-size: 22px;
+	line-height: 1;
+	transform: translateY(-1px);
+}
+
+/* Wallpaper picker */
+.stWallGrid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	gap: 10px;
+	padding-top: 12px;
 }
 
-.wallpaperOption {
+.stWall {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 6px;
-	padding: 10px;
-	background: rgb(255, 255, 255);
+	gap: 5px;
+	padding: 0;
 	border: none;
-	border-radius: 8px;
-	border-bottom: 1px solid rgb(220, 224, 228);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+	background: none;
 	cursor: pointer;
-	transition: background 0.1s, box-shadow 0.15s;
-	-webkit-tap-highlight-color: transparent;
 }
 
-.wallpaperOption:active {
-	background: rgb(245, 248, 252);
-}
-
-.wallpaperOption-active {
-	background: rgb(230, 240, 255);
-	box-shadow: 0 1px 3px rgba(0, 122, 255, 0.2);
-	border-bottom: 1px solid rgb(200, 220, 255);
-}
-
-.wallpaperPreview {
+.stWallPreview {
+	display: block;
 	width: 100%;
-	aspect-ratio: 9 / 16;
-	border-radius: 6px;
+	aspect-ratio: 2 / 3;
+	border-radius: 4px;
 	background-size: cover;
 	background-position: center;
-	background-color: rgb(55, 58, 62);
+	background-color: #374048;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.wallpaperLabel {
-	font-size: 0.72rem;
-	font-weight: 500;
-	color: rgb(20, 20, 20);
-	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.08);
+.stWall-on .stWallPreview {
+	box-shadow: 0 0 0 2px #2f6fd6, 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.settingsRow {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 12px 14px;
-	background: rgb(255, 255, 255);
-	border-radius: 8px;
-	border-bottom: 1px solid rgb(220, 224, 228);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-	margin-bottom: 0;
-}
-
-.settingsRowLabel {
-	font-size: 0.9rem;
-	font-weight: 500;
-	color: rgb(20, 20, 20);
-	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.08);
-}
-
-.settingsRowValue {
-	font-size: 0.85rem;
-	color: rgb(100, 105, 110);
-	text-shadow: none !important;
-}
-
-.settingsNote {
-	font-size: 0.75rem;
-	color: rgb(120, 125, 130);
+.stWallCheck {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: linear-gradient(180deg, #6ea2ec 0%, #2f6fd6 100%);
+	box-shadow: 0 0 0 1.5px #fff, 0 1px 2px rgba(0, 0, 0, 0.4);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 20px;
 	text-align: center;
-	margin: 12px 0 4px;
-	text-shadow: none !important;
 }
 
-.settingsVersion {
-	font-size: 0.75rem;
-	color: rgb(120, 125, 130);
-	text-align: center;
-	margin: 16px 0 0;
-	text-shadow: none !important;
+.stWallLabel {
+	color: #4c566c;
+	font-size: 11px;
+	font-weight: 700;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* iPhone OS 1 ON/OFF switch */
