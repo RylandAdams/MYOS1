@@ -283,3 +283,22 @@
 .phArrowRight {
 	border-left: 14px solid #fff;
 }
+
+/* Next / previous photo slides in from the side it came from */
+@keyframes phInRight {
+	from {
+		transform: translateX(60%);
+		opacity: 0.4;
+	}
+}
+@keyframes phInLeft {
+	from {
+		transform: translateX(-60%);
+		opacity: 0.4;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.phFull {
+		animation: none !important;
+	}
+}

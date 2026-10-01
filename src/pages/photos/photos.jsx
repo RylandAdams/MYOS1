@@ -13,6 +13,7 @@ function Viewer({ album, index, onIndex, onClose }) {
 	useDarkStatusBar();
 	const [chrome, setChrome] = useState(true);
 	const [dx, setDx] = useState(0);
+	const [enter, setEnter] = useState(0); // -1 / 1: the new photo slides in from that side
 	const drag = useRef(null);
 	const photos = album.photos;
 	const photo = photos[index];
@@ -26,7 +27,10 @@ function Viewer({ album, index, onIndex, onClose }) {
 
 	const go = (step) => {
 		const next = index + step;
-		if (next >= 0 && next < photos.length) onIndex(next);
+		if (next >= 0 && next < photos.length) {
+			setEnter(step);
+			onIndex(next);
+		}
 	};
 
 	useEffect(() => {
@@ -41,6 +45,7 @@ function Viewer({ album, index, onIndex, onClose }) {
 
 	const onDown = (e) => {
 		drag.current = { x: e.clientX, moved: false };
+		setEnter(0); // a finished slide-in must not replay when the drag ends
 		e.currentTarget.setPointerCapture?.(e.pointerId);
 	};
 	const onMove = (e) => {
@@ -76,7 +81,11 @@ function Viewer({ album, index, onIndex, onClose }) {
 					src={viewSrc(photo)}
 					alt={photo.title || ''}
 					draggable={false}
-					style={{ transform: `translateX(${dx}px)`, transition: dx ? 'none' : 'transform 0.2s ease-out' }}
+					style={{
+						transform: `translateX(${dx}px)`,
+						transition: dx ? 'none' : 'transform 0.2s ease-out',
+						animation: enter && !dx ? `${enter > 0 ? 'phInRight' : 'phInLeft'} 0.32s cubic-bezier(0.22, 0.68, 0.18, 1) both` : undefined,
+					}}
 				/>
 			</div>
 			<div className={`phViewerBar${chrome ? '' : ' phHidden'}`}>
