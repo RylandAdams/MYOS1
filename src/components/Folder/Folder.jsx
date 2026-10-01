@@ -8,7 +8,8 @@ import './Folder.css';
 /* Folder: the whole display frosts over (strong blur + dim) and a glass panel springs out of
    the folder icon itself, with the folder's name above it; closing shrinks it back into the icon. */
 
-const SPRING = { type: 'spring', stiffness: 420, damping: 34, mass: 0.9 };
+// softer spring with a short lead, so the frost settles first and the sheet unfolds into it
+const SPRING = { type: 'spring', stiffness: 300, damping: 30, mass: 0.9, delay: 0.05 };
 
 const Folder = ({ folderName, apps }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +56,7 @@ const Folder = ({ folderName, apps }) => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
-					transition={{ duration: reduced ? 0 : 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+					transition={{ duration: reduced ? 0 : 0.24, ease: [0.25, 0.1, 0.25, 1] }}
 					onClick={() => setIsOpen(false)}
 					role="dialog"
 					aria-label={`${folderName} folder`}
@@ -66,7 +67,7 @@ const Folder = ({ folderName, apps }) => {
 						initial={reduced ? false : { scale: 0.16, opacity: 0 }}
 						animate={{ scale: 1, opacity: 1 }}
 						exit={reduced ? { opacity: 0 } : { scale: 0.16, opacity: 0, transition: { duration: 0.24, ease: [0.4, 0, 0.6, 1] } }}
-						transition={reduced ? { duration: 0 } : { ...SPRING, opacity: { duration: 0.14 } }}
+						transition={reduced ? { duration: 0 } : { ...SPRING, opacity: { duration: 0.18, delay: 0.05 } }}
 						onClick={(e) => e.stopPropagation()}
 					>
 						<div className="folderTitle">{folderName}</div>
