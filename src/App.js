@@ -94,8 +94,8 @@ const App = () => {
       const onOrient = (e) => {
         if (e.beta == null || e.gamma == null || !portrait.matches) return;
         if (!base) base = [e.beta, e.gamma];
-        // ~6° of tilt from the starting angle = full effect
-        target = [clamp(-(e.gamma - base[1]) / 12), clamp(-(e.beta - base[0]) / 12)];
+        // ~9° of tilt from the starting angle = full effect
+        target = [clamp(-(e.gamma - base[1]) / 18), clamp(-(e.beta - base[0]) / 18)];
         if (!running) {
           running = true;
           raf = requestAnimationFrame(tick);
