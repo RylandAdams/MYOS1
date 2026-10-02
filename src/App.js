@@ -53,7 +53,7 @@ const App = () => {
     /** nx, ny in -0.5..0.5 – where the light comes from relative to the phone's centre */
     // Phones get a much stronger tilt than desktop – at ±5° it was too subtle to notice on a small screen
     const touch = !fine.matches;
-    const TILT = touch ? [28, 34] : [9.6, 12]; // max rotation ×2: phones ±14° / ±17°, desktop ±4.8° / ±6°
+    const TILT = touch ? [19.6, 23.8] : [9.6, 12]; // max rotation ×2: phones ±9.8° / ±11.9°, desktop ±4.8° / ±6°
     const apply = (nx, ny) => {
       frame.style.setProperty("--tilt-x", `${(-ny * TILT[0]).toFixed(2)}deg`);
       frame.style.setProperty("--tilt-y", `${(nx * TILT[1]).toFixed(2)}deg`);
@@ -94,8 +94,8 @@ const App = () => {
       const onOrient = (e) => {
         if (e.beta == null || e.gamma == null || !portrait.matches) return;
         if (!base) base = [e.beta, e.gamma];
-        // ~9° of tilt from the starting angle = full effect
-        target = [clamp(-(e.gamma - base[1]) / 18), clamp(-(e.beta - base[0]) / 18)];
+        // ~10° of tilt from the starting angle = full effect
+        target = [clamp(-(e.gamma - base[1]) / 20), clamp(-(e.beta - base[0]) / 20)];
         if (!running) {
           running = true;
           raf = requestAnimationFrame(tick);
