@@ -51,9 +51,12 @@ const App = () => {
     const VARS = ["--tilt-x", "--tilt-y", "--glare-x", "--glare-y", "--light-x", "--light-y"];
 
     /** nx, ny in -0.5..0.5 – where the light comes from relative to the phone's centre */
+    // Phones get a much stronger tilt than desktop – at ±5° it was too subtle to notice on a small screen
+    const touch = !fine.matches;
+    const TILT = touch ? [28, 34] : [9.6, 12]; // max rotation ×2: phones ±14° / ±17°, desktop ±4.8° / ±6°
     const apply = (nx, ny) => {
-      frame.style.setProperty("--tilt-x", `${(-ny * 9.6).toFixed(2)}deg`); // up to ±4.8°
-      frame.style.setProperty("--tilt-y", `${(nx * 12).toFixed(2)}deg`); // up to ±6°
+      frame.style.setProperty("--tilt-x", `${(-ny * TILT[0]).toFixed(2)}deg`);
+      frame.style.setProperty("--tilt-y", `${(nx * TILT[1]).toFixed(2)}deg`);
       // Direction the light travels (from the source across the phone), -1..1 – drives the depth shading
       frame.style.setProperty("--light-x", (-nx * 2).toFixed(3));
       frame.style.setProperty("--light-y", (-ny * 2).toFixed(3));
@@ -91,17 +94,17 @@ const App = () => {
       const onOrient = (e) => {
         if (e.beta == null || e.gamma == null || !portrait.matches) return;
         if (!base) base = [e.beta, e.gamma];
-        // ~10° of tilt from the starting angle = full effect
-        target = [clamp(-(e.gamma - base[1]) / 20), clamp(-(e.beta - base[0]) / 20)];
+        // ~6° of tilt from the starting angle = full effect
+        target = [clamp(-(e.gamma - base[1]) / 12), clamp(-(e.beta - base[0]) / 12)];
         if (!running) {
           running = true;
           raf = requestAnimationFrame(tick);
         }
       };
       const syncOrientation = () => {
-        if (portrait.matches) frame.classList.add("tiltEnabled");
+        if (portrait.matches) frame.classList.add("tiltEnabled", "tiltTouch");
         else {
-          frame.classList.remove("tiltEnabled");
+          frame.classList.remove("tiltEnabled", "tiltTouch");
           reset();
           base = null;
         }
@@ -134,7 +137,7 @@ const App = () => {
 
     return () => {
       cancelAnimationFrame(raf);
-      frame.classList.remove("tiltEnabled");
+      frame.classList.remove("tiltEnabled", "tiltTouch");
       cleanups.forEach((fn) => fn());
     };
   }, []);

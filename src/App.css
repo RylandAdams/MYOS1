@@ -157,6 +157,17 @@ body {
 	}
 }
 
+/* Phones (motion sensor): a closer perspective so the bigger tilt reads as depth, not a skew */
+.Frame.tiltTouch {
+	transition: opacity 0.4s ease-out, transform 0.12s linear;
+	transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--scale, 1));
+}
+@supports (zoom: 1) {
+	.Frame.tiltTouch {
+		transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+	}
+}
+
 .phone {
 	pointer-events: none;
 	position: absolute;
@@ -365,4 +376,26 @@ body {
 .iphoneContent .wxList,
 .iphoneContent .calEvents {
 	overscroll-behavior: contain;
+}
+
+/* Phones: brighter glare and chrome sheen so the light visibly sweeps as you tilt */
+.tiltTouch .screenGlare {
+	background-image: linear-gradient(
+		118deg,
+		rgba(255, 255, 255, 0) 30%,
+		rgba(255, 255, 255, 0.075) 45%,
+		rgba(255, 255, 255, 0.02) 53%,
+		rgba(255, 255, 255, 0) 64%
+	);
+	transition-duration: 0.1s;
+}
+.tiltTouch .phoneSheen {
+	background-image: linear-gradient(
+		112deg,
+		rgba(255, 255, 255, 0) 28%,
+		rgba(255, 255, 255, 0.14) 42%,
+		rgba(255, 255, 255, 0.045) 51%,
+		rgba(255, 255, 255, 0) 62%
+	);
+	transition-duration: 0.1s;
 }

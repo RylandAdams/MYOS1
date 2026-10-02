@@ -1,5 +1,5 @@
 // public/sw.js — network-first for app bundles; cache only shell assets.
-const CACHE_NAME = 'myos-cache-v32';
+const CACHE_NAME = 'myos-cache-v33';
 const SHELL_ASSETS = ['/index.html', '/manifest.json', '/APPLOGO.png'];
 
 function isAppBundle(pathname) {
