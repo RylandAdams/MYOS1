@@ -5,7 +5,8 @@ import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import { playSound } from '../../utils/uiSound';
 import { NOTES, COMING_SOON, shortDate, longDate } from './notesData';
 
-/* iPhone OS Notes: yellow legal pad, tan bar, Marker Felt. One folder ("Lyrics") with a note per
+/* iPhone OS Notes: the phone's blue-gray bars and plain rows; a note is a cream legal pad in
+   Marker Felt (near-black at night). One folder ("Lyrics") with a note per
    song. Opens in the folder like the real app reopens where you left it; Folders is one back away.
    The share button's sheet is the only way out to /lyrics/ (Open in Safari) and Spotify. */
 

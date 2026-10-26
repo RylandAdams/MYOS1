@@ -1,13 +1,12 @@
-/* iPhone OS Notes – yellow legal pad under a tan bar, Marker Felt on ruled lines */
+/* iPhone OS Notes – the phone's own blue-gray bars and plain list rows; the note itself is a
+   legal pad: cream ruled paper, red double margin, Marker Felt ink */
 
 .notesPage {
-	--nt-paper: #fcf3ae;
-	--nt-paper-2: #f8e98c;
-	--nt-rule: rgba(150, 120, 60, 0.28);
-	--nt-margin: rgba(196, 90, 70, 0.45);
-	--nt-ink: #3b2a12;
-	--nt-muted: #8a7244;
-	--nt-accent: #9b6c1f;
+	--nt-paper: #fdf8dc;
+	--nt-rule: rgba(98, 140, 196, 0.32);
+	--nt-margin: rgba(214, 74, 64, 0.55);
+	--nt-ink: #2b2620;
+	--nt-stamp: #8a8478;
 	--nt-line: 26px;
 	/* like every app page, this one runs ~3% past the bottom of the screen; the toolbar sits above that */
 	--nt-overhang: 2.9%;
@@ -16,41 +15,22 @@
 	margin-top: -3%;
 	position: relative;
 	overflow: hidden;
-	background: linear-gradient(180deg, var(--nt-paper) 0%, var(--nt-paper-2) 100%);
+	background: #fff;
+}
+.notesPage-note {
+	background: var(--nt-paper);
 }
 
 .notesPage * {
 	box-sizing: border-box;
 	text-shadow: none;
 }
-/* App.css colours and fonts every element directly; let the pad's ink and Marker Felt inherit */
+/* App.css colours and fonts every element directly; let each part's ink and face inherit */
 .notesScroll *,
 .ntTool * {
 	color: inherit;
 	font-family: inherit;
 	font-weight: inherit;
-}
-
-/* The tan Notes bar, on the shared header */
-.notesPage .appHeaderBar {
-	background: linear-gradient(180deg, #d9bb86 0%, #bf9a5f 50%, #b08850 50%, #9a7440 100%);
-	border-top-color: #e6d0a6;
-	border-bottom-color: #5a4220;
-}
-.notesPage .appHeaderTitle {
-	text-shadow: 0 -1px 0 rgba(70, 45, 10, 0.55);
-}
-.notesPage .appHeaderBackBtn,
-.notesPage .appHeaderActionBtn {
-	background: #5e4422;
-}
-.notesPage .appHeaderBackBtn::before,
-.notesPage .appHeaderActionBtn::before {
-	background: linear-gradient(180deg, #caa66c 0%, #a9834a 50%, #9b753e 50%, #8e6a36 100%);
-}
-.notesPage .appHeaderBackBtn:active::before,
-.notesPage .appHeaderActionBtn:active::before {
-	background: linear-gradient(180deg, #a17c45 0%, #85622f 50%, #7a5829 50%, #6f5025 100%);
 }
 
 .notesScroll {
@@ -65,8 +45,9 @@
 	overscroll-behavior: contain;
 	scrollbar-width: none;
 	animation: ntIn 0.22s ease-out;
-	font-family: 'Marker Felt', 'Noteworthy', 'Chalkboard SE', 'Comic Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	color: var(--nt-ink);
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	color: #000;
 	-webkit-font-smoothing: antialiased;
 }
 .notesScroll::-webkit-scrollbar {
@@ -78,16 +59,25 @@
 .notesScroll.ntBack {
 	animation-name: ntInBack;
 }
+/* same slide as Settings */
 @keyframes ntIn {
 	from {
 		transform: translateX(14%);
 		opacity: 0.4;
+	}
+	to {
+		transform: none;
+		opacity: 1;
 	}
 }
 @keyframes ntInBack {
 	from {
 		transform: translateX(-14%);
 		opacity: 0.4;
+	}
+	to {
+		transform: none;
+		opacity: 1;
 	}
 }
 @media (prefers-reduced-motion: reduce) {
@@ -96,48 +86,43 @@
 	}
 }
 
-/* ——— Folder + note lists: one ruled row per item ——— */
+/* ——— Folder + note lists: plain iPhone OS table rows, as in Files and Voice Memos ——— */
 .ntRows {
 	list-style: none;
 	margin: 0;
 	padding: 0 0 24px;
 }
+.ntRows > li {
+	border-bottom: 1px solid #e0e0e3;
+}
 .ntRow {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: 1px;
+	gap: 2px;
 	width: 100%;
-	min-height: 52px;
-	padding: 6px 14px 6px 34px;
+	min-height: 54px;
+	padding: 6px 14px 6px 16px;
 	border: none;
-	border-bottom: 1px solid var(--nt-rule);
-	background: transparent;
+	background: #fff;
 	font: inherit;
 	color: inherit;
 	text-align: left;
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
-	position: relative;
-}
-/* the pad's margin rule runs down the list too */
-.ntRow::before,
-.ntPaper::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 24px;
-	width: 3px;
-	border-left: 1px solid var(--nt-margin);
-	border-right: 1px solid var(--nt-margin);
-	pointer-events: none;
 }
 .ntRow:active {
-	background: rgba(150, 110, 40, 0.14);
+	background: linear-gradient(180deg, #058cf5 0%, #015fe6 100%);
+	color: #fff;
+}
+.ntRow:active .ntDate,
+.ntRow:active .ntPreview,
+.ntRow:active .ntCount,
+.ntRow:active .ntChevron {
+	color: #fff;
 }
 .ntRow:focus-visible {
-	outline: 2px solid var(--nt-accent);
+	outline: 2px solid rgba(40, 110, 215, 0.6);
 	outline-offset: -2px;
 }
 .ntLine1 {
@@ -152,59 +137,76 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	font-size: 18px;
+	font-size: 16px;
+	font-weight: 700;
 	line-height: 1.25;
 }
 .ntDate {
 	flex-shrink: 0;
 	font-size: 13px;
-	color: var(--nt-accent);
+	color: #385487;
 	font-variant-numeric: tabular-nums;
 }
 .ntPreview {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 1.3;
-	color: var(--nt-muted);
+	color: #7d7d84;
 }
 .ntPending {
 	font-style: italic;
-	opacity: 0.85;
 }
 .ntFolder {
 	flex-direction: row;
 	align-items: center;
-	min-height: 48px;
+	gap: 8px;
+	min-height: 44px;
+	padding-right: 10px;
 }
 .ntCount {
 	font-size: 15px;
-	color: var(--nt-muted);
+	color: #385487;
 }
 .ntChevron {
 	font-size: 22px;
 	line-height: 1;
-	color: var(--nt-accent);
-	margin-left: 6px;
+	color: #8e8e93;
+	transform: translateY(-1px);
 }
 
-/* ——— A note: text sits on the rules ——— */
+/* ——— A note: legal-pad paper, text sits on the rules ——— */
 .ntPaper {
 	position: relative;
 	min-height: 100%;
-	padding: 6px 14px 40px 36px;
+	padding: 6px 14px 40px 40px;
 	line-height: var(--nt-line);
+	background-color: var(--nt-paper);
 	background-image: linear-gradient(to bottom, transparent calc(var(--nt-line) - 1px), var(--nt-rule) calc(var(--nt-line) - 1px));
 	background-size: 100% var(--nt-line);
 	background-position: 0 3px;
+	font-family: 'Marker Felt', 'Noteworthy', 'Chalkboard SE', 'Comic Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: var(--nt-ink);
+}
+/* the red double margin rule */
+.ntPaper::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 28px;
+	width: 3px;
+	border-left: 1px solid var(--nt-margin);
+	border-right: 1px solid var(--nt-margin);
+	pointer-events: none;
 }
 .ntStamp {
 	margin: 0;
 	height: var(--nt-line);
 	font-size: 13px;
 	text-align: center;
-	color: var(--nt-accent);
+	color: var(--nt-stamp);
 }
 .ntNoteTitle,
 .ntBody {
@@ -218,7 +220,7 @@
 	white-space: pre-wrap;
 }
 
-/* Bottom bar: previous, share, next */
+/* Bottom toolbar: previous, share, next – the navigation bar's gloss, as on every iPhone OS toolbar */
 .ntToolbar {
 	position: absolute;
 	left: 0;
@@ -228,9 +230,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-	background: linear-gradient(180deg, #d9bb86 0%, #bf9a5f 50%, #b08850 50%, #9a7440 100%);
-	border-top: 1px solid #5a4220;
-	box-shadow: inset 0 1px 0 rgba(255, 240, 210, 0.5);
+	background: linear-gradient(180deg, #b2bfd0 0%, #8b9db5 50%, #8194ae 50%, #6d83a1 100%);
+	border-top: 1px solid #2d3642;
+	box-shadow: inset 0 1px 0 #cdd5df;
 }
 .ntTool {
 	display: flex;
@@ -242,7 +244,7 @@
 	background: transparent;
 	color: #fff;
 	cursor: pointer;
-	filter: drop-shadow(0 -1px 0 rgba(70, 45, 10, 0.6));
+	filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.5));
 	-webkit-tap-highlight-color: transparent;
 }
 .ntTool svg {
@@ -261,37 +263,40 @@
 	border-radius: 6px;
 }
 
-/* ——— Dark Mode: the pad at night – dark paper, faint gold rules, cream ink ——— */
+/* ——— Dark Mode: black lists like Files; the pad at night – near-black paper, faint rules, light ink.
+   The header picks up the shared black glass bar from darkTheme.css. ——— */
 .themeDark .notesPage {
-	--nt-paper: #24211b;
-	--nt-paper-2: #1a1813;
-	--nt-rule: rgba(240, 200, 110, 0.13);
-	--nt-margin: rgba(220, 110, 90, 0.35);
-	--nt-ink: #f4ead0;
-	--nt-muted: #a89a78;
-	--nt-accent: #e8b931;
-}
-.themeDark .notesPage .appHeaderBar,
-.themeDark .ntToolbar {
-	background: linear-gradient(180deg, #4d3d26 0%, #2f2414 50%, #1f170c 50%, #170f06 100%);
-	border-top-color: #6a5636;
-	border-bottom-color: #000;
-}
-.themeDark .ntToolbar {
-	border-top-color: #000;
-	box-shadow: inset 0 1px 0 rgba(255, 220, 160, 0.14);
-}
-.themeDark .ntTool {
-	color: #f2c94c;
-}
-.themeDark .notesPage .appHeaderBackBtn,
-.themeDark .notesPage .appHeaderActionBtn {
+	--nt-paper: #141414;
+	--nt-rule: rgba(255, 255, 255, 0.09);
+	--nt-margin: rgba(220, 90, 80, 0.4);
+	--nt-ink: #ecebe6;
+	--nt-stamp: #85858d;
 	background: #000;
 }
-.themeDark .notesPage .appHeaderBackBtn::before,
-.themeDark .notesPage .appHeaderActionBtn::before {
-	background: linear-gradient(180deg, #6e5a3a 0%, #4a3a22 50%, #34280f 50%, #3c2f17 100%);
+.themeDark .notesPage-note {
+	background: var(--nt-paper);
+}
+.themeDark .notesScroll {
+	color: #fff;
+}
+.themeDark .ntRows > li {
+	border-bottom-color: #1e1e21;
+}
+.themeDark .ntRow {
+	background: #000;
 }
 .themeDark .ntRow:active {
-	background: rgba(240, 200, 110, 0.1);
+	background: linear-gradient(180deg, #058cf5 0%, #015fe6 100%);
+}
+.themeDark .ntDate,
+.themeDark .ntCount {
+	color: #8fa6c9;
+}
+.themeDark .ntPreview {
+	color: #85858d;
+}
+.themeDark .ntToolbar {
+	background: linear-gradient(180deg, #4a4a50 0%, #2a2a2e 50%, #121214 50%, #0a0a0b 100%);
+	border-top-color: #000;
+	box-shadow: inset 0 1px 0 #55555b;
 }
