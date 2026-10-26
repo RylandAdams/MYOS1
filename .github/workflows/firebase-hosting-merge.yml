@@ -31,3 +31,6 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYOS1_8E625 }}'
           channelId: live
           projectId: myos1-8e625
+          # 15.33+ calls the Service Usage API, which the deploy service account
+          # isn't allowed to read (403). 15.32.1 is what deployed fine on Oct 2.
+          firebaseToolsVersion: 15.32.1
