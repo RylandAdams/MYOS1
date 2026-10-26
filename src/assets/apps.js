@@ -12,13 +12,15 @@ import mail from './imgs/mail.png';
 import settings from './imgs/settings.png';
 // iOS Files (Wikimedia): https://commons.wikimedia.org/wiki/File:Files_App_icon_iOS.png
 import files from './imgs/files.png';
+import notes from './imgs/notes.png';
 
-// Order chosen by Ryland: Settings, Calendar, Weather, Files (Voice Memos returns once the recordings are ready)
+// Order chosen by Ryland: Settings, Calendar, Weather, Files (Voice Memos returns once the recordings are ready); Notes holds every song's lyrics
 export const EXTRAS_APPS = [
 	{ id: 'extras-4', appName: 'Settings', appImage: settings, path: '/settings' },
 	{ id: 'extras-1', appName: 'Calendar', appImage: calender, path: '/calender' },
 	{ id: 'extras-3', appName: 'Weather', appImage: weather, path: '/weather' },
 	{ id: 'extras-5', appName: 'Files', appImage: files, path: '/files' },
+	{ id: 'extras-6', appName: 'Notes', appImage: notes, path: '/notes' },
 ];
 
 export const MAINAPPS = [

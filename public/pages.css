@@ -47,3 +47,10 @@ a { color: var(--link); }
 .profile .name { font-size: 22px; font-weight: 600; margin: 0; }
 .profile .sub { color: var(--muted); margin: 0; }
 .note { color: var(--muted); font-size: 15px; margin: 0 16px 16px; }
+
+/* /lyrics/: one card per song */
+.song { padding: 4px 16px 12px; scroll-margin-top: 12px; }
+.song h2 { font-size: 22px; font-weight: 600; text-transform: none; letter-spacing: -0.01em; color: var(--text); margin: 14px 0 2px; }
+.song .meta { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+.song .lyrics { margin: 0; white-space: normal; line-height: 1.55; }
+.song .pending { color: var(--muted); font-style: italic; }
