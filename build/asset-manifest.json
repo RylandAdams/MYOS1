@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c5ea4145.css",
-    "main.js": "/static/js/main.f19cc590.js",
+    "main.js": "/static/js/main.1050d658.js",
     "static/css/151.b4334e44.chunk.css": "/static/css/151.b4334e44.chunk.css",
     "static/js/151.a617e253.chunk.js": "/static/js/151.a617e253.chunk.js",
     "static/css/406.15c14caf.chunk.css": "/static/css/406.15c14caf.chunk.css",
@@ -34,6 +34,7 @@
     "static/media/spotify.png": "/static/media/spotify.dd7fe7510b9406336259.png",
     "static/media/weather.png": "/static/media/weather.ffc2f4704f22c1b107c0.png",
     "static/media/Iphone.webp": "/static/media/Iphone.967681f55587bd5e1be1.webp",
+    "static/media/TikTok.png": "/static/media/TikTok.01dabdc50a5bab1728d9.png",
     "static/media/flappybird.png": "/static/media/flappybird.2e679be0458166786ecc.png",
     "static/media/Instagram.png": "/static/media/Instagram.d9ae81d5316f9c257f67.png",
     "static/media/files.png": "/static/media/files.d1b74d7757f1fae1ed70.png",
@@ -46,7 +47,7 @@
     "static/media/apple.png": "/static/media/apple.c54920249b0a5eee5ee6.png",
     "index.html": "/index.html",
     "main.c5ea4145.css.map": "/static/css/main.c5ea4145.css.map",
-    "main.f19cc590.js.map": "/static/js/main.f19cc590.js.map",
+    "main.1050d658.js.map": "/static/js/main.1050d658.js.map",
     "151.b4334e44.chunk.css.map": "/static/css/151.b4334e44.chunk.css.map",
     "151.a617e253.chunk.js.map": "/static/js/151.a617e253.chunk.js.map",
     "406.15c14caf.chunk.css.map": "/static/css/406.15c14caf.chunk.css.map",
@@ -77,6 +78,6 @@
   },
   "entrypoints": [
     "static/css/main.c5ea4145.css",
-    "static/js/main.f19cc590.js"
+    "static/js/main.1050d658.js"
   ]
 }

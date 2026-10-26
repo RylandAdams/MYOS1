@@ -1,0 +1,18 @@
+{
+  "name": "RYLAND",
+  "short_name": "RYLAND",
+  "description": "Stream music from RYLAND — independent artist from Oregon.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0c0c",
+  "theme_color": "#0c0c0c",
+  "icons": [
+    {
+      "src": "/APPLOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

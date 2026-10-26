@@ -13,6 +13,7 @@ import settings from './imgs/settings.png';
 // iOS Files (Wikimedia): https://commons.wikimedia.org/wiki/File:Files_App_icon_iOS.png
 import files from './imgs/files.png';
 import notes from './imgs/notes.png';
+import tiktok from './imgs/TikTok.png';
 
 // Order chosen by Ryland: Settings, Calendar, Weather, Files (Voice Memos returns once the recordings are ready); Notes holds every song's lyrics
 export const EXTRAS_APPS = [
@@ -58,6 +59,12 @@ export const MAINAPPS = [
 		appName: 'Spotify',
 		appImage: spotify,
 		url: 'https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ',
+	},
+	{
+		id: 8,
+		appName: 'TikTok',
+		appImage: tiktok,
+		url: 'https://www.tiktok.com/@ryland.wav',
 	},
 ];
 
