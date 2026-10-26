@@ -165,7 +165,7 @@ const Notes = () => {
 						<a className='msBtn msBtnPrimary' href={note.spotifyUrl} target='_blank' rel='noopener noreferrer' onClick={() => setSheet(false)}>
 							Listen on Spotify
 						</a>
-						<a className='msBtn' href={note.lyricsUrl} target='_blank' rel='noopener' onClick={() => setSheet(false)}>
+						<a className='msBtn' href={note.lyricsUrl} target='_blank' rel='noopener noreferrer' onClick={() => setSheet(false)}>
 							Open in Safari
 						</a>
 						<button type='button' className='msBtn msBtnCancel' onClick={() => setSheet(false)}>
