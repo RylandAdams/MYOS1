@@ -1,6 +1,12 @@
 // public/sw.js — network-first for app bundles; cache only shell assets.
-const CACHE_NAME = 'myos-cache-v36';
+const CACHE_NAME = 'myos-cache-v37';
 const SHELL_ASSETS = ['/index.html', '/manifest.json', '/APPLOGO.png'];
+// Plain-HTML pages served as their own files; never store them as the app shell.
+const STATIC_PAGES = ['/about', '/lyrics', '/contact'];
+
+function isStaticPage(pathname) {
+	return STATIC_PAGES.some((p) => pathname === p || pathname.startsWith(p + '/'));
+}
 
 function isAppBundle(pathname) {
 	return (
@@ -42,7 +48,7 @@ self.addEventListener('fetch', (event) => {
 		event.respondWith(
 			fetch(req)
 				.then((res) => {
-					if (res.ok) {
+					if (res.ok && !isStaticPage(url.pathname)) {
 						const copy = res.clone();
 						caches.open(CACHE_NAME).then((cache) => cache.put('/index.html', copy));
 					}

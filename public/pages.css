@@ -1,0 +1,49 @@
+/* Plain-HTML pages (/about, /lyrics, /contact): readable without JavaScript,
+   styled like the phone's grouped lists so they still feel like the same site. */
+:root {
+	--bg: #000;
+	--card: #1c1c1e;
+	--text: #f2f2f7;
+	--muted: #a1a1a8;
+	--line: #38383a;
+	--link: #4da3ff;
+}
+@media (prefers-color-scheme: light) {
+	:root {
+		--bg: #f2f2f7;
+		--card: #fff;
+		--text: #000;
+		--muted: #6c6c70;
+		--line: #d1d1d6;
+		--link: #0a64d6;
+	}
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body {
+	font: 17px/1.5 -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+	-webkit-text-size-adjust: 100%;
+	padding: env(safe-area-inset-top) 16px calc(32px + env(safe-area-inset-bottom));
+}
+main, .bar { max-width: 640px; margin: 0 auto; }
+.bar { padding: 14px 0 4px; }
+.back { color: var(--link); text-decoration: none; font-size: 17px; }
+h1 { font-size: 34px; line-height: 1.15; margin: 8px 0 16px; letter-spacing: -0.02em; }
+h2 { font-size: 13px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin: 28px 16px 6px; }
+a { color: var(--link); }
+.card { background: var(--card); border-radius: 12px; margin: 0 0 16px; overflow: hidden; }
+.prose { padding: 4px 16px; }
+.prose p { margin: 12px 0; }
+.list { list-style: none; padding: 0; }
+.list li, .list > a { display: block; border-top: 1px solid var(--line); }
+.list li:first-child, .list > a:first-child { border-top: 0; }
+.list a, .list .row { display: flex; align-items: baseline; gap: 12px; padding: 12px 16px; color: var(--text); text-decoration: none; }
+.list a::after { content: '›'; color: var(--muted); margin-left: auto; padding-left: 8px; }
+.list span { color: var(--muted); }
+.list .date { margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.list a:has(.date)::after { margin-left: 0; }
+.profile img { width: 100%; height: auto; display: block; }
+.profile div { padding: 12px 16px; }
+.profile .name { font-size: 22px; font-weight: 600; margin: 0; }
+.profile .sub { color: var(--muted); margin: 0; }
+.note { color: var(--muted); font-size: 15px; margin: 0 16px 16px; }

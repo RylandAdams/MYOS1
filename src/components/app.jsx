@@ -25,7 +25,7 @@ const App = memo((app) => {
 					<div className='singleApp'>
 						<img
 							src={iconFor(app.data) || appImage}
-							alt={appName}
+							alt={`${appName} icon`}
 							loading="lazy"
 						/>
 						<div className='appName'>{appName}</div>
@@ -52,7 +52,7 @@ const App = memo((app) => {
 					<div className='singleApp'>
 						<img
 							src={iconFor(app.data) || appImage}
-							alt={appName}
+							alt={`${appName} icon`}
 							loading="lazy"
 						/>
 						<div className='appName'>{appName}</div>
