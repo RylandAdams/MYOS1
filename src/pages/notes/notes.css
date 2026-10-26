@@ -56,6 +56,10 @@
 .notesPage-note .notesScroll {
 	bottom: calc(44px + var(--nt-overhang));
 }
+/* the grocery list has no toolbar; its paper runs to the bottom */
+.notesPage-grocery .notesScroll {
+	bottom: 0;
+}
 .notesScroll.ntBack {
 	animation-name: ntInBack;
 }

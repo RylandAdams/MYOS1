@@ -4,13 +4,15 @@ import '../../components/MailSheet.css';
 import AppHeaderBar from '../../components/AppHeaderBar/AppHeaderBar';
 import { playSound } from '../../utils/uiSound';
 import { NOTES, COMING_SOON, shortDate, longDate } from './notesData';
+import { GROCERY_TITLE, GROCERY_DATE, GROCERY_ITEMS } from './groceryList';
 
 /* iPhone OS Notes: the phone's blue-gray bars and plain rows; a note is a cream legal pad in
-   Marker Felt (near-black at night). One folder ("Lyrics") with a note per
-   song. Opens in the folder like the real app reopens where you left it; Folders is one back away.
-   The share button's sheet is the only way out to /lyrics/ (Open in Safari) and Spotify. */
+   Marker Felt (near-black at night). Opens at the top ("Notes"): the Lyrics folder, a note per
+   song, and the Grocery List note. In a lyric note the share button's sheet is the only way out
+   to /lyrics/ (Open in Safari) and Spotify. */
 
 const FOLDER = 'Lyrics';
+const GROCERY_BODY = GROCERY_ITEMS.join('\n');
 
 const ShareIcon = () => (
 	<svg viewBox='0 0 24 24' aria-hidden>
@@ -26,7 +28,7 @@ const Arrow = ({ left }) => (
 );
 
 const Notes = () => {
-	const [page, setPage] = useState('list'); // folders | list | note
+	const [page, setPage] = useState('top'); // top | list | note | grocery
 	const [index, setIndex] = useState(0);
 	const [dir, setDir] = useState('in'); // in | back – which way the page slides
 	const [sheet, setSheet] = useState(false);
@@ -58,26 +60,43 @@ const Notes = () => {
 
 	const note = NOTES[index];
 	const header =
-		page === 'folders'
-			? { title: 'Folders' }
+		page === 'top'
+			? { title: 'Notes' }
 			: page === 'list'
-				? { title: `${FOLDER} (${NOTES.length})`, backLabel: 'Folders', onBack: () => go('folders', 'back') }
-				: { title: note.title, backLabel: FOLDER, onBack: () => go('list', 'back') };
+				? { title: `${FOLDER} (${NOTES.length})`, backLabel: 'Notes', onBack: () => go('top', 'back') }
+				: page === 'grocery'
+					? { title: GROCERY_TITLE, backLabel: 'Notes', onBack: () => go('top', 'back') }
+					: { title: note.title, backLabel: FOLDER, onBack: () => go('list', 'back') };
+	const onPaper = page === 'note' || page === 'grocery';
 
 	return (
-		<div className={`notesPage notesPage-${page}`}>
+		<div className={`notesPage notesPage-${page}${onPaper ? ' notesPage-note' : ''}`}>
 			<AppHeaderBar {...header} />
 			<div
 				ref={scrollRef}
 				className={`notesScroll${dir === 'back' ? ' ntBack' : ''}`}
 				key={page === 'note' ? `note-${index}` : page}
 			>
-				{page === 'folders' && (
-					<ul className='ntRows'>
+				{page === 'top' && (
+					<ul className='ntRows' aria-label='Notes'>
 						<li>
 							<button type='button' className='ntRow ntFolder' onClick={() => go('list')}>
 								<span className='ntTitle'>{FOLDER}</span>
 								<span className='ntCount'>{NOTES.length}</span>
+								<span className='ntChevron'>›</span>
+							</button>
+						</li>
+						<li>
+							<button
+								type='button'
+								className='ntRow ntFolder'
+								onClick={() => {
+									playSound('tap');
+									go('grocery');
+								}}
+							>
+								<span className='ntTitle'>{GROCERY_TITLE}</span>
+								<span className='ntCount'>{GROCERY_ITEMS.length}</span>
 								<span className='ntChevron'>›</span>
 							</button>
 						</li>
@@ -105,6 +124,14 @@ const Notes = () => {
 						<p className='ntStamp'>{longDate(note.releaseDate)}</p>
 						<h2 className='ntNoteTitle'>{note.title}</h2>
 						<p className={`ntBody${note.body === COMING_SOON ? ' ntPending' : ''}`}>{note.body}</p>
+					</article>
+				)}
+
+				{page === 'grocery' && (
+					<article className='ntPaper'>
+						<p className='ntStamp'>{longDate(GROCERY_DATE)}</p>
+						<h2 className='ntNoteTitle'>{GROCERY_TITLE}</h2>
+						<p className='ntBody'>{GROCERY_BODY}</p>
 					</article>
 				)}
 			</div>
