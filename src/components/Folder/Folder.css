@@ -91,6 +91,11 @@
 	pointer-events: auto;
 }
 
+/* An app launching from the folder: under the app page (z 2), still over the home screen */
+.folderOverlay.folderLaunching {
+	z-index: 1;
+}
+
 .folderSheet {
 	position: absolute;
 	left: 14px;

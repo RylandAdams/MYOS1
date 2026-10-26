@@ -15,6 +15,7 @@ const Folder = ({ folderName, apps }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [origin, setOrigin] = useState('50% 20%');
 	const [pressed, setPressed] = useState(false);
+	const [launching, setLaunching] = useState(false);
 	const buttonRef = useRef(null);
 	const reduced = useReducedMotion();
 	const previewIcons = apps.slice(0, 4);
@@ -46,20 +47,37 @@ const Folder = ({ folderName, apps }) => {
 			setOrigin(`${Math.round(x - panelLeft)}px ${Math.round(y - panelTop)}px`);
 		}
 		setPressed(false);
+		setLaunching(false);
 		setIsOpen(true);
 	};
 	const release = () => setPressed(false);
+
+	// An app tapped in here grows out of its own icon, so the frost drops beneath it and fades with
+	// the home screen instead of covering the app until the home screen unmounts. Going home, the app
+	// shrinks into the folder icon (the folder is closed again by then).
+	const launchApp = (e) => {
+		const link = e.target.closest('a:not([target])');
+		if (!link || !window.__myosLaunch || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+		const screen = document.querySelector('.iphoneContent');
+		const b = buttonRef.current?.querySelector('.folderPreview')?.getBoundingClientRect();
+		const s = screen?.getBoundingClientRect();
+		if (b && s) {
+			const zoom = s.width / (screen.offsetWidth || s.width);
+			window.__myosLaunch.back = { x: (b.left + b.width / 2 - s.left) / zoom, y: (b.top + b.height / 2 - s.top) / zoom };
+		}
+		setLaunching(true);
+	};
 
 	const overlayContent = (
 		<AnimatePresence>
 			{isOpen && (
 				<motion.div
 					key="folderOverlay"
-					className="folderOverlay"
+					className={`folderOverlay${launching ? ' folderLaunching' : ''}`}
 					initial={{ opacity: 0 }}
-					animate={{ opacity: 1, pointerEvents: 'auto' }}
+					animate={launching ? { opacity: 0, pointerEvents: 'none' } : { opacity: 1, pointerEvents: 'auto' }}
 					exit={{ opacity: 0, pointerEvents: 'none' }} // fading out, the next tap reaches the home screen
-					transition={{ opacity: { duration: reduced ? 0 : 0.24, ease: [0.25, 0.1, 0.25, 1] } }}
+					transition={{ opacity: { duration: reduced ? 0 : launching ? 0.3 : 0.24, ease: [0.25, 0.1, 0.25, 1] } }}
 					onClick={() => setIsOpen(false)}
 					role="dialog"
 					aria-label={`${folderName} folder`}
@@ -75,7 +93,7 @@ const Folder = ({ folderName, apps }) => {
 					>
 						<div className="folderTitle">{folderName}</div>
 						<div className="folderContent">
-							<div className="folderApps">
+							<div className="folderApps" onClick={launchApp}>
 								{apps.map((app) => (
 									<App data={app} key={app.id} />
 								))}

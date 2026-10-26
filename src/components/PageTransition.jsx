@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useIsPresent, useReducedMotion } from 'framer-motion';
 
 /**
  * Each app suspends inside its own boundary while its code finishes loading, so the page being
@@ -28,13 +28,16 @@ export function launchFrom(el) {
 
 const PageTransition = ({ children }) => {
 	const reduced = useReducedMotion();
+	const isPresent = useIsPresent();
 	const [launch] = useState(() => {
 		const l = window.__myosLaunch;
 		return l && Date.now() - l.t < 1500 ? l : null;
 	});
 	window.__myosFromApp = true;
 
-	const origin = launch ? `${Math.round(launch.x)}px ${Math.round(launch.y)}px` : '50% 50%';
+	// an app opened from a folder closes into the folder icon (set by Folder); scale is 1 when this switches
+	const to = !isPresent && launch?.back ? launch.back : launch;
+	const origin = to ? `${Math.round(to.x)}px ${Math.round(to.y)}px` : '50% 50%';
 	const from = launch ? 0.08 : 0.92;
 
 	if (reduced) {
