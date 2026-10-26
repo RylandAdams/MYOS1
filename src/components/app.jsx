@@ -7,7 +7,7 @@ import { launchFrom } from './PageTransition';
 import { iconFor } from '../utils/liveIcons';
 
 const App = memo((app) => {
-	const { id, appName, appImage, url, path } = app.data;
+	const { appName, appImage, url, path } = app.data;
 	const linkTo = path || `/${appName}`;
 	const isCalender = appName === 'Calendar';
 	const appClass = isCalender ? 'Apps calenderIcon' : 'Apps';
@@ -25,7 +25,7 @@ const App = memo((app) => {
 					<div className='singleApp'>
 						<img
 							src={iconFor(app.data) || appImage}
-							alt={`app${id}`}
+							alt={appName}
 							loading="lazy"
 						/>
 						<div className='appName'>{appName}</div>
@@ -52,7 +52,7 @@ const App = memo((app) => {
 					<div className='singleApp'>
 						<img
 							src={iconFor(app.data) || appImage}
-							alt={`app${id}`}
+							alt={appName}
 							loading="lazy"
 						/>
 						<div className='appName'>{appName}</div>
