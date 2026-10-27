@@ -54,6 +54,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--glow); outline-
 }
 .epigraph { margin: 8px 0 0; font-size: 13px; letter-spacing: 0.02em; color: var(--muted); text-shadow: 0 0 6px #000, 0 1px 14px #000; }
 
+/* Visually hidden (the wordmark's period, so the hero reads "RYLAND. Music is one way in.") */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
 /* Text column */
 .col { max-width: 620px; margin: 0 auto; padding: 0 20px calc(24px + env(safe-area-inset-bottom)); }
 .col p { margin: 0 0 1em; }
@@ -131,6 +134,15 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--glow); outline-
 }
 .copy:hover { color: var(--glow); }
 .bio { max-width: 62ch; }
+
+/* Bios: the long bio's section names */
+.bio strong { font-weight: 700; }
+
+/* Pull quote: his words, set like the opening line */
+.pull { margin: 48px 0 0; }
+.pull blockquote { margin: 0; }
+.pull blockquote p { margin: 0; font-size: clamp(20px, 4.6vw, 28px); font-weight: 500; line-height: 1.25; }
+.pull figcaption { margin-top: 10px; font-size: 13px; letter-spacing: 0.02em; color: var(--muted); }
 
 /* Fast facts and contact: two-column definition grid */
 .facts { display: grid; grid-template-columns: 9.5rem 1fr; margin: 0; }
