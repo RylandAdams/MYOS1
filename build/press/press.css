@@ -1,0 +1,188 @@
+/* /press/: a black page lit like a phone screen at night. One photo, one typeface, a lot of space.
+   Always dark. Red (--accent) is used once, on the Listen button. */
+:root {
+	color-scheme: dark;
+	--bg: #000000;
+	--surface: #0b0b0c;
+	--line: #1c1c1e;
+	--text: #ededed;
+	--muted: #8e8e93;
+	--glow: #cfe3ff;
+	--accent: #ff3b30;
+	--sans: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+	--mono: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body {
+	font: 17px/1.55 var(--sans);
+	-webkit-text-size-adjust: 100%;
+	-webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+
+/* Hero: 4:5 photo, at most 56vh, fading to black; the wordmark over its bottom-left */
+.hero { position: relative; background: var(--bg); }
+.hero picture { display: block; }
+.hero img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 5;
+	max-height: 56vh;
+	object-fit: cover;
+	object-position: 50% 30%;
+	animation: photoIn 400ms ease-out both;
+}
+.hero::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to bottom, transparent 55%, #000 100%);
+	pointer-events: none;
+}
+@keyframes photoIn { from { opacity: 0; } to { opacity: 1; } }
+.mark { position: absolute; left: 20px; right: 20px; bottom: 20px; z-index: 1; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7); }
+.mark h1 {
+	margin: 0;
+	font-size: clamp(56px, 14vw, 128px);
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 0.9;
+	text-transform: uppercase;
+}
+.epigraph { margin: 8px 0 0; font-size: 13px; letter-spacing: 0.02em; color: var(--muted); text-shadow: 0 0 6px #000, 0 1px 14px #000; }
+
+/* Text column */
+.col { max-width: 620px; margin: 0 auto; padding: 0 20px calc(24px + env(safe-area-inset-bottom)); }
+.col p { margin: 0 0 1em; }
+.col section { border-top: 1px solid var(--line); }
+.col section.opening { border-top: 0; padding-top: 20px; }
+.label {
+	margin: 48px 0 16px;
+	font-size: 12px;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--muted);
+}
+
+/* Opening */
+.position { font-size: clamp(20px, 4.6vw, 28px); font-weight: 500; line-height: 1.25; }
+.col .position { margin-bottom: 8px; }
+.start { color: var(--muted); }
+.listen {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 52px;
+	border-radius: 12px;
+	background: var(--accent);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+	margin: 20px 0 10px;
+	transition: background-color 120ms;
+}
+.listen:hover { background: #e2342a; }
+.actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 6px 8px;
+	border: 1px solid var(--line);
+	background: transparent;
+	font-size: 15px;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 120ms, border-color 120ms;
+}
+.btn small { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.btn:hover, .btn:focus-visible { background: var(--surface); border-color: var(--glow); }
+.email { color: var(--muted); font-size: 15px; }
+.email a { color: var(--text); text-decoration: none; }
+.email a:hover, .links a:hover, .facts a:hover, .tiles a:hover { color: var(--glow); text-decoration: underline; }
+
+/* Start here */
+.songs { list-style: none; margin: 0; padding: 0; }
+.songs li + li { border-top: 1px solid var(--line); }
+.songs a { display: block; padding: 12px 0; text-decoration: none; }
+.songs .title { font-size: 17px; }
+.songs .date { font: 13px var(--mono); color: var(--muted); margin-left: 8px; }
+.songs .why { display: block; color: var(--muted); font-size: 15px; }
+.songs a:hover .title, .songs a:focus-visible .title { text-decoration: underline; text-decoration-color: var(--glow); text-underline-offset: 3px; }
+
+/* Bios */
+.label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.copy {
+	font: inherit;
+	font-size: 13px;
+	color: var(--muted);
+	background: transparent;
+	border: 0;
+	padding: 4px 0;
+	cursor: pointer;
+	transition: color 120ms;
+}
+.copy:hover { color: var(--glow); }
+.bio { max-width: 62ch; }
+
+/* Fast facts and contact: two-column definition grid */
+.facts { display: grid; grid-template-columns: 9.5rem 1fr; margin: 0; }
+.facts dt, .facts dd { margin: 0; padding: 10px 0; border-top: 1px solid var(--line); }
+.facts dt:first-of-type, .facts dt:first-of-type + dd { border-top: 0; }
+.facts dt { font-size: 14px; color: var(--muted); padding-right: 12px; }
+.facts dd { font-size: 16px; }
+.facts a { text-decoration: none; }
+@media (max-width: 359px) {
+	.facts { grid-template-columns: 1fr; }
+	.facts dd { border-top: 0; padding-top: 0; }
+}
+
+/* Photos */
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tiles figure { margin: 0; }
+.tiles img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: var(--surface); }
+.tiles figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; padding: 8px 0 0; }
+.tiles .spec { font: 12px var(--mono); color: var(--muted); }
+.tiles a { font-size: 14px; text-decoration: none; }
+.note { color: var(--muted); font-size: 15px; margin-top: 16px; }
+
+/* Listen / Follow */
+.links { color: var(--muted); }
+.links a { color: var(--text); text-decoration: none; }
+
+/* Footer */
+.foot {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 48px;
+	padding-top: 16px;
+	border-top: 1px solid var(--line);
+	font-size: 13px;
+	color: var(--muted);
+}
+.foot .time { font-family: var(--mono); }
+
+/* Desktop: the photo holds the left half, the text scrolls on the right */
+@media (min-width: 960px) {
+	.page { display: grid; grid-template-columns: 50vw 1fr; }
+	.hero { position: sticky; top: 0; height: 100vh; }
+	.hero picture, .hero img { height: 100vh; }
+	.hero img { aspect-ratio: auto; max-height: none; }
+	.hero::after { background: linear-gradient(to right, transparent 70%, #000); }
+	.mark { left: 40px; bottom: 40px; }
+	.col { max-width: 560px; margin: 0; padding: 64px; }
+	.col section.opening { padding-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero img { animation: none; }
+	.listen, .btn, .copy { transition: none; }
+}
