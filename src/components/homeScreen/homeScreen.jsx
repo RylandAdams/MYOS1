@@ -11,6 +11,15 @@ import { MAINAPPS, FOOTERAPPS } from '../../assets/apps';
 
 const POWER_ON_KEY = 'homeScreenPowerOnSeen';
 
+/* Resolved when the home screen starts leaving. An app opened from a folder grows over the folder's
+   frost, so the home screen (what the frost blurs) holds still until the app covers the screen. */
+const leaveHome = () => {
+	const l = window.__myosLaunch;
+	return l?.back && Date.now() - l.t < 1500
+		? { opacity: 0, transition: { delay: 0.5, duration: 0 } }
+		: { opacity: 0, scale: 1.14, transition: { duration: 0.36, ease: [0.4, 0, 0.6, 1] } };
+};
+
 const HomeScreen = () => {
 	const { powerOnComplete } = usePowerOn();
 	const { wallpaper } = useWallpaper();
@@ -86,7 +95,8 @@ const HomeScreen = () => {
 				   launching one, it pushes past you while the app grows out of its icon */
 				initial={fromApp ? { opacity: 0, scale: 1.14 } : { opacity: 1 }}
 				animate={{ opacity: 1, scale: 1, transition: { duration: 0.42, ease: [0.16, 0.84, 0.24, 1], opacity: { duration: 0.24 } } }}
-				exit={{ opacity: 0, scale: 1.14, transition: { duration: 0.36, ease: [0.4, 0, 0.6, 1] } }}
+				exit="leave"
+				variants={{ leave: leaveHome }}
 			>
 				{/* Screen bounds – same positioning as apps/dock (left 50%, translateX -50%, max-width 310px) */}
 				<div className="screenBounds" aria-hidden="true" />

@@ -52,9 +52,9 @@ const Folder = ({ folderName, apps }) => {
 	};
 	const release = () => setPressed(false);
 
-	// An app tapped in here grows out of its own icon, so the frost drops beneath it and fades with
-	// the home screen instead of covering the app until the home screen unmounts. Going home, the app
-	// shrinks into the folder icon (the folder is closed again by then).
+	// An app tapped in here grows out of its own icon over the folder: the frost drops beneath the app
+	// page but stays at full strength, and goes with the home screen once the app covers the screen.
+	// Going home, the app shrinks into the folder icon (the folder is closed again by then).
 	const launchApp = (e) => {
 		const link = e.target.closest('a:not([target])');
 		if (!link || !window.__myosLaunch || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -75,9 +75,9 @@ const Folder = ({ folderName, apps }) => {
 					key="folderOverlay"
 					className={`folderOverlay${launching ? ' folderLaunching' : ''}`}
 					initial={{ opacity: 0 }}
-					animate={launching ? { opacity: 0, pointerEvents: 'none' } : { opacity: 1, pointerEvents: 'auto' }}
+					animate={{ opacity: 1, pointerEvents: launching ? 'none' : 'auto' }}
 					exit={{ opacity: 0, pointerEvents: 'none' }} // fading out, the next tap reaches the home screen
-					transition={{ opacity: { duration: reduced ? 0 : launching ? 0.3 : 0.24, ease: [0.25, 0.1, 0.25, 1] } }}
+					transition={{ opacity: { duration: reduced ? 0 : 0.24, ease: [0.25, 0.1, 0.25, 1] } }}
 					onClick={() => setIsOpen(false)}
 					role="dialog"
 					aria-label={`${folderName} folder`}
