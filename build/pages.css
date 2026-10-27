@@ -1,4 +1,4 @@
-/* Plain-HTML pages (/about, /lyrics, /contact): readable without JavaScript,
+/* Plain-HTML pages (/about, /lyrics, /contact, /press): readable without JavaScript,
    styled like the phone's grouped lists so they still feel like the same site. */
 :root {
 	--bg: #000;
@@ -54,3 +54,15 @@ a { color: var(--link); }
 .song .meta { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
 .song .lyrics { margin: 0; white-space: normal; line-height: 1.55; }
 .song .pending { color: var(--muted); font-style: italic; }
+
+/* /press/: hook line, buttons back to the phone, fast-facts values, photo downloads */
+.hook { font-size: 20px; line-height: 1.4; margin: 4px 0 16px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.button { flex: 1 1 140px; text-align: center; padding: 12px 16px; border-radius: 12px; background: var(--card); color: var(--link); font-weight: 600; text-decoration: none; }
+.button.primary { background: var(--link); color: var(--bg); }
+.list .row .value { color: var(--muted); margin-left: auto; text-align: right; }
+.photos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 0 0 16px; }
+.photos figure { margin: 0; }
+.photos img { width: 100%; height: 240px; object-fit: cover; display: block; }
+.photos figcaption a { display: flex; gap: 12px; padding: 12px 16px; color: var(--link); text-decoration: none; }
+.photos figcaption span { color: var(--muted); margin-left: auto; white-space: nowrap; }
