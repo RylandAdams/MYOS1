@@ -72,7 +72,7 @@ const jsonLd = {
 		name: s.title,
 		url: `${SITE}/lyrics/#${s.id}`,
 		datePublished: s.releaseDate,
-		byArtist: { '@type': 'MusicGroup', name: 'RYLAND', url: `${SITE}/` },
+		byArtist: { '@type': 'Person', '@id': `${SITE}/#ryland`, name: 'RYLAND', url: `${SITE}/` },
 		...(s.release && s.release !== s.title ? { inAlbum: { '@type': 'MusicAlbum', name: s.release } } : {}),
 	})),
 };

@@ -28,30 +28,64 @@
 		<script type="application/ld+json">
 		{
 		  "@context": "https://schema.org",
-		  "@type": "MusicGroup",
-		  "name": "RYLAND",
-		  "url": "https://myphone.digital/",
-		  "description": "RYLAND is a singer, songwriter and producer from Portland, Oregon who writes and produces his own dark-pop and alt-pop music.",
-		  "genre": ["Dark Pop", "Alt-Pop", "Electronic"],
-		  "foundingLocation": { "@type": "Place", "name": "Portland, Oregon, United States" },
-		  "image": "https://myphone.digital/press/og-press.jpg",
-		  "email": "mailto:rylandofficial@yahoo.com",
-		  "sameAs": [
-		    "https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ",
-		    "https://music.apple.com/us/artist/ryland/1620591111",
-		    "https://www.youtube.com/@RYLANDOfficial",
-		    "https://soundcloud.com/rylandofficialmusic",
-		    "https://www.instagram.com/ryland.wav",
-		    "https://www.tiktok.com/@ryland.wav",
-		    "https://genius.com/artists/Ryland-artist",
-		    "https://musicbrainz.org/artist/831dfc48-cac6-4788-8231-544236a544ec",
-		    "https://www.wikidata.org/wiki/Q138766241"
-		  ],
-		  "track": [
-		    { "@type": "MusicRecording", "name": "be that girl again", "datePublished": "2026-03-27", "url": "https://open.spotify.com/track/68K0WqIXti4PWR8HreWeHk" },
-		    { "@type": "MusicRecording", "name": "Denial", "datePublished": "2023-03-31", "url": "https://open.spotify.com/track/2M7yMRdCQ6WMwcc481lOBi" },
-		    { "@type": "MusicRecording", "name": "looking for you", "datePublished": "2026-09-24", "url": "https://open.spotify.com/track/7tjp05h1nOLmATBqQvJzts" },
-		    { "@type": "MusicRecording", "name": "Summer Nights", "datePublished": "2026-08-21", "url": "https://open.spotify.com/track/3s1Op73LTLtam0WWPC1vqB" }
+		  "@graph": [
+		    {
+		      "@type": "Person",
+		      "@id": "https://myphone.digital/#ryland",
+		      "name": "RYLAND",
+		      "url": "https://myphone.digital/",
+		      "jobTitle": "Singer, songwriter and producer",
+		      "hasOccupation": { "@type": "Occupation", "name": "Musician" },
+		      "description": "RYLAND is a singer, songwriter and producer from Portland, Oregon who writes and produces his own dark-pop and alt-pop music.",
+		      "homeLocation": { "@type": "Place", "name": "Portland, Oregon, United States" },
+		      "image": "https://myphone.digital/press/og-press.jpg",
+		      "email": "mailto:rylandofficial@yahoo.com",
+		      "sameAs": [
+		        "https://open.spotify.com/artist/4E3V4UPKl6i0EBlA2ZDKNQ",
+		        "https://music.apple.com/artist/1620591111",
+		        "https://music.youtube.com/channel/UCnsf4Ul_Rl3E3DStJQOQD9g",
+		        "https://www.youtube.com/channel/UCnsf4Ul_Rl3E3DStJQOQD9g",
+		        "https://music.amazon.com/artists/B0DMP4JRHR",
+		        "https://tidal.com/artist/79721450",
+		        "https://www.deezer.com/artist/283519311",
+		        "https://www.instagram.com/ryland.wav/",
+		        "https://www.tiktok.com/@ryland.wav",
+		        "https://x.com/RYLANDdotWAV",
+		        "https://soundcloud.com/rylandofficialmusic",
+		        "https://musicbrainz.org/artist/831dfc48-cac6-4788-8231-544236a544ec",
+		        "https://www.wikidata.org/wiki/Q138766241",
+		        "https://genius.com/artists/Ryland-artist",
+		        "https://www.discogs.com/artist/18462723"
+		      ]
+		    },
+		    {
+		      "@type": "MusicRecording",
+		      "name": "be that girl again",
+		      "datePublished": "2026-03-27",
+		      "url": "https://open.spotify.com/track/68K0WqIXti4PWR8HreWeHk",
+		      "byArtist": { "@id": "https://myphone.digital/#ryland" }
+		    },
+		    {
+		      "@type": "MusicRecording",
+		      "name": "Denial",
+		      "datePublished": "2023-03-31",
+		      "url": "https://open.spotify.com/track/2M7yMRdCQ6WMwcc481lOBi",
+		      "byArtist": { "@id": "https://myphone.digital/#ryland" }
+		    },
+		    {
+		      "@type": "MusicRecording",
+		      "name": "looking for you",
+		      "datePublished": "2026-09-24",
+		      "url": "https://open.spotify.com/track/7tjp05h1nOLmATBqQvJzts",
+		      "byArtist": { "@id": "https://myphone.digital/#ryland" }
+		    },
+		    {
+		      "@type": "MusicRecording",
+		      "name": "Summer Nights",
+		      "datePublished": "2026-08-21",
+		      "url": "https://open.spotify.com/track/3s1Op73LTLtam0WWPC1vqB",
+		      "byArtist": { "@id": "https://myphone.digital/#ryland" }
+		    }
 		  ]
 		}
 		</script>
