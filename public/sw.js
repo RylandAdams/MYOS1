@@ -1,5 +1,5 @@
 // public/sw.js — network-first for app bundles; cache only shell assets.
-const CACHE_NAME = 'myos-cache-v38';
+const CACHE_NAME = 'myos-cache-v39';
 const SHELL_ASSETS = ['/index.html', '/manifest.json', '/APPLOGO.png'];
 // Plain-HTML pages served as their own files; never store them as the app shell.
 const STATIC_PAGES = ['/about', '/lyrics', '/contact', '/press'];
@@ -43,6 +43,8 @@ self.addEventListener('fetch', (event) => {
 
 	const url = new URL(req.url);
 	if (url.origin !== self.location.origin) return;
+	// Sync pitch pages (/ryland/<outlet>/) are their own site: never cache them or their audio.
+	if (url.pathname === '/ryland' || url.pathname.startsWith('/ryland/')) return;
 
 	if (req.mode === 'navigate') {
 		event.respondWith(

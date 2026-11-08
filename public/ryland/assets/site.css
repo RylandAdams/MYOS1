@@ -1,0 +1,1748 @@
+/* RYLAND outlet pages, v2. One stylesheet for every outlet page and the private dashboard.
+   Kind: service / other. Dark page as a judged exception (the brand lives after dark).
+   Flat ground, one accent (sodium amber), Schibsted Grotesk for everything, Fragment Mono
+   for ISRC, times and durations only. Print turns the page into light paper. */
+
+:root {
+  color-scheme: dark;
+  --ground: #0e0d0c;
+  --surface: #171513;
+  --line: rgba(236, 232, 226, .13);
+  --line-strong: rgba(236, 232, 226, .3);
+  --line-hover: rgba(236, 232, 226, .55);
+  --ink: #ece8e2;
+  --muted: #a39e97;
+  --accent: #f2a641;
+
+  --sans: "Schibsted Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "Fragment Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-btn: 999px;
+
+  --gut: 80px;
+  --gap: 24px;
+  --padt: 120px;
+  --padb: 72px;
+  --top-h: 96px;
+
+  --t-h1: clamp(36px, 2.286vw + 27.09px, 60px);
+  --t-h2: clamp(30px, 1.333vw + 24.8px, 44px);
+  --t-lead: clamp(18px, .19vw + 17.26px, 20px);
+  --t-body: clamp(16px, .095vw + 15.63px, 17px);
+  --t-small: 14px;
+  --t-label: 13px;
+  --t-mail: 32px;
+
+  --btn-h: 48px;
+  --ctl: 44px;
+  --dock-h: 72px;
+
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --m-in: 140ms;
+  --m-out: 200ms;
+  --m-press: 90ms;
+  --m-image: 600ms;
+  --lift: -1px;
+  --press: .98;
+  --zoom: 1.02;
+}
+
+@media (max-width: 1023px) {
+  :root { --gut: 48px; }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --gut: 16px;
+    --gap: 12px;
+    --padt: 96px;
+    --padb: 48px;
+    --top-h: 88px;
+    --t-mail: 24px;
+    --dock-h: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --lift: 0px; --press: 1; --zoom: 1; }
+}
+
+/* Base */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: auto;
+  background: var(--ground);
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 var(--t-body)/1.6 var(--sans);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* site.js writes the dock's measured height to --dock-real (safe area included), so a
+   title that wraps can never leave the last line of the page under the player. */
+html.dock-on body {
+  padding-bottom: var(--dock-real, calc(var(--dock-h) + env(safe-area-inset-bottom)));
+}
+
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3, p, dl, dd, ol, ul, figure, table { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; }
+p, dd, li { text-wrap: pretty; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection { background: var(--accent); color: var(--ground); }
+
+.mono {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* Line-break glue from the build: a hyphenated compound never breaks at its hyphen, and the
+   outlet name in the h1 stays on one line from 640px up. */
+.nw { white-space: nowrap; }
+
+@media (min-width: 640px) {
+  .nw-wide { white-space: nowrap; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.print-only { display: none; }
+
+.wrap {
+  width: min(100% - 2 * var(--gut), 1280px);
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+}
+
+/* Type */
+
+h1, h2, h3 {
+  font-weight: 500;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--t-h1);
+  line-height: 1.04;
+  letter-spacing: -.03em;
+}
+
+h2 {
+  font-size: var(--t-h2);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+}
+
+.label, dt {
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.muted { color: var(--muted); }
+
+.wordmark {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: var(--ink);
+}
+
+/* Buttons: one primary (amber fill), one secondary (1px line), pill everywhere */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--btn-h);
+  padding: 0 24px;
+  border: 1px solid transparent;
+  border-radius: var(--r-btn);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition:
+    transform var(--m-out) var(--ease),
+    background-color var(--m-out) var(--ease),
+    border-color var(--m-out) var(--ease),
+    color var(--m-out) var(--ease);
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--ground);
+}
+
+.btn--secondary {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.btn .ico { width: 16px; height: 16px; flex: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(var(--lift));
+    transition-duration: var(--m-in);
+  }
+  .btn--primary:hover { background: color-mix(in oklab, var(--accent) 86%, var(--ink)); }
+  .btn--secondary:hover { background: var(--surface); border-color: var(--line-hover); }
+}
+
+.btn:active {
+  transform: translateY(0) scale(var(--press));
+  transition-duration: var(--m-press);
+}
+
+/* Text links: a faint hairline at rest, an ink line draws on hover */
+
+.link {
+  padding-bottom: 2px;
+  background:
+    linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) 0 100% / 100% 1px no-repeat;
+  transition: background-size var(--m-out) var(--ease), color var(--m-out) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    background-size: 100% 1px, 100% 1px;
+    transition-duration: var(--m-in);
+  }
+}
+
+/* Touch screens: text links get a 44px tall hit area. ::after, because .state--ready a::before
+   already draws the Ready dot. Screen only, so print never sees the boxes. */
+@media screen and (pointer: coarse) {
+  .link, .lic__mail { position: relative; }
+  .link::after, .lic__mail::after { content: ""; position: absolute; inset: -11px -6px; }
+  .about__text .about__links { row-gap: 22px; }   /* two classes: the base .about__links rule comes later */
+  /* The dock link's area (about 33px) sits between the title's line box and the seek bar, so
+     a tap on the title never opens Spotify and a tap on the seek bar always seeks. */
+  .dock__sub .dock__spot::after { inset: -1px -4px -14px; }
+}
+
+/* Under 375 the dock link wraps to two lines, so its area grows only sideways. */
+@media screen and (pointer: coarse) and (max-width: 374px) {
+  .dock__sub .dock__spot::after { inset: -1px -4px -2px; }
+}
+
+/* Round play controls (44px) */
+
+.pbtn {
+  position: relative;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: var(--ctl);
+  height: var(--ctl);
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--m-out) var(--ease),
+    background-color var(--m-out) var(--ease),
+    border-color var(--m-out) var(--ease),
+    color var(--m-out) var(--ease);
+}
+
+.pbtn svg { width: 16px; height: 16px; }
+.pbtn .i-pause { display: none; }
+.pbtn.is-playing .i-play { display: none; }
+.pbtn.is-playing .i-pause { display: block; }
+.pbtn.is-playing { border-color: var(--accent); color: var(--accent); }
+.pbtn--bare { border-color: transparent; }
+.pbtn[aria-disabled="true"] { opacity: .4; cursor: default; }
+
+@media (hover: hover) and (pointer: fine) {
+  .pbtn:not([aria-disabled="true"]):hover {
+    background: var(--surface);
+    border-color: var(--line-hover);
+    transform: translateY(var(--lift));
+    transition-duration: var(--m-in);
+  }
+  .pbtn.is-playing:hover { border-color: var(--accent); }
+}
+
+.pbtn:not([aria-disabled="true"]):active {
+  transform: scale(var(--press));
+  transition-duration: var(--m-press);
+}
+
+.btn [data-icon="pause"] { display: none; }
+.btn.is-playing [data-icon="play"] { display: none; }
+.btn.is-playing [data-icon="pause"] { display: block; }
+
+/* Picture frames: cover-fit, soft radius, zoom inside the frame on hover */
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--m-image) var(--ease);
+}
+
+/* Header row (inside the first screen, not fixed) */
+
+.top { padding-block: 24px; }
+
+.top__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  min-height: var(--btn-h);
+}
+
+.top__meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.top__for {
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.skip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip:focus-visible {
+  width: auto;
+  height: auto;
+  z-index: 40;
+  clip-path: none;
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  background: var(--ink);
+  color: var(--ground);
+}
+
+/* Hero: one screen at 1440x900, content ends by y 836 */
+
+.hero {
+  min-height: calc(100vh - var(--top-h));
+  min-height: calc(100svh - var(--top-h));
+  padding-block: 24px 64px;
+}
+
+.hero__grid { align-items: start; }
+
+.hero__text {
+  grid-column: 1 / 7;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.eyebrow {
+  font-size: var(--t-small);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.hero h1 { margin-top: 16px; }
+
+/* Phones: the eyebrow's date sits on its own line, so no line starts or ends with the dot. */
+@media (max-width: 639px) {
+  .eyebrow__sep { display: none; }
+  .eyebrow__date { display: block; }
+}
+
+.lede {
+  margin-top: 20px;
+  max-width: 62ch;
+  font-size: var(--t-lead);
+  line-height: 1.5;
+}
+
+.fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.fact__mark {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.hero .fact { margin-top: 20px; }
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 28px;
+}
+
+.hero__mail { font-size: 16px; overflow-wrap: anywhere; }
+
+/* width: 100% keeps the frame on the right column line: with an auto width, the max-height
+   would be carried through the 4:5 ratio and narrow the frame instead of cropping it. */
+.hero__photo {
+  grid-column: 7 / 13;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: max(480px, calc(100vh - var(--top-h) - 88px));
+  max-height: max(480px, calc(100svh - var(--top-h) - 88px));
+}
+
+/* Any crop comes off the sticker wall at the top, never off his feet. */
+.hero__photo img { object-position: 50% 100%; }
+
+/* Compact track list in the hero */
+
+.tracks {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  isolation: isolate;
+}
+
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto var(--ctl);
+  align-items: center;
+  column-gap: 16px;
+  min-height: 56px;
+  padding-block: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.track::before {
+  content: "";
+  position: absolute;
+  inset: 3px -12px;
+  z-index: -1;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  opacity: 0;
+  transition: opacity var(--m-out) var(--ease);
+}
+
+.track__art {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.track__main { min-width: 0; }
+
+.track__link {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.track__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.track__frag {
+  display: block;
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.track__len {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+
+.track .pbtn { z-index: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .track:hover::before { opacity: 1; transition-duration: var(--m-in); }
+  .track:hover .track__art img { transform: scale(var(--zoom)); }
+}
+
+.track:focus-within::before { opacity: 1; }
+
+/* Song sections: one screen each at 1440 */
+
+.song, .clear, .about { padding-block: var(--padt) var(--padb); }
+/* Songs hold one screen each at 1440. Clearance and About size to their content, so the gap
+   around them matches the song gaps. The closing section still shares the last screen with
+   the footer (main > section:last-child, below). */
+.song { min-height: 100vh; min-height: 100svh; }
+
+.song__grid { align-items: start; }
+
+.song__media {
+  grid-column: 1 / 6;
+  min-width: 0;
+}
+
+.song__text {
+  grid-column: 7 / 13;
+  min-width: 0;
+}
+
+.cover {
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cover:hover img { transform: scale(var(--zoom)); }
+}
+
+.ctrl {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.wave {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+}
+
+.wave svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.wave__base { fill: var(--muted); opacity: .4; }
+.wave__played { fill: var(--accent); clip-path: inset(0 100% 0 0); }
+
+.seek {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.seek:focus-visible { outline-offset: 4px; }
+.seek::-webkit-slider-runnable-track { height: 100%; background: transparent; border: 0; }
+.seek::-moz-range-track { height: 100%; background: transparent; border: 0; }
+
+.wave .seek {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.wave .seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 3px;
+  height: 48px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0;
+}
+
+.wave .seek::-moz-range-thumb {
+  width: 3px;
+  height: 48px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0;
+}
+
+.wave.is-current .seek::-webkit-slider-thumb,
+.wave .seek:focus-visible::-webkit-slider-thumb { opacity: 1; }
+.wave.is-current .seek::-moz-range-thumb,
+.wave .seek:focus-visible::-moz-range-thumb { opacity: 1; }
+
+.ctrl__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-top: 10px;
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* The text column has to fit 708px at 1440x900 (y 120 to 828), so its rhythm is tight:
+   8 under the title, 12 to the scene, 16 to the sheet, 6px row padding. The listen links
+   sit under the player in the media column, which has the height to spare. */
+.song__meta {
+  margin-top: 8px;
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.song__scene {
+  margin-top: 12px;
+  max-width: 62ch;
+  font-size: var(--t-lead);
+  line-height: 1.5;
+}
+
+.song__line {
+  margin-top: 8px;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Short leads balance their lines (balance never adds a line). */
+.lede, .song__scene, .song__line, .uses li { text-wrap: balance; }
+
+/* Definition lists with 1px rules (songs, clearance) */
+
+.facts {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.song__text .facts { margin-top: 16px; }
+
+.facts__row {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  column-gap: 16px;
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ISRC and the Spotify address are print-only rows. Two classes, so .facts__row's
+   display: grid above cannot show them on screen. */
+.facts__row.print-only { display: none; }
+
+.facts dt { padding-top: 3px; }
+
+.facts dd {
+  min-width: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.facts__line { display: block; }
+.facts__line + .facts__line { margin-top: 6px; }
+
+.facts__note {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-small);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.uses li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.uses li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: .72em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+/* Where labels sit beside values, the Best for bullets hang in the column gap, so the value
+   column keeps one left edge. Below 1024 labels sit over values and the indent stays. */
+@media print, (min-width: 1024px) {
+  .uses li { padding-left: 0; }
+  .uses li::before { left: -12px; }
+}
+
+.song__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 24px;
+}
+
+.lyrics { margin-top: 4px; }
+
+.lyrics summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--ctl);
+  list-style: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lyrics summary::-webkit-details-marker { display: none; }
+
+/* A mouse needs less height than a thumb: 36px on a fine pointer, 44px everywhere else. */
+@media (pointer: fine) {
+  .lyrics summary { min-height: 36px; }
+}
+
+.lyrics summary svg {
+  width: 12px;
+  height: 12px;
+  color: var(--muted);
+  transition: transform var(--m-out) var(--ease);
+}
+
+.lyrics[open] summary svg { transform: rotate(180deg); }
+.lyrics .when-open { display: none; }
+.lyrics[open] .when-open { display: inline; }
+.lyrics[open] .when-closed { display: none; }
+
+.lyrics__text {
+  max-width: 62ch;
+  padding-block: 8px 16px;
+  white-space: pre-line;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* One block per stanza, one blank line apart. A stanza never splits across columns, and the
+   margin at a column break is dropped, so both column tops line up. */
+.lyrics__st { margin: 0 0 1.65em; break-inside: avoid; }
+.lyrics__st:last-child { margin-bottom: 0; }
+
+/* A second Hide lyrics control at the end of a long lyric */
+.lyrics__close {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--ctl);
+  font-size: 16px;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (pointer: fine) {
+  .lyrics__close { min-height: 36px; }
+}
+
+/* A long lyric (the build marks it) sets in two columns only when each is at least 15em wide
+   (240px, from 1280), wider than Tough's longest line, so no line wraps mid-phrase. Shorter
+   lyrics stay one column. */
+@media screen and (min-width: 1280px) {
+  .lyrics__text--cols { max-width: none; columns: 15em 2; column-gap: 32px; }
+}
+
+/* Clearance and files */
+
+.clear h2 { margin-bottom: 48px; }
+
+.clear__rights { grid-column: 1 / 6; min-width: 0; }
+.clear__files { grid-column: 7 / 13; min-width: 0; }
+.clear .facts { margin-top: 0; }
+
+.clear__note {
+  margin-top: 20px;
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.versions {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-small);
+  line-height: 1.4;
+}
+
+.versions th,
+.versions td {
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.versions th:first-child { padding-left: 0; }
+.versions th:last-child, .versions td:last-child { padding-right: 0; }
+
+.versions thead th {
+  border-top: 1px solid var(--line);
+  font-size: var(--t-label);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.versions tbody th {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.versions thead th { white-space: nowrap; }
+.versions tbody th { text-wrap: balance; }
+
+/* Clear space between columns. The :first-child and :last-child rules above are more
+   specific, so the outer edges stay on the column lines. Phone and print keep their own. */
+@media screen and (min-width: 768px) {
+  .versions th, .versions td { padding-inline: 10px; }
+  .versions tbody th { padding-right: 16px; }
+}
+
+/* 1360 to 1439: the table sits beside the rights in a 588 to 627px column. 6px padding keeps
+   it inside that column with room for each song name on at most two lines. */
+@media screen and (min-width: 1360px) and (max-width: 1439px) {
+  .versions th, .versions td { padding-inline: 6px; }
+  .versions tbody th { padding-right: 10px; }
+}
+
+.versions__isrc {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-label);
+  color: var(--muted);
+}
+
+.state { white-space: nowrap; }
+.state--request { color: var(--ink); }
+.state--none, .state--not-needed { color: var(--muted); }
+
+.state--ready a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.state--ready a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.spec {
+  margin-top: 20px;
+  max-width: 71ch;   /* 14px type: the same measure as .ask's 62ch at 16px */
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.spec + .ask {
+  margin-top: 12px;
+}
+
+.ask {
+  max-width: 62ch;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+/* About and licensing contact */
+
+.about__grid { align-items: start; }
+
+.about__photo {
+  grid-column: 1 / 6;
+  aspect-ratio: 1;
+}
+
+.about__photo img { object-position: 60% 50%; }
+
+.about__text { grid-column: 7 / 13; min-width: 0; }
+
+.about__bio {
+  margin-top: 24px;
+  max-width: 62ch;
+}
+
+.about__facts {
+  margin-top: 16px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.about__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.lic { margin-top: 56px; }
+
+.lic__mail {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: var(--t-mail);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+}
+
+.lic .fact { margin-top: 16px; }
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* The last section and the footer share the final screen */
+
+@media (min-width: 1024px) {
+  main > section:last-child {
+    min-height: calc(100svh - (clamp(72px, 12.5vw, 184px) * .8 + 64px));
+    padding-bottom: 48px;
+  }
+}
+
+/* Footer: the wordmark once large, one line */
+
+.foot {
+  padding-block: 24px calc(40px + env(safe-area-inset-bottom));
+}
+
+.foot__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+.wordmark--xl {
+  font-size: clamp(72px, 12.5vw, 184px);
+  line-height: .8;
+  margin-left: -.065em;   /* the R's side bearing: the stem sits on the column line */
+}
+
+.foot__line {
+  font-size: var(--t-small);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* Docked player: hidden until the first play, never covers content */
+
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--ground);
+  border-top: 1px solid var(--line);
+}
+
+.dock[hidden] { display: none; }
+
+.dock__row {
+  display: grid;
+  grid-template-columns: 40px minmax(140px, 260px) auto minmax(0, 1fr) auto;
+  grid-template-areas: "cover meta ctrl seek spot";
+  align-items: center;
+  column-gap: 20px;
+  min-height: var(--dock-h);
+}
+
+.dock__cover {
+  grid-area: cover;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.dock__meta { grid-area: meta; min-width: 0; }
+
+/* The title stays on one line, so the bar keeps one height on a phone. The full title is in
+   the song's section. (.dock__sub is not clipped: it holds a link whose focus ring would be.) */
+.dock__title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dock__sub {
+  font-size: var(--t-label);
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.dock__sub .dock__spot { display: none; }
+
+.dock__ctrl {
+  grid-area: ctrl;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dock__seek {
+  grid-area: seek;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.dock__t { font-size: var(--t-label); color: var(--muted); }
+
+.dseek {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+}
+
+.dseek__track,
+.dseek__fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.dseek__track { background: var(--line-strong); }
+
+.dseek__fill {
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+.dseek .seek {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.dseek .seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 9px;
+  border: 2px solid var(--ground);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.dseek .seek::-webkit-slider-runnable-track { height: 32px; }
+
+.dseek .seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ground);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.dock__spotify { grid-area: spot; font-size: var(--t-small); white-space: nowrap; }
+
+/* Toast */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  z-index: 30;
+  width: max-content;
+  max-width: min(460px, calc(100% - 32px));
+  padding: 12px 18px;
+  border-radius: var(--r-md);
+  background: var(--ink);
+  color: var(--ground);
+  font-size: 16px;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 150ms var(--ease), transform 150ms var(--ease);
+}
+
+.toast.is-on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-duration: 200ms;
+}
+
+html.dock-on .toast {
+  bottom: calc(var(--dock-real, calc(var(--dock-h) + env(safe-area-inset-bottom))) + 16px);
+}
+
+/* Reduced motion: everything rests, colours may still change */
+
+@media (prefers-reduced-motion: reduce) {
+  .link, .lyrics summary svg, .frame img, .toast { transition: none; }
+  .toast { transform: translate(-50%, 0); }
+}
+
+/* Under 1360: the clearance block stacks. The versions table, with one-line headers and
+   clear space between columns, needs about 580px, and columns 7 to 12 are only 548px wide
+   at 1280. */
+
+@media (max-width: 1359px) {
+  .clear__rights, .clear__files { grid-column: 1 / -1; }
+  .clear__files { margin-top: 48px; }
+}
+
+/* 1024 to 1279: the text columns widen to seven (494px at 1024 instead of 420), so a 50px
+   h1 and the song sheet do not run three words a line. Pictures take columns 1 to 4 or 8 to 12.
+   The hero photo runs the height of the text column beside it. */
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero__text { grid-column: 1 / 8; }
+  .hero__photo { grid-column: 8 / 13; align-self: stretch; aspect-ratio: auto; max-height: none; }
+}
+
+/* Short desktop screens (1024x768, laptop windows under 820px tall): the hero tightens so the
+   last track row and its play button clear the fold. */
+
+@media screen and (min-width: 1024px) and (max-height: 820px) {
+  .hero .lede, .hero .fact { margin-top: 12px; }
+  .hero__actions { margin-top: 20px; }
+  .tracks { margin-top: 16px; }
+  .track { min-height: 52px; padding-block: 4px; }
+}
+
+/* 768 to 1279: song and About pictures stay beside their text (columns 1 to 4, text 6 to 12).
+   Under 768 they stack as on a phone (below). */
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  .song__media, .about__photo { grid-column: 1 / 5; }
+  .song__text, .about__text { grid-column: 6 / 13; }
+
+  /* Listen links: the pill, then the text links on their own row */
+  .song__links { display: grid; grid-template-columns: repeat(2, max-content); justify-content: start; gap: 12px 24px; }
+  .song__links .btn { grid-column: 1 / -1; justify-self: start; }
+  .song__links .link { justify-self: start; }   /* the underline hugs the word, not the pill's width */
+
+  /* The licensing address needs about 378px at 32px. The About text column is 382px at 768,
+     so it scales down a little there and is back to 32px from 800. */
+  .about__text .lic__mail { font-size: min(var(--t-mail), 4vw); }
+}
+
+/* 768 to 799: the picture column (208 to 219px) is narrower than the two text links side by
+   side, so each listen link takes its own row. */
+
+@media screen and (min-width: 768px) and (max-width: 799px) {
+  .song__links { grid-template-columns: max-content; }
+}
+
+/* Portrait tablets: a song sizes to its content, like Clearance and About, so a short song
+   does not leave half a screen of empty ground under it. */
+
+@media screen and (min-width: 640px) and (max-width: 1279px) and (orientation: portrait) {
+  .song { min-height: 0; }
+}
+
+/* Tablet and phone: the hero stacks, text first, the photo across the column after it */
+
+@media (max-width: 1023px) {
+  .hero__text, .hero__photo { grid-column: 1 / -1; }
+
+  .hero__photo {
+    margin-top: 48px;
+    max-height: none;
+  }
+
+  /* The eyebrow right under the top row carries the same outlet and month. */
+  .top__for { display: none; }
+
+  .dock__row {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    grid-template-areas: "cover meta ctrl" "seek seek seek";
+    row-gap: 2px;
+    padding-block: 10px 6px;
+  }
+  .dock__spotify { display: none; }
+  .dock__sub .dock__by { display: none; }
+  .dock__sub .dock__spot { display: inline; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root { --dock-h: 116px; }
+}
+
+@media screen and (min-width: 640px) and (max-width: 1023px) {
+  .hero__photo { aspect-ratio: 4 / 3; }            /* full column, shorter crop, feet kept */
+  .song__text .facts__row { grid-template-columns: minmax(0, 1fr); row-gap: 2px; }
+  .song__text .facts dt { padding-top: 0; }
+}
+
+/* Under 768: songs and About stack. At 640 to 767 a picture beside its text would be only 165
+   to 208px wide, too narrow for the listen links, the waveform and the licensing address.
+   Order: cover, controls and time, then title, scene, facts and lyrics, then the listen
+   links. stretch, because .song__grid's align-items: start would shrink the items. */
+
+@media screen and (max-width: 767px) {
+  .song__media, .song__text, .about__photo, .about__text { grid-column: 1 / -1; }
+  .song .song__grid { display: flex; flex-direction: column; align-items: stretch; }
+  .song__media { display: contents; }
+  .song__text { order: 1; margin-top: 32px; }
+  .song__links { order: 2; }
+  .about__text { margin-top: 40px; }
+}
+
+@media (max-width: 639px) {
+  .top { padding-block: 16px; }
+  .top__row { flex-wrap: wrap; }
+  .top__btn { display: none; }
+
+  .hero { padding-top: 16px; }
+  .hero__actions { flex-direction: column; align-items: stretch; }
+  .hero__actions .btn { width: 100%; }
+  .hero__mail { align-self: flex-start; }
+  .hero__photo { max-width: none; }
+  .tracks { margin-top: 28px; }
+  .track { column-gap: 12px; }
+  .track::before { inset: 3px -8px; }
+
+  /* Songs and About stack in the under-768 block above. */
+
+  .facts__row { grid-template-columns: minmax(0, 1fr); row-gap: 2px; }
+  .facts dt { padding-top: 0; }
+  .song__links .btn, .btn-row .btn { width: 100%; }
+  .clear h2 { margin-bottom: 32px; }
+  .about__photo { max-width: none; }
+  .lic { margin-top: 40px; }
+
+  /* The versions table becomes one block per song */
+  .versions, .versions tbody, .versions tr, .versions th, .versions td { display: block; }
+  .versions thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .versions tr { padding-block: 16px; border-bottom: 1px solid var(--line); }
+  .versions tbody tr:first-child { border-top: 1px solid var(--line); }
+  .versions tbody th { padding: 0 0 6px; border: 0; }
+  .versions td {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 6px 0;
+    border: 0;
+  }
+  .versions td::before {
+    content: attr(data-label);
+    font-size: var(--t-label);
+    font-weight: 500;
+    color: var(--muted);
+  }
+}
+
+/* Print: light paper, A4 and Letter safe, 1 to 2 pages for 3 songs */
+
+@media print {
+  @page { margin: 14mm; }
+
+  :root {
+    color-scheme: light;
+    --ground: #fff;
+    --surface: #fff;
+    --ink: #111;
+    --muted: #444;
+    --line: rgba(17, 17, 17, .2);
+    --line-strong: rgba(17, 17, 17, .35);
+    --accent: #111;
+  }
+
+  html, body { background: #fff !important; color: #111; }
+  body { font-size: 10pt; line-height: 1.45; padding: 0 !important; }
+
+  .dock, .toast, .skip, .top__meta, .pbtn, .ctrl, .ctrl__meta, .cover,
+  .tracks, .hero__actions .btn, .lyrics, .song__links, .btn, .btn-row,
+  .about, .wordmark--xl { display: none !important; }
+
+  /* The artist PDF keeps About (bio, facts, artist links), without the photo. */
+  html[data-framing="artist"] .about { display: block !important; min-height: 0 !important; padding: 8pt 0 0 !important; margin-top: 8pt; border-top: 1px solid var(--line); break-inside: avoid; }
+  html[data-framing="artist"] .about__photo { display: none !important; }
+  .about h2 { font-size: 15pt; }
+  .about__bio { margin-top: 4pt; max-width: none; font-size: 9.5pt; }
+  .about__facts { margin-top: 3pt; font-size: 9pt; }
+  .about__links { margin-top: 3pt; gap: 0 10pt; font-size: 9pt; }
+
+  /* The contact block that closes an artist page: the email is already on page 1. */
+  .clear .lic { display: none !important; }
+
+  a { background: none !important; color: #111; }
+  .wrap { width: auto; }
+  .grid { display: block; }
+  .hero, .song, .clear { min-height: 0 !important; padding: 0 !important; }
+
+  .top { padding: 0 0 6pt; }
+  .top__row { min-height: 0; }
+  .wordmark { font-size: 18pt; }
+
+  /* Browsers drop backgrounds when printing: keep the fact mark and the list bullets. */
+  .fact__mark, .uses li::before {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .hero .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 30%;
+    column-gap: 14pt;
+    align-items: start;
+  }
+  .hero .hero__text { grid-column: 1; grid-row: 1; }
+  .hero .hero__photo {
+    grid-column: 2;
+    grid-row: 1;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+    filter: grayscale(1);
+  }
+  .hero__photo img { transition: none; }
+  .eyebrow { font-size: 9.5pt; }
+  .hero h1 { margin-top: 4pt; font-size: 22pt; line-height: 1.1; }
+  .lede { margin-top: 8pt; font-size: 11.5pt; }
+  .hero .fact { margin-top: 8pt; font-size: 10.5pt; }
+  .fact__mark { margin-top: 5pt; width: 6pt; height: 6pt; }
+  .hero__actions { margin-top: 8pt; display: block; }
+  .hero__mail { font-size: 10.5pt; font-weight: 500; }
+  .hero__mail .print-only { display: inline; font-weight: 400; }
+
+  .song {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    padding-top: 12pt !important;
+    margin-top: 12pt;
+    border-top: 1px solid var(--line);
+  }
+  .song__text { margin: 0; }
+  .song h2 { font-size: 15pt; letter-spacing: -.01em; }
+  .song__meta { margin-top: 2pt; font-size: 9pt; }
+  .song__scene { margin-top: 5pt; font-size: 11pt; }
+  .song__line { margin-top: 3pt; font-size: 9.5pt; }
+  .facts { margin-top: 6pt; }
+  .facts__row { grid-template-columns: 26mm minmax(0, 1fr); padding-block: 3pt; }
+  .facts__row.print-hide { display: none; }
+  .facts__row.print-only { display: grid; }
+  .facts dt { font-size: 8.5pt; padding-top: 1pt; }
+  .facts dd { font-size: 9.5pt; line-height: 1.4; }
+  .facts__note { font-size: 8.5pt; }
+
+  .clear { break-before: auto; padding-top: 14pt !important; margin-top: 14pt; border-top: 1px solid var(--line); }
+  .clear h2 { font-size: 15pt; margin-bottom: 8pt; }
+  .clear__files { margin-top: 10pt; }
+  .clear__note, .spec, .ask { margin-top: 6pt; font-size: 9pt; }
+  .versions { font-size: 8.5pt; break-inside: avoid; }
+  .versions thead { display: table-header-group; }
+  .versions tr { break-inside: avoid; }
+  .versions th, .versions td { padding: 4pt 4pt; }
+  .versions tbody th { font-size: 9.5pt; }
+
+  .foot { padding: 12pt 0 0; }
+  .foot__line { font-size: 8.5pt; color: #444; }
+
+  /* Letter fit: two pages for three songs */
+  .song { padding-top: 8pt !important; margin-top: 8pt; }
+  .song__scene { margin-top: 3pt; }
+  .facts { margin-top: 4pt; }
+  .facts__row { padding-block: 2pt; align-items: baseline; }
+  .facts dt { padding-top: 0; }
+  .facts dd { line-height: 1.35; }
+  .uses li::before { top: .55em; }
+  .clear { padding-top: 8pt !important; margin-top: 8pt; }
+  .clear h2 { margin-bottom: 6pt; break-after: avoid; }
+  .clear__rights { break-inside: avoid; }
+  .versions thead th, .versions__isrc { font-size: 8.5pt; }
+  html:not([data-framing="writer"]) .versions__isrc { display: none; }
+  .hero .hero__photo { aspect-ratio: 5 / 6; }
+  .spec { max-width: none; }
+
+  /* The artist PDF also carries About, so it runs to 3 pages: a song is never split, because
+     a page that opens on a song's last rows gives no title to tell whose rows they are.
+     Clearance and files moves as one block for the same reason, its table under its heading. */
+  html[data-framing="artist"] .clear { break-inside: avoid; page-break-inside: avoid; }
+
+  /* One rule between songs: the next song's top border, not also the last row's bottom one. */
+  .song .facts > .facts__row:last-child { border-bottom: 0; }
+}
+
+/* ===== Private dashboard (index.html) ===== */
+
+.dash .wrap { width: min(100% - 2 * var(--gut), 1280px); }
+
+.dash__head { padding-block: 40px 48px; }
+
+.dash__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.dash h1 {
+  font-size: clamp(32px, 1.905vw + 24.57px, 52px);
+  line-height: 1.06;
+}
+
+.dash__date {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.dash__counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin-top: 28px;
+  font-size: 16px;
+}
+
+.dash__counts b { font-weight: 500; }
+
+.dash__save {
+  margin-top: 10px;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+
+.dash__note {
+  margin-top: 6px;
+  max-width: 62ch;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+
+.dash__sec { padding-block: 48px; }
+
+.dash h2 {
+  font-size: clamp(26px, .762vw + 23px, 34px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+.dash h3 {
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+
+.dash__lead {
+  margin-top: 10px;
+  max-width: 62ch;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.checks { margin-top: 24px; border-top: 1px solid var(--line); }
+
+.ck {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 16px;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* A drawn box: a 3:1 edge on the dark ground, an amber fill with a ground-coloured tick when
+   done, and a 46px hit area around the 22px box. */
+.ck input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  border: 1.5px solid var(--line-hover);
+  border-radius: 6px;
+  background: transparent center / 14px 14px no-repeat;
+  cursor: pointer;
+  transition: background-color var(--m-out) var(--ease), border-color var(--m-out) var(--ease);
+}
+
+.ck input::before { content: ""; position: absolute; inset: -12px; }
+
+.ck input:checked {
+  border-color: var(--accent);
+  background-color: var(--accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 7.4 5.8 10 11 4.2' fill='none' stroke='%230e0d0c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ck input:not(:checked):hover { border-color: var(--ink); }
+}
+
+.ck label { cursor: pointer; }
+
+.ck__text {
+  font-size: 16px;
+  line-height: 1.5;
+  transition: color var(--m-out) var(--ease);
+}
+
+.ck.is-done .ck__text {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line-strong);
+}
+
+.ck__text, .ck__why, .ck__for { max-width: 640px; }   /* one right edge for all three lines */
+
+.ck__id, .ocard__list a { white-space: nowrap; }
+
+.ck__why, .ck__for {
+  grid-column: 2;
+  margin-top: 4px;
+  font-size: var(--t-small);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.ck__kind { color: var(--ink); }
+
+.ocards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.ocard {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.ocard__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.ocard__num {
+  font-size: var(--t-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.ocard__full {
+  margin-top: -10px;
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-btn);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.chip--ready::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.chip--hold { color: var(--muted); }
+
+.ocard .facts { margin-top: 0; }
+.ocard .facts__row { grid-template-columns: 88px minmax(0, 1fr); }
+.ocard .facts__note { text-wrap: wrap; }
+
+.ocard__list li + li { margin-top: 6px; }
+
+.ocard__path { font-size: var(--t-label); color: var(--muted); overflow-wrap: anywhere; }
+
+.ocard__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+.fold { border-top: 1px solid var(--line); }
+
+.fold summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--ctl);
+  list-style: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.fold summary::-webkit-details-marker { display: none; }
+.fold summary svg { width: 12px; height: 12px; color: var(--muted); transition: transform var(--m-out) var(--ease); }
+.fold[open] summary svg { transform: rotate(180deg); }
+
+.fold__body { padding-block: 4px 12px; }
+
+.mail__body {
+  margin: 16px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 400 15px/1.6 var(--sans);
+  color: var(--ink);
+}
+
+.mail__url { color: var(--accent); }
+
+.fold ul.changes li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.fold ul.changes li + li { margin-top: 8px; }
+
+.fold ul.changes li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: .72em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.dash__group + .dash__group { margin-top: 48px; }
+.dash__lead + .dash__group { margin-top: 40px; }
+.dash__group h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+
+@media (max-width: 1199px) {
+  .ocards { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 639px) {
+  .ocard { padding: 20px; }
+  .ocard .facts__row { grid-template-columns: minmax(0, 1fr); }
+  .ocard__head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px 14px; }
+  .ocard__head .chip { grid-column: 2; justify-self: start; }
+  .ocard__actions .ocard__path { flex-basis: 100%; }
+  .dash__top { margin-bottom: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fold summary svg, .ck__text, .ck input { transition: none; }
+}
