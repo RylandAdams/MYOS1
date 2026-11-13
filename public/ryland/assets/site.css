@@ -953,11 +953,17 @@ h2 {
 }
 
 .about__links {
-  display: flex;
-  flex-wrap: wrap;
+  /* Ryland, Nov 12: Spotify, Apple Music, YouTube, TikTok on the first row, then myphone.digital and
+     Instagram. Four columns where they fit, two on phones (same order, three rows). */
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  justify-content: start;
   gap: 8px 24px;
   margin-top: 20px;
   font-size: 16px;
+}
+@media screen and (max-width: 520px) {
+  .about__links { grid-template-columns: repeat(2, max-content); }
 }
 
 .lic { margin-top: 56px; }
@@ -1366,7 +1372,7 @@ html.dock-on .toast {
   .about h2 { font-size: 15pt; }
   .about__bio { margin-top: 4pt; max-width: none; font-size: 9.5pt; }
   .about__facts { margin-top: 3pt; font-size: 9pt; }
-  .about__links { margin-top: 3pt; gap: 0 10pt; font-size: 9pt; }
+  .about__links { display: flex; flex-wrap: wrap; margin-top: 3pt; gap: 0 10pt; font-size: 9pt; }
 
   /* The contact block that closes an artist page: the email is already on page 1. */
   .clear .lic { display: none !important; }
