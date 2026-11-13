@@ -88,6 +88,20 @@
     if (s) { s.focus({ preventScroll: true }); s.scrollIntoView({ block: 'center' }); }
   });
 
+  /* Hero list edge fades: fade only the edge that has more rows past it. */
+  var list = doc.querySelector('.tracks--catalog');
+  if (list) {
+    var fade = function () {
+      var top = list.scrollTop;
+      var rest = list.scrollHeight - list.clientHeight - top;
+      list.style.setProperty('--fade-top', Math.min(top, 32) + 'px');
+      list.style.setProperty('--fade-bottom', Math.min(Math.max(rest, 0), 32) + 'px');
+    };
+    list.addEventListener('scroll', fade, { passive: true });
+    window.addEventListener('resize', fade);
+    fade();
+  }
+
   if (!songs.length || !audio || !dock) return;
 
   var PREVIEW_FALLBACK = 30;

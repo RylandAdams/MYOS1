@@ -543,12 +543,26 @@ h2 {
 
 .track:focus-within::before { opacity: 1; }
 
+/* Long lists scroll inside the hero. Rows fade out at whichever edge has more to scroll
+   (site.js sets --fade-top and --fade-bottom), so nothing reads as cut off. */
 .tracks--catalog {
+  --fade-top: 0px;
+  --fade-bottom: 0px;
   max-height: 228px;
   overflow-y: auto;
   overscroll-behavior-y: contain;
-  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
   padding-inline: 8px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent 100%);
+}
+
+/* Desktop: the list runs down to the bottom of the photo beside it, no empty band below. */
+@media screen and (min-width: 1024px) {
+  .hero__grid { align-items: stretch; }
+  .hero__photo { align-self: start; }
+  .tracks--catalog { flex: 1 1 0; min-height: 228px; max-height: none; }
 }
 
 .interview-badge {
@@ -1770,4 +1784,9 @@ html.dock-on .toast {
 
 @media (prefers-reduced-motion: reduce) {
   .fold summary svg, .ck__text, .ck input { transition: none; }
+}
+
+/* Print shows every track row in full: no scroll box, no edge fade. */
+@media print {
+  .tracks--catalog { max-height: none; overflow: visible; -webkit-mask-image: none; mask-image: none; }
 }
