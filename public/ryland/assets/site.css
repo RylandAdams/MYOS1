@@ -543,6 +543,25 @@ h2 {
 
 .track:focus-within::before { opacity: 1; }
 
+.tracks--catalog {
+  max-height: 228px;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  padding-inline: 8px;
+}
+
+.interview-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
 /* Song sections: one screen each at 1440 */
 
 .song, .clear, .about { padding-block: var(--padt) var(--padb); }
