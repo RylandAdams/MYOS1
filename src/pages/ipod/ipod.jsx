@@ -301,6 +301,7 @@ const Ipod = () => {
 								releaseDate,
 								artwork: match?.artwork || t.artwork,
 								artworkLarge: match?.artworkLarge || t.artwork,
+								audioUrl: match?.audioUrl,
 							};
 						});
 					const apiUrls = new Set(mapped.map((t) => norm(t.soundcloudUrl)));
