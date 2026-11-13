@@ -90,7 +90,7 @@ const html = `<!doctype html>
 		<title>RYLAND lyrics | every song, ${first.releaseDate.slice(0, 4)} to ${last.releaseDate.slice(0, 4)}</title>
 		<meta name="description" content="${esc(desc)}" />
 		<link rel="canonical" href="${SITE}/lyrics/" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-rounded-32.png?v=3" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/fish-tab-32.png" />
 		<link rel="apple-touch-icon" href="/fish-icon.png" />
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="RYLAND" />

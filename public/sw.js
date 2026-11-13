@@ -1,5 +1,5 @@
 // public/sw.js — network-first for app bundles; cache only shell assets.
-const CACHE_NAME = 'myos-cache-v40';
+const CACHE_NAME = 'myos-cache-v41';
 const SHELL_ASSETS = ['/index.html', '/manifest.json', '/fish-icon.png'];
 // Plain-HTML pages served as their own files; never store them as the app shell.
 const STATIC_PAGES = ['/about', '/lyrics', '/contact', '/press'];
