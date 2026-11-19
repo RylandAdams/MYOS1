@@ -149,6 +149,20 @@
 		  "@context": "https://schema.org",
 		  "@graph": [
 		    {
+		      "@type": "WebPage",
+		      "@id": "https://myphone.digital/#page",
+		      "url": "https://myphone.digital/",
+		      "name": "RYLAND | Portland singer and producer",
+		      "about": { "@id": "https://myphone.digital/#ryland" },
+		      "primaryImageOfPage": {
+		        "@type": "ImageObject",
+		        "url": "https://myphone.digital/thumb-lock-screen.jpg",
+		        "width": 1200,
+		        "height": 1200,
+		        "caption": "RYLAND's phone lock screen with the clownfish wallpaper"
+		      }
+		    },
+		    {
 		      "@type": "Person",
 		      "@id": "https://myphone.digital/#ryland",
 		      "name": "RYLAND",
@@ -371,9 +385,35 @@
 		<link rel="preconnect" href="https://w.soundcloud.com" />
 		<link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
 		<script src="https://w.soundcloud.com/player/api.js" async></script>
+		<style>
+			.siteIndex {
+				position: fixed; left: 32px; bottom: 28px; z-index: 5; max-width: 260px;
+				font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+				color: #8e8e93; -webkit-font-smoothing: antialiased;
+			}
+			.siteIndex__name { margin: 0 0 4px; font-size: 13px; font-weight: 600; letter-spacing: .08em; color: #d1d1d6; }
+			.siteIndex__line { margin: 0 0 8px; }
+			.siteIndex a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(142,142,147,.45); }
+			.siteIndex a:hover { color: #f2f2f7; }
+			.siteIndex__nav { display: flex; gap: 14px; }
+			/* Only where there is room beside the phone; on phones it would cover the screen. */
+			@media (max-width: 1099px), (max-height: 560px) { .siteIndex { display: none; } }
+		</style>
 	</head>
 	<body>
 		<div id="root"></div>
+		<!-- Plain-HTML caption beside the phone: gives Google (and anyone without JavaScript)
+		     a heading, one sentence and real links to the other pages. -->
+		<footer class="siteIndex">
+			<h1 class="siteIndex__name">RYLAND</h1>
+			<p class="siteIndex__line">Singer, songwriter and producer from Portland, Oregon. Start with <a href="/lyrics/be-that-girl-again/">be that girl again</a>, <a href="/lyrics/denial/">Denial</a> and <a href="/lyrics/looking-for-you/">looking for you</a>.</p>
+			<nav class="siteIndex__nav" aria-label="Pages">
+				<a href="/about/">About</a>
+				<a href="/lyrics/">Lyrics</a>
+				<a href="/press/">Press</a>
+				<a href="/contact/">Contact</a>
+			</nav>
+		</footer>
 		<!-- In-app browsers (Instagram) cache old index.html with stale /static/* hashes.
 		     Missing bundles fall through to SPA rewrite → HTML instead of JS. Load fresh
 		     entrypoints from asset-manifest.json before deferred scripts execute. -->

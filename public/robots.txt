@@ -2,4 +2,9 @@
 User-agent: *
 Disallow:
 
+# Keep the empty iPhone frame out of Google's result thumbnails; the lock screen
+# (primaryImageOfPage in index.html) should be picked instead.
+User-agent: Googlebot-Image
+Disallow: /static/media/Iphone
+
 Sitemap: https://myphone.digital/sitemap.xml

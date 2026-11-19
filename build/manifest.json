@@ -9,7 +9,7 @@
   "theme_color": "#0c0c0c",
   "icons": [
     {
-      "src": "/APPLOGO.png",
+      "src": "/fish-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
